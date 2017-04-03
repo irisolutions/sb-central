@@ -1,11 +1,24 @@
 <div class="fd-navigation mdl-layout__drawer">
     <span class="mdl-layout-title mdl-color--primary mdl-color-text--white">
-        <a href="{{ path('homepage') }}"><div class="icon material-icons">android</div> Fossdroid</a>
+        <a href="{{ path('homepage') }}"><div class="icon material-icons">android</div> Sensory Store</a>
+    </span>
+    <span class="mdl-layout-title mdl-color-text--white" style="background-color:#555555">
+        <a href="{{ path('homepage') }}"> Categories </a>
     </span>
     <nav class="mdl-navigation mdl-color--white">
         {% for category in categories %}
             <a class="{% if category.slug == slug_selected %}mdl-color--accent mdl-color-text--white{% endif %} mdl-navigation__link" href="{{ path('category', {'slug': category.slug}) }}">
                 <i class="material-icons">{{ category.icon }}</i> {{ category.name }}
+            </a>
+        {% endfor %}
+    </nav>
+    <span class="mdl-layout-title mdl-color-text--white" style="background-color:#555555">
+        <a href="{{ path('homepage') }}"> Bundles </a>
+    </span>
+    <nav class="mdl-navigation mdl-color--white">
+        {% for bundle in bundles %}
+            <a class="mdl-navigation__link" href="{{ path('bundle', {'slug': bundle.ID}) }}">
+                <i class="material-icons">grade</i> {{ bundle.Name }}
             </a>
         {% endfor %}
     </nav>

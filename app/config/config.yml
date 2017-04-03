@@ -76,3 +76,8 @@ services:
         class: Melodycode\FossdroidBundle\Twig\UtilsExtension
         tags:
             - { name: twig.extension }
+    app.dbservice_user_provider:
+        class: Melodycode\FossdroidBundle\Security\User\DBServiceUserProvider     
+    app.loginhandler:
+        class: Melodycode\FossdroidBundle\Security\LoginHandler
+        arguments: [@router]       

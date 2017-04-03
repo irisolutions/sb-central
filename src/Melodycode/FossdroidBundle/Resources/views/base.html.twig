@@ -1,12 +1,35 @@
 <!DOCTYPE html>
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
 <html lang="en">
     <head>
 	<!-- stylesheet -->
         <link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.2.1/material.red-pink.min.css">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
+         <link rel="stylesheet" href="{{ asset('css/extra-style.css') }}">
+         
         <!-- seo -->
-        <title>{% block title %}Fossdroid: Free and open source Android apps{% endblock %}</title>
+        <title>{% block title %}Iris Sensory Store: SensoryBox Apps{% endblock %}</title>
       
         <!-- viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,6 +50,23 @@
                     {% block search %}
                         {{ render(controller("MelodycodeFossdroidBundle:Widget:search")) }}
                     {% endblock %}
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <div> &nbsp;&nbsp;&nbsp;&nbsp;</div>
+    				
+    				<div class="dropdown">
+  					<button onclick="myFunction()" class="dropbtn">{{ app.user.name }}&#8964;</button>
+  					<div id="myDropdown" class="dropdown-content">
+    					<a href="{{ path('client_apps') }}">My Applications</a>
+    					<a href="{{ path('client_subs') }}">My Subscriptions</a>
+    					<a href="{{ path('client_account') }}">My Account</a>
+    					<hr>
+    					<a href="{{ path('logout') }}">Sign Out</a>
+  					</div>
+					</div>
+    				
+    				{% else %}
+    				<div><h1> <a class="mdl-navigation__link" href="{{ path('login') }}">Sign-in</a></h1></div>
+					{% endif %}
                 </div>
             </header>
 
@@ -39,7 +79,7 @@
                 <footer class="mdl-mini-footer">
                     <div class="mdl-mini-footer__left-section">
                         <div class="mdl-logo">
-                            Fossdroid Core is licensed under the terms of the MIT license by <a href="https://melodycode.com/">Daniele Simonin</a>
+                            Iris Sensory Store is a property of Iris Interactive Solutions. The Store is based on <a href="https://melodycode.com/">Fossdroid Core</a>
                         </div>
                     </div>
                 </footer>

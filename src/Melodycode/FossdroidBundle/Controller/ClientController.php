@@ -4,22 +4,35 @@ namespace Melodycode\FossdroidBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use PDO;
 
 //include 'ChromePhp.php';
 //use ChromePhp;
 
-class ApplicationController extends Controller {
+class ClientController extends Controller {
+	public function accountAction() 
+    {
+    	$context = $this->container->get('security.context');
+    	
+    	if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+    	//	return $this->forward('MelodycodeFossdroidBundle:Homepage:index');
+    	return $this->redirect($this->generateUrl('homepage'));
+    	
+    	return new Response('<html><body>Account Details go here</body></html>');
+    }
 
-	// this action is triggered when the id sent to the application controll is the id 
-	// of an application according to the storedb and not according to the maindb
-	public function _indexAction($slug)
-	{
-	
-		$dbname = $this->container->getParameter('database_name');
-    	$dbuser = $this->container->getParameter('database_user');
-    	$dbpass = $this->container->getParameter('database_password');
-    	$dbhost = $this->container->getParameter('database_host');
+ 	public function subsAction()
+    {
+    	$context = $this->container->get('security.context');
+    	
+    	if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+    	return $this->redirect($this->generateUrl('homepage'));
+    	
+    	$dbname = $this->container->getParameter('store_database_name');
+    	$dbuser = $this->container->getParameter('store_database_user');
+    	$dbpass = $this->container->getParameter('store_database_password');
+    	$dbhost = $this->container->getParameter('store_database_host');
     		
     	$clientID = $this->getUser()->getUsername();
     	
@@ -28,89 +41,74 @@ class ApplicationController extends Controller {
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     	
     	
-    	$stmt = $conn->prepare('SELECT slug FROM application WHERE id  = ?');
-		$stmt->execute([$slug]);
+    	$stmt = $conn->prepare('SELECT * FROM Bundle, Subscription WHERE Bundle.ID = Subscription.BundleID AND Subscription.ClientID = ?');
+		$stmt->execute([$clientID]);
 		
-		if ( $stmt->rowCount() < 1 )
-		{
-            throw $this->createNotFoundException('The application does not exist');
-    	}
+		$subs = $stmt->fetchAll();
 		
-		$result = $stmt->fetchAll();
+		//var_dump($subs);
 		
-		//var_dump($result);
-		$appID = $result[0]['slug'];
-	
-		return $this->indexReply($appID);
-	}
-
-    public function indexAction($slug) 
-    {
-        return $this->indexReply($slug);
-    }
-    
-    private function indexReply($slug)
-    {
-    
-    	$repository = $this->getDoctrine()->getRepository('MelodycodeFossdroidBundle:Application');
-        $application = $repository->findOneBySlug($slug);
-        
-    
-        if (!$application) {
-            throw $this->createNotFoundException('The application does not exist');
-        }
-        
-        //ChromePhp::log($application);
-        
-        $redirection_arr = $this->getAppPaymentModel($application->getId());
-        
-        
-        $bundle_arr 	 = $this->getAppBundle($application->getId());
-        
-        
-        //ChromePhp::log($redirection_arr);
-        //ChromePhp::log($bundle_arr);
-
-        return $this->render('MelodycodeFossdroidBundle:Application:index2.html.twig', array(
-                    'application' => $application,
-                    'remote_browser_app' => $this->container->getParameter('melodycode_fossdroid.remote_browser_app'),
-                    'redirection' => $redirection_arr,
-                    'bundles' => $bundle_arr ));
-    
+    	return $this->render('MelodycodeFossdroidBundle:Client:subs.html.twig', array(
+                    'subs' => $subs));	
     
     }
 
-
-    public function downloadAction($slug) {
-        $repository = $this->getDoctrine()->getRepository('MelodycodeFossdroidBundle:Application');
-        $application = $repository->findOneBySlug($slug);
-
-        if (!$application) {
-            throw $this->createNotFoundException('The application does not exist');
-        }
-
-        return new RedirectResponse($this->container->getParameter('melodycode_fossdroid.remote_path_apks') . $application->getApk());
-    } 
-    public function buyAction($slug) 
+    public function appsAction() 
     {
-        $repository = $this->getDoctrine()->getRepository('MelodycodeFossdroidBundle:Application');
-        $application = $repository->findOneBySlug($slug);
+    
+    	$context = $this->container->get('security.context');
+    	
+    	if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+    		return $this->redirect($this->generateUrl('homepage'));
+    	
+    	
+    	$dbname = $this->container->getParameter('store_database_name');
+    	$dbuser = $this->container->getParameter('store_database_user');
+    	$dbpass = $this->container->getParameter('store_database_password');
+    	$dbhost = $this->container->getParameter('store_database_host');
+    		
+    	$clientID = $this->getUser()->getUsername();
+    	
+    	//var_dump($clientID);
+    	
+    	$conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+    	// set the PDO error mode to exception
+    	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+    	
+    	
+    	$stmt = $conn->prepare('SELECT * FROM Application WHERE ID IN (SELECT ApplicationID FROM Purchase WHERE ClientID  = ?)');
+		$stmt->execute([$clientID]);
+		
+		$purchased = $stmt->fetchAll();
+		
+		//var_dump($purchased);
+		
+		$stmt = $conn->prepare('SELECT Application.*, Bundle.Name AS BundleName, Bundle.ID AS BundleID FROM Application, Bundle, BundleApplication, Subscription WHERE Application.ID = BundleApplication.ApplicationID AND BundleApplication.BundleID = Bundle.ID AND Subscription.BundleID = Bundle.ID AND Subscription.ClientID = ? ORDER BY Application.Name;');
+		$stmt->execute([$clientID]);
+		
+		$subscribed = $stmt->fetchAll();
+		
+		//var_dump($subscribed);
 
-        if (!$application) {
-            throw $this->createNotFoundException('The application does not exist');
-        }
-
-        return new RedirectResponse($this->container->getParameter('melodycode_fossdroid.remote_path_apks') . $application->getApk());
-    }   
+    	
+    	return $this->render('MelodycodeFossdroidBundle:Client:apps.html.twig', array(
+                    'purchased' => $purchased,
+                    'subscribed' => $subscribed));	
+    
+    	//return new Response('<html><body>Apps Details go here</body></html>');
+    
+       
+    }
+/*
     public function getAppBundle($appID)
     {
     
-    	$dbname     = $this->container->getParameter('store_database_name');
-    	$username   = $this->container->getParameter('store_database_user');
-    	$password   = $this->container->getParameter('store_database_password');
-    	$servername = $this->container->getParameter('store_database_host');
+    	$servername = "localhost";
+		$username = "main-user";
+		$password = "iris";
+		$clientID = 'najah_child'; // ToDo retrieve this from session
     
-    	$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    	$conn = new PDO("mysql:host=$servername;dbname=storedb", $username, $password);
     	// set the PDO error mode to exception
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     	
@@ -131,12 +129,11 @@ class ApplicationController extends Controller {
             $label = "Download";
             $link  = "";
             
-           $dbname     = $this->container->getParameter('store_database_name');
-    	   $username   = $this->container->getParameter('store_database_user');
-    	   $password   = $this->container->getParameter('store_database_password');
-    	   $servername = $this->container->getParameter('store_database_host');
-    
-		   
+            $servername = "localhost";
+			$username = "main-user";
+			$password = "iris";
+			$clientID = 'najah_child'; // ToDo retrieve this from session
+			
 			//ChromePhp::log($appID);
 			
 			
@@ -146,7 +143,7 @@ class ApplicationController extends Controller {
 
 			try 
 			{
-    			$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    			$conn = new PDO("mysql:host=$servername;dbname=storedb", $username, $password);
     			// set the PDO error mode to exception
     			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     			
@@ -172,25 +169,11 @@ class ApplicationController extends Controller {
     			
     			$price = $result[0]['Price'];
     			
-    			$context = $this->container->get('security.context');
-    			
-    			if( !$context->isGranted('IS_AUTHENTICATED_FULLY') ) // this is an anonymous user
-    			{
-    				
-    				$label = "Download";
-            		$link  = "login";
-            		
-    				return ['label'=>$label,'link'=>$link];;
-    			}
-    			
-    			$clientID = $this->getUser()->getUsername();
-			
-    			
     			if ( $price == 0 ) // the price is zero, so this is a free app, the option is download
     			{
     			    
     				$label = "Download";
-            		$link  = "application_download";
+            		$link  = "";
             		
             	
     			}
@@ -206,7 +189,7 @@ class ApplicationController extends Controller {
     			 	if ( $stmt->rowCount() >= 1 ) // client has purchased the app
     			 	{
     			 		$label = "Download";
-    			 		$link = "application_download";
+    			 		$link = "";
     			 	
     			 	}
     			 	else // if not check if the client is subscribed to any of the bundles which contain the application
@@ -236,13 +219,13 @@ class ApplicationController extends Controller {
     			 		if ( $valid_subscription )
     			 		{
     			 			$label = "Download";
-    			 			$link = "application_download";
+    			 			$link = "";
     			 		
     			 		}
     			 		else // the client didn't buy the application nor is subscribed to it, then offer him to buy it
     			 		{
     			 			$label = "Buy";
-    			 			$link = "application_buy";
+    			 			$link = "";
     			 		
     			 		}
     			 	}
@@ -261,5 +244,5 @@ class ApplicationController extends Controller {
     		
     		$conn = null;
     }
-
+*/
 }

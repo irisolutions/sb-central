@@ -1,0 +1,59 @@
+{% extends 'MelodycodeFossdroidBundle::base.html.twig' %}
+{% block title %}My Applications{% endblock %}
+
+{% block breadcrumb %}
+My Applications
+{% endblock %}
+
+{% block body %}
+<div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
+<div><h4>Purchased Applications</h4></div>
+<div class="datagrid">
+ <table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Version</th>
+              <th>Price</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for app in purchased %}
+          <tr>
+            <td><a href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
+            <td>{{ app.Version }}</td>
+            <td>{{ app.Price }}$</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+  {# Applications Owned via subscriptions#}    
+  
+<div><h4>Applications Via Subscriptions</h4></div>
+<div class="datagrid">
+ <table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Version</th>
+              <th>Bundle</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for app in subscribed %}
+          <tr>
+            <td><a href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
+            <td>{{ app.Version }}</td>
+            <td><a href="{{ path('bundle', {'slug': app.BundleID}) }}">{{ app.BundleName }}</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+      
+      </div>
+
+{% endblock %}

@@ -1,9 +1,28 @@
 homepage:
     path: /
-    defaults: { _controller: MelodycodeFossdroidBundle:Homepage:index }
+    defaults: { _controller: MelodycodeFossdroidBundle:Homepage:index }  
+client_apps:
+    path: /client/apps
+    defaults: {_controller: MelodycodeFossdroidBundle:Client:apps}
+client_subs:
+    path: /client/subs
+    defaults: {_controller: MelodycodeFossdroidBundle:Client:subs}
+client_account:
+    path: /client/account
+    defaults: {_controller: MelodycodeFossdroidBundle:Client:account}        
 category:
     path: /c/{slug}/
     defaults: { _controller: MelodycodeFossdroidBundle:Category:index }
+bundle:
+    path: /b/{slug}/
+    defaults: { _controller: MelodycodeFossdroidBundle:Bundle:index }
+login:
+    path: /login
+    defaults: { _controller: MelodycodeFossdroidBundle:Security:login }  
+login_check:
+    path: /login_check           
+logout:
+    path: /logout    
 category_whats_new:
     path: /c/{slug}/whats_new.html
     defaults: { _controller: MelodycodeFossdroidBundle:Category:whatsnew }
@@ -13,9 +32,15 @@ search:
 application:
     path: /a/{slug}.html
     defaults: { _controller: MelodycodeFossdroidBundle:Application:index }
+application_:
+    path: /a/{slug}
+    defaults: { _controller: MelodycodeFossdroidBundle:Application:_index }
 application_download:
     path: /a/{slug}.apk
     defaults: { _controller: MelodycodeFossdroidBundle:Application:download }
+application_buy:
+    path: /a/{slug}/buy
+    defaults: { _controller: MelodycodeFossdroidBundle:Application:buy }    
 s:
     path: /s/
     defaults:

@@ -4,6 +4,7 @@ namespace Melodycode\FossdroidBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use PDO;
 
 class WidgetController extends Controller {
 
@@ -21,10 +22,27 @@ class WidgetController extends Controller {
     public function categoriesAction(Request $request) {
         $repository = $this->getDoctrine()->getRepository('MelodycodeFossdroidBundle:Category');
         $categories = $repository->findBy(array('is_published' => 1), array('count' => 'DESC'));
-
+        
+        
+        $servername = "localhost";
+		$username = "main-user";
+		$password = "iris";
+		$clientID = 'najah_child'; // ToDo retrieve this from session
+    
+    	$conn = new PDO("mysql:host=$servername;dbname=storedb", $username, $password);
+    	// set the PDO error mode to exception
+    	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+    	
+    	$stmt = $conn->prepare('SELECT * FROM Bundle ORDER BY Name');
+		$stmt->execute();
+		
+		$bundles = $stmt->fetchAll();
+		
+		
         return $this->render('MelodycodeFossdroidBundle:Widget:categories.html.twig', array(
                     'categories' => $categories,
-                    'slug_selected' => $request->get('slug_selected')
+                    'slug_selected' => $request->get('slug_selected'),
+                    'bundles'=> $bundles
                         )
         );
     }

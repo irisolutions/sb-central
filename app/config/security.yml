@@ -1,12 +1,36 @@
 security:
     providers:
-        in_memory:
-            memory: ~
+        #in_memory:
+        #    memory:
+        #        users:
+        #            user:
+        #                password: user
+        #                roles: 'ROLE_USER'
+        #            admin:
+        #                password: admin
+        #                roles: 'ROLE_ADMIN' 
+        dbservice:
+            id: app.dbservice_user_provider 
 
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        Melodycode\FossdroidBundle\Security\User\DBServiceUser: plaintext
+        
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
+        main:
+            provider: dbservice 
+            anonymous: ~
+            form_login:
+                login_path: login
+                check_path: login 
+                success_handler: app.loginhandler 
+                 
+            logout:
+                path: /logout
+                target: /         
+        
         default:
             anonymous: ~

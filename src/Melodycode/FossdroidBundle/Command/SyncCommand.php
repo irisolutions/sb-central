@@ -30,7 +30,10 @@ class SyncCommand extends ContainerAwareCommand {
 
         if ($repo_xml !== false) {
             // check F-Droid xml
-            if ($repo_xml->repo[0]['name'] == 'F-Droid') {
+            // $logger->error($repo_xml->repo[0]['name']);
+            // $logger->error($repo_xml->repo[0]);
+           // if ($repo_xml->repo[0]['name'] == 'F-Droid') {
+	      if (1){	
                 /*
                  * Categories import
                  */

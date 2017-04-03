@@ -1,0 +1,63 @@
+{% extends 'MelodycodeFossdroidBundle:Application:index.html.twig' %}
+
+{% block body %}
+    <div id="fd-section_container">
+        <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+            <div class="fd-section_header mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone" {% if application.icon %}style="background: url(/images/icons/{{ application.icon }}) center center no-repeat {{ application.primaryColor|default('#F5F5F5') }};"{% endif %}></div>
+            <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+                <div class="mdl-card__supporting-text mdl-color-text--grey-900">
+                    <h4>{{ application.name }}</h4>
+                    <div class="mdl-color-text--grey-600">{{ application.summary }}</div>
+                    <div class="fd-application-info mdl-color-text--grey-800">
+                        <strong>Version</strong>: {{ application.version }}<br/>
+                        <strong>Added on</strong>: {{ application.createdAt|date('d-m-Y') }}<br/>
+                        <strong>Last update</strong>: {{ application.updatedAt|date('d-m-Y') }}<br/>
+                    </div>
+                </div>
+                <div style="position:absolute;right:20px;bottom:10px;background-color: lightblue;">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a style="display: inline-block; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;" rel="nofollow" href="{{ path(redirection.link, {'slug': application.slug}) }}">{{redirection.label}}</a>
+                {% else %}
+    			<a style="display: inline-block; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;" rel="nofollow" href="{{ path(redirection.link) }}">{{redirection.label}}</a>
+                {% endif %}
+            </div>
+            </div>
+                    
+            
+
+        </section>
+        {% if bundles %}
+         <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+         <div class="mdl-cell mdl-cell--12-col" style="background-color:white">
+                <div class="mdl-card__supporting-text">
+                    <h5>Bundles:</h5>
+                        {% for bundle in bundles %}
+        				<li>
+        				<a class="mdl-navigation__link" href="{{ path('bundle', {'slug': bundle.ID}) }}">
+                		{{ bundle.Name }}
+            			</a>
+            			</li>
+    					{% endfor %} 
+    					   
+                </div>
+            </div>
+         
+         </section>
+         {% endif %}
+
+        <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+            <div class="mdl-card mdl-cell mdl-cell--12-col">
+                <div class="mdl-card__supporting-text">
+                    <h5>Description</h5>
+                    {{ application.description|raw }}
+                </div>
+            </div>
+        </section>
+        {#
+        <a title="Download" rel="nofollow" href="{{ path('application_download', {'slug': application.slug}) }}" id="fd-download-app" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent">
+            <i class="material-icons" role="presentation">file_download</i>
+            <span class="visuallyhidden">Download</span>
+        </a>
+            #}
+    </div>    
+{% endblock %}

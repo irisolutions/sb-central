@@ -16,7 +16,7 @@ class SearchController extends Controller {
         $q = implode(' ', $terms);
 
         if (empty($terms)) {
-            return new RedirectResponse($this->generateUrl('homepage'));
+            return new RedirectResponse('homepage');
         }
 
         $repository = $this->getDoctrine()->getRepository('MelodycodeFossdroidBundle:Application');

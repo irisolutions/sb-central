@@ -11,6 +11,9 @@ imports:
 #        result_cache_driver: apc
 #        query_cache_driver: apc
 
+twig:
+cache: false
+
 monolog:
     handlers:
         main:
