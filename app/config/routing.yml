@@ -1,3 +1,7 @@
 melodycode_fossdroid:
     resource: "@MelodycodeFossdroidBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /store
+    
+iris_dashboard:
+    resource: "@DashboardBundle/Resources/config/routing.yml"
+    prefix:   /dashboard

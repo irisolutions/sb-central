@@ -6,21 +6,30 @@ namespace Melodycode\FossdroidBundle\Security\User;
 use Melodycode\FossdroidBundle\Security\User\DBServiceUser;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use PDO;
 
 class DBServiceUserProvider implements UserProviderInterface
 {
+
+ 	private $container;
+ 	
+ 	public function __construct(ContainerInterface $service_container) 
+ 	{
+        $this->container = $service_container;
+    }
+ 	
     public function loadUserByUsername($username)
     {
     
-    
-    	$servername = "localhost";
-		$user = "main-user";
-		$pass = "iris";
+        $dbname    = $this->container->getParameter('store_database_name');
+    	$servername = $this->container->getParameter('store_database_host');
+		$user = $this->container->getParameter('store_database_user');
+		$pass = $this->container->getParameter('store_database_password');
 		
-    	$conn = new PDO("mysql:host=$servername;dbname=storedb", $user, $pass);
+    	$conn = new PDO("mysql:host=$servername;dbname=$dbname", $user, $pass);
     	// set the PDO error mode to exception
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     	

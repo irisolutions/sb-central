@@ -24,12 +24,12 @@ class WidgetController extends Controller {
         $categories = $repository->findBy(array('is_published' => 1), array('count' => 'DESC'));
         
         
-        $servername = "localhost";
-		$username = "main-user";
-		$password = "iris";
-		$clientID = 'najah_child'; // ToDo retrieve this from session
-    
-    	$conn = new PDO("mysql:host=$servername;dbname=storedb", $username, $password);
+    	$dbname     = $this->container->getParameter('store_database_name');
+    	$username   = $this->container->getParameter('store_database_user');
+    	$password   = $this->container->getParameter('store_database_password');
+    	$servername = $this->container->getParameter('store_database_host');
+    		
+    	$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     	// set the PDO error mode to exception
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     	

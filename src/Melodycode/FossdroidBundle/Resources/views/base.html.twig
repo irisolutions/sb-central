@@ -69,11 +69,9 @@ window.onclick = function(event) {
 					{% endif %}
                 </div>
             </header>
-
             {% block nav_categories %}
                 {{ render(controller("MelodycodeFossdroidBundle:Widget:categories")) }}
             {% endblock %}
-
             <main class="mdl-layout__content">      
                 {% block body %}{% endblock %}
                 <footer class="mdl-mini-footer">

@@ -1,0 +1,7 @@
+dashboard_dev:
+    path: /dev
+    defaults: { _controller: DashboardBundle:Developer:index}  
+
+dashboard_homepage:
+    path: /
+    defaults: { _controller: DashboardBundle:Homepage:index}  

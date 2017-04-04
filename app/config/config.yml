@@ -78,6 +78,7 @@ services:
             - { name: twig.extension }
     app.dbservice_user_provider:
         class: Melodycode\FossdroidBundle\Security\User\DBServiceUserProvider     
+        arguments: [@service_container] 
     app.loginhandler:
         class: Melodycode\FossdroidBundle\Security\LoginHandler
         arguments: [@router]       

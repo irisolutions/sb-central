@@ -29,8 +29,8 @@ security:
                 success_handler: app.loginhandler 
                  
             logout:
-                path: /logout
-                target: /         
+                path: /store/logout
+                target: /store/         
         
         default:
             anonymous: ~
