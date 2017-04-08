@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <script>
 /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
@@ -20,25 +21,47 @@ window.onclick = function(event) {
     }
   }
 }
+
+$(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+});
+
+$(document).ready( function() {
+    $(':file').on('fileselect', function(event, numFiles, label) {
+        console.log(numFiles);
+        console.log(label);
+    });
+});
+
 </script>
-<html lang="en">
+
     <head>
 	<!-- stylesheet -->
-    <!--
-     <link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.3.0/material.blue-indigo.min.css">
+      <!--  <link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.2.1/material.red-pink.min.css"> 
+      <link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.3.0/material.blue-indigo.min.css">
      <link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.2.1/material.indigo-blue.min.css"> 
      <link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.3.0/material.red-pink.min.css">
      <link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.2.1/material.blue-deep_orange.min.css">
      -->
-        <link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.3.0/material.red-pink.min.css">
+     
+     	<link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.3.0/material.blue-indigo.min.css" >
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/extra-style.css') }}">
-         
+         <link rel="stylesheet" href="{{ asset('css/extra-style.css') }}"> 
         <!-- seo -->
         <title>{% block title %}Iris Sensory Store: SensoryBox Apps{% endblock %}</title>
       
         <!-- viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <style>
+        .dropbtn:hover, .dropbtn:focus, .dropbtn 
+        {
+    		background-color: rgb(33,150,243);
+   		} 
+        </style>
 
         {% block head %}{% endblock %}
     </head>
@@ -53,9 +76,7 @@ window.onclick = function(event) {
 
                     <div class="mdl-layout-spacer"></div>
 
-                    {% block search %}
-                        {{ render(controller("MelodycodeFossdroidBundle:Widget:search")) }}
-                    {% endblock %}
+                   
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <div> &nbsp;&nbsp;&nbsp;&nbsp;</div>
     				
@@ -76,14 +97,14 @@ window.onclick = function(event) {
                 </div>
             </header>
             {% block nav_categories %}
-                {{ render(controller("MelodycodeFossdroidBundle:Widget:categories")) }}
+            
             {% endblock %}
             <main class="mdl-layout__content">      
                 {% block body %}{% endblock %}
                 <footer class="mdl-mini-footer">
                     <div class="mdl-mini-footer__left-section">
                         <div class="mdl-logo">
-                            Iris Sensory Store is a property of Iris Interactive Solutions. The Store is based on <a href="https://melodycode.com/">Fossdroid Core</a>
+                            Iris Central is a property of Iris Interactive Solutions.
                         </div>
                     </div>
                 </footer>

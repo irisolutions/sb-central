@@ -1,6 +1,10 @@
-dashboard_dev:
+dashboard_dev_home:
     path: /dev
     defaults: { _controller: DashboardBundle:Developer:index}  
+
+dashboard_dev_new_app:
+    path: /dev/new-app
+    defaults: { _controller: DashboardBundle:Developer:newApp}      
 
 dashboard_homepage:
     path: /

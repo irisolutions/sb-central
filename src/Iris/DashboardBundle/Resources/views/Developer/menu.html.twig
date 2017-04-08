@@ -1,0 +1,22 @@
+{% extends 'DashboardBundle::base-menu.html.twig' %}
+
+{% block menu_nav %}
+   {% for command in commands %}
+   {% if command.path is empty %}
+      {% if ( loop.index != 1) %}
+   		</nav>	
+     {% endif %}
+     
+    <span class="mdl-layout-title mdl-color-text--white" style="background-color:#555555">
+        <a href="{{ path('homepage') }}"> {{command.name}} </a>
+    </span>
+    <nav class="mdl-navigation mdl-color--white">
+   {% else %}
+   			<a class="mdl-navigation__link" href="{{ path(command.path)}}">
+                <i class="material-icons">{{command.icon}}</i>{{command.name}}</a>
+     
+    {%endif%}
+        				
+    {% endfor %} 
+      </nav>
+{% endblock %}

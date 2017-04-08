@@ -1,0 +1,9 @@
+{% extends 'DashboardBundle::base.html.twig' %}
+
+{% block title %}Developer Dashboard{% endblock %}
+
+{% block nav_categories %}
+  {  {{ render(controller("DashboardBundle:Developer:menu")) }} }
+{% endblock %}
+
+                
