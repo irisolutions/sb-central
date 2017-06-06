@@ -1,11 +1,60 @@
-dashboard_dev_home:
-    path: /dev
-    defaults: { _controller: DashboardBundle:Developer:index}  
 
 dashboard_dev_new_app:
     path: /dev/new-app
     defaults: { _controller: DashboardBundle:Developer:newApp}      
+    
+dashboard_dev_new_app_result:
+    path: /dev/new-app-result
+    defaults: { _controller: DashboardBundle:Developer:newAppResult }      
 
+dashboard_dev_manage_app:
+    path: /dev/manage-app
+    defaults: { _controller: DashboardBundle:Developer:manageApp} 
+
+dashboard_dev_edit_app:
+    path: /dev/edit-app/{slug}
+    defaults: { _controller: DashboardBundle:Developer:editApp} 
+
+dashboard_dev_delete_app:
+    path: /dev/delete-app/{slug}
+    defaults: { _controller: DashboardBundle:Developer:deleteApp} 
+
+dashboard_dev_manage_version:
+    path: /dev/manage-version/{slug}
+    defaults: { _controller: DashboardBundle:Developer:manageVersion} 
+
+dashboard_dev_new_version:
+    path: /dev/new-version/{slug}
+    defaults: { _controller: DashboardBundle:Developer:newVersion} 
+
+dashboard_dev_delete_version:
+    path: /dev/delete-version/{slug}/{version}
+    defaults: { _controller: DashboardBundle:Developer:deleteVersion} 
+
+
+dashboard_marketing_new_bundle:
+    path: /marketing/new-bundle
+    defaults: { _controller: DashboardBundle:Marketing:newBundle}      
+    
+dashboard_marketing_manage_bundle:
+    path: /marketing/manage-bundle
+    defaults: { _controller: DashboardBundle:Marketing:manageBundle} 
+
+
+
+
+admin_account:
+    path: /admin/account
+    defaults: {_controller: DashboardBundle:Admin:account} 
+
+admin_login:
+    path: /login
+    defaults: { _controller: DashboardBundle:Security:login }  
+admin_login_check:
+    path: /login_check           
+admin_logout:
+    path: /logout 
+    
 dashboard_homepage:
     path: /
     defaults: { _controller: DashboardBundle:Homepage:index}  
