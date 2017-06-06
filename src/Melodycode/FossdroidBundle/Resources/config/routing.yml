@@ -32,15 +32,15 @@ search:
 application:
     path: /a/{slug}.html
     defaults: { _controller: MelodycodeFossdroidBundle:Application:index }
-application_:
-    path: /a/{slug}
-    defaults: { _controller: MelodycodeFossdroidBundle:Application:_index }
 application_download:
     path: /a/{slug}.apk
     defaults: { _controller: MelodycodeFossdroidBundle:Application:download }
+application_:
+    path: /a/{slug}
+    defaults: { _controller: MelodycodeFossdroidBundle:Application:_index }
 application_buy:
     path: /a/{slug}/buy
-    defaults: { _controller: MelodycodeFossdroidBundle:Application:buy }    
+    defaults: { _controller: MelodycodeFossdroidBundle:Application:buy}    
 s:
     path: /s/
     defaults:

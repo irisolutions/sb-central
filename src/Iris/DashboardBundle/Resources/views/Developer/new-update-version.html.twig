@@ -1,0 +1,109 @@
+{% extends 'DashboardBundle:Developer:base.html.twig' %}
+{% block head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<style type="text/css">
+    h1{
+        margin: 30px 0;
+        padding: 0 200px 15px 0;
+        border-bottom: 1px solid #E5E5E5;
+    }
+	.bs-example{
+    	margin: 20px;
+    }
+    .form-style-2-heading{
+    font-weight: bold;
+    font-style: italic;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 40px;
+    margin-top:40px;
+    font-size: 15px;
+    padding-bottom: 3px;
+}
+</style>
+ 
+ {% endblock  %}
+
+{% block breadcrumb %}
+{% if update == false %}
+Developer Dashboard &rsaquo; New Version
+{% else %}
+Developer Dashboard &rsaquo; Update Version
+{% endif %}
+   {#  <a href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }} #}
+{% endblock %}
+
+{% block body %}
+   <div class="bs-example">
+    <!-- <h1>New Application</h1> -->
+    <form class="form-horizontal" method="post" >
+        <div class="form-style-2-heading">Name & Identification Information</div>
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="firstName">Application Identifier:</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" id="app-identifier" name="app-identifier" value ="{{application.ID}}" readonly>
+            </div>
+        </div> 
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="inputEmail">Application Name:</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" name="app-name" id="app-name" value ="{{application.Name}}" readonly>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="lastName">Application Version:</label>
+            <div class="col-xs-1">
+                <input type="text" class="form-control" name="app-version" id="app-version" {% if update == true%}  value ="{{application.Version}}" readonly{% endif %} placeholder="e.g. 1.5" required>
+                </div>     
+                <label class="control-label" for="inputEmail">(Must match manifest version of the two binary apps below)</label>
+                       
+        </div>
+		 
+        <!--
+	<div class="form-style-2-heading">Subscription Bundles</div>  
+        <div class="row">
+         <div class="col-xs-6"> 
+        <div class="form-group">
+  		<label class="control-label col-xs-offset-1" for="selectmultiple">Application Bundles (you can select multiple bundles)</label>             
+  		
+   		 	<select id="selectmultiple" name="app-bundle" class="form-control col-xs-offset-1" multiple="multiple">
+     		 	<option value="1">Basic</option>
+      			<option value="2">Kindergarden</option>
+   		 	</select>
+  		</div>
+        </div>    
+        </div>    
+        -->
+		
+  <div class="form-style-2-heading col-xs-12">Application Binaires</div>    
+        
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="firstName">Dongle Binary:</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" id="app-dongle-binary" name="app-dongle-binary" {% if update == true%}  value ="{{application.DongleAppName}}" {% endif %} placeholder="e.g. babysleep.apk" required>
+            </div>
+        </div>  
+        
+       <div class="form-group">
+            <label class="control-label col-xs-2" for="firstName">Controller Binary:</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" id="app-controller-binary" name="app-controller-binary" {% if update == true%}  value ="{{application.ControllerAppName}}" {% endif %} placeholder="e.g. babysleep-dongle.apk" required>
+            </div>
+        </div>  
+     
+        <div class="form-group">
+        	{% if update == false %}
+                <input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Add New Version">
+            {% else %}
+            	<input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Update Version">
+            {% endif %}
+             </div>
+             
+        
+    </form>
+</div>
+{% endblock %}

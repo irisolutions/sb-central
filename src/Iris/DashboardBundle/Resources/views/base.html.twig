@@ -22,20 +22,6 @@ window.onclick = function(event) {
   }
 }
 
-$(document).on('change', ':file', function() {
-    var input = $(this),
-        numFiles = input.get(0).files ? input.get(0).files.length : 1,
-        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-    input.trigger('fileselect', [numFiles, label]);
-});
-
-$(document).ready( function() {
-    $(':file').on('fileselect', function(event, numFiles, label) {
-        console.log(numFiles);
-        console.log(label);
-    });
-});
-
 </script>
 
     <head>
@@ -51,7 +37,7 @@ $(document).ready( function() {
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
          <link rel="stylesheet" href="{{ asset('css/extra-style.css') }}"> 
         <!-- seo -->
-        <title>{% block title %}Iris Sensory Store: SensoryBox Apps{% endblock %}</title>
+        <title>{% block title %} {% endblock %} </title>
       
         <!-- viewport -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -83,24 +69,35 @@ $(document).ready( function() {
     				<div class="dropdown">
   					<button onclick="myFunction()" class="dropbtn">{{ app.user.name }}&#8964;</button>
   					<div id="myDropdown" class="dropdown-content">
-    					<a href="{{ path('client_apps') }}">My Applications</a>
-    					<a href="{{ path('client_subs') }}">My Subscriptions</a>
-    					<a href="{{ path('client_account') }}">My Account</a>
+    					<a href="{{ path('admin_account') }}">My Account</a>
     					<hr>
-    					<a href="{{ path('logout') }}">Sign Out</a>
+    					<a href="{{ path('admin_logout') }}">Sign Out</a>
   					</div>
 					</div>
     				
     				{% else %}
-    				<div><h1> <a class="mdl-navigation__link" href="{{ path('login') }}">Sign-in</a></h1></div>
+    				<div><h1> <a class="mdl-navigation__link" href="{{ path('admin_login') }}">Sign-in</a></h1></div>
 					{% endif %}
                 </div>
             </header>
             {% block nav_categories %}
-            
+            {  {{ render(controller("DashboardBundle:Menu:index")) }} }
             {% endblock %}
-            <main class="mdl-layout__content">      
-                {% block body %}{% endblock %}
+            <main class="mdl-layout__content">   
+            {% block flash_messages %}
+    			{% for type, messages in app.session.flashbag.all() %}
+       			 {% for message in messages %}
+            		<div class="alert alert-{{ type }} alert-dismissible" role="alert">
+               		 <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                	{{ message | raw }}
+           		 </div>
+        		{% endfor %}
+    			{% endfor %}
+			{% endblock %}
+    				
+                {% block body %}
+                
+                {% endblock %}
                 <footer class="mdl-mini-footer">
                     <div class="mdl-mini-footer__left-section">
                         <div class="mdl-logo">

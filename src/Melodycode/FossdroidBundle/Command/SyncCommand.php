@@ -168,6 +168,7 @@ class SyncCommand extends ContainerAwareCommand {
                             }
                         } catch (\Exception $e) {
                             $logger->error($e->getMessage());
+                            $logger->error('[FAILURE]');
                         }
 
                         $logger->info('- Icon ' . $application_xml->icon . ' saved');
@@ -180,10 +181,10 @@ class SyncCommand extends ContainerAwareCommand {
                     $em->flush();
                 }
             } else {
-                $logger->error('Invalid XML format');
+                $logger->error('[FAILURE] Invalid XML format');
             }
         } else {
-            $logger->error('XML not reachable');
+            $logger->error('[FAILURE] XML not reachable');
         }
 
         // update applications count

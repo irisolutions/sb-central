@@ -1,0 +1,80 @@
+{% extends 'DashboardBundle:Developer:base.html.twig' %}
+
+{% block breadcrumb %}
+{% if operation == 'new' %}
+Developer Dashboard &rsaquo; New Application (In Progress...)
+{% elseif operation == 'update' %}
+Developer Dashboard &rsaquo; Update Application (In Progress...)
+{% else %}
+Developer Dashboard &rsaquo; Delete Application (In Progress...)
+{% endif %}
+ {% endblock %}
+
+{% block body %}
+
+<script type="text/javascript">
+window.onload = function(dfsfdfd) 
+{
+    	xhr = new XMLHttpRequest();
+        xhr.open("GET", "{{ path('dashboard_dev_new_app_result') }}", true);
+             
+        xhr.onprogress = function(e) 
+        {
+        	//alert(e.currentTarget.responseText);
+            document.getElementById("display").innerHTML = e.currentTarget.responseText;
+        }
+             
+        xhr.onreadystatechange = function() 
+        {
+        	if (xhr.readyState == 4) 
+            {
+            	var result = xhr.responseText;
+            	
+            	if ( result.indexOf('INFO: Finished.') !== -1 && result.indexOf('[FAILURE]') === -1 && result.indexOf('CRITICAL:') === -1 && result.indexOf('Exception') ===-1 )
+            	{
+            		//document.getElementById("display").innerHTML += 'DONEEEEE';
+            		document.getElementById("success_alert").style.display = 'block';
+            	}
+            	else
+            	{
+            		
+            		document.getElementById("failure_alert").style.display = 'block';
+            	}
+            }
+        }
+             
+        xhr.send();
+};
+window.onbeforeunload = function() 
+{
+    return true;
+};
+
+</script>
+<div id ="success_alert" class="alert alert-success alert-dismissible" role="alert" style="display:none;">
+<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+{% if operation == 'new' %}
+The Application has been added successfully
+{% elseif operation == 'update' %}
+The Application was updated successfully
+{% else %}
+The Application/Version was deleted successfully
+{% endif %}
+</div>
+<div id ="failure_alert" class="alert alert-danger alert-dismissible" role="alert" style="display:none;">
+<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+{% if operation == 'new' %}
+The Application was not added successfully, please delete the partially added application (binary, metadata and DB entry) and try again.
+{% elseif operation == 'update' %}
+The Application was not updated successfully, please try again later.
+{% else %}
+The Application was not deleted successfully, please try again later.
+{% endif %}
+</div>
+           		 
+<pre>
+   <div id="display" style="margin:10px;height:70vh;min-height:70%;">
+	</div> 
+</pre>
+
+{% endblock %}

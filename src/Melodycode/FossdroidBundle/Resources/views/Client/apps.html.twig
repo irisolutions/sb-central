@@ -13,7 +13,7 @@ My Applications
         <thead>
           <tr>
               <th>Name</th>
-              <th>Version</th>
+           {#   <th>Version</th> #}
               <th>Price</th>
           </tr>
         </thead>
@@ -22,7 +22,7 @@ My Applications
         {% for app in purchased %}
           <tr>
             <td><a href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
-            <td>{{ app.Version }}</td>
+       {#     <td>{{ app.Version }}</td> #}
             <td>{{ app.Price }}$</td>
           </tr>
           {% endfor %}
@@ -37,7 +37,7 @@ My Applications
         <thead>
           <tr>
               <th>Name</th>
-              <th>Version</th>
+        {#      <th>Version</th> #}
               <th>Bundle</th>
           </tr>
         </thead>
@@ -46,7 +46,7 @@ My Applications
         {% for app in subscribed %}
           <tr>
             <td><a href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
-            <td>{{ app.Version }}</td>
+      {#      <td>{{ app.Version }}</td>  #}
             <td><a href="{{ path('bundle', {'slug': app.BundleID}) }}">{{ app.BundleName }}</a></td>
           </tr>
           {% endfor %}

@@ -79,6 +79,12 @@ services:
     app.dbservice_user_provider:
         class: Melodycode\FossdroidBundle\Security\User\DBServiceUserProvider     
         arguments: [@service_container] 
+    app.dbservice_admin_provider:
+        class: Iris\DashboardBundle\Security\User\DBServiceUserProvider     
+        arguments: [@service_container] 
     app.loginhandler:
         class: Melodycode\FossdroidBundle\Security\LoginHandler
-        arguments: [@router]       
+        arguments: [@router]
+    app.admin.loginhandler:
+        class: Iris\DashboardBundle\Security\LoginHandler
+        arguments: [@router]           

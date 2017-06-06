@@ -13,7 +13,8 @@ class HomepageController extends Controller
 
 public function indexAction() 
 {
-        return new Response('<html><body>Dashboard Homepage goes here</body></html>');
+       // return new Response('<html><body>Dashboard Homepage goes here</body></html>');
+       return $this->render('DashboardBundle:Homepage:index.html.twig');
 }
 
 }

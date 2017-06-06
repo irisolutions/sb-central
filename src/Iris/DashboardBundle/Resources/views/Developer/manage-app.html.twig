@@ -1,0 +1,75 @@
+{% extends 'DashboardBundle:Developer:base.html.twig' %}
+{% block head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<style type="text/css">
+    h1{
+        margin: 30px 0;
+        padding: 0 200px 15px 0;
+        border-bottom: 1px solid #E5E5E5;
+    }
+	.bs-example{
+    	margin: 20px;
+    }
+    .form-style-2-heading{
+    font-weight: bold;
+    font-style: italic;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 40px;
+    margin-top:40px;
+    font-size: 15px;
+    padding-bottom: 3px;
+}
+
+.material-icons {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+</style>
+ 
+ {% endblock  %}
+
+{% block breadcrumb %}
+Developer Dashboard &rsaquo; Manage Applications
+   {#  <a href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }} #}
+{% endblock %}
+
+{% block body %}
+
+<div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
+<div><h4>All Applications</h4></div>
+<div class="datagrid">
+ <table>
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Versions</th>
+               <th>ID</th>
+              <th>Price</th>
+              <!-- <th>Operations</th> -->
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for app in applications %}
+          <tr>
+            <td>&nbsp;&nbsp;<b>{{ app.Name }}</b><br style="line-height:180%;"><small> &nbsp;&nbsp;<a href="{{ path('dashboard_dev_edit_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a href="{{ path('dashboard_dev_delete_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">delete</i>Delete</a>&nbsp;&nbsp;<a href="{{ path('dashboard_dev_manage_version', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">view_list</i>Versions</a></small></td>
+            <td> {{ app.Count }}</td>
+            <td>{{ app.ID }}</td>
+            <td>{{ app.Price }}$ </td>
+           <!-- <td><a href="{{ path('application_', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:20px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a href="{{ path('application_', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:20px">delete</i>Delete</a></td> -->
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+  
+      
+</div>
+  
+{% endblock %}

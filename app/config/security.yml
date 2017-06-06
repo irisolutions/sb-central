@@ -10,16 +10,34 @@ security:
         #                password: admin
         #                roles: 'ROLE_ADMIN' 
         dbservice:
-            id: app.dbservice_user_provider 
+            id: app.dbservice_user_provider
+        admin_dbservice:
+            id: app.dbservice_admin_provider     
 
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
         Melodycode\FossdroidBundle\Security\User\DBServiceUser: plaintext
+        Iris\DashboardBundle\Security\User\DBServiceUser: plaintext
         
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        
+        admin:
+            pattern:   ^/dashboard
+            anonymous: ~
+            provider: admin_dbservice
+            form_login:
+                login_path: /dashboard/login
+                check_path: /dashboard/login
+                default_target_path: /dashboard
+                success_handler: app.admin.loginhandler 
+                
+            logout:
+                path: /dashboard/logout
+                target: /dashboard/     
+                
         main:
             provider: dbservice 
             anonymous: ~
@@ -34,3 +52,5 @@ security:
         
         default:
             anonymous: ~
+    role_hierarchy:
+        ROLE_SUPER: [ROLE_DEVELOPMENT, ROLE_MARKETING, ROLE_RANDD]            
