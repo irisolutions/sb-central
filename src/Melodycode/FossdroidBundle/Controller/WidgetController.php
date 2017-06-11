@@ -4,6 +4,7 @@ namespace Melodycode\FossdroidBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use PDO;
 
 class WidgetController extends Controller {
@@ -28,23 +29,32 @@ class WidgetController extends Controller {
     	$username   = $this->container->getParameter('store_database_user');
     	$password   = $this->container->getParameter('store_database_password');
     	$servername = $this->container->getParameter('store_database_host');
-    		
-    	$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    	// set the PDO error mode to exception
-    	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+    	try
+	{	
+    		$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    		// set the PDO error mode to exception
+    		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     	
-    	$stmt = $conn->prepare('SELECT * FROM Bundle ORDER BY Name');
+    		$stmt = $conn->prepare('SELECT * FROM Bundle ORDER BY Name');
 		$stmt->execute();
 		
 		$bundles = $stmt->fetchAll();
 		
 		
-        return $this->render('MelodycodeFossdroidBundle:Widget:categories.html.twig', array(
+        	return $this->render('MelodycodeFossdroidBundle:Widget:categories.html.twig', array(
                     'categories' => $categories,
                     'slug_selected' => $request->get('slug_selected'),
                     'bundles'=> $bundles
                         )
-        );
+        	);
+	}
+	catch(PDOException $e)
+	{
+		return new Response(
+            '<html><body>Your Name is: hi</body></html>');
+	}
+return new Response(
+            '<html><body>Your Name is: hi</body></html>');
     }
 
     public function searchAction(Request $request) {

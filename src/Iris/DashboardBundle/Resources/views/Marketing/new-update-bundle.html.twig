@@ -1,0 +1,163 @@
+{# empty Twig template #}
+{%extends  "DashboardBundle:Developer:new-update-app.html.twig"%}
+{% block head %}
+    {{ parent() }}
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script>
+    function getSelected()
+    {
+        var elements=$('.select');
+        for(var i=0;i<elements.length;i++)
+        {
+            var element=$(elements.get(i));
+            if(element.css("backgroundColor")!='rgb(255, 255, 255)')
+            {
+                return element;
+            }
+        }
+        return -1;
+    }
+    function updateID()
+    {
+        var s="";
+       var elements= $($('#bundle-app-list').find("tr"));
+       for(var i=1;i<elements.length;i++)
+       {
+           s=s+$($(elements.get(i)).find("td").get(0)).html().trim();
+           if(i!=elements.length-1)
+               s=s+",";
+           
+       }
+       
+       $('#app-identifiers').val(s);
+    }
+        $(document).ready(function()
+     {
+         updateID();
+    $('.select').click(function(){
+        $('.select').css('background-color','white');
+        $(this).css('background-color','#5f9ea0');
+    });
+    $('.add-app').click(function()
+    {
+        var element=getSelected();
+        if(element==-1)
+            return;
+        $('#bundle-app-list').append(element);
+        updateID();
+        
+    });
+    $('.remove-app').click(function()
+    {
+         var element=getSelected();
+        if(element==-1)
+            return;
+        $('#app-list').append(element);
+        updateID();
+    });
+    });
+    </script>
+{%endblock%}
+{% block breadcrumb %}
+{% if update == false %}
+Developer Dashboard &rsaquo; New Bundle
+{% else %}
+Developer Dashboard &rsaquo; Update Bundle
+{% endif %}
+   {#  <a href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }} #}
+{% endblock %}
+
+{% block body %}
+   <div class="bs-example">
+    <!-- <h1>New Application</h1> -->
+    <form class="form-horizontal" method="post" >
+        <div class="form-style-2-heading">Bundle Name & Description</div>
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="firstName">Bundle Name:</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" id="Bundle-Name" name="bundle-name" {% if update == true%}  value ="{{bundle.Name}}" readonly{% endif %} placeholder="e.g: Kindergarden" required>
+            </div>
+        </div>  
+            <div class="form-group">
+            <label class="control-label col-xs-2" for="postalAddress">Bundle Description:</label>
+            <div class="col-xs-9">
+                <textarea rows="6" class="form-control" name="bundle-description" id="app-description" required>{% if update == true%}  {{bundle.Description}} {% endif %}</textarea>
+            </div>
+        </div>
+
+              
+              <div class="form-style-2-heading col-xs-12">Application List</div> 
+              
+              <div class="col-xs-6" style="height: 300px;overflow: auto;">
+                  <label class="control-label col-xs-4" for="postalAddress">Application List</label>
+                  <table id="app-list"  class="col-xs-1 row-table table table-bordered table-responsive table-striped" style="" >
+                <tr>
+                    <th>  ID </th>
+                    <th>  Name </th>
+                    <th>  Price </th>
+                </tr>
+                {% for app in apps %}
+                    <tr style="background-color: white;" class="select">
+                        <td> {{app.ID}} </td>
+                        <td> {{app.Name}} </td>
+                        <td> {{app.Price}}$ </td>
+                    </tr>
+                    
+                {%endfor%}
+                  </table>
+                  <p class="col-xs-4">
+                  </p>
+                  
+              </div>
+              <div class="col-xs-6" style="height: 300px;overflow: auto;">
+                  <label class="control-label col-xs-5" for="postalAddress">Bundle Application List</label>
+                  <table id="bundle-app-list"  class="col-xs-1 row-table table table-bordered table-responsive table-striped" style="" >
+                <tr>
+                    <th>  ID </th>
+                    <th>  Name </th>
+                    <th>  Price </th>
+                </tr>
+                {% if update == true %}
+                 {% for app in appsOfBundle %}
+                    <tr style="background-color: white;" class="select">
+                        <td> {{app.ID}} </td>
+                        <td> {{app.Name}} </td>
+                        <td> {{app.Price}}$ </td>
+                    </tr>
+                    
+                {%endfor%}
+                {%endif%}
+                  </table>
+                  
+              </div>
+                  <p class="col-xs-2">
+                  </p>
+                  <div class="add-app btn btn-primary col-xs-1">
+                      Add
+                  </div>
+                  <p class="col-xs-5">
+                  </p>
+                  <div class="remove-app btn btn-primary col-xs-1">
+                      Remove
+                  </div>
+        <div class="form-group">
+            <div class="col-xs-9">
+                <input type="text" class="form-control" id="app-identifiers" name="app-identifiers" {% if update == true%}  value ="" readonly{% endif %}  hidden>
+            </div>
+        </div>
+        
+        
+ 
+
+        <div class="form-group">
+        	{% if update == false %}
+                <input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Add New Bundle">
+            {% else %}
+            	<input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Update Bundle">
+            {% endif %}
+             </div>
+             
+        
+    </form>
+</div>
+{% endblock %}

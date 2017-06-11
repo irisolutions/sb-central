@@ -274,7 +274,7 @@ public function manageAppAction()
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     	
     	
-    	$stmt = $conn->prepare('SELECT *,COUNT(*) AS Count FROM Application,Version WHERE Application.ID = Version.ApplicationID GROUP BY Version.ApplicationID;');
+    	$stmt = $conn->prepare('select *,count(*) as '."'Count'".' from storedb.Application,storedb.Version WHERE storedb.Application.ID = storedb.Version.ApplicationID GROUP BY storedb.Version.ApplicationID;');
 		$stmt->execute();
 		
 		$applications = $stmt->fetchAll();
@@ -977,17 +977,17 @@ public function newAppAction()
         		return $this->redirect($request->headers->get('referer'));
         	}
         	
-        	$app_name 				= $request->request->get('app-name');
-        	$app_bundle				= $request->request->get('app-bundle');
-			$app_controller_binary 	= $request->request->get('app-controller-binary');
-			$app_description		= $request->request->get('app-description');
-			$app_dongle_binary		= $request->request->get('app-dongle-binary');
-			$app_identifier			= $request->request->get('app-identifier');
-			$app_payment_model	    = $request->request->get('app-payment-model');
-			$app_price				= $request->request->get('app-price');	
-			$app_summary			= $request->request->get('app-summary');
-			$app_version 			= $request->request->get('app-version');
-			$app_category 			= $request->request->get('app-category');
+        	$app_name 			= $request->request->get('app-name');
+        	$app_bundle			= $request->request->get('app-bundle');
+		$app_controller_binary          = $request->request->get('app-controller-binary');
+		$app_description		= $request->request->get('app-description');
+		$app_dongle_binary		= $request->request->get('app-dongle-binary');
+		$app_identifier			= $request->request->get('app-identifier');
+		$app_payment_model              = $request->request->get('app-payment-model');
+		$app_price			= $request->request->get('app-price');	
+		$app_summary			= $request->request->get('app-summary');
+		$app_version 			= $request->request->get('app-version');
+		$app_category 			= $request->request->get('app-category');
         	
         	// we check if the two binary files are where they should be other wise we fail
         	
