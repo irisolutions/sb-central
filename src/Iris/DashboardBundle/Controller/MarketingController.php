@@ -25,8 +25,6 @@ class MarketingController extends Controller
 
 public function manageBundleAction() 
 {
-
-		return new Response('<html><body>Manage Bundle Page goes here</body></html>');
 	
 		//$context = $this->container->get('security.context');
     	
@@ -44,85 +42,42 @@ public function manageBundleAction()
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     	
     	
-    	$stmt = $conn->prepare('SELECT * FROM Application');
+
+    	$stmt = $conn->prepare('SELECT Bundle.ID, Bundle.Name ,sum(Price) as Price FROM Application ,Bundle,BundleApplication
+  WHERE 
+Application.ID=BundleApplication.ApplicationID and
+Bundle.ID=BundleApplication.BundleID and Application.ID in (
+
+SELECT ApplicationID FROM BundleApplication
+                    WHERE BundleID=Bundle.ID) group by Bundle.ID');
 		$stmt->execute();
 		
-		$applications = $stmt->fetchAll();
+		$bundle = $stmt->fetchAll();
 		
 	
-    	return $this->render('DashboardBundle:Developer:manage-app.html.twig', array(
-                    'applications' => $applications));	
+    	return $this->render('DashboardBundle:Marketing:manage-bundle.html.twig', array(
+                    'bundles' => $bundle));  
 }
 
 
 public function newBundleAction() 
 {
-        return new Response('<html><body>New Bundle Page goes here</body></html>');
-        
+
         $request=$this->get('request');
         
         if ($request->getMethod() == 'POST') 
         {
-            //$app-name = $request->request->get('app-name');
-            //$output = shell_exec('sudo -u apache /var/www/html/update-store.sh 2>&1');
-            //return $this->render('DashboardBundle:Developer:new-app-result.html.twig',array('output' => $output ));
-            
-            if ( $this->scriptStillExecuting('update-store.sh'))
-        	{
-        
-        	 	//return new Response('<html><body><div>An Add Application Operation is in progress, please try again later</div> <div><input type="button" value="Try Again" onClick="window.history.back()"></div></body> </html>');
-        		
-        		//return $this->render('DashboardBundle:Developer:new-app.html.twig');
-        		$request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Another Add/Update/Delete Application operation is in progress .. Try again in a few seconds');
-        		return $this->redirect($request->headers->get('referer'));
-        	}
-        	
-        	$app_name 				= $request->request->get('app-name');
-        	$app_bundle				= $request->request->get('app-bundle');
-			$app_controller_binary 	= $request->request->get('app-controller-binary');
-			$app_description		= $request->request->get('app-description');
-			$app_dongle_binary		= $request->request->get('app-dongle-binary');
-			$app_identifier			= $request->request->get('app-identifier');
-			$app_payment_model	    = $request->request->get('app-payment-model');
-			$app_price				= $request->request->get('app-price');	
-			$app_summary			= $request->request->get('app-summary');
-			$app_version 			= $request->request->get('app-version');
-			$app_category 			= $request->request->get('app-category');
-        	
-        	// we check if the two binary files are where they should be other wise we fail
-        	
-        	$repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
-        	$metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
-        	$controller_file = $repo_dir.'/'.$app_controller_binary;
-        	$dongle_file	 = $repo_dir.'/'.$app_dongle_binary;
-        	
-        	if ( !file_exists($controller_file) /*|| !file_exists($dongle_file)*/ )
-        	{
-        		$request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Controller and/or Dongle binary file(s) do(es) not exist');
-        		return $this->redirect($request->headers->get('referer'));
-        	
-        	}
-        	
-        	// now we create the meta data file for the application
+
+                //first get the value of post variables 
+        	$bundle_name		= $request->request->get('bundle-name');
+		$bundle_description	= $request->request->get('bundle-description');
+		$app_identifiers	= $request->request->get('app-identifiers');//string of application id's separated with ','
+        	$app_identifiers        = explode(",", $app_identifiers);
         	
         	
         	
-        	$metadata_file = $metadata_dir.'/'.$app_identifier.'.txt';
-        	
-        	$content = 'License:Unknown'.PHP_EOL.'Web Site:'.PHP_EOL.'Source Code:'.PHP_EOL.'Issue Tracker:'.PHP_EOL.'Changelog:'.PHP_EOL.'Summary:%s'.PHP_EOL.'Description:'.PHP_EOL.'%s'.PHP_EOL.'.'.PHP_EOL.'Name:%s'.PHP_EOL.'Categories:%s'.PHP_EOL.'';
-        	$content = sprintf($content, $app_summary,$app_description,$app_name,$app_category);
-        	
-        	$success = file_put_contents($metadata_file, $content, LOCK_EX);
-        	
-        	if ( !$success )
-        	{
-        		$request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Unable to write metadata file');
-        		return $this->redirect($request->headers->get('referer'));
-        	
-        	}
-        	
-        	
-        	// if we are here then the binary files are in place and the meta data file was created so we insert into the DB
+        	// connect to database
+
         	
         	$dbname     = $this->container->getParameter('store_database_name');
     		$username   = $this->container->getParameter('store_database_user');
@@ -133,37 +88,37 @@ public function newBundleAction()
     		// set the PDO error mode to exception
     		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     	
-    		$stmt = $conn->prepare('INSERT INTO Application (ID,Version,Name,DongleAppName,ControllerAppName,Price) VALUES (?,?,?,?,?,?)');
+
+                //insert the new bundle
+    		$stmt = $conn->prepare('INSERT INTO Bundle (Name,Description) VALUES (?,?)');
     		
     		try
     		{
-    		
-				$stmt->execute([$app_identifier,$app_version,$app_name,$app_dongle_binary,$app_controller_binary,$app_price]);
+                    $stmt->execute([$bundle_name,$bundle_description]);
         	}
         	catch (\PDOException $e)
         	{
-        		// if something goes wrong we fail
-        	
-        		//throw $e;
-        		
         		$error =''; 
-        		
-        		if ( $e->errorInfo[1] == 1062 ) // contrains violation i.e. the app_id:app_version already exists
-        		{
-       				 // Take some action if there is a key constraint violation, i.e. duplicate name
-       				 $error = 'Operation Aborted .. The Application Identifier & Version must be unique [Error]'.$e->getMessage();
-    			} 
-    			else
+
     				$error = 'Operation Aborted ..'.$e->getMessage();
         		
         		$request->getSession()->getFlashBag()->add('danger', $error);
         		return $this->redirect($request->headers->get('referer'));
-        	
-        	}
 
-        	// if we are here then all is good let us launch the update script
+        	}
+        	// get  ID for the new bundle
+            $stmt = $conn->prepare('select ID from Bundle where Name=?');
+            $stmt->execute([$bundle_name]);
+            $bundle_id=$stmt->fetchAll()[0]['ID'];
+            $stmt = $conn->prepare('INSERT INTO BundleApplication (BundleID,ApplicationID) VALUES (?,?)');
+            //save the list of applications inside bundle 
             
-            return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig',array('operation'=>'new'));
+            for($i=0;$i<count($app_identifiers);$i++)
+            {
+                $stmt->execute([$bundle_id,$app_identifiers[$i]]);
+            }
+            return $this->render('DashboardBundle:Marketing:new-update-delete-bundle-result.html.twig');
+
             
         }
         
@@ -176,13 +131,202 @@ public function newBundleAction()
     	// set the PDO error mode to exception
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     	
-    	$stmt = $conn->prepare('SELECT * FROM Category');
-    	$stmt->execute();
-    	
-    	$categories = $stmt->fetchAll();
+
+    	$stmt = $conn->prepare('SELECT * FROM Application');
+        try
+        {
+            $stmt->execute();
+    	}
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..'.$e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+    	$applications = $stmt->fetchAll();
         
-        return $this->render('DashboardBundle:Developer:new-update-app.html.twig',array('update'=>false,'categories'=>$categories));
-         
+return $this->render('DashboardBundle:Marketing:new-update-bundle.html.twig',array('update'=>false,'apps'=>$applications));         
+}
+public function editBundleAction($slug)
+{
+    $request=$this->get('request');
+        
+        if ($request->getMethod() == 'POST') 
+        {
+                //first get the value of post variables 
+        	$bundle_name		= $request->request->get('bundle-name');
+		$bundle_description	= $request->request->get('bundle-description');
+		$app_identifiers	= $request->request->get('app-identifiers');//string of application id's separated with ','
+        	$app_identifiers        = explode(",", $app_identifiers);
+        	
+        	
+        	
+        	// connect to database
+        	
+        	$dbname     = $this->container->getParameter('store_database_name');
+    		$username   = $this->container->getParameter('store_database_user');
+    		$password   = $this->container->getParameter('store_database_password');
+    		$servername = $this->container->getParameter('store_database_host');
+    		
+    		$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    		// set the PDO error mode to exception
+    		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+    	
+                
+    		
+        	// get  ID for bundle
+            $stmt = $conn->prepare('select ID from Bundle where Name=?');
+            $stmt->execute([$bundle_name]);
+            $bundle_id=$stmt->fetchAll()[0]['ID'];
+            //update description
+            $stmt = $conn->prepare('update Bundle set Description=? where ID=?');
+            try
+            {
+                    $stmt->execute([$bundle_description,$bundle_id]);                
+            }
+            catch (\PDOException $e)
+            {
+                $error = 'Operation Aborted ..'.$e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+            //delete all delete all bundle applications
+            $stmt = $conn->prepare('delete from BundleApplication  where BundleID=?');
+            try
+            {
+                    $stmt->execute([$bundle_id]);                
+            }
+            catch (\PDOException $e)
+            {
+                $error = 'Operation Aborted ..'.$e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+            
+            
+            //insert application list to bundle
+            $stmt = $conn->prepare('INSERT INTO BundleApplication (BundleID,ApplicationID) VALUES (?,?)');
+            try
+            {
+                for($i=0;$i<count($app_identifiers);$i++)
+                {
+                    $stmt->execute([$bundle_id,$app_identifiers[$i]]);                
+                }
+            }
+            catch (\PDOException $e)
+            {
+                $error = 'Operation Aborted ..'.$e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+            return $this->render('DashboardBundle:Marketing:new-update-delete-bundle-result.html.twig');
+            
+        }
+        $bundle_id=$slug;    
+        $dbname     = $this->container->getParameter('store_database_name');
+    	$username   = $this->container->getParameter('store_database_user');
+    	$password   = $this->container->getParameter('store_database_password');
+    	$servername = $this->container->getParameter('store_database_host');
+    	
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    	// set the PDO error mode to exception
+    	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+        //get application list inside bundle
+        $stmt = $conn->prepare('SELECT  * FROM Application
+  WHERE ID  in (SELECT ApplicationID FROM BundleApplication
+                    WHERE BundleID=?);');
+        try
+        {
+            $stmt->execute([$bundle_id]);
+    	}
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..'.$e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        $apps_of_Bundle=$stmt->fetchAll();
+        //get bundle info
+    	$stmt = $conn->prepare('SELECT * FROM Bundle where ID=?');
+        try
+        {
+            $stmt->execute([$bundle_id]);
+    	}
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..'.$e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        $bundle=$stmt->fetchAll()[0];
+        //get application that are not inside bundle
+    	$stmt = $conn->prepare('SELECT  * FROM Application
+  WHERE ID NOT in (SELECT ApplicationID FROM BundleApplication
+                    WHERE BundleID=?);');
+        try
+        {
+            $stmt->execute([$bundle_id]);
+    	}
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..'.$e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+    	$applications = $stmt->fetchAll();
+return $this->render('DashboardBundle:Marketing:new-update-bundle.html.twig',array('update'=>true,'apps'=>$applications,'bundle'=>$bundle,'appsOfBundle'=>$apps_of_Bundle));     
+    
+}
+public function deleteBundleAction($slug)
+{
+    //connect to database
+	$bundle_identifier = $slug;	
+        $request=$this->get('request');
+	$dbname     = $this->container->getParameter('store_database_name');
+    	$username   = $this->container->getParameter('store_database_user');
+    	$password   = $this->container->getParameter('store_database_password');
+    	$servername = $this->container->getParameter('store_database_host');	
+    	$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    	// set the PDO error mode to exception
+    	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        //delete bundle
+    	$stmt = $conn->prepare('DELETE FROM Bundle WHERE ID = ?');   		
+    	try
+    	{	
+            $stmt->execute([$bundle_identifier]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..'.$e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        //delete application list of bundle 
+        $stmt = $conn->prepare('DELETE FROM BundleApplication WHERE BundleID = ?');
+    	try
+    	{
+            $stmt->execute([$bundle_identifier]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..'.$e->getMessage();       		
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        //dlete subscriptions for the bundle
+       	$stmt = $conn->prepare('DELETE FROM Subscription WHERE BundleID = ?');
+    	try
+    	{	
+            $stmt->execute([$bundle_identifier]);
+       	}
+       	catch (\PDOException $e)
+       	{
+            $error = 'Operation Aborted ..'.$e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+            return $this->render('DashboardBundle:Marketing:new-update-delete-bundle-result.html.twig');
+
 }
 
 }

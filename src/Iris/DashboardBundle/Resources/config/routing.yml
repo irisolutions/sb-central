@@ -40,8 +40,12 @@ dashboard_marketing_manage_bundle:
     path: /marketing/manage-bundle
     defaults: { _controller: DashboardBundle:Marketing:manageBundle} 
 
-
-
+dashboard_dev_delete_bundle:
+    path: /dev/delete-bundle/{slug}
+    defaults: { _controller: DashboardBundle:Marketing:deleteBundle} 
+dashboard_dev_edit_bundle:
+    path: /dev/edit-bundle/{slug}
+    defaults: { _controller: DashboardBundle:Marketing:editBundle} 
 
 admin_account:
     path: /admin/account
