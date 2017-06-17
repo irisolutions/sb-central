@@ -1,0 +1,138 @@
+{# empty Twig template #}
+{% extends 'DashboardBundle:Marketing:manage-application.html.twig'%}
+{% block head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    function getSelected()
+    {
+        var elements=$('.select');
+        for(var i=0;i<elements.length;i++)
+        {
+            var element=$(elements.get(i));
+            if(element.css("backgroundColor")!='rgb(255, 255, 255)')
+            {
+                return element;
+            }
+        }
+        return -1;
+    }  
+        $(document).ready(function()
+     {
+         $('#deletapp').val("");
+    $('.select').click(function(){
+        $('.select').css('background-color','white');
+        $(this).css('background-color','#5f9ea0');
+        $('#deletapp').val($(this).find('td').find('b').html());
+    });
+    $('.add-app').click(function()
+    {
+        $('.app-form').css('visibility','visible');       
+    });
+    });
+    </script>
+<style type="text/css">
+    h1{
+        margin: 30px 0;
+        padding: 0 200px 15px 0;
+        border-bottom: 1px solid #E5E5E5;
+    }
+	.bs-example{
+    	margin: 20px;
+    }
+    .form-style-2-heading{
+    font-weight: bold;
+    font-style: italic;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 40px;
+    margin-top:40px;
+    font-size: 15px;
+    padding-bottom: 3px;
+}
+
+.material-icons {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+</style>
+ 
+ {% endblock  %}
+
+
+{% block body %}
+
+<div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
+        <div><h4>Client Application</h4></div>
+<div class="datagrid">
+ <table>
+
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Version</th>
+              <!-- <th>Operations</th> -->
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for application in applications %}
+            <tr class="select">
+                          
+            <td>&nbsp;&nbsp;
+                <b>{{ application.Name }}</b>
+                <br style="line-height:180%;">
+                
+            </td>
+            <td>{{ application.Version }} </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+        <form class="dataform form-horizontal" method="post" >
+               <p class="col-xs-12">
+                   
+                  </p>
+                     <p class="col-xs-2">
+                  </p>
+            <div class="add-app btn btn-primary col-xs-1">
+                      Add
+                  </div>
+                  <p class="col-xs-5">
+                  </p>
+                  <input type="submit" name="delete" class="btn btn-primary" value=" Remove">
+        
+                  <div class="col-xs-12 app-form" style="margin-top: 3%;visibility: hidden" >
+                      <p class="col-xs-2">
+                          Applications :
+                      </p>
+                  <select name="newapp" class="col-xs-3">
+                      <option value="">
+                          
+                      </option>
+                       {% for app in apps %}
+                      <option value="{{app.ID}}">
+                          {{app.Name}}
+                      </option>
+                      {%endfor%}
+                  </select>
+                  <div class="col-xs-1">
+                     </div>
+                      <input type="submit" class="btn btn-primary" value="add application">
+                 
+                  </div>
+                  <div class="col-xs-5">
+                      <input type="text" name="deletedapp" vlaue="" id="deletapp"hidden="" >
+                  
+                  </div>
+                  
+                  
+        </form>
+      
+</div>
+  
+{% endblock %}

@@ -1,0 +1,92 @@
+{# empty Twig template #}
+{%extends  "DashboardBundle:Developer:new-update-app.html.twig"%}
+{%block head%}
+        {{ parent() }}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+     $(document).ready(function()
+     {
+         $('.EditProfile').click(function()
+         {
+            $('.labels').attr('hidden','true');
+            $('.txt').removeAttr('hidden');
+            $('.editform').removeAttr('hidden');
+            $('.EditProfile').attr('hidden','true');
+            
+         });
+         $('.cancel').click(function()
+         {
+            $('.labels').removeAttr('hidden');
+            $('.txt').attr('hidden','true');
+            $('.editform').attr('hidden','true');
+            $('.EditProfile').removeAttr('hidden');
+            
+         });
+    });
+    
+</script>
+{%endblock%}
+{% block breadcrumb %}
+{%endblock%}
+{%block body%}
+    
+        <br>
+        <form class="form-horizontal" method="post" >
+            
+            <div class="col-xs-12">
+            <p class="col-xs-2 "> <b>ID: </p> {%if add== false%}   <p class="col-xs-2 labels">{{client.ID}}</p> {%endif%}<input required="" type="text" name="ID" class="col-xs-2 txt"{%if add== false%} value="{{client.ID}}" hidden=""{%endif%}> 
+        </div>
+        <br>
+        <div class="col-xs-12">
+            <p class="col-xs-2 "> <b>Name: </p> {%if add== false%}   <p class="col-xs-2 labels">{{client.Name}}</p> {%endif%}<input required="" type="text" name="Name" class="col-xs-2 txt"{%if add== false%} value="{{client.Name}}" hidden=""{%endif%}> 
+        </div>
+        <br>
+        <div class="col-xs-12">
+            <p class="col-xs-2 "> <b>Email: </p>  {%if add== false%}<p class="col-xs-2 labels">{{client.Email}}</p> {%endif%}<input   type="email" name="Email" class="col-xs-2 txt"{%if add== false%} value="{{client.Email}}"hidden=""{%endif%}>
+        </div>
+        <br>
+        <div class="col-xs-12">
+               <p class="col-xs-2 "> <b>Password: </p>  {%if add== false%}<p class="col-xs-2 labels"> {{client.Password}}</p>{%endif%}<input required=""  type="text" name="Password" class="col-xs-2 txt"{%if add== false%} value="{{client.Password}}"hidden=""{%endif%}>
+        </div>
+        <br>
+        <div class="col-xs-12">
+            <p class="col-xs-2 "> <b>Address: </p>  {%if add== false%}<p class="col-xs-2 labels">{{client.Address}}</p> {%endif%}<input required=""  type="text" name="Address" class="col-xs-2 txt"{%if add== false%} value="{{client.Address}}"hidden=""{%endif%}> 
+        </div>
+  
+        <br>
+        
+        <br>
+        
+              {%if add== true%}
+                  <div class="col-xs-12">
+            <input name="Add" type="submit" value="Add" class="editform btn btn-primary col-xs-1"> 
+                    </div>
+                              <br>
+                              <br>
+                              <br>
+                              <br>
+
+        {%endif%}
+    </form>
+        {%if add== false%}
+        <div class="col-xs-12">
+            <p class="col-xs-2"> <b>Subscriptions: </p>  <a href="{{ path('dashboard_marketing_clients_bundles', {'slug': client.ID}) }}"> {{counts.subcount}}</a>
+        </div>
+        <div class="col-xs-12">
+            <p class="col-xs-2"> <b>Applications: </p> <a href="{{ path('dashboard_marketing_clients_applications', {'slug': client.ID}) }}"> {{counts.appcount}}</a>
+        </div>
+        <br>
+         <br>
+         <div class="col-xs-1"></div> <div class="col-xs-1 btn btn-primary EditProfile"> Edit Profile</div> <div hidden="" class="col-xs-1 btn btn-primary cancel editform"> cancel</div><div class="col-xs-1"></div>
+         <input hidden="" type="submit" value="Edit" class="editform btn btn-primary col-xs-1"> 
+          <br>
+           <br>
+            <br>
+             <br><br>
+             <br>
+             {%endif%}
+    
+{%endblock%}

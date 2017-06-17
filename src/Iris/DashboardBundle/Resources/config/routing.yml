@@ -46,7 +46,37 @@ dashboard_dev_delete_bundle:
 dashboard_dev_edit_bundle:
     path: /dev/edit-bundle/{slug}
     defaults: { _controller: DashboardBundle:Marketing:editBundle} 
-
+dashboard_marketing_manage_application:
+    path: /marketing/manage-applications
+    defaults: { _controller: DashboardBundle:Marketing:manageApplications} 
+dashboard_marketing_clients_of_application:
+    path: /marketing/client-of-application/{slug}
+    defaults: { _controller: DashboardBundle:Marketing:showApplicationClients} 
+dashboard_marketing_manage_bundles:
+    path: /marketing/manage-bundles
+    defaults: { _controller: DashboardBundle:Marketing:manageBundles}
+dashboard_marketing_clients_of_bundles:
+    path: /marketing/clients-of-bundles/{slug}
+    defaults: { _controller: DashboardBundle:Marketing:showBundleClients} 
+dashboard_marketing_manage_clients:
+    path: /marketing/manage-clients
+    defaults: { _controller: DashboardBundle:Marketing:manageClients} 
+dashboard_marketing_delete_client:
+    path: /marketing/delete-client/{slug}
+    defaults: { _controller: DashboardBundle:Marketing:deleteClient} 
+    
+dashboard_marketing_clients_applications:
+    path: /marketing/clients-applications/{slug}
+    defaults: { _controller: DashboardBundle:Marketing:showClientApplications}
+dashboard_marketing_clients_bundles:
+    path: /marketing/clients-bundles/{slug}
+    defaults: { _controller: DashboardBundle:Marketing:showClientBundles}   
+dashboard_marketing_client_profile:
+    path: /marketing/client-profile/{slug}
+    defaults: { _controller: DashboardBundle:Marketing:showClientProfile}
+dashboard_marketing_add_client:
+    path: /marketing/add-client/
+    defaults: { _controller: DashboardBundle:Marketing:addClient} 
 admin_account:
     path: /admin/account
     defaults: {_controller: DashboardBundle:Admin:account} 

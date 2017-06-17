@@ -1,0 +1,186 @@
+{# empty Twig template #}
+{% extends 'DashboardBundle:Marketing:manage-application.html.twig'%}
+{% block head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    var edit=false;
+    function getSelected()
+    {
+        var elements=$('.select');
+        for(var i=0;i<elements.length;i++)
+        {
+            var element=$(elements.get(i));
+            if(element.css("backgroundColor")!='rgb(255, 255, 255)')
+            {
+                return element;
+            }
+        }
+        return -1;
+    }
+    function updateID()
+    {
+        var s="";
+        var element=getSelected();
+        if(element==-1)
+            return -1;
+        element=$(element).find("td");  
+        $('.StartDate').val($($(element).get(1)).html());
+       $('.EndDate').val($($(element).get(2)).html());
+   }
+        $(document).ready(function()
+     {
+         $('#deletbundle').val("");
+    $('.select').click(function(){
+        $('.select').css('background-color','white');
+        $(this).css('background-color','#5f9ea0');
+        $('#deletbundle').val($(this).find('td').find('b').html());
+        $('#editbundle').val($(this).find('td').find('b').html());
+        if(edit)
+           updateID(); 
+    });
+    $('.add-bundle').click(function()
+    {
+         $('.StartDate').val("");
+       $('.EndDate').val("");
+        $('.bundle-form').css('visibility','visible');
+        $('.Add').attr('name', 'add');
+        $('.Add').val('Add Bundle');
+        $('.options').css('visibility','visible');
+        edit=false;
+        
+    });
+     $('.edit-bundle').click(function()
+    {
+        
+        if(updateID()==-1)
+            return;
+        $('.bundle-form').css('visibility','visible');
+        $('.Add').attr('name', 'edit');
+        $('.Add').val('Edit Bundle');
+        edit=true;
+        $('.options').css('visibility','hidden');
+    });
+    });
+    </script>
+<style type="text/css">
+    h1{
+        margin: 30px 0;
+        padding: 0 200px 15px 0;
+        border-bottom: 1px solid #E5E5E5;
+    }
+	.bs-example{
+    	margin: 20px;
+    }
+    .form-style-2-heading{
+    font-weight: bold;
+    font-style: italic;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 40px;
+    margin-top:40px;
+    font-size: 15px;
+    padding-bottom: 3px;
+}
+
+.material-icons {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+</style>
+ 
+ {% endblock  %}
+
+
+{% block body %}
+
+<div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
+        <div><h4>Client Bundles</h4></div>
+<div class="datagrid">
+ <table>
+
+        <thead>
+          <tr>
+              <th>Name</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <!-- <th>Operations</th> -->
+          </tr>
+        </thead>
+
+        <tbody>
+        {% for bundle in bundles %}
+            <tr class="select" style="background-color: white">
+                          
+            <td>&nbsp;&nbsp;
+                <b>{{ bundle.Name }}</b>
+                <br style="line-height:180%;">
+                
+            </td>
+            <td>{{ bundle.Start }} </td>
+            <td>{{ bundle.End }} </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+        <form class="dataform form-horizontal" method="post" >
+               <p class="col-xs-12">
+                   
+                  </p>
+                     <p class="col-xs-2">
+                  </p>
+            <div class="add-bundle btn btn-primary col-xs-1">
+                      Add
+                  </div>
+                  
+                  <p class="col-xs-2">
+                  </p>
+                  <div class="edit-bundle btn btn-primary col-xs-1">
+                      Edit
+                  </div>
+                  <p class="col-xs-2">
+                  </p>
+                  <input type="submit" name="delete" class="btn btn-primary" value="Remove">
+        
+                  <div class="col-xs-12 bundle-form" style="margin-top: 3%;visibility: hidden" >
+                      <p class="options col-xs-1">
+                          Bundles:
+                      </p>
+                  <select name="newbundle" class="options col-xs-2">
+                      <option value="">
+                          
+                      </option>
+                       {% for bundle in allbundles %}
+                      <option value="{{bundle.ID}}">
+                          {{bundle.Name}}
+                      </option>
+                      {%endfor%}
+                  </select>
+                  <p class="col-xs-1    ">
+                      Sart Date:
+                  </p>
+                  <input class="col-xs-2 StartDate" type="date"name="StartDate" placeholder="yyyy-mm-dd">
+                   <p class="col-xs-1    ">
+                      End Date:
+                  </p>
+                  <input class="col-xs-2 EndDate" type="date"name="EndDate"placeholder="yyyy-mm-dd">
+                  <div class="col-xs-1">
+                     </div>
+                      <input type="submit" class=" Add btn btn-primary" value="Add Bundle">
+                 
+                  </div>
+                  <div class="col-xs-5">
+                      <input type="text" name="deletedbundle" vlaue="" id="deletbundle"hidden="" >
+                      <input type="text" name="editbundle" vlaue="" id="editbundle"hidden="" >
+                  </div>
+                  
+                  
+        </form>
+      
+</div>
+  
+{% endblock %}
