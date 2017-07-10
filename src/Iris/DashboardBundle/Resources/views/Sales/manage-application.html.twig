@@ -1,4 +1,4 @@
-{% extends 'DashboardBundle:Marketing:manage-bundle.html.twig'%}
+{% extends 'DashboardBundle:Sales:manage-bundle.html.twig'%}
 {% block head %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -33,7 +33,11 @@
 </style>
  
  {% endblock  %}
+{% block breadcrumb %}
 
+Sales  &rsaquo; Applications/Clients
+
+{% endblock %}
 
 {% block body %}
 
@@ -60,7 +64,7 @@
                 <b>{{ application.Name }}</b>
                 <br style="line-height:180%;">
             </td>
-            <td><a href="{{ path('dashboard_marketing_clients_of_application', {'slug': application.ID}) }}">{{ application.NumberOfClients }}</a> </td>
+            <td><a href="{{ path('dashboard_sales_clients_of_application', {'slug': application.ID}) }}">{{ application.NumberOfClients }}</a> </td>
           </tr>
           {% endfor %}
         </tbody>

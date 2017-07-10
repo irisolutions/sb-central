@@ -1,5 +1,5 @@
 {# empty Twig template #}
-{% extends 'DashboardBundle:Marketing:manage-application.html.twig'%}
+{% extends 'DashboardBundle:Sales:manage-application.html.twig'%}
 {% block head %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -34,12 +34,16 @@
 </style>
  
  {% endblock  %}
+{% block breadcrumb %}
 
+Sales  &rsaquo;  Bundles/Clients &rsaquo; {{bundlename[0]}} Clients
+
+{% endblock %}
 
 {% block body %}
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-        <div><h4>All Clients</h4></div>
+        <div><h4> {{bundlename[0]}} Clients</h4></div>
 <div class="datagrid">
  <table>
 
@@ -48,7 +52,7 @@
               <th>Name</th>
               <th>Start Date</th>
               <th>End Date</th>
-              <th>Profile</th>
+              
               <!-- <th>Operations</th> -->
           </tr>
         </thead>
@@ -60,11 +64,11 @@
             <td>&nbsp;&nbsp;
                 <b>{{ client.Name }}</b>
                 <br style="line-height:180%;">
-                
+                <a style="margin-left: 2%" href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"><span style="font-size: 10px" class="glyphicon glyphicon-user"> </span>Profile</a>
             </td>
             <td>{{ client.Start }} </td>
             <td>{{ client.End }} </td>
-            <td><a href="{{ path('dashboard_marketing_client_profile', {'slug': client.ID}) }}">View</a></td>
+            
           </tr>
           {% endfor %}
         </tbody>

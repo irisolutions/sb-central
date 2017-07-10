@@ -35,7 +35,11 @@
  
  {% endblock  %}
 
+{% block breadcrumb %}
 
+Sales  &rsaquo; Manage Bundles
+
+{% endblock %}
 {% block body %}
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
@@ -60,7 +64,7 @@
                     <a href="{{ path('dashboard_dev_edit_bundle', {'slug': bundle.ID}) }}">
                         <i class="material-icons" style="font-size:15px;">mode_edit</i>Edit
                     </a>&nbsp;&nbsp;
-                    <a href="{{ path('dashboard_dev_delete_bundle', {'slug': bundle.ID}) }}">
+                    <a onclick="return confirm('Are you sure you want to delete  {{bundle.Name}} ');" href="{{ path('dashboard_dev_delete_bundle', {'slug': bundle.ID}) }}">
                         <i class="material-icons" style="font-size:15px">delete</i>Delete
                     </a>
                 </small>

@@ -58,7 +58,7 @@ Developer Dashboard &rsaquo; Manage Applications
         <tbody>
         {% for app in applications %}
           <tr>
-            <td>&nbsp;&nbsp;<b>{{ app.Name }}</b><br style="line-height:180%;"><small> &nbsp;&nbsp;<a href="{{ path('dashboard_dev_edit_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a href="{{ path('dashboard_dev_delete_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">delete</i>Delete</a>&nbsp;&nbsp;<a href="{{ path('dashboard_dev_manage_version', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">view_list</i>Versions</a></small></td>
+            <td>&nbsp;&nbsp;<b>{{ app.Name }}</b><br style="line-height:180%;"><small> &nbsp;&nbsp;<a href="{{ path('dashboard_dev_edit_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a onclick="return confirm('Are you sure you want to delete  {{app.Name}} ');" href="{{ path('dashboard_dev_delete_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">delete</i>Delete</a>&nbsp;&nbsp;<a href="{{ path('dashboard_dev_manage_version', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">view_list</i>Versions</a></small></td>
             <td> {{ app.Count }}</td>
             <td>{{ app.ID }}</td>
             <td>{{ app.Price }}$ </td>

@@ -1,5 +1,5 @@
 {# empty Twig template #}
-{% extends 'DashboardBundle:Marketing:manage-application.html.twig'%}
+{% extends 'DashboardBundle:Sales:manage-application.html.twig'%}
 {% block head %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -34,20 +34,27 @@
 </style>
  
  {% endblock  %}
+{% block breadcrumb %}
 
+Sales &rsaquo; Applications/Clients  &rsaquo; {{applicationname[0]}} Clients
+
+{% endblock %}
 
 {% block body %}
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-        <div><h4>All Clients</h4></div>
+        <div><h4>{{applicationname[0]}} Clients</h4></div>
 <div class="datagrid">
  <table>
 
         <thead>
           <tr>
               <th>Name</th>
-              <th>Version</th>
-              <th>Profile</th>
+              <th>Downloaded Version</th>
+              <th>Downloaded Date</th> 
+              <th>Installed Version</th>
+              <th>Installation Date</th> 
+         
               <!-- <th>Operations</th> -->
           </tr>
         </thead>
@@ -59,10 +66,13 @@
             <td>&nbsp;&nbsp;
                 <b>{{ client.Name }}</b>
                 <br style="line-height:180%;">
-                
+                <a style="margin-left: 8%" href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"><span style="font-size: 10px" class="glyphicon glyphicon-user"> </span>Profile</a>
             </td>
-            <td>{{ client.Version }} </td>
-            <td><a href="{{ path('dashboard_marketing_client_profile', {'slug': client.ID}) }}">View</a></td>
+            <td>{%if client.DownlodedVersion%} {{ client.DownlodedVersion }}{%else%}not avilable{%endif%} </td>
+            <td>{%if client.DownloadDate %}{{ client.DownloadDate }}{%else%}not avilable{%endif%} </td>
+            <td>{%if client.InstalledVersion%}{{ client.InstalledVersion }}{%else%}not avilable{%endif%} </td>
+            <td>{%if client.InstalledVersion%}{{ client.InstallationDate }}{%else%}not avilable{%endif%} </td>
+           
           </tr>
           {% endfor %}
         </tbody>

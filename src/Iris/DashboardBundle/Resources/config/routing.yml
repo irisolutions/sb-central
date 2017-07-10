@@ -32,51 +32,51 @@ dashboard_dev_delete_version:
     defaults: { _controller: DashboardBundle:Developer:deleteVersion} 
 
 
-dashboard_marketing_new_bundle:
-    path: /marketing/new-bundle
-    defaults: { _controller: DashboardBundle:Marketing:newBundle}      
+dashboard_sales_new_bundle:
+    path: /sales/new-bundle
+    defaults: { _controller: DashboardBundle:Sales:newBundle}      
     
-dashboard_marketing_manage_bundle:
-    path: /marketing/manage-bundle
-    defaults: { _controller: DashboardBundle:Marketing:manageBundle} 
+dashboard_sales_manage_bundle:
+    path: /sales/manage-bundle
+    defaults: { _controller: DashboardBundle:Sales:manageBundle} 
 
 dashboard_dev_delete_bundle:
     path: /dev/delete-bundle/{slug}
-    defaults: { _controller: DashboardBundle:Marketing:deleteBundle} 
+    defaults: { _controller: DashboardBundle:Sales:deleteBundle} 
 dashboard_dev_edit_bundle:
     path: /dev/edit-bundle/{slug}
-    defaults: { _controller: DashboardBundle:Marketing:editBundle} 
-dashboard_marketing_manage_application:
-    path: /marketing/manage-applications
-    defaults: { _controller: DashboardBundle:Marketing:manageApplications} 
-dashboard_marketing_clients_of_application:
-    path: /marketing/client-of-application/{slug}
-    defaults: { _controller: DashboardBundle:Marketing:showApplicationClients} 
-dashboard_marketing_manage_bundles:
-    path: /marketing/manage-bundles
-    defaults: { _controller: DashboardBundle:Marketing:manageBundles}
-dashboard_marketing_clients_of_bundles:
-    path: /marketing/clients-of-bundles/{slug}
-    defaults: { _controller: DashboardBundle:Marketing:showBundleClients} 
-dashboard_marketing_manage_clients:
-    path: /marketing/manage-clients
-    defaults: { _controller: DashboardBundle:Marketing:manageClients} 
-dashboard_marketing_delete_client:
-    path: /marketing/delete-client/{slug}
-    defaults: { _controller: DashboardBundle:Marketing:deleteClient} 
+    defaults: { _controller: DashboardBundle:Sales:editBundle} 
+dashboard_sales_manage_application:
+    path: /sales/manage-applications
+    defaults: { _controller: DashboardBundle:Sales:manageApplications} 
+dashboard_sales_clients_of_application:
+    path: /sales/client-of-application/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showApplicationClients} 
+dashboard_sales_manage_bundles:
+    path: /sales/manage-bundles
+    defaults: { _controller: DashboardBundle:Sales:manageBundles}
+dashboard_sales_clients_of_bundles:
+    path: /sales/clients-of-bundles/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showBundleClients} 
+dashboard_sales_manage_clients:
+    path: /sales/manage-clients
+    defaults: { _controller: DashboardBundle:Sales:manageClients} 
+dashboard_sales_delete_client:
+    path: /sales/delete-client/{slug}
+    defaults: { _controller: DashboardBundle:Sales:deleteClient} 
     
-dashboard_marketing_clients_applications:
-    path: /marketing/clients-applications/{slug}
-    defaults: { _controller: DashboardBundle:Marketing:showClientApplications}
-dashboard_marketing_clients_bundles:
-    path: /marketing/clients-bundles/{slug}
-    defaults: { _controller: DashboardBundle:Marketing:showClientBundles}   
-dashboard_marketing_client_profile:
-    path: /marketing/client-profile/{slug}
-    defaults: { _controller: DashboardBundle:Marketing:showClientProfile}
-dashboard_marketing_add_client:
-    path: /marketing/add-client/
-    defaults: { _controller: DashboardBundle:Marketing:addClient} 
+dashboard_sales_clients_applications:
+    path: /sales/clients-applications/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showClientApplications}
+dashboard_sales_clients_bundles:
+    path: /sales/clients-bundles/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showClientBundles}   
+dashboard_sales_client_profile:
+    path: /sales/client-profile/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showClientProfile}
+dashboard_sales_add_client:
+    path: /sales/add-client/
+    defaults: { _controller: DashboardBundle:Sales:addClient} 
 admin_account:
     path: /admin/account
     defaults: {_controller: DashboardBundle:Admin:account} 

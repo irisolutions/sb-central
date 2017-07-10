@@ -1,10 +1,20 @@
 {# empty Twig template #}
 {# empty Twig template #}
-{% extends 'DashboardBundle:Marketing:manage-application.html.twig'%}
+{% extends 'DashboardBundle:Sales:manage-application.html.twig'%}
 {% block head %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"> 
+$(document).ready(function(){
+    $('.del').easyconfirm(); 
+ $(".del").click(function(){
+    if (!confirm("Do you want to delete")){
+      return false;
+    }
+  });
+    
+});
+</script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <style type="text/css">
@@ -35,12 +45,16 @@
 </style>
  
  {% endblock  %}
+{% block breadcrumb %}
 
+Sales  &rsaquo; Manage Clients
+
+{% endblock %}
 
 {% block body %}
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-        <div><h4>All Clients</h4></div>
+    <div class="del"><h4>All Clients</h4></div>
 <div class="datagrid">
  <table>
 
@@ -50,7 +64,6 @@
               <th>Name</th>
               <th>Bundles</th>
               <th>Applications</th>
-              <th>Profile</th>
               <!-- <th>Operations</th> -->
               
           </tr>
@@ -63,11 +76,12 @@
             <td>&nbsp;&nbsp;
                 <b>{{ client.Name }}</b>
                 <br style="line-height:180%;">
-                <a href="{{ path('dashboard_marketing_delete_client', {'slug': client.ID}) }}" style="margin-left: 4%"> <i class="material-icons" style="font-size:15px">delete</i>Delete</a>
+                <a onclick="return confirm('Are you sure you want to delete  {{client.Name}} ');" href="{{ path('dashboard_sales_delete_client', {'slug': client.ID}) }}" style="margin-left: 4%"> <i class="material-icons" style="font-size:15px">delete</i>Delete</a>
+                <a  href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"style="margin-left: 4%"><i class="material-icons" style="font-size:15px">mode_edit</i>View/Edit</a> 
             </td>
-            <td><a href="{{ path('dashboard_marketing_clients_bundles', {'slug': client.ID}) }}">{{ client.numberOfBundles }}</a> </td>
-          <td><a href="{{ path('dashboard_marketing_clients_applications', {'slug': client.ID}) }}">{{ client.numberOfApplications }}</a> </td>
-          <td><a href="{{ path('dashboard_marketing_client_profile', {'slug': client.ID}) }}">View/Edit</a>      </td>
+            <td><a href="{{ path('dashboard_sales_clients_bundles', {'slug': client.ID}) }}">{{ client.numberOfBundles }}</a> </td>
+          <td><a href="{{ path('dashboard_sales_clients_applications', {'slug': client.ID}) }}">{{ client.numberOfApplications }}</a> </td>
+      
           </tr>
           {% endfor %}
         </tbody>
@@ -75,7 +89,7 @@
           
       </div>
         <br>
-   <a href="{{ path('dashboard_marketing_add_client') }}" class="btn btn-primary">Add New Client</a>
+  
       
 </div>
   

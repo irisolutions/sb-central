@@ -1,5 +1,5 @@
 {# empty Twig template #}
-{% extends 'DashboardBundle:Marketing:manage-application.html.twig'%}
+{% extends 'DashboardBundle:Sales:manage-application.html.twig'%}
 {% block head %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -46,9 +46,12 @@
          $('.StartDate').val("");
        $('.EndDate').val("");
         $('.bundle-form').css('visibility','visible');
+        $('.bundle-form').removeAttr('hidden');
         $('.Add').attr('name', 'add');
         $('.Add').val('Add Bundle');
+        
         $('.options').css('visibility','visible');
+        $('.options').removeAttr('hidden');
         edit=false;
         
     });
@@ -58,10 +61,12 @@
         if(updateID()==-1)
             return;
         $('.bundle-form').css('visibility','visible');
+        $('.bundle-form').removeAttr('hidden');
         $('.Add').attr('name', 'edit');
-        $('.Add').val('Edit Bundle');
+        $('.Add').val('Edit Subscription');
         edit=true;
         $('.options').css('visibility','hidden');
+        $('.options').attr('hidden','true');
     });
     });
     </script>
@@ -93,13 +98,17 @@
 </style>
  
  {% endblock  %}
+{% block breadcrumb %}
 
+Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Bundles
+
+{% endblock %}
 
 {% block body %}
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-        <div><h4>Client Bundles</h4></div>
-<div class="datagrid">
+        <div><h4>{{clientname[0]}} Bundles</h4></div>
+        <div class="datagrid" style="margin-bottom: 5%">
  <table>
 
         <thead>
@@ -127,26 +136,23 @@
         </tbody>
       </table>
       </div>
-        <form class="dataform form-horizontal" method="post" >
-               <p class="col-xs-12">
-                   
-                  </p>
-                     <p class="col-xs-2">
-                  </p>
+        
+        <form class="dataform form-horizontal col-xs-12" method="post" >
             <div class="add-bundle btn btn-primary col-xs-1">
                       Add
                   </div>
                   
-                  <p class="col-xs-2">
+                  <p class="col-xs-1">
                   </p>
                   <div class="edit-bundle btn btn-primary col-xs-1">
                       Edit
                   </div>
-                  <p class="col-xs-2">
+                  <p class="col-xs-1">
                   </p>
-                  <input type="submit" name="delete" class="btn btn-primary" value="Remove">
+                  <input onclick=" return confirm('Are you sure you want to delete  this application ');" type="submit" name="delete" class="btn btn-primary" value="Remove">
         
                   <div class="col-xs-12 bundle-form" style="margin-top: 3%;visibility: hidden" >
+                      <div class="form-style-2-heading "> Subscription info </div>
                       <p class="options col-xs-1">
                           Bundles:
                       </p>
@@ -160,27 +166,25 @@
                       </option>
                       {%endfor%}
                   </select>
-                  <p class="col-xs-1    ">
+                  <p class="col-xs-2   " style="text-align: right">
                       Sart Date:
                   </p>
                   <input class="col-xs-2 StartDate" type="date"name="StartDate" placeholder="yyyy-mm-dd">
-                   <p class="col-xs-1    ">
+                   <p class="col-xs-2    "style="text-align: right">
                       End Date:
                   </p>
                   <input class="col-xs-2 EndDate" type="date"name="EndDate"placeholder="yyyy-mm-dd">
-                  <div class="col-xs-1">
-                     </div>
-                      <input type="submit" class=" Add btn btn-primary" value="Add Bundle">
-                 
+                  <div class="col-xs-12" style="margin-top: 3%">
+                     
+                      <input style="border:4px solid #aaa;margin-bottom: 5% " type="submit" class=" Add btn btn-primary" value="Add Bundle">
+                 </div>
                   </div>
                   <div class="col-xs-5">
                       <input type="text" name="deletedbundle" vlaue="" id="deletbundle"hidden="" >
                       <input type="text" name="editbundle" vlaue="" id="editbundle"hidden="" >
                   </div>
-                  
-                  
+
         </form>
-      
 </div>
   
 {% endblock %}

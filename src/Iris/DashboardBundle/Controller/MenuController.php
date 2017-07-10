@@ -37,21 +37,21 @@ public function indexAction()
     	
     		$commands[] =  array('path'=>'','icon'=>'','name'=>'Bundles');
     		
-         	$commands[] =  array('path'=>'dashboard_marketing_new_bundle','icon'=>'add_to_photos','name'=>'New Bundle');
+         	$commands[] =  array('path'=>'dashboard_sales_new_bundle','icon'=>'add_to_photos','name'=>'New Bundle');
          	
-            $commands[] =  array('path'=>'dashboard_marketing_manage_bundle','icon'=>'view_list','name'=>'Manage Bundles');
+            $commands[] =  array('path'=>'dashboard_sales_manage_bundle','icon'=>'view_list','name'=>'Manage Bundles');
             
             //
             
             $commands[] =  array('path'=>'','icon'=>'','name'=>'Clients');
             
-            $commands[] =  array('path'=>'dashboard_marketing_add_client','icon'=>'add_circle_outline','name'=>'New Client');
+            $commands[] =  array('path'=>'dashboard_sales_add_client','icon'=>'add_circle_outline','name'=>'New Client');
             
-            $commands[] =  array('path'=>'dashboard_marketing_manage_clients','icon'=>'view_list','name'=>'Manage Clients');
+            $commands[] =  array('path'=>'dashboard_sales_manage_clients','icon'=>'view_list','name'=>'Manage Clients');
     		
-         	$commands[] =  array('path'=>'dashboard_marketing_manage_application','icon'=>'account_box','name'=>'Applications/Clients');
+         	$commands[] =  array('path'=>'dashboard_sales_manage_application','icon'=>'account_box','name'=>'Applications/Clients');
          	
-            $commands[] =  array('path'=>'dashboard_marketing_manage_bundles','icon'=>'contacts','name'=>'Bundles/Clients');
+            $commands[] =  array('path'=>'dashboard_sales_manage_bundles','icon'=>'contacts','name'=>'Bundles/Clients');
             
             
            

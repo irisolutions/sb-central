@@ -19,7 +19,7 @@ use PDO;
 //warning (yellow)
 //danger (red)
 
-class MarketingController extends Controller 
+class SalesController extends Controller 
 {
 
 
@@ -44,18 +44,20 @@ public function manageBundleAction()
     	
 
     	$stmt = $conn->prepare('SELECT Bundle.ID, Bundle.Name ,sum(Price) as Price FROM Application ,Bundle,BundleApplication
-  WHERE 
-Application.ID=BundleApplication.ApplicationID and
-Bundle.ID=BundleApplication.BundleID and Application.ID in (
+                                WHERE 
+                                Application.ID=BundleApplication.ApplicationID and
+                                Bundle.ID=BundleApplication.BundleID and Application.ID in (
 
-SELECT ApplicationID FROM BundleApplication
-                    WHERE BundleID=Bundle.ID) group by Bundle.ID');
+                                SELECT ApplicationID FROM BundleApplication
+                                WHERE BundleID=Bundle.ID) group by Bundle.ID'
+                            );
+        
 		$stmt->execute();
 		
 		$bundle = $stmt->fetchAll();
 		
 	
-    	return $this->render('DashboardBundle:Marketing:manage-bundle.html.twig', array(
+    	return $this->render('DashboardBundle:Sales:manage-bundle.html.twig', array(
                     'bundles' => $bundle));  
 }
 
@@ -117,7 +119,7 @@ public function newBundleAction()
             {
                 $stmt->execute([$bundle_id,$app_identifiers[$i]]);
             }
-            return $this->render('DashboardBundle:Marketing:new-update-delete-bundle-result.html.twig');
+            return $this->render('DashboardBundle:Sales:new-update-delete-bundle-result.html.twig');
 
             
         }
@@ -145,7 +147,7 @@ public function newBundleAction()
         }
     	$applications = $stmt->fetchAll();
         
-return $this->render('DashboardBundle:Marketing:new-update-bundle.html.twig',array('update'=>false,'apps'=>$applications));         
+        return $this->render('DashboardBundle:Sales:new-update-bundle.html.twig',array('update'=>false,'apps'=>$applications));         
 }
 public function editBundleAction($slug)
 {
@@ -219,9 +221,10 @@ public function editBundleAction($slug)
                 $request->getSession()->getFlashBag()->add('danger', $error);
                 return $this->redirect($request->headers->get('referer'));
             }
-            return $this->render('DashboardBundle:Marketing:new-update-delete-bundle-result.html.twig');
+            return $this->render('DashboardBundle:Sales:new-update-delete-bundle-result.html.twig');
             
         }
+        //post method not used default page here
         $bundle_id=$slug;    
         $dbname     = $this->container->getParameter('store_database_name');
     	$username   = $this->container->getParameter('store_database_user');
@@ -233,8 +236,8 @@ public function editBundleAction($slug)
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
         //get application list inside bundle
         $stmt = $conn->prepare('SELECT  * FROM Application
-  WHERE ID  in (SELECT ApplicationID FROM BundleApplication
-                    WHERE BundleID=?);');
+                                WHERE ID  in (SELECT ApplicationID FROM BundleApplication
+                                WHERE BundleID=?);');
         try
         {
             $stmt->execute([$bundle_id]);
@@ -261,8 +264,8 @@ public function editBundleAction($slug)
         $bundle=$stmt->fetchAll()[0];
         //get application that are not inside bundle
     	$stmt = $conn->prepare('SELECT  * FROM Application
-  WHERE ID NOT in (SELECT ApplicationID FROM BundleApplication
-                    WHERE BundleID=?);');
+                                WHERE ID NOT in (SELECT ApplicationID FROM BundleApplication
+                                WHERE BundleID=?);');
         try
         {
             $stmt->execute([$bundle_id]);
@@ -274,7 +277,7 @@ public function editBundleAction($slug)
             return $this->redirect($request->headers->get('referer'));
         }
     	$applications = $stmt->fetchAll();
-return $this->render('DashboardBundle:Marketing:new-update-bundle.html.twig',array('update'=>true,'apps'=>$applications,'bundle'=>$bundle,'appsOfBundle'=>$apps_of_Bundle));     
+        return $this->render('DashboardBundle:Sales:new-update-bundle.html.twig',array('update'=>true,'apps'=>$applications,'bundle'=>$bundle,'appsOfBundle'=>$apps_of_Bundle));     
     
 }
 public function deleteBundleAction($slug)
@@ -325,14 +328,14 @@ public function deleteBundleAction($slug)
             $request->getSession()->getFlashBag()->add('danger', $error);
             return $this->redirect($request->headers->get('referer'));
         }
-            return $this->render('DashboardBundle:Marketing:new-update-delete-bundle-result.html.twig');
+        return $this->render('DashboardBundle:Sales:new-update-delete-bundle-result.html.twig');
 
 }
 
 public function manageApplicationsAction()
 {
-    $request=$this->get('request');
-    //connect to database
+        $request=$this->get('request');
+        //connect to database
         $dbname     = $this->container->getParameter('store_database_name');
     	$username   = $this->container->getParameter('store_database_user');
     	$password   = $this->container->getParameter('store_database_password');
@@ -353,8 +356,8 @@ public function manageApplicationsAction()
             return $this->redirect($request->headers->get('referer'));
         }
         $applications=$stmt->fetchAll();
-      return $this->render('DashboardBundle:Marketing:manage-application.html.twig', array(
-                    'applications' => $applications));  
+      return $this->render('DashboardBundle:Sales:manage-application.html.twig', array(
+                           'applications' => $applications));  
 }
 public function showApplicationClientsAction($slug)
 {
@@ -369,10 +372,33 @@ public function showApplicationClientsAction($slug)
     	// set the PDO error mode to exception
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //get application clients
-    	$stmt = $conn->prepare('Select *,(select Version from ControllerInstallation as cont where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and DownloadDate in(select max(cont.DownloadDate) as m from ControllerInstallation as cont where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )) as Version from Purchase,Client where ApplicationID=? and Client.ID=ClientID');   		
-            	try
+    	$stmt = $conn->prepare('Select *,'
+                . '(select DownloadDate from ControllerInstallation as cont '
+                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and DownloadDate '
+                . 'in(select max(cont.DownloadDate) as m from ControllerInstallation as cont '
+                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )'
+                . ') as DownloadDate,'
+                . '(select InstallationDate from ControllerInstallation as cont '
+                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and InstallationDate '
+                . 'in(select max(cont.InstallationDate) as m from ControllerInstallation as cont '
+                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )'
+                . ') as InstallationDate,'
+                . '(select Version from ControllerInstallation as cont '
+                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and InstallationDate '
+                . 'in(select max(cont.InstallationDate) as m from ControllerInstallation as cont '
+                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )'
+                . ') as InstalledVersion,'
+                . '(select Version from ControllerInstallation as cont '
+                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and DownloadDate '
+                . 'in(select max(cont.DownloadDate) as m from ControllerInstallation as cont '
+                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )) as DownlodedVersion'
+                . ' from Purchase,Client '
+                . 'where ApplicationID=? and Client.ID=ClientID');   		
+    	$stmt2 = $conn->prepare('Select Name from Application where ID=?');   		
+        try
     	{	
             $stmt->execute([$applicationID]);
+            $stmt2->execute([$applicationID]);
        	}
        	catch (\PDOException $e)
        	{
@@ -382,9 +408,9 @@ public function showApplicationClientsAction($slug)
         }
         
         $clients=$stmt->fetchAll();
-        
-      return $this->render('DashboardBundle:Marketing:show-application-clients.html.twig', array(
-                    'clients' => $clients)); 
+        $applicationname=$stmt2->fetchAll()[0];
+      return $this->render('DashboardBundle:Sales:show-application-clients.html.twig', array(
+                           'clients' => $clients,'applicationname'=>$applicationname)); 
       
 }
 public function manageBundlesAction()
@@ -411,7 +437,7 @@ public function manageBundlesAction()
             return $this->redirect($request->headers->get('referer'));
         }
         $Bundles=$stmt->fetchAll();
-      return $this->render('DashboardBundle:Marketing:manage-bundles.html.twig', array(
+      return $this->render('DashboardBundle:Sales:manage-bundles.html.twig', array(
                     'bundles' => $Bundles));
 }
 public function showBundleClientsAction($slug)
@@ -427,10 +453,12 @@ public function showBundleClientsAction($slug)
     	// set the PDO error mode to exception
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //get Bundle  clients
-    	$stmt = $conn->prepare('Select * from Subscription,Client where BundleID=? and Client.ID=ClientID');   		
-            	try
+    	$stmt = $conn->prepare('Select * from Subscription,Client where BundleID=? and Client.ID=ClientID'); 
+        $stmt2 = $conn->prepare('Select Name from Bundle where ID=?');        
+        try
     	{	
             $stmt->execute([$BundleID]);
+            $stmt2->execute([$BundleID]);
        	}
        	catch (\PDOException $e)
        	{
@@ -439,8 +467,9 @@ public function showBundleClientsAction($slug)
             return $this->redirect($request->headers->get('referer'));
         }
         $clients=$stmt->fetchAll();
-      return $this->render('DashboardBundle:Marketing:show-bundle-clients.html.twig', array(
-                    'clients' => $clients)); 
+        $BundleName=$stmt2->fetchAll()[0];
+      return $this->render('DashboardBundle:Sales:show-bundle-clients.html.twig', array(
+                    'clients' => $clients , 'bundlename'=>$BundleName)); 
 }
 public function manageClientsAction()
 {
@@ -466,7 +495,7 @@ public function manageClientsAction()
             return $this->redirect($request->headers->get('referer'));
         }
         $clients=$stmt->fetchAll();
-     return $this->render('DashboardBundle:Marketing:manage-clients.html.twig', array(
+     return $this->render('DashboardBundle:Sales:manage-clients.html.twig', array(
                     'clients' => $clients));
 }
 public function showClientBundlesAction($slug)
@@ -638,9 +667,11 @@ public function showClientBundlesAction($slug)
         $bundles=$stmt->fetchAll();
         //this for the list of bundles that client are not subscripe when add subscription
         $stmt = $conn->prepare('select * from Bundle where ID not in (Select BundleID from Subscription,Bundle where BundleID=Bundle.ID and ClientID=?)');   		
-            	try
+        $stmt2 = $conn->prepare('select Name from Client where ID=?');   		
+        try
     	{	
             $stmt->execute([$ClientID]);
+            $stmt2->execute([$ClientID]);
        	}
        	catch (\PDOException $e)
        	{
@@ -649,8 +680,9 @@ public function showClientBundlesAction($slug)
             return $this->redirect($request->headers->get('referer'));
         }
         $allbundles=$stmt->fetchAll();
-      return $this->render('DashboardBundle:Marketing:show-client-bundles.html.twig', array(
-                    'bundles' => $bundles,'allbundles'=>$allbundles)); 
+        $ClientName=$stmt2->fetchAll()[0];
+      return $this->render('DashboardBundle:Sales:show-client-bundles.html.twig', array(
+                           'bundles' => $bundles,'allbundles'=>$allbundles,'clientname'=>$ClientName)); 
        
 }
 public function showClientApplicationsAction($slug)
@@ -747,7 +779,28 @@ public function showClientApplicationsAction($slug)
         }
 
         //get applications 
-    	$stmt = $conn->prepare('Select *,( (select Version from ControllerInstallation as cont where clientID=Purchase.ClientID and ApplicationID=Purchase.ApplicationID and DownloadDate in(select max(cont.DownloadDate) as m from ControllerInstallation as cont where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID ))) as Version from Purchase,Application where ApplicationID=Application.ID and ClientID=?');   		
+    	$stmt = $conn->prepare('Select *,
+                                (select DownloadDate from ControllerInstallation as cont 
+                                    where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and DownloadDate 
+                                      in(select max(cont.DownloadDate) as m from ControllerInstallation as cont 
+                                         where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )
+                                ) as DownloadDate,
+                                (select Version from ControllerInstallation as cont
+                                    where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and DownloadDate 
+                                        in(select max(cont.DownloadDate) as m from ControllerInstallation as cont
+                                            where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )
+                                ) as DownloadedVersion ,
+                                (select InstallationDate from ControllerInstallation as cont 
+                                    where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and InstallationDate 
+                                      in(select max(cont.InstallationDate) as m from ControllerInstallation as cont 
+                                         where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )
+                                ) as InstallationDate,
+                                (select Version from ControllerInstallation as cont
+                                    where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and InstallationDate 
+                                        in(select max(cont.InstallationDate) as m from ControllerInstallation as cont
+                                            where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )
+                                ) as InstalledVersion 
+                                from Purchase,Application where ApplicationID=Application.ID and ClientID=?');   		
             	try
     	{	
             $stmt->execute([$ClientID]);
@@ -761,9 +814,11 @@ public function showClientApplicationsAction($slug)
         $applications=$stmt->fetchAll();
         //get the application that the client does not have
         $stmt = $conn->prepare('Select *  from Application where Application.ID not in(select  ApplicationID from Purchase where ClientID=?)');   		
-            	try
+        $stmt2 = $conn->prepare('Select Name from Client where ID=?');   		    	
+        try
     	{	
             $stmt->execute([$ClientID]);
+            $stmt2->execute([$ClientID]);
        	}
        	catch (\PDOException $e)
        	{
@@ -772,8 +827,9 @@ public function showClientApplicationsAction($slug)
             return $this->redirect($request->headers->get('referer'));
         }
         $apps=$stmt->fetchAll();
-      return $this->render('DashboardBundle:Marketing:show-client-applications.html.twig', array(
-                    'applications' => $applications,'apps'=>$apps)); 
+        $ClientName=$stmt2->fetchAll()[0];
+      return $this->render('DashboardBundle:Sales:show-client-applications.html.twig', array(
+                           'applications' => $applications,'apps'=>$apps,'clientname'=>$ClientName)); 
 }
 public function showClientProfileAction($slug)
 {
@@ -808,7 +864,7 @@ public function showClientProfileAction($slug)
                 return $this->redirect($request->headers->get('referer'));
               }
               $request->getSession()->getFlashBag()->add('success', "Client Profile Updated Successfully");
-                        return $this->redirect($this->generateUrl('dashboard_marketing_client_profile',array('slug' => $ID)));
+                        return $this->redirect($this->generateUrl('dashboard_sales_client_profile',array('slug' => $ID)));
             }
             //if not update show the client 
         $stmt = $conn->prepare('select * from Client where ID=?');   		
@@ -837,7 +893,7 @@ public function showClientProfileAction($slug)
         }
         $counts=$stmt->fetchAll();
         $counts=$counts[0];
-    return $this->render('DashboardBundle:Marketing:client-profile-page.html.twig', array(
+    return $this->render('DashboardBundle:Sales:client-profile-page.html.twig', array(
                     'client' => $client,'counts'=>$counts,'add'=>false));
 }
 public function addClientAction()
@@ -870,9 +926,9 @@ public function addClientAction()
                 return $this->redirect($request->headers->get('referer'));
               }
               $request->getSession()->getFlashBag()->add('success', "Client Added Successfully");
-                        return $this->redirect($this->generateUrl('dashboard_marketing_manage_clients'));
+                        return $this->redirect($this->generateUrl('dashboard_sales_manage_clients'));
             }
-    return $this->render('DashboardBundle:Marketing:client-profile-page.html.twig', array(
+    return $this->render('DashboardBundle:Sales:client-profile-page.html.twig', array(
                     'add'=>true));
 }
 public function deleteClientAction($slug)
@@ -907,7 +963,7 @@ public function deleteClientAction($slug)
                 return $this->redirect($request->headers->get('referer'));
               }
               $request->getSession()->getFlashBag()->add('success', "Client Deleted Successfully");
-              return $this->redirect($this->generateUrl('dashboard_marketing_manage_clients'));
+              return $this->redirect($this->generateUrl('dashboard_sales_manage_clients'));
               
 }
 }
