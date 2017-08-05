@@ -846,28 +846,7 @@ public function deleteAppAction($slug)
         	// if we are here then metadata file is deleted and all that is left is to remove all traces of the file from the DB
         	
         	
-    		$stmt = $conn->prepare('DELETE FROM Application WHERE ApplicationID = ? AND Version = ?');
-    		
-    		try
-    		{
-    		
-				$stmt->execute([$app_identifier,$app_version]);
-        	}
-        	catch (\PDOException $e)
-        	{
-        		// if something goes wrong we fail
-        	
-        		//throw $e;
-        		
-        	
-    			$error = 'Operation Aborted ..'.$e->getMessage();
-        		
-        		$request->getSession()->getFlashBag()->add('danger', $error);
-        		return $this->redirect($request->headers->get('referer'));
-        	
-        	}
-        	
-        	$stmt = $conn->prepare('DELETE FROM BundleApplication WHERE ID = ?');
+    		$stmt = $conn->prepare('DELETE FROM Application WHERE ID = ? ');
     		
     		try
     		{
@@ -888,7 +867,7 @@ public function deleteAppAction($slug)
         	
         	}
         	
-        	$stmt = $conn->prepare('DELETE FROM ControllerInstallation WHERE ID = ?');
+        	$stmt = $conn->prepare('DELETE FROM BundleApplication WHERE ApplicationID = ?');
     		
     		try
     		{
@@ -909,7 +888,7 @@ public function deleteAppAction($slug)
         	
         	}
         	
-        	$stmt = $conn->prepare('DELETE FROM DongleInstallation WHERE ID = ?');
+        	$stmt = $conn->prepare('DELETE FROM ControllerInstallation WHERE ApplicationID = ?');
     		
     		try
     		{
@@ -930,7 +909,7 @@ public function deleteAppAction($slug)
         	
         	}
         	
-        	$stmt = $conn->prepare('DELETE FROM Purchase WHERE ID = ?');
+        	$stmt = $conn->prepare('DELETE FROM DongleInstallation WHERE ApplicationID = ?');
     		
     		try
     		{
@@ -950,7 +929,45 @@ public function deleteAppAction($slug)
         		return $this->redirect($request->headers->get('referer'));
         	
         	}
-
+        	
+        	$stmt = $conn->prepare('DELETE FROM Purchase WHERE ApplicationID = ?');
+    		
+    		try
+    		{
+    		
+				$stmt->execute([$app_identifier]);
+        	}
+        	catch (\PDOException $e)
+        	{
+        		// if something goes wrong we fail
+        	
+        		//throw $e;
+        		
+        	
+    			$error = 'Operation Aborted ..'.$e->getMessage();
+        		
+        		$request->getSession()->getFlashBag()->add('danger', $error);
+        		return $this->redirect($request->headers->get('referer'));
+        	
+        	}
+                $stmt = $conn->prepare('DELETE FROM Version WHERE ApplicationID = ?');
+    		try
+    		{
+                    $stmt->execute([$app_identifier]);
+        	}
+        	catch (\PDOException $e)
+        	{
+        		// if something goes wrong we fail
+        	
+        		//throw $e;
+        		
+        	
+    			$error = 'Operation Aborted ..'.$e->getMessage();
+        		
+        		$request->getSession()->getFlashBag()->add('danger', $error);
+        		return $this->redirect($request->headers->get('referer'));
+        	
+        	}
         	// if we are here then all is good let us launch the update script
         	
             
@@ -1035,7 +1052,7 @@ public function newAppAction()
     		// set the PDO error mode to exception
     		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
     	
-    		$stmt = $conn->prepare('INSERT INTO Application (ID,Name,Price) VALUES (?,?,?,?)');
+    		$stmt = $conn->prepare('INSERT INTO Application (ID,Name,Price) VALUES (?,?,?)');
     		
     		try
     		{
@@ -1066,7 +1083,7 @@ public function newAppAction()
         	
         	
         	
-        	$stmt = $conn->prepare('INSERT INTO Version (ID,Version,DongleAppName,ControllerAppName) VALUES (?,?,?,?)');
+        	$stmt = $conn->prepare('INSERT INTO Version (ApplicationID,Version,DongleAppName,ControllerAppName) VALUES (?,?,?,?)');
     		
     		try
     		{
