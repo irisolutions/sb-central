@@ -42,7 +42,16 @@ dashboard_sales_manage_bundle:
 
 dashboard_dev_delete_bundle:
     path: /dev/delete-bundle/{slug}
-    defaults: { _controller: DashboardBundle:Sales:deleteBundle} 
+    defaults: { _controller: DashboardBundle:Sales:deleteBundle}
+
+dashboard_dev_get_applist:
+    path: /command/appList/{slug}
+    defaults: { _controller: DashboardBundle:Command:appList}
+
+dashboard_dev_send_notification:
+    path: /command/sendNotification/{slug}
+    defaults: { _controller: DashboardBundle:PushNotifications:pushNotification}
+
 dashboard_dev_edit_bundle:
     path: /dev/edit-bundle/{slug}
     defaults: { _controller: DashboardBundle:Sales:editBundle} 

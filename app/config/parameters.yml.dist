@@ -2,7 +2,7 @@ parameters:
     database_driver:   pdo_mysql
     database_host:     127.0.0.1
     database_port:     ~
-    database_name:     fossdroid
+    database_name:     maindb
     database_user:     root
     database_password: ~
 
@@ -31,7 +31,7 @@ parameters:
     melodycode_fossdroid.remote_browser_app: "https://f-droid.org/repository/browse/?fdid="
     
     # Local path where download the icons
-    melodycode_fossdroid.local_path_icons: "/var/www/Fossdroid-Core/web/images/icons/"
+    melodycode_fossdroid.local_path_icons: "/var/www/"
     
     # how many apps to see
     melodycode_fossdroid.widget_limit: 20
