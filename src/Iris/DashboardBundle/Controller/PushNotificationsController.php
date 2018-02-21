@@ -17,7 +17,6 @@ class PushNotificationsController extends Controller
 {
     // (Android)API access key from Google API's Console.
     //new api key
-    private static $API_ACCESS_KEY = 'AAAAChyhmPI:APA91bHP89zd5cq-0E2Nhti0Ua9kKibkskRqqky9Vg-KG71pGLtA_-Yk76LJ1QCVd-Bmp5krcxJ10Hrtbx13-392No4n5jcsZlgg6UwilGlUFOWQz8DBjHol0c_su5R-xcG2y-Y3Z81p';
     private static $TABLET_API_ACCESS_KEY = 'AAAAMwr0Syo:APA91bHVHHBnH-S6GYbII46ux6rrD5Osy6AF3My_XN2OYqe3BO6PrHctFTThQX4-R8satvVdp_ZANn9n9Jr8eQYOp_dMM3_pU7KWP9OJ9Ai7BfemyD5u5PcDjonK-pIDtiUQb-RUxKlh';
     private static $DONGLE_API_ACCESS_KEY = 'AAAA45uo5ZE:APA91bHmS3bb3baBixg0-GIWYBsfQhSPCLP7G-bO4T4QUrMiwuVRmePQNpqUSgzzu7Y_jahZvPO4CVOrFYdPW5WztX96FLs42n_aVydZO6RzeyqZtJNFInDGj-l_bRAOoEWxovWIDfmq';
     // (iOS) Private key's passphrase.
@@ -60,7 +59,6 @@ class PushNotificationsController extends Controller
             'to' => '/topics/' . $topic,
             'data' => $message,
         );
-
 
 //       Send to controller by topic by token
 //        $firebase_token ='dOX4qHew9Po:APA91bHQE41QgTvJZFtaS71YlhGVBRLAzxUmba7BmGBPItXi-NlC65Z37EvWX0TGfbnROWecURseTQE5yCieQ_qitsYZaP4vGLiHTsyVcZJisqO0N4tzHELgNAe9HFsUbRK_F7xNV4TC';
