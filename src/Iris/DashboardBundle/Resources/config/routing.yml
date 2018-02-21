@@ -52,6 +52,14 @@ dashboard_dev_send_notification:
     path: /command/sendNotification/{slug}
     defaults: { _controller: DashboardBundle:PushNotifications:pushNotification}
 
+dashboard_dev_push_download_notification:
+    path: /command/pushDownloadNotification
+    defaults: { _controller: DashboardBundle:PushNotifications:pushDownloadNotification}
+
+dashboard_dev_add_token:
+    path: /command/addNewToken
+    defaults: { _controller: DashboardBundle:Tokens:addNewToken}
+
 dashboard_dev_edit_bundle:
     path: /dev/edit-bundle/{slug}
     defaults: { _controller: DashboardBundle:Sales:editBundle} 
