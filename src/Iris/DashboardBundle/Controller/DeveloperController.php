@@ -94,15 +94,20 @@ public function executeCommand($cmd)
     });
     
     $response->setStatusCode(200);
-    
+
     return $response;
 }
 
 
 public function newAppResultAction()
 {
+    $context = $this->container->get('security.context');
 
-	return $this->executeCommand('sudo -u apache /var/www/html/update-store.sh');
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
+    return $this->executeCommand('sudo -u apache /var/www/html/update-store.sh');
 
 	
 	//$output = shell_exec('sudo -u apache /var/www/html/update-store.sh 2>&1');
@@ -217,11 +222,12 @@ public function indexAction()
 
 public function manageVersionAction($slug) 
 {
-	
-		//$context = $this->container->get('security.context');
-    	
-    	//if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-    	//	return $this->redirect($this->generateUrl('homepage'));
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
     	
     	
     	$dbname = $this->container->getParameter('store_database_name');
@@ -257,11 +263,12 @@ public function manageVersionAction($slug)
 
 public function manageAppAction() 
 {
-	
-		//$context = $this->container->get('security.context');
-    	
-    	//if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-    	//	return $this->redirect($this->generateUrl('homepage'));
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
     	
     	
     	$dbname = $this->container->getParameter('store_database_name');
@@ -288,7 +295,12 @@ public function manageAppAction()
 
 public function editAppAction($slug) 
 {
-        //return new Response('<html><body>Developer Page goes here</body></html>');
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth        //return new Response('<html><body>Developer Page goes here</body></html>');
         
         // if we are here then the binary files are in place and the meta data file was created so we insert into the DB
         	
@@ -474,7 +486,12 @@ public function editAppAction($slug)
 }
 public function newVersionAction($slug) 
 {
-	
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
 	    $app_identifier = $slug;
 	
 	    $request=$this->get('request');
@@ -596,8 +613,13 @@ public function newVersionAction($slug)
 }
 public function deleteVersionAction($slug,$version) 
 {
+    $context = $this->container->get('security.context');
 
-			$app_identifier = $slug;
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
+    			$app_identifier = $slug;
 			$app_version	= $version;
 		
 		 	$request=$this->get('request');
@@ -755,8 +777,13 @@ public function deleteVersionAction($slug,$version)
 
 public function deleteAppAction($slug) 
 {
+    $context = $this->container->get('security.context');
 
-			$app_identifier = $slug;
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
+    			$app_identifier = $slug;
 		
 		 	$request=$this->get('request');
 		 	
@@ -977,8 +1004,13 @@ public function deleteAppAction($slug)
 public function newAppAction() 
 {
         //return new Response('<html><body>Developer Page goes here</body></html>');
-        
-        $request=$this->get('request');
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render("DashboardBundle:Homepage:index.html.twig");
+
+    //auth
+            $request=$this->get('request');
         
         if ($request->getMethod() == 'POST') 
         {

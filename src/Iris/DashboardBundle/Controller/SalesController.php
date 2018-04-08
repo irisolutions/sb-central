@@ -25,14 +25,15 @@ class SalesController extends Controller
 
 public function manageBundleAction() 
 {
-	
-		//$context = $this->container->get('security.context');
-    	
-    	//if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-    	//	return $this->redirect($this->generateUrl('homepage'));
-    	
-    	
-    	$dbname = $this->container->getParameter('store_database_name');
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
+
+
+    $dbname = $this->container->getParameter('store_database_name');
     	$dbuser = $this->container->getParameter('store_database_user');
     	$dbpass = $this->container->getParameter('store_database_password');
     	$dbhost = $this->container->getParameter('store_database_host');
@@ -64,7 +65,12 @@ public function manageBundleAction()
 
 public function newBundleAction() 
 {
+    $context = $this->container->get('security.context');
 
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
         $request=$this->get('request');
         
         if ($request->getMethod() == 'POST') 
@@ -151,9 +157,15 @@ public function newBundleAction()
 }
 public function editBundleAction($slug)
 {
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
     $request=$this->get('request');
-        
-        if ($request->getMethod() == 'POST') 
+
+        if ($request->getMethod() == 'POST')
         {
                 //first get the value of post variables 
         	$bundle_name		= $request->request->get('bundle-name');
@@ -282,6 +294,12 @@ public function editBundleAction($slug)
 }
 public function deleteBundleAction($slug)
 {
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+    //auth
+
     //connect to database
 	$bundle_identifier = $slug;	
         $request=$this->get('request');
@@ -334,7 +352,13 @@ public function deleteBundleAction($slug)
 
 public function manageApplicationsAction()
 {
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
         $request=$this->get('request');
+        //auth
+
         //connect to database
         $dbname     = $this->container->getParameter('store_database_name');
     	$username   = $this->container->getParameter('store_database_user');
@@ -361,6 +385,12 @@ public function manageApplicationsAction()
 }
 public function showApplicationClientsAction($slug)
 {
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
     $request=$this->get('request');
     $applicationID=$slug;
         //connect to database
@@ -415,6 +445,12 @@ public function showApplicationClientsAction($slug)
 }
 public function manageBundlesAction()
 {
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
     $request=$this->get('request');
       //connect to database
         $dbname     = $this->container->getParameter('store_database_name');
@@ -442,6 +478,12 @@ public function manageBundlesAction()
 }
 public function showBundleClientsAction($slug)
 {
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
     $request=$this->get('request');
         $BundleID=$slug;
         //connect to database
@@ -473,6 +515,12 @@ public function showBundleClientsAction($slug)
 }
 public function manageClientsAction()
 {
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
     $request=$this->get('request');
     $dbname     = $this->container->getParameter('store_database_name');
     	$username   = $this->container->getParameter('store_database_user');
@@ -500,6 +548,12 @@ public function manageClientsAction()
 }
 public function showClientBundlesAction($slug)
 {
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
     $request=$this->get('request');
           $ClientID=$slug;
         //connect to database
@@ -687,7 +741,12 @@ public function showClientBundlesAction($slug)
 }
 public function showClientApplicationsAction($slug)
 {
-    
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
     $request=$this->get('request');
           $ClientID=$slug;
                   //connect to database
@@ -833,6 +892,12 @@ public function showClientApplicationsAction($slug)
 }
 public function showClientProfileAction($slug)
 {
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
      $request=$this->get('request');
    $ClientID=$slug;
                   //connect to database
@@ -898,6 +963,12 @@ public function showClientProfileAction($slug)
 }
 public function addClientAction()
 {
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
      $request=$this->get('request');
       $dbname     = $this->container->getParameter('store_database_name');
     	$username   = $this->container->getParameter('store_database_user');
@@ -933,7 +1004,12 @@ public function addClientAction()
 }
 public function deleteClientAction($slug)
 {
-    
+    $context = $this->container->get('security.context');
+
+    if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+        return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+    //auth
        $request=$this->get('request');
        $ID=$slug;
       $dbname     = $this->container->getParameter('store_database_name');
