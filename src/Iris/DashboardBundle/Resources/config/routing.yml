@@ -64,6 +64,14 @@ dashboard_dev_get_apps:
     path: /command/getApps
     defaults: { _controller: DashboardBundle:Sync:getApps}
 
+dashboard_dev_get_controller_apps:
+    path: /command/getControllerApps
+    defaults: { _controller: DashboardBundle:AppsStatus:getControllerApps}
+
+dashboard_dev_get_dongle_apps:
+    path: /command/getDongleApps
+    defaults: { _controller: DashboardBundle:AppsStatus:getDongleApps}
+
 dashboard_dev_get_apps_sync:
     path: /command/getAppsSync
     defaults: { _controller: DashboardBundle:Sync:getAppsSync}
