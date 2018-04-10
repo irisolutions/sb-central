@@ -56,7 +56,7 @@ class SyncController extends Controller
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-        $stmt = $conn->prepare('SELECT * FROM applicationssync');
+        $stmt = $conn->prepare('SELECT * FROM Applicationssync');
         try {
             $stmt->execute();
         } catch (\PDOException $e) {
