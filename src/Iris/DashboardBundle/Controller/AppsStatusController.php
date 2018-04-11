@@ -80,4 +80,73 @@ class AppsStatusController extends Controller
         return new JsonResponse(array('success'=>false));
     }
 
-   }
+
+    public function changeControllerAppStatusAction()
+    {
+        $request = $this->get('request');
+        $dbname = $this->container->getParameter('store_database_name');
+        $username = $this->container->getParameter('store_database_user');
+        $password = $this->container->getParameter('store_database_password');
+        $servername = $this->container->getParameter('store_database_host');
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $userName = $request->request->get('UserName');
+            $appID = $request->request->get('appID');
+            $status= $request->request->get('status');
+
+            $stmt1 = $conn->prepare('update controllerinstallation set status=? where ClientID=? and ApplicationID=?');
+            try {
+                $stmt1->execute([$status,$userName,$appID]);
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+//                return $this->redirect($request->headers->get('referer'));
+                return new JsonResponse(array('success'=>false));
+            }
+//            $applications = $stmt1->fetchAll(PDO::FETCH_OBJ);
+            return new JsonResponse(array('success'=>true));
+        }
+
+        //todo -Khaled- : return status instead of status number
+        return new JsonResponse(array('success'=>false));
+    }
+
+
+    public function changeDongleAppStatusAction()
+    {
+        $request = $this->get('request');
+        $dbname = $this->container->getParameter('store_database_name');
+        $username = $this->container->getParameter('store_database_user');
+        $password = $this->container->getParameter('store_database_password');
+        $servername = $this->container->getParameter('store_database_host');
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $request = $this->get('request');
+        if ($request->getMethod() == 'POST') {
+            $userName = $request->request->get('UserName');
+            $appID = $request->request->get('appID');
+            $status= $request->request->get('status');
+
+            $stmt1 = $conn->prepare('update dongleinstallation set status=? where ClientID=? and ApplicationID=?');
+            try {
+                $stmt1->execute([$status,$userName,$appID]);
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+//                return $this->redirect($request->headers->get('referer'));
+                return new JsonResponse(array('success'=>false));
+            }
+//            $applications = $stmt1->fetchAll(PDO::FETCH_OBJ);
+            return new JsonResponse(array('success'=>true));
+        }
+
+        //todo -Khaled- : return status instead of status number
+        return new JsonResponse(array('success'=>false));
+    }
+}
