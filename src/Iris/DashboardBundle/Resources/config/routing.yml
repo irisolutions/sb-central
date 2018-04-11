@@ -66,9 +66,13 @@ dashboard_dev_get_apps:
     path: /command/getApps
     defaults: { _controller: DashboardBundle:Sync:getApps}
 
-dashboard_dev_change_app_status:
-    path: /command/changeAppStatus
+dashboard_dev_change_conrtoller_app_status:
+    path: /command/changeControllerAppStatus
     defaults: { _controller: DashboardBundle:AppsStatus:changeControllerAppStatus}
+
+dashboard_dev_change_dongle_app_status:
+    path: /command/changeDongleAppStatus
+    defaults: { _controller: DashboardBundle:AppsStatus:changeDongleAppStatus}
 
 dashboard_dev_get_controller_apps:
     path: /command/getControllerApps
