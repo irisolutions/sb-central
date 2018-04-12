@@ -38,12 +38,20 @@ application_download:
 application_:
     path: /a/{slug}
     defaults: { _controller: MelodycodeFossdroidBundle:Application:_index }
+status:
+    path: /s/{slug}
+    defaults: { _controller: MelodycodeFossdroidBundle:Application:status }
+uninstall:
+    path: /u/{slug}
+    defaults: { _controller: MelodycodeFossdroidBundle:Application:uninstall }
 application_buy:
     path: /a/{slug}/buy
-    defaults: { _controller: MelodycodeFossdroidBundle:Application:buy}    
+    defaults: { _controller: MelodycodeFossdroidBundle:Application:buy}
+
 s:
     path: /s/
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
         route: homepage
         permanent: true
+

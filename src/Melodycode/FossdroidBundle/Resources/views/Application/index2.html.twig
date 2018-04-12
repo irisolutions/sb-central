@@ -3,7 +3,8 @@
 {% block body %}
     <div id="fd-section_container">
         <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-            <div class="fd-section_header mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone" {% if application.icon %}style="background: url(/images/icons/{{ application.icon }}) center center no-repeat {{ application.primaryColor|default('#F5F5F5') }};"{% endif %}></div>
+            <div class="fd-section_header mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone"
+                 {% if application.icon %}style="background: url(/images/icons/{{ application.icon }}) center center no-repeat {{ application.primaryColor|default('#F5F5F5') }};"{% endif %}></div>
             <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
                 <div class="mdl-card__supporting-text mdl-color-text--grey-900">
                     <h4>{{ application.name }}</h4>
@@ -14,36 +15,49 @@
                         <strong>Last update</strong>: {{ application.updatedAt|date('d-m-Y') }}<br/>
                     </div>
                 </div>
-                <div style="position:absolute;right:20px;bottom:10px;background-color: lightblue;">
+
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a style="display: inline-block; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;" rel="nofollow" href="{{ path(redirection.link, {'slug': application.slug}) }}">{{redirection.label}}</a>
-                {% else %}
-    			<a style="display: inline-block; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;" rel="nofollow" href="{{ path(redirection.link) }}">{{redirection.label}}</a>
+
+                    {% if install_button_text %}
+                        <div style="position:absolute;right:20px;bottom: {% if (install_button_text=='Installing' or install_button_text=='Update' ) %} 50px {% else %} 10px {% endif %};background-color: lightblue;{% if install_button_text=='Installing' %}opacity: 0.5 {% endif %}">
+                            <a style="display: inline-block; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;"
+                               rel="nofollow" {% if install_button_text!='Installing' %}href=' {{ path('status',{'slug': application.slug}) }}                   ' {% endif %}>
+                                {{ install_button_text }}
+                            </a>
+                        </div>
+                    {% endif %}
+                    {% if uninstall %}
+
+                        <div style="position:absolute;right:20px;bottom: 10px;background-color: lightblue;">
+                            <a style="display: inline-block; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;"
+                               rel="nofollow" href='{{ path('uninstall',{'slug': application.slug}) }}'>
+                                {{ uninstall }}
+                            </a>
+                        </div>
+                    {% endif %}
                 {% endif %}
             </div>
-            </div>
-                    
-            
+
 
         </section>
         {% if bundles %}
-         <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-         <div class="mdl-cell mdl-cell--12-col" style="background-color:white">
-                <div class="mdl-card__supporting-text">
-                    <h5>Bundles:</h5>
+            <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                <div class="mdl-cell mdl-cell--12-col" style="background-color:white">
+                    <div class="mdl-card__supporting-text">
+                        <h5>Bundles:</h5>
                         {% for bundle in bundles %}
-        				<li>
-        				<a class="mdl-navigation__link" href="{{ path('bundle', {'slug': bundle.ID}) }}">
-                		{{ bundle.Name }}
-            			</a>
-            			</li>
-    					{% endfor %} 
-    					   
+                            <li>
+                                <a class="mdl-navigation__link" href="{{ path('bundle', {'slug': bundle.ID}) }}">
+                                    {{ bundle.Name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+
+                    </div>
                 </div>
-            </div>
-         
-         </section>
-         {% endif %}
+
+            </section>
+        {% endif %}
 
         <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
             <div class="mdl-card mdl-cell mdl-cell--12-col">
@@ -59,5 +73,5 @@
             <span class="visuallyhidden">Download</span>
         </a>
             #}
-    </div>    
+    </div>
 {% endblock %}
