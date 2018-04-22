@@ -65,14 +65,28 @@ class ApplicationController extends Controller
 
 
         $bundle_arr = $this->getAppBundle($application->getId());
+        $parameters= array(
+            'application' => $application,
+            'remote_browser_app' => $this->container->getParameter('melodycode_fossdroid.remote_browser_app'),
+            'redirection' => $redirection_arr,
+            'bundles' => $bundle_arr);
+        $parameters=$this->handleStatus($application,$parameters);
+        return $this->render('MelodycodeFossdroidBundle:Application:index2.html.twig',$parameters);
+        //ChromePhp::log($redirection_arr);
+        //ChromePhp::log($bundle_arr);
 
+
+
+    }
+    public function handleStatus($application,$parameters)
+    {
         //get application status
         $dbname = $this->container->getParameter('store_database_name');
         $dbuser = $this->container->getParameter('store_database_user');
         $dbpass = $this->container->getParameter('store_database_password');
         $dbhost = $this->container->getParameter('store_database_host');
         $buttonText = null;
-        $uninstallbutton = null;
+        $uninstallButton = null;
         $installationDetail=null;
         if($this->getUser())
         {
@@ -99,31 +113,24 @@ class ApplicationController extends Controller
                 if ($installationDetail['CurrentStatus'] == "none") {
                     $buttonText = "Install";
                 } elseif ($installationDetail['CurrentStatus'] == "website_downloaded") {
-                    $uninstallbutton = "Cancel";
+                    $uninstallButton = "Cancel";
                     $buttonText = "Installing";
                 } elseif ($installationDetail['CurrentStatus'] == "device_downloaded") {
-                    $uninstallbutton = "Cancel";
+                    $uninstallButton = "Cancel";
                     $buttonText = "Install";
                 } elseif ($installationDetail['CurrentStatus'] == "need_update") {
                     $buttonText = "Update";
-                    $uninstallbutton = "Uninstall";
+                    $uninstallButton = "Uninstall";
                 } elseif ($installationDetail['CurrentStatus'] == "device_installed") {
-                    $uninstallbutton = "Uninstall";
+                    $uninstallButton = "Uninstall";
                 }
             }
         }
-        //ChromePhp::log($redirection_arr);
-        //ChromePhp::log($bundle_arr);
-
-        return $this->render('MelodycodeFossdroidBundle:Application:index2.html.twig', array(
-            'application' => $application,
-            'remote_browser_app' => $this->container->getParameter('melodycode_fossdroid.remote_browser_app'),
-            'redirection' => $redirection_arr,
-            'bundles' => $bundle_arr, 'uninstall' => $uninstallbutton, 'install_button_text' => $buttonText));
-
+        $parameters['uninstall']= $uninstallButton;
+        $parameters['install_button_text']= $buttonText;
+        return $parameters;
 
     }
-
     public function statusAction($slug)
     {
         $repository = $this->getDoctrine()->getRepository('MelodycodeFossdroidBundle:Application');

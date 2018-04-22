@@ -1003,12 +1003,12 @@ class Developer1Controller extends Controller
     public function newAppUploadAction()
     {
         //return new Response('<html><body>Developer Page goes here</body></html>');
-//        $context = $this->container->get('security.context');
-//
-//        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-//            return $this->render("DashboardBundle:Homepage:index.html.twig");
-//
-//        //auth
+        $context = $this->container->get('security.context');
+
+        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+            return $this->render("DashboardBundle:Homepage:index.html.twig");
+
+        //auth
         $request=$this->get('request');
 
         if ($request->getMethod() == 'POST')
