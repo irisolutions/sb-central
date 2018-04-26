@@ -119,7 +119,6 @@ input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
 	opacity: 0.5;
 }
 
-
 /* active */
 
 input:focus ~ .highlight {
@@ -259,9 +258,16 @@ footer img:focus , footer a:focus { outline: none; }
     <input type="password" id="password" name="_password"><span class="highlight"></span><span class="bar"></span>
     <label>Password</label>
   </div>
-  <button type="submit" class="button buttonBlue">Sign In
+  <button type="submit" class="button buttonBlue" onclick="androidSignIn()">Sign In
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
   </button>
+    <script>
+        function androidSignIn() {
+            var userName = document.getElementById("username").value;
+            var Password= document.getElementById("password").value;
+            UserJavaScriptInterface.signIn(userName,Password);
+        }
+    </script>
 </form>
 <footer><a href="http://iris.ps/en/" target="_blank"><img src="http://iris.ps/en/wp-content/uploads/2015/12/iris-logo-header.jpg"></a>
 </footer>
