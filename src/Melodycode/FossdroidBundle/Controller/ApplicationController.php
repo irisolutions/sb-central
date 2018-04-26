@@ -117,7 +117,7 @@ class ApplicationController extends Controller
                     $buttonText = "Installing";
                 } elseif ($installationDetail['CurrentStatus'] == "device_downloaded") {
                     $uninstallButton = "Cancel";
-                    $buttonText = "Install";
+                    $buttonText = "Installing";
                 } elseif ($installationDetail['CurrentStatus'] == "need_update") {
                     $buttonText = "Update";
                     $uninstallButton = "Uninstall";

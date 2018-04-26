@@ -66,16 +66,19 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
         <thead>
           <tr>
               <th>Name</th>
-              <th>DownloadedVersion</th>
-              <th>DownloadDate</th>
-              <th>InstalledVersion</th>
-              <th>InstallationDate</th>
+              <th>Version</th>
+              <th>WebDownload</th>
+              <th>DeviceDownload</th>
+              <th>DeviceInstallation</th>
+              <th>Status</th>
+              <th>Subscription</th>
               <!-- <th>Operations</th> -->
           </tr>
         </thead>
 
         <tbody>
         {% for application in applications %}
+            {% if application.Version %}
             <tr class="select">
                           
             <td>&nbsp;&nbsp;
@@ -83,11 +86,14 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
                 <br style="line-height:180%;">
                 
             </td>
-            <td>{%if application.DownloadedVersion%}{{ application.DownloadedVersion }}{%else%} not available{%endif%} </td>
-            <td>{%if application.DownloadDate%}{{ application.DownloadDate }}{%else%} not available{%endif%} </td>
-            <td>{%if application.InstalledVersion%}{{ application.InstalledVersion}}{%else%} not available{%endif%}</td>
-            <td>{%if application.InstallationDate%}{{ application.InstallationDate}}{%else%} not available{%endif%}</td>
-          </tr>
+            <td style="padding-left: 10px">{{ application.Version }}</td>
+            <td style="padding-left: 10px">{%if application.WebDownloadDate%}{{ application.WebDownloadDate }}{%else%} not available{%endif%} </td>
+            <td style="padding-left: 10px">{%if application.InstallationDate%}{{ application.DeviceDownloadDate}}{%else%} not available{%endif%}</td>
+            <td style="padding-left: 10px">{%if application.InstallationDate%}{{ application.InstallationDate}}{%else%} not available{%endif%}</td>
+            <td style="padding-left: 10px">{%if application.Status%}{{ application.Status}}{%else%} not available{%endif%}</td>
+            <td style="padding-left: 10px">{%if application.Subscription%}Yes{%else%}No{%endif%}</td>
+            </tr>
+            {% endif %}
           {% endfor %}
         </tbody>
       </table>

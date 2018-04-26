@@ -589,12 +589,27 @@ public function showClientBundlesAction($slug)
                     }
                     $deletedbundleID=$stmt->fetchAll();
                     $deletedbundleID=$deletedbundleID[0][0];
-                    //dlete subscrioption  
-                    $stmt = $conn->prepare('delete from Subscription Where ClientID=? and BundleID=? '); 
-                  
+                    //delete subscription
+                  //todo delete all applicatino belogn to bundle
                     try
-                    {	
+                    {
+                        $stmt = $conn->prepare('delete from Subscription Where ClientID=? and BundleID=? ');
                         $stmt->execute([$ClientID,$deletedbundleID]);
+                        $stmt = $conn->prepare('select * from BundleApplication,Application where BundleID=? and ApplicationID=Application.ID ');
+                        $stmt->execute([$deletedbundleID]);
+                        While($app= $stmt->fetch())
+                        {
+                            if($app['Type']=='dongle')
+                            {
+                                $stmt1= $conn->prepare('delete from DongleInstallation where Subscription=true and ApplicationID=? and ClientID=? ');
+                                $stmt1->execute([$app['ApplicationID'],$ClientID]);
+                            }
+                            else
+                            {
+                                $stmt1= $conn->prepare('delete from ControllerInstallation where Subscription=true and ApplicationID=? and ClientID=? ');
+                                $stmt1->execute([$app['ApplicationID'],$ClientID]);
+                            }
+                        }
                     }
                     catch (\PDOException $e)
                     {
@@ -678,10 +693,33 @@ public function showClientBundlesAction($slug)
                 //check if data is valid if not throw exception
                 if($newbundleID&&$StartDate&&$EndDate)
                 {
-                    $stmt = $conn->prepare('Insert into Subscription (BundleID,ClientID,Start,End) values (?,?,?,?) ');   		
-                    try
-                    {	
+
+                        $stmt = $conn->prepare('Insert into Subscription (BundleID,ClientID,Start,End) values (?,?,?,?) ');
                         $stmt->execute([$newbundleID,$ClientID, $StartDate,$EndDate]);
+                        $stmt = $conn->prepare('select *, (select max(Version) from Version where ApplicationID=Application.ID ) as Version from BundleApplication,Application where BundleID=? and BundleApplication.ApplicationID=Application.ID');
+                        $stmt->execute([$newbundleID]);
+                        try{
+                            While($bundleApplication=$stmt->fetch()) {
+                                try
+                                {
+                                    if($bundleApplication['Type']=='dongle') {
+                                        $stmt2 = $conn->prepare('select * from  DongleInstallation where ApplicationID=? and ClientID=?');
+                                        $stmt2->execute([$ClientID,$bundleApplication['ApplicationID']]);
+                                        if($stmt2->fetch())
+                                            continue;
+                                        $stmt2 = $conn->prepare('Insert into DongleInstallation (ClientID,ApplicationID,Version,Status,Subscription) values (?,?,?,(select PK from Status where Status.status="none"),true) ');
+                                    }else{
+                                        $stmt2 = $conn->prepare('select * from  ControllerInstallation where ApplicationID=? and ClientID=?');
+                                        $stmt2->execute([$ClientID,$bundleApplication['ApplicationID']]);
+                                        if($stmt2->fetch())
+                                            continue;
+                                        $stmt2 = $conn->prepare('Insert into ControllerInstallation (ClientID,ApplicationID,Version,Status,Subscription) values (?,?,?,(select PK from Status where Status.status="none"),true) ');
+                                    }
+
+                                    $stmt2->execute([$ClientID,$bundleApplication['ApplicationID'],$bundleApplication['Version']]);
+                                }catch (\PDOException $e){}
+                            }
+
                     }
                     catch (\PDOException $e)
                     {
@@ -689,8 +727,8 @@ public function showClientBundlesAction($slug)
                         $request->getSession()->getFlashBag()->add('danger', $error);
                         return $this->redirect($request->headers->get('referer'));
                     }
-                   $request->getSession()->getFlashBag()->add('success', "Bundle Added Successfully");
-                        return $this->redirect($request->headers->get('referer'));
+                    $request->getSession()->getFlashBag()->add('success', "Bundle Added Successfully");
+                    return $this->redirect($request->headers->get('referer'));
                 }
                 try
                 {
@@ -778,10 +816,53 @@ public function showClientApplicationsAction($slug)
                     }
                     $deletedappID=$stmt->fetchAll();
                     $deletedappID=$deletedappID[0][0];
-                    $stmt = $conn->prepare('delete from Purchase Where ClientID=? and ApplicationID=? ');   		
                     try
-                    {	
+                    {
+                        $stmt = $conn->prepare('delete from Purchase Where ClientID=? and ApplicationID=? ');
                         $stmt->execute([$ClientID,$deletedappID]);
+                        $stmt = $conn->prepare('Select * from Application,Version where Application.id=? and ApplicationID=Application.ID');
+                        $stmt->execute([$deletedappID]);
+                        $app = $stmt->fetch();
+                        if($app['Type'] == "dongle") {
+                            //todo check if it is belong to user subscription
+                            $stmt = $conn->prepare('select * from Subscription as sb,BundleApplication as ba ,DongleInstallation as dn where dn.ClientID = ? and sb.ClientID =dn.ClientID and sb.BundleID=ba.BundleID and dn.ApplicationID=ba.ApplicationID and dn.ApplicationID= ? ');
+                            $stmt->execute([$ClientID, $app['ApplicationID']]);
+                            $result=$stmt->fetch();
+                            if($result && $result['Subscription'])
+                            {
+                                $error = 'This is application belong to subscription can not be deleted';
+                                $request->getSession()->getFlashBag()->add('danger', $error);
+                                return $this->redirect($request->headers->get('referer'));
+                            }
+                            else if($result && !$result['Subscription'])
+                            {
+                                $stmt = $conn->prepare('update DongleInstallation set Subscription=true Where ClientID=? and ApplicationID=? ');
+                            }
+                            else
+                            {
+                                $stmt = $conn->prepare('delete from DongleInstallation Where ClientID=? and ApplicationID=? ');
+                            }
+                            $stmt->execute([$ClientID, $deletedappID]);
+                        }else{
+                            $stmt = $conn->prepare('select * from Subscription as sb,BundleApplication as ba ,ControllerInstallation as dn where dn.ClientID = ? and sb.ClientID =dn.ClientID and sb.BundleID=ba.BundleID and dn.ApplicationID=ba.ApplicationID and dn.ApplicationID= ? ');
+                            $stmt->execute([$ClientID, $app['ApplicationID']]);
+                            $result=$stmt->fetch();
+                            if($result && $result['Subscription'])
+                            {
+                                $error = 'This is application belong to subscription can not be deleted';
+                                $request->getSession()->getFlashBag()->add('danger', $error);
+                                return $this->redirect($request->headers->get('referer'));
+                            }
+                            else if($result && !$result['Subscription'])
+                            {
+                                $stmt = $conn->prepare('update ControllerInstallation set Subscription=true Where ClientID=? and ApplicationID=? ');
+                            }
+                            else
+                            {
+                                $stmt = $conn->prepare('delete from ControllerInstallation Where ClientID=? and ApplicationID=? ');
+                            }
+                            $stmt->execute([$ClientID, $deletedappID]);
+                        }
                     }
                     catch (\PDOException $e)
                     {
@@ -805,13 +886,40 @@ public function showClientApplicationsAction($slug)
               }
               else
               {
-                $newappID		= $request->request->get('newapp');
+                $newappID = $request->request->get('newapp');
                 if($newappID)
                 {
-                    $stmt = $conn->prepare('Insert into Purchase (ApplicationID,ClientID,Date) values (?,?,?) ');   		
                     try
-                    {	
+                    {
+                        $stmt = $conn->prepare('Insert into Purchase (ApplicationID,ClientID,Date) values (?,?,?) ');
                         $stmt->execute([$newappID,$ClientID, date('y-m-d')]);
+                        $stmt = $conn->prepare('Select *,max(Version)as Version from Application,Version where Application.id=? and ApplicationID=Application.ID');
+                        $stmt->execute([$newappID]);
+                        $app = $stmt->fetch();
+
+                        if($app['Type'] == "dongle")
+                        {
+                            try {
+                                $stmt = $conn->prepare('Insert into DongleInstallation  (ApplicationID,ClientID,Status,Version,Subscription) values (?,?,(Select PK from Status where Status.status="none"),?,false ) ');
+                                $stmt->execute([$newappID,$ClientID,$app['Version']]);
+                            }
+                            catch (\PDOException $e)
+                            {
+                                $stmt = $conn->prepare('update DongleInstallation set Subscription false where ApplicationID=? and ClientID=? and Version=?');
+                                $stmt->execute([$newappID,$ClientID,$app['Version']]);
+                            }
+                        }
+                        else
+                        {
+                            try {
+                                $stmt = $conn->prepare('Insert into ControllerInstallation (ApplicationID,ClientID,Status,Version) values (?,?,(Select PK from Status where Status.status="none"),?,false) ');
+                                $stmt->execute([$newappID, $ClientID, $app['Version']]);
+                            }catch (\PDOException $e)
+                            {
+                                $stmt = $conn->prepare('update ControllerInstallation set Subscription=false where ApplicationID=? and ClientID=? and Version=?');
+                                $stmt->execute([$newappID,$ClientID,$app['Version']]);
+                            }
+                        }
                     }
                     catch (\PDOException $e)
                     {
@@ -837,32 +945,53 @@ public function showClientApplicationsAction($slug)
               }
         }
 
-        //get applications 
+        //get Tablet applications
     	$stmt = $conn->prepare('Select *,
-                                (select DownloadDate from ControllerInstallation as cont 
-                                    where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and DownloadDate 
-                                      in(select max(cont.DownloadDate) as m from ControllerInstallation as cont 
-                                         where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )
-                                ) as DownloadDate,
-                                (select Version from ControllerInstallation as cont
-                                    where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and DownloadDate 
-                                        in(select max(cont.DownloadDate) as m from ControllerInstallation as cont
-                                            where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )
-                                ) as DownloadedVersion ,
+                                (select WebDownloadDate from ControllerInstallation as cont 
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                ) as WebDownloadDate,
+                                 (select DeviceDownloadDate from ControllerInstallation as cont 
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                ) as DeviceDownloadDate,
+                                (select Subscription from ControllerInstallation as cont 
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                ) as Subscription,
+                                (select Version from ControllerInstallation as cont 
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                ) as Version ,
                                 (select InstallationDate from ControllerInstallation as cont 
-                                    where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and InstallationDate 
-                                      in(select max(cont.InstallationDate) as m from ControllerInstallation as cont 
-                                         where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                ) as InstallationDate,(select ss.status from ControllerInstallation as cont,Status as ss
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                    and ss.PK=cont.Status
+                                ) as Status
+                                from ControllerInstallation as outc ,Application where outc.ApplicationID=Application.ID and ClientID=?');
+          // get Dongle application
+    $stmt1 = $conn->prepare('Select *,
+                                (select WebDownloadDate from DongleInstallation as don 
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                ) as WebDownloadDate,
+                                (select DeviceDownloadDate from DongleInstallation as don 
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                ) as DeviceDownloadDate,
+                                (select Subscription from DongleInstallation as don 
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                ) as Subscription,
+                                (select Version from DongleInstallation as don 
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                ) as Version ,
+                                (select InstallationDate from DongleInstallation as don 
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
                                 ) as InstallationDate,
-                                (select Version from ControllerInstallation as cont
-                                    where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and InstallationDate 
-                                        in(select max(cont.InstallationDate) as m from ControllerInstallation as cont
-                                            where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )
-                                ) as InstalledVersion 
-                                from Purchase,Application where ApplicationID=Application.ID and ClientID=?');   		
-            	try
-    	{	
+                                (select ss.status from DongleInstallation as don,Status as ss
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                    and ss.PK=don.Status
+                                ) as Status
+                                from DongleInstallation as outc ,Application where ApplicationID=Application.ID and ClientID=?');
+        try
+    	{
             $stmt->execute([$ClientID]);
+            $stmt1->execute([$ClientID]);
        	}
        	catch (\PDOException $e)
        	{
@@ -870,9 +999,10 @@ public function showClientApplicationsAction($slug)
             $request->getSession()->getFlashBag()->add('danger', $error);
             return $this->redirect($request->headers->get('referer'));
         }
-        $applications=$stmt->fetchAll();
-        //get the application that the client does not have
-        $stmt = $conn->prepare('Select *  from Application where Application.ID not in(select  ApplicationID from Purchase where ClientID=?)');   		
+        $tabletApplications=$stmt->fetchAll();
+        $dongleApplications=$stmt1->fetchAll();
+    //get the application that the client does not have
+        $stmt = $conn->prepare('Select *  from Application where Application.ID not in(select  ApplicationID from Purchase where ClientID=?)');
         $stmt2 = $conn->prepare('Select Name from Client where ID=?');   		    	
         try
     	{	
@@ -888,7 +1018,7 @@ public function showClientApplicationsAction($slug)
         $apps=$stmt->fetchAll();
         $ClientName=$stmt2->fetchAll()[0];
       return $this->render('DashboardBundle:Sales:show-client-applications.html.twig', array(
-                           'applications' => $applications,'apps'=>$apps,'clientname'=>$ClientName)); 
+                           'applications' => array_merge($tabletApplications,$dongleApplications),'apps'=>$apps,'clientname'=>$ClientName));
 }
 public function showClientProfileAction($slug)
 {

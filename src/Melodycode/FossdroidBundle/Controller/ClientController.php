@@ -2,6 +2,7 @@
 
 namespace Melodycode\FossdroidBundle\Controller;
 
+use Doctrine\DBAL\Driver\PDOException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,13 +14,45 @@ use PDO;
 class ClientController extends Controller {
 	public function accountAction() 
     {
+        $request=$this->get('request');
+
     	$context = $this->container->get('security.context');
     	
     	if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
     	//	return $this->forward('MelodycodeFossdroidBundle:Homepage:index');
     	return $this->redirect($this->generateUrl('homepage'));
-    	
-    	return new Response('<html><body>Account Details go here</body></html>');
+        $clientID = $this->getUser()->getUsername();
+
+        $dbname = $this->container->getParameter('store_database_name');
+        $dbuser = $this->container->getParameter('store_database_user');
+        $dbpass = $this->container->getParameter('store_database_password');
+        $dbhost = $this->container->getParameter('store_database_host');
+        $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        if ($request->getMethod() == 'POST')
+        {
+            $newpass=$request->request->get('new-password');
+            $stmt = $conn->prepare('update Client Set Password=?');
+            try {
+                $stmt->execute([$newpass]);
+                $request->getSession()->getFlashBag()->add('success', "Password Updated successfully");
+            }
+            catch (PDOException $e)
+            {
+                $request->getSession()->getFlashBag()->add('danger', "Password Update failed");
+            }
+        }
+        $stmt = $conn->prepare('select * from Client where  ID=?');
+        try {
+            $stmt->execute([$clientID]);
+            $clientDetails=$stmt->fetch();
+        }
+        catch (PDOException $e)
+        {
+
+        }
+        return $this->render('MelodycodeFossdroidBundle:Client:account.html.twig',array("clientDetails"=>$clientDetails));
     }
 
  	public function subsAction()
