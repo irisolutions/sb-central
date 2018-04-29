@@ -2,283 +2,312 @@
 {# ... you will probably extend your base template, like base.html.twig #}
 <!Doctype html>
 {% if error %}
-	<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
     {#fdsaf#}
 </script>
 <style>
-	* { box-sizing:border-box; }
+    * {
+        box-sizing: border-box;
+    }
 
-	body {
-		font-family: Helvetica;
-		background: #eee;
-		-webkit-font-smoothing: antialiased;
-	}
+    body {
+        font-family: Helvetica;
+        background: #eee;
+        -webkit-font-smoothing: antialiased;
+    }
 
-	hgroup {
-		text-align:center;
-		margin-top: 4em;
-	}
+    hgroup {
+        text-align: center;
+        margin-top: 4em;
+    }
 
-	h1, h3 { font-weight: 300; }
+    h1, h3 {
+        font-weight: 300;
+    }
 
-	h1 { color: #636363; }
+    h1 {
+        color: #636363;
+    }
 
-	h3 { color: #4a89dc; }
+    h3 {
+        color: #4a89dc;
+    }
 
-	form {
-		width: 380px;
-		margin: 4em auto;
-		padding: 3em 2em 2em 2em;
-		background: #fafafa;
-		border: 1px solid #ebebeb;
-		box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
-	}
+    form {
+        width: 380px;
+        margin: 4em auto;
+        padding: 3em 2em 2em 2em;
+        background: #fafafa;
+        border: 1px solid #ebebeb;
+        box-shadow: rgba(0, 0, 0, 0.14902) 0px 1px 1px 0px, rgba(0, 0, 0, 0.09804) 0px 1px 2px 0px;
+    }
 
-	.group {
-		position: relative;
-		margin-bottom: 45px;
-	}
+    .group {
+        position: relative;
+        margin-bottom: 45px;
+    }
 
-	input {
-		font-size: 18px;
-		padding: 10px 10px 10px 5px;
-		-webkit-appearance: none;
-		display: block;
-		background: #fafafa;
-		color: #636363;
-		width: 100%;
-		border: none;
-		border-radius: 0;
-		border-bottom: 1px solid #757575;
-	}
+    input {
+        font-size: 18px;
+        padding: 10px 10px 10px 5px;
+        -webkit-appearance: none;
+        display: block;
+        background: #fafafa;
+        color: #636363;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid #757575;
+    }
 
-	input:focus { outline: none; }
+    input:focus {
+        outline: none;
+    }
 
+    /* Label */
 
-	/* Label */
+    label {
+        color: #999;
+        font-size: 18px;
+        font-weight: normal;
+        position: absolute;
+        pointer-events: none;
+        left: 5px;
+        top: 10px;
+        transition: all 0.2s ease;
+    }
 
-	label {
-		color: #999;
-		font-size: 18px;
-		font-weight: normal;
-		position: absolute;
-		pointer-events: none;
-		left: 5px;
-		top: 10px;
-		transition: all 0.2s ease;
-	}
+    /* active */
+    .used ~ label {
+        top: -20px;
+        /* font-size: 14px; */
+        color: #4a89dc;
+    }
 
+    input:focus ~ label {
+        top: -20px;
+        transform: scale(.75);
+        left: -2px;
+        /* font-size: 14px; */
+        color: #4a89dc;
+    }
 
-	/* active */
-	.used ~ label {
-		top: -20px;
-		/* font-size: 14px; */
-		color: #4a89dc;
-	}
-	input:focus ~ label{
-		top: -20px;
-		transform: scale(.75); left: -2px;
-		/* font-size: 14px; */
-		color: #4a89dc;
-	}
+    /* Underline */
 
+    .bar {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
 
-	/* Underline */
+    .bar:before, .bar:after {
+        content: '';
+        height: 2px;
+        width: 0;
+        bottom: 1px;
+        position: absolute;
+        background: #4a89dc;
+        transition: all 0.2s ease;
+    }
 
-	.bar {
-		position: relative;
-		display: block;
-		width: 100%;
-	}
+    .bar:before {
+        left: 50%;
+    }
 
-	.bar:before, .bar:after {
-		content: '';
-		height: 2px;
-		width: 0;
-		bottom: 1px;
-		position: absolute;
-		background: #4a89dc;
-		transition: all 0.2s ease;
-	}
+    .bar:after {
+        right: 50%;
+    }
 
-	.bar:before { left: 50%; }
+    /* active */
 
-	.bar:after { right: 50%; }
+    input:focus ~ .bar:before, input:focus ~ .bar:after {
+        width: 50%;
+    }
 
+    /* Highlight */
 
-	/* active */
+    .highlight {
+        position: absolute;
+        height: 60%;
+        width: 100px;
+        top: 25%;
+        left: 0;
+        pointer-events: none;
+        opacity: 0.5;
+    }
 
-	input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
+    /* active */
 
+    input:focus ~ .highlight {
+        animation: inputHighlighter 0.3s ease;
+    }
 
-	/* Highlight */
+    /* Animations */
 
-	.highlight {
-		position: absolute;
-		height: 60%;
-		width: 100px;
-		top: 25%;
-		left: 0;
-		pointer-events: none;
-		opacity: 0.5;
-	}
+    @keyframes inputHighlighter {
+        from {
+            background: #4a89dc;
+        }
+        to {
+            width: 0;
+            background: transparent;
+        }
+    }
 
+    /* Button */
 
-	/* active */
+    .button {
+        position: relative;
+        display: inline-block;
+        padding: 12px 24px;
+        margin: .3em 0 1em 0;
+        width: 100%;
+        vertical-align: middle;
+        color: #fff;
+        font-size: 16px;
+        line-height: 20px;
+        -webkit-font-smoothing: antialiased;
+        text-align: center;
+        letter-spacing: 1px;
+        background: transparent;
+        border: 0;
+        border-bottom: 2px solid #3160B6;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
 
-	input:focus ~ .highlight {
-		animation: inputHighlighter 0.3s ease;
-	}
+    .button:focus {
+        outline: 0;
+    }
 
+    /* Button modifiers */
 
-	/* Animations */
+    .buttonBlue {
+        background: #4a89dc;
+        text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+    }
 
-	@keyframes inputHighlighter {
-		from { background: #4a89dc; }
-		to 	{ width: 0; background: transparent; }
-	}
+    .buttonBlue:hover {
+        background: #357bd8;
+    }
 
+    /* Ripples container */
 
-	/* Button */
+    .ripples {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+    }
 
-	.button {
-		position: relative;
-		display: inline-block;
-		padding: 12px 24px;
-		margin: .3em 0 1em 0;
-		width: 100%;
-		vertical-align: middle;
-		color: #fff;
-		font-size: 16px;
-		line-height: 20px;
-		-webkit-font-smoothing: antialiased;
-		text-align: center;
-		letter-spacing: 1px;
-		background: transparent;
-		border: 0;
-		border-bottom: 2px solid #3160B6;
-		cursor: pointer;
-		transition: all 0.15s ease;
-	}
-	.button:focus { outline: 0; }
+    /* Ripples circle */
 
+    .ripplesCircle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.25);
+    }
 
-	/* Button modifiers */
+    .ripples.is-active .ripplesCircle {
+        animation: ripples .4s ease-in;
+    }
 
-	.buttonBlue {
-		background: #4a89dc;
-		text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
-	}
+    /* Ripples animation */
 
-	.buttonBlue:hover { background: #357bd8; }
+    @keyframes ripples {
+        0% {
+            opacity: 0;
+        }
 
+        25% {
+            opacity: 1;
+        }
 
-	/* Ripples container */
+        100% {
+            width: 200%;
+            padding-bottom: 200%;
+            opacity: 0;
+        }
+    }
 
-	.ripples {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-		background: transparent;
-	}
+    footer {
+        text-align: center;
+    }
 
+    footer p {
+        color: #888;
+        font-size: 13px;
+        letter-spacing: .4px;
+    }
 
-	/* Ripples circle */
+    footer a {
+        color: #4a89dc;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
 
-	.ripplesCircle {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		opacity: 0;
-		width: 0;
-		height: 0;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.25);
-	}
+    footer a:hover {
+        color: #666;
+        text-decoration: underline;
+    }
 
-	.ripples.is-active .ripplesCircle {
-		animation: ripples .4s ease-in;
-	}
+    footer img {
+        width: 80px;
+        transition: all .2s ease;
+    }
 
+    footer img:hover {
+        opacity: .83;
+    }
 
-	/* Ripples animation */
-
-	@keyframes ripples {
-		0% { opacity: 0; }
-
-		25% { opacity: 1; }
-
-		100% {
-			width: 200%;
-			padding-bottom: 200%;
-			opacity: 0;
-		}
-	}
-
-	footer { text-align: center; }
-
-	footer p {
-		color: #888;
-		font-size: 13px;
-		letter-spacing: .4px;
-	}
-
-	footer a {
-		color: #4a89dc;
-		text-decoration: none;
-		transition: all .2s ease;
-	}
-
-	footer a:hover {
-		color: #666;
-		text-decoration: underline;
-	}
-
-	footer img {
-		width: 80px;
-		transition: all .2s ease;
-	}
-
-	footer img:hover { opacity: .83; }
-
-	footer img:focus , footer a:focus { outline: none; }
+    footer img:focus, footer a:focus {
+        outline: none;
+    }
 
 
 </style>
 
 <hgroup>
-	<h1>Iris Central</h1>
-	<h3>Sign In</h3>
+    <h1>Iris Central</h1>
+    <h3>Sign In</h3>
 </hgroup>
 <form action="{{ path('login') }}" method="post">
-	<div class="group">
-		<input  onblur='if($(this).val())  $(this).addClass("used"); else $(this).removeClass("used");' type="text" id="username" name="_username" value="{{ last_username }}"><span class=""></span><span class="bar"></span>
-		<label>Username</label>
-	</div>
-	<div class="group">
-		<input onblur='if($(this).val())  $(this).addClass("used"); else $(this).removeClass("used");' type="password" id="password" name="_password"><span class=""></span><span class="bar"></span>
-		<label>Password</label>
-	</div>
-	<button type="submit" class="button buttonBlue">Sign In
-		<div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
-	</button>
-	<script>
+    <div class="group">
+        <input onblur='if($(this).val())  $(this).addClass("used"); else $(this).removeClass("used");' type="text"
+               id="username" name="_username" value="{{ last_username }}"><span class=""></span><span
+                class="bar"></span>
+        <label>Username</label>
+    </div>
+    <div class="group">
+        <input onblur='if($(this).val())  $(this).addClass("used"); else $(this).removeClass("used");' type="password"
+               id="password" name="_password"><span class=""></span><span class="bar"></span>
+        <label>Password</label>
+    </div>
+    <button type="submit" class="button buttonBlue">Sign In
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+    </button>
+    <script>
         function androidSignIn() {
             var userName = document.getElementById("username").value;
-            var Password= document.getElementById("password").value;
-            UserJavaScriptInterface.signIn(userName,Password);
+            var Password = document.getElementById("password").value;
+            UserJavaScriptInterface.signIn(userName, Password);
         }
-	</script>
+    </script>
 </form>
-<footer><a href="http://iris.ps/en/" target="_blank"><img src="http://iris.ps/en/wp-content/uploads/2015/12/iris-logo-header.jpg"></a>
+<footer><a href="http://iris.ps/en/" target="_blank"><img
+                src="http://iris.ps/en/wp-content/uploads/2015/12/iris-logo-header.jpg"></a>
 </footer>
-
 
 
 {#
