@@ -62,6 +62,10 @@ dashboard_dev_add_token:
     path: /command/addNewToken
     defaults: { _controller: DashboardBundle:Tokens:addNewToken}
 
+dashboard_dev_delete_token:
+    path: /command/deleteToken
+    defaults: { _controller: DashboardBundle:Tokens:deleteToken}
+
 dashboard_dev_get_apps:
     path: /command/getApps
     defaults: { _controller: DashboardBundle:Sync:getApps}

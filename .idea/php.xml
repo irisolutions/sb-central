@@ -43,5 +43,5 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="5.4.0" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="5.3.0" />
 </project>
