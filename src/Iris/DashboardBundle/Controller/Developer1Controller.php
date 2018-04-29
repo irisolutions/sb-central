@@ -530,7 +530,7 @@ class Developer1Controller extends Controller
             $repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
             $metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
             $target_dir = $repo_dir;
-            $target_file = $target_dir . basename($_FILES["app-binary"]["name"]);
+            $target_file = $target_dir.'/'. basename($_FILES["app-binary"]["name"]);
 
             $FileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
             if (file_exists($target_file)) {
@@ -1057,8 +1057,8 @@ class Developer1Controller extends Controller
             }
 
 
-            $output = shell_exec('sudo -u apache /var/www/html/update-store.sh 2>&1');
-            return $this->render('DashboardBundle:Developer:new-app-result.html.twig',array('output' => $output ));
+//            $output = shell_exec('sudo -u apache /var/www/html/update-store.sh 2>&1');
+//            return $this->render('DashboardBundle:Developer:new-app-result.html.twig',array('output' => $output ));
             $repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
             $metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
             $target_dir = $repo_dir;
