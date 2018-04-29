@@ -1092,8 +1092,9 @@ class Developer1Controller extends Controller
             $app_type               = $request->request->get('app-type');
 
             // we check if the two binary files are where they should be other wise we fail
-
-                $controller_file = $repo_dir . '/' . basename($_FILES["app-binary"]["name"]);
+                $app_dongle_bin= basename($_FILES["app-binary"]["name"]);
+            $app_controller_binary= basename($_FILES["app-binary"]["name"]);
+            $controller_file = $repo_dir . '/' . basename($_FILES["app-binary"]["name"]);
                 $dongle_file = $repo_dir . '/' . basename($_FILES["app-binary"]["name"]);
             if ( !file_exists($controller_file) /*|| !file_exists($dongle_file)*/ )
             {
@@ -1168,7 +1169,7 @@ class Developer1Controller extends Controller
             try
             {
 
-                $stmt->execute([$app_identifier,$app_version,$app_dongle_binary,$app_controller_binary]);
+                $stmt->execute([$app_identifier,$app_version,$app_dongle_bin,$app_controller_binary]);
             }
             catch (\PDOException $e)
             {
