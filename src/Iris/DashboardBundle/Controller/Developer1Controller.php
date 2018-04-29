@@ -334,6 +334,7 @@ class Developer1Controller extends Controller
             $app_summary			= $request->request->get('app-summary');
             //$app_version 			= $request->request->get('app-version');
             $app_category 			= $request->request->get('app-category');
+            $app_type               = $request->request->get('app-type');
 
             // we check if the two binary files are where they should be other wise we fail
 
@@ -378,13 +379,13 @@ class Developer1Controller extends Controller
 
             //$stmt = $conn->prepare('UPDATE Application SET ID =?,Version=?,Name=?,DongleAppName=?,ControllerAppName=?,Price=? WHERE ID = ? AND Version = ?');
 
-            $stmt = $conn->prepare('UPDATE Application SET ID =?, Name=?,Price=? WHERE ID=?');
+            $stmt = $conn->prepare('UPDATE Application SET ID =?, Name=?,Price=?, Type=? WHERE ID=?');
 
             try
             {
 
                 //$stmt->execute([$app_identifier,$app_version,$app_name,$app_dongle_binary,$app_controller_binary,$app_price,$app_identifier,$app_version]);
-                $stmt->execute([$app_identifier,$app_name,$app_price,$app_identifier]);
+                $stmt->execute([$app_identifier,$app_name,$app_price,$app_identifier,$app_type]);
 
             }
             catch (\PDOException $e)
@@ -491,18 +492,18 @@ class Developer1Controller extends Controller
         if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
             return $this->render('DashboardBundle:Homepage:index.html.twig');
 
-        //auth
+//        //auth
         $app_identifier = $slug;
 
         $request=$this->get('request');
-
-        if ( $this->scriptStillExecuting('update-store.sh'))
-        {
-            //return new Response('<html><body><div>An Add Application Operation is in progress, please try again later</div> <div><input type="button" value="Try Again" onClick="window.history.back()"></div></body> </html>');
-            //return $this->render('DashboardBundle:Developer:new-app.html.twig');
-            $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Another Add/Update/Delete Application operation is in progress .. Try again in a few seconds');
-            return $this->redirect($request->headers->get('referer'));
-        }
+//
+//        if ( $this->scriptStillExecuting('update-store.sh'))
+//        {
+//            //return new Response('<html><body><div>An Add Application Operation is in progress, please try again later</div> <div><input type="button" value="Try Again" onClick="window.history.back()"></div></body> </html>');
+//            //return $this->render('DashboardBundle:Developer:new-app.html.twig');
+//            $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Another Add/Update/Delete Application operation is in progress .. Try again in a few seconds');
+//            return $this->redirect($request->headers->get('referer'));
+//        }
 
 
 
@@ -514,9 +515,9 @@ class Developer1Controller extends Controller
 
             $app_name 				= $request->request->get('app-name');
             //$app_bundle				= $request->request->get('app-bundle');
-            $app_controller_binary 	= $request->request->get('app-controller-binary');
+            $app_controller_binary 	= $request->request->get('app-binary');
             //$app_description		= $request->request->get('app-description');
-            $app_dongle_binary		= $request->request->get('app-dongle-binary');
+            $app_dongle_binary		= $request->request->get('app-binary');
             $app_identifier			= $request->request->get('app-identifier');
             //$app_payment_model	    = $request->request->get('app-payment-model');
             //$app_price				= $request->request->get('app-price');
@@ -528,8 +529,26 @@ class Developer1Controller extends Controller
 
             $repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
             $metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
-            $controller_file = $repo_dir.'/'.$app_controller_binary;
-            $dongle_file	 = $repo_dir.'/'.$app_dongle_binary;
+            $target_dir = $repo_dir;
+            $target_file = $target_dir . basename($_FILES["app-binary"]["name"]);
+
+            $FileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+            if (file_exists($target_file)) {
+                $request->getSession()->getFlashBag()->add('danger', 'File Already Exist');
+                return $this->redirect($request->headers->get('referer'));
+            }
+            if($FileType != "apk" ) {
+                $request->getSession()->getFlashBag()->add('danger', 'Uploaded file is not apk file');
+                return $this->redirect($request->headers->get('referer'));
+            }
+            if (! move_uploaded_file($_FILES["app-binary"]["tmp_name"], $target_file)) {
+                $request->getSession()->getFlashBag()->add('danger', 'Sorry, there was an error uploading your file.');
+                return $this->redirect($request->headers->get('referer'));
+            }
+            $request->getSession()->getFlashBag()->add('success', 'Done.');
+
+            $controller_file = $repo_dir.'/'. basename($_FILES["app-binary"]["name"]);
+            $dongle_file	 = $repo_dir.'/'. basename($_FILES["app-binary"]["name"]);
 
             if ( !file_exists($controller_file) /*|| !file_exists($dongle_file)*/ )
             {
@@ -550,12 +569,25 @@ class Developer1Controller extends Controller
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $stmt = $conn->prepare('INSERT INTO Version (Version,ApplicationID,DongleAppName,ControllerAppName) VALUES (?,?,?,?)');
+
 
             try
             {
-
-                $stmt->execute([$app_version,$app_identifier,$app_dongle_binary,$app_controller_binary]);
+                $stmt = $conn->prepare('SELECT * FROM Application WHERE Application.ID=?');
+                $stmt->execute([$app_identifier]);
+                $app=$stmt->fetch();
+                if($app['Type']=='dongle') {
+                    $stmt = $conn->prepare('INSERT INTO Version (Version,ApplicationID,DongleAppName,ControllerAppName) VALUES (?,?,?,?)');
+                    $stmt->execute([$app_version, $app_identifier, $app_dongle_binary, $app_controller_binary]);
+                    $stmt = $conn->prepare('update DongleInstallation set DongleInstallation.Status=(select Status.PK from Status where Status.status="need_update") where DongleInstallation.ApplicationID=?');
+                    $stmt->execute([$app_identifier]);
+                }
+                else{
+                    $stmt = $conn->prepare('INSERT INTO Version (Version,ApplicationID,DongleAppName,ControllerAppName) VALUES (?,?,?,?)');
+                    $stmt->execute([$app_version, $app_identifier, $app_dongle_binary, $app_controller_binary]);
+                    $stmt = $conn->prepare('update ControllerInstallation set ControllerInstallation.Status=(select Status.PK from Status where Status.status="need_update") where ControllerInstallation.ApplicationID=?');
+                    $stmt->execute([$app_identifier]);
+                }
             }
             catch (\PDOException $e)
             {
@@ -607,7 +639,7 @@ class Developer1Controller extends Controller
         $applications = $stmt->fetchAll();
 
 
-        return $this->render('DashboardBundle:Developer:new-update-version.html.twig',array('update'=>false,'application'=>$applications[0]));
+        return $this->render('DashboardBundle:Developer:new-update-version1.html.twig',array('update'=>false,'application'=>$applications[0]));
 
 
     }
@@ -1023,9 +1055,13 @@ class Developer1Controller extends Controller
                 $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Another Add/Update/Delete Application operation is in progress .. Try again in a few seconds');
                 return $this->redirect($request->headers->get('referer'));
             }
+
+
             $output = shell_exec('sudo -u apache /var/www/html/update-store.sh 2>&1');
             return $this->render('DashboardBundle:Developer:new-app-result.html.twig',array('output' => $output ));
-            $target_dir = "/home/iyadjamal/uploaded/";
+            $repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
+            $metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
+            $target_dir = $repo_dir;
             $target_file = $target_dir . basename($_FILES["app-binary"]["name"]);
 
             $FileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -1045,23 +1081,20 @@ class Developer1Controller extends Controller
 
             $app_name 			= $request->request->get('app-name');
             $app_bundle			= $request->request->get('app-bundle');
-            $app_controller_binary          = $request->request->get('app-controller-binary');
+            $app_binary          = $request->request->get('app-binary');
             $app_description		= $request->request->get('app-description');
-            $app_dongle_binary		= $request->request->get('app-dongle-binary');
             $app_identifier			= $request->request->get('app-identifier');
             $app_payment_model              = $request->request->get('app-payment-model');
             $app_price			= $request->request->get('app-price');
             $app_summary			= $request->request->get('app-summary');
             $app_version 			= $request->request->get('app-version');
             $app_category 			= $request->request->get('app-category');
+            $app_type               = $request->request->get('app-type');
 
             // we check if the two binary files are where they should be other wise we fail
 
-            $repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
-            $metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
-            $controller_file = $repo_dir.'/'.$app_controller_binary;
-            $dongle_file	 = $repo_dir.'/'.$app_dongle_binary;
-
+                $controller_file = $repo_dir . '/' . basename($_FILES["app-binary"]["name"]);
+                $dongle_file = $repo_dir . '/' . basename($_FILES["app-binary"]["name"]);
             if ( !file_exists($controller_file) /*|| !file_exists($dongle_file)*/ )
             {
                 $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Controller and/or Dongle binary file(s) do(es) not exist');
@@ -1099,12 +1132,12 @@ class Developer1Controller extends Controller
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $stmt = $conn->prepare('INSERT INTO Application (ID,Name,Price) VALUES (?,?,?)');
+            $stmt = $conn->prepare('INSERT INTO Application (ID,Name,Price,Type) VALUES (?,?,?,?)');
 
             try
             {
 
-                $stmt->execute([$app_identifier,$app_name,$app_price]);
+                $stmt->execute([$app_identifier,$app_name,$app_price,$app_type]);
             }
             catch (\PDOException $e)
             {
