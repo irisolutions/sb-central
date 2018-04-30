@@ -181,7 +181,8 @@ class PushNotificationsController extends Controller
             curl_close($ch);
 
 //            return $result;
-            return new JsonResponse($result);
+            return new JsonResponse(array('token' => $token, 'type' => $type,'results'=>$result));
+//            return new JsonResponse($result);
         }
     }
 
