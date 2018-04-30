@@ -203,7 +203,7 @@ class PushNotificationsController extends Controller
             $userName = $request->request->get('UserName');
 //            $token = $request->request->get('Token');
 
-            $stmt1 = $conn->prepare('Select TOKEN from tokens where UID=? AND TYPE=?');
+            $stmt1 = $conn->prepare('Select Token from Tokens where UID = ? AND Device = ?');
             try {
                 $stmt1->execute([$userName, $type]);
             } catch (\PDOException $e) {
