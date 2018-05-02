@@ -78,7 +78,7 @@ window.onclick = function(event) {
             {% block nav_categories %}
                 {{ render(controller("MelodycodeFossdroidBundle:Widget:categories")) }}
             {% endblock %}
-            <main class="mdl-layout__content">      
+            <main class="mdl-layout__content">
                 {% block body %}{% endblock %}
                 <footer class="mdl-mini-footer">
                     <div class="mdl-mini-footer__left-section">
@@ -88,6 +88,7 @@ window.onclick = function(event) {
                     </div>
                 </footer>
             </main>
+
         </div>
 
         <!-- stylesheet -->
@@ -96,5 +97,6 @@ window.onclick = function(event) {
 
         <!-- javascript -->
         <script src="//storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js"></script>
+
     </body>
 </html>

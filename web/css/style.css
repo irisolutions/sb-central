@@ -88,7 +88,7 @@ html, body {
     -ms-flex-align: center;
     align-items: center;
     font-weight: 500;
-    padding: 16px 20px!important;
+    padding: 20px 40px !important;
 }
 
 .fd-navigation .mdl-navigation__link {
@@ -142,6 +142,7 @@ html, body {
 
 #fd-section_container {
     padding: 28px 8px 8px;
+    background-color: white;
 }
 
 .fd-section {
@@ -209,4 +210,37 @@ html, body {
     margin-right: 30px;
     margin-bottom: 30px;
     z-index: 900;
+}
+.mdl-layout__drawer .mdl-navigation{
+    padding-top: 0px !important;
+}
+.mdl-color--primary {
+    background-color: cadetblue !important;
+}
+.mdl-layout-title .mdl-color-text--white{
+    background-color: #c6c6c6c2 !important;
+}
+.mdl-grid{
+    background-color: white !important;
+}
+.mdl-layout__header-row{
+    background-color: cadetblue !important;
+}
+.fd-application_box .mdl-card .mdl-shadow--2dp{
+
+
+}
+.fd-application_box{
+    width: 180px !important;
+    border: 1px solid gainsboro;
+    border-radius: 8px !important;
+    margin: 15px !important;
+}
+.mdl-color--accent {
+    background-color: #a0d1d3 !important;
+}
+.mdl-button.mdl-button--colored {
+    color: rgb(9, 9, 9);
+    font-size: 17px !important;
+    font-family: inherit !important;
 }
