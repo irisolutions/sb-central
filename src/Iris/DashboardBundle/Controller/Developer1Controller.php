@@ -69,7 +69,9 @@ class Developer1Controller extends Controller
         //$command = 'pgrep -fl '.$script;
         $output = shell_exec($command);
 
-        return (strlen($output) > 0);
+        $request=$this->get('request');
+
+//        return (strlen($output) > 0);
 
     }
     public function executeCommand($cmd)
@@ -101,13 +103,15 @@ class Developer1Controller extends Controller
 
     public function newAppResultAction()
     {
-        $context = $this->container->get('security.context');
+        return $this->executeCommand('sudo -u apache /var/www/html/update-store.sh');
 
-        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-            return $this->render('DashboardBundle:Homepage:index.html.twig');
+//        $context = $this->container->get('security.context');
+
+//        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+//            return $this->render('DashboardBundle:Homepage:index.html.twig');
 
         //auth
-        return $this->executeCommand('sudo -u apache /var/www/html/update-store.sh');
+//        return $this->executeCommand('sudo -u apache /var/www/html/update-store.sh');
 
 
         //$output = shell_exec('sudo -u apache /var/www/html/update-store.sh 2>&1');
@@ -222,10 +226,10 @@ class Developer1Controller extends Controller
 
     public function manageVersionAction($slug)
     {
-        $context = $this->container->get('security.context');
-
-        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-            return $this->render('DashboardBundle:Homepage:index.html.twig');
+//        $context = $this->container->get('security.context');
+//
+//        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+//            return $this->render('DashboardBundle:Homepage:index.html.twig');
 
         //auth
 
@@ -263,10 +267,10 @@ class Developer1Controller extends Controller
 
     public function manageAppAction()
     {
-        $context = $this->container->get('security.context');
-
-        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-            return $this->render('DashboardBundle:Homepage:index.html.twig');
+//        $context = $this->container->get('security.context');
+//
+//        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+//            return $this->render('DashboardBundle:Homepage:index.html.twig');
 
         //auth
 
@@ -487,16 +491,27 @@ class Developer1Controller extends Controller
     }
     public function newVersionAction($slug)
     {
-        $context = $this->container->get('security.context');
-
-        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-            return $this->render('DashboardBundle:Homepage:index.html.twig');
+//        $context = $this->container->get('security.context');
+//
+//        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+//            return $this->render('DashboardBundle:Homepage:index.html.twig');
 
 //        //auth
         $app_identifier = $slug;
 
         $request=$this->get('request');
 //
+        $app_identifier = $slug;
+
+        $request=$this->get('request');
+
+        if ( $this->scriptStillExecuting('update-store.sh'))
+        {
+            //return new Response('<html><body><div>An Add Application Operation is in progress, please try again later</div> <div><input type="button" value="Try Again" onClick="window.history.back()"></div></body> </html>');
+            //return $this->render('DashboardBundle:Developer:new-app.html.twig');
+            $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Another Add/Update/Delete Application operation is in progress .. Try again in a few seconds');
+            return $this->redirect($request->headers->get('referer'));
+        }
 //        if ( $this->scriptStillExecuting('update-store.sh'))
 //        {
 //            //return new Response('<html><body><div>An Add Application Operation is in progress, please try again later</div> <div><input type="button" value="Try Again" onClick="window.history.back()"></div></body> </html>');
@@ -645,10 +660,10 @@ class Developer1Controller extends Controller
     }
     public function deleteVersionAction($slug,$version)
     {
-        $context = $this->container->get('security.context');
-
-        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-            return $this->render('DashboardBundle:Homepage:index.html.twig');
+//        $context = $this->container->get('security.context');
+//
+//        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+//            return $this->render('DashboardBundle:Homepage:index.html.twig');
 
         //auth
         $app_identifier = $slug;
@@ -809,10 +824,10 @@ class Developer1Controller extends Controller
 
     public function deleteAppAction($slug)
     {
-        $context = $this->container->get('security.context');
-
-        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-            return $this->render('DashboardBundle:Homepage:index.html.twig');
+//        $context = $this->container->get('security.context');
+//
+//        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+//            return $this->render('DashboardBundle:Homepage:index.html.twig');
 
         //auth
         $app_identifier = $slug;
@@ -1035,10 +1050,10 @@ class Developer1Controller extends Controller
     public function newAppUploadAction()
     {
         //return new Response('<html><body>Developer Page goes here</body></html>');
-        $context = $this->container->get('security.context');
-
-        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
-            return $this->render("DashboardBundle:Homepage:index.html.twig");
+//        $context = $this->container->get('security.context');
+//
+//        if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
+//            return $this->render("DashboardBundle:Homepage:index.html.twig");
 
         //auth
         $request=$this->get('request');
