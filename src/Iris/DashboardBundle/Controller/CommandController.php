@@ -22,10 +22,10 @@ use PDO;
 class CommandController extends Controller 
 {
 
-public function appListAction($slug)
+public function appListAction($slug) 
 {
-
-        $user = $slug;
+       $user = $slug;
+        	
     	$ClientID   = $user;
                  
         $dbname     = $this->container->getParameter('store_database_name');
@@ -243,4 +243,5 @@ public function appListAction($slug)
             
             */
 }
+
 }

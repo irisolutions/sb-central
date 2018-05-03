@@ -1,6 +1,7 @@
 #dashboard_dev_new_app:
 #    path: /dev/new-app
 #    defaults: { _controller: DashboardBundle:Developer1:newAppUpload}
+
 dashboard_dev_new_app:
     path: /dev/new-app
     defaults: { _controller: DashboardBundle:Developer:newApp}
@@ -17,6 +18,10 @@ dashboard_dev_edit_app:
     path: /dev/edit-app/{slug}
     defaults: { _controller: DashboardBundle:Developer:editApp}
 
+dashboard_dev_get_applist:
+    path: /command/appList/{slug}
+    defaults: { _controller: DashboardBundle:Command:appList}
+
 dashboard_dev_delete_app:
     path: /dev/delete-app/{slug}
     defaults: { _controller: DashboardBundle:Developer:deleteApp}
@@ -32,6 +37,68 @@ dashboard_dev_new_version:
 dashboard_dev_delete_version:
     path: /dev/delete-version/{slug}/{version}
     defaults: { _controller: DashboardBundle:Developer:deleteVersion}
+
+
+dashboard_sales_new_bundle:
+    path: /sales/new-bundle
+    defaults: { _controller: DashboardBundle:Sales:newBundle}
+
+dashboard_sales_manage_bundle:
+    path: /sales/manage-bundle
+    defaults: { _controller: DashboardBundle:Sales:manageBundle}
+
+dashboard_dev_delete_bundle:
+    path: /dev/delete-bundle/{slug}
+    defaults: { _controller: DashboardBundle:Sales:deleteBundle}
+dashboard_dev_edit_bundle:
+    path: /dev/edit-bundle/{slug}
+    defaults: { _controller: DashboardBundle:Sales:editBundle}
+dashboard_sales_manage_application:
+    path: /sales/manage-applications
+    defaults: { _controller: DashboardBundle:Sales:manageApplications}
+dashboard_sales_clients_of_application:
+    path: /sales/client-of-application/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showApplicationClients}
+dashboard_sales_manage_bundles:
+    path: /sales/manage-bundles
+    defaults: { _controller: DashboardBundle:Sales:manageBundles}
+dashboard_sales_clients_of_bundles:
+    path: /sales/clients-of-bundles/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showBundleClients}
+dashboard_sales_manage_clients:
+    path: /sales/manage-clients
+    defaults: { _controller: DashboardBundle:Sales:manageClients}
+dashboard_sales_delete_client:
+    path: /sales/delete-client/{slug}
+    defaults: { _controller: DashboardBundle:Sales:deleteClient}
+
+dashboard_sales_clients_applications:
+    path: /sales/clients-applications/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showClientApplications}
+dashboard_sales_clients_bundles:
+    path: /sales/clients-bundles/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showClientBundles}
+dashboard_sales_client_profile:
+    path: /sales/client-profile/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showClientProfile}
+dashboard_sales_add_client:
+    path: /sales/add-client/
+    defaults: { _controller: DashboardBundle:Sales:addClient}
+admin_account:
+    path: /admin/account
+    defaults: {_controller: DashboardBundle:Admin:account}
+
+admin_login:
+    path: /login
+    defaults: { _controller: DashboardBundle:Security:login }
+admin_login_check:
+    path: /login_check
+admin_logout:
+    path: /logout
+
+dashboard_homepage:
+    path: /
+    defaults: { _controller: DashboardBundle:Homepage:index}
 
 #dashboard_dev_new_app_result:
 #    path: /dev/new-app-result
@@ -62,22 +129,6 @@ dashboard_dev_delete_version:
 #    defaults: { _controller: DashboardBundle:Developer1:deleteVersion}
 
 
-
-dashboard_sales_new_bundle:
-    path: /sales/new-bundle
-    defaults: { _controller: DashboardBundle:Sales:newBundle}      
-    
-dashboard_sales_manage_bundle:
-    path: /sales/manage-bundle
-    defaults: { _controller: DashboardBundle:Sales:manageBundle} 
-
-dashboard_dev_delete_bundle:
-    path: /dev/delete-bundle/{slug}
-    defaults: { _controller: DashboardBundle:Sales:deleteBundle}
-
-dashboard_dev_get_applist:
-    path: /command/appList/{slug}
-    defaults: { _controller: DashboardBundle:Command:appList}
 
 dashboard_dev_send_notification:
     path: /command/sendNotification/{slug}
@@ -119,52 +170,3 @@ dashboard_dev_get_apps_sync:
     path: /command/getAppsSync
     defaults: { _controller: DashboardBundle:Sync:getAppsSync}
 
-dashboard_dev_edit_bundle:
-    path: /dev/edit-bundle/{slug}
-    defaults: { _controller: DashboardBundle:Sales:editBundle} 
-dashboard_sales_manage_application:
-    path: /sales/manage-applications
-    defaults: { _controller: DashboardBundle:Sales:manageApplications} 
-dashboard_sales_clients_of_application:
-    path: /sales/client-of-application/{slug}
-    defaults: { _controller: DashboardBundle:Sales:showApplicationClients} 
-dashboard_sales_manage_bundles:
-    path: /sales/manage-bundles
-    defaults: { _controller: DashboardBundle:Sales:manageBundles}
-dashboard_sales_clients_of_bundles:
-    path: /sales/clients-of-bundles/{slug}
-    defaults: { _controller: DashboardBundle:Sales:showBundleClients} 
-dashboard_sales_manage_clients:
-    path: /sales/manage-clients
-    defaults: { _controller: DashboardBundle:Sales:manageClients} 
-dashboard_sales_delete_client:
-    path: /sales/delete-client/{slug}
-    defaults: { _controller: DashboardBundle:Sales:deleteClient} 
-    
-dashboard_sales_clients_applications:
-    path: /sales/clients-applications/{slug}
-    defaults: { _controller: DashboardBundle:Sales:showClientApplications}
-dashboard_sales_clients_bundles:
-    path: /sales/clients-bundles/{slug}
-    defaults: { _controller: DashboardBundle:Sales:showClientBundles}   
-dashboard_sales_client_profile:
-    path: /sales/client-profile/{slug}
-    defaults: { _controller: DashboardBundle:Sales:showClientProfile}
-dashboard_sales_add_client:
-    path: /sales/add-client/
-    defaults: { _controller: DashboardBundle:Sales:addClient} 
-admin_account:
-    path: /admin/account
-    defaults: {_controller: DashboardBundle:Admin:account} 
-
-admin_login:
-    path: /login
-    defaults: { _controller: DashboardBundle:Security:login }  
-admin_login_check:
-    path: /login_check           
-admin_logout:
-    path: /logout 
-    
-dashboard_homepage:
-    path: /
-    defaults: { _controller: DashboardBundle:Homepage:index}
