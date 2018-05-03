@@ -6,8 +6,10 @@ My Applications
 {% endblock %}
 
 {% block body %}
-<div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-<div><h4>Purchased Applications</h4></div>
+<div style="width:80%; margin-left:10%; margin-top:3%; margin-bottom:10%;">
+    <div><h4 style="margin-bottom: 15px;font-family: cursive; font-size: 30px">Purchased Applications</h4></div>
+    <hr>
+
 <div class="datagrid">
  <table>
         <thead>
@@ -21,7 +23,7 @@ My Applications
         <tbody>
         {% for app in purchased %}
           <tr>
-            <td><a href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
+            <td><a class="blue-anchor" href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
        {#     <td>{{ app.Version }}</td> #}
             <td>{{ app.Price }}$</td>
           </tr>
@@ -29,9 +31,10 @@ My Applications
         </tbody>
       </table>
       </div>
-  {# Applications Owned via subscriptions#}    
-  
-<div><h4>Applications Via Subscriptions</h4></div>
+  {# Applications Owned via subscriptions#}
+    <div><h4 style="margin-bottom: 15px;font-family: cursive; font-size: 30px">Applications Via Subscriptions</h4></div>
+    <hr>
+
 <div class="datagrid">
  <table>
         <thead>
@@ -45,9 +48,9 @@ My Applications
         <tbody>
         {% for app in subscribed %}
           <tr>
-            <td><a href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
+            <td><a class="blue-anchor"  href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
       {#      <td>{{ app.Version }}</td>  #}
-            <td><a href="{{ path('bundle', {'slug': app.BundleID}) }}">{{ app.BundleName }}</a></td>
+            <td><a  class="blue-anchor" href="{{ path('bundle', {'slug': app.BundleID}) }}">{{ app.BundleName }}</a></td>
           </tr>
           {% endfor %}
         </tbody>

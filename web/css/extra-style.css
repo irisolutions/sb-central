@@ -1,6 +1,6 @@
 /* Dropdown Button */
 .dropbtn {
-    background-color: rgb(244,67,54);
+    background-color: #0083BA;
     color: white;
     padding: 16px;
     font-size: 16px;
@@ -10,12 +10,11 @@
 
 /* Dropdown button on hover & focus */
 .dropbtn:hover, .dropbtn:focus {
-    background-color: rgb(244,67,54);
-   outline: 0;
-  -webkit-box-shadow: none;
-          box-shadow: none; 
-} 
-
+    background-color: #005E97;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
@@ -27,25 +26,89 @@
 .dropdown-content {
     display: none;
     position: absolute;
-     margin-top:5px;
-    background-color: #f9f9f9;
+    margin-top: 6px;
+    margin-left: 20px;
+    background-color: white;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
-    color: black;
+    color: #616161;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
+.show {
+    display: block;
+}
 
-.datagrid table { border-collapse: collapse; text-align: left; width: 100%; } .datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }.datagrid table td, .datagrid table th { padding: 16px 4px; }.datagrid table thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #EBEBEB), color-stop(1, #EBEBEB) );background:-moz-linear-gradient( center top, #EBEBEB 5%, #EBEBEB 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#EBEBEB', endColorstr='#EBEBEB');background-color:#EBEBEB; color:#000000; font-size: 15px; font-weight: bold; } .datagrid table thead th:first-child { border: none; }.datagrid table tbody td { color: #000000; font-size: 14px;border-bottom: 1px solid #AAAAAA;font-weight: normal; }.datagrid table tbody td:first-child { border-left: none; }.datagrid table tbody tr:last-child td { border-bottom: none; }.datagrid table tfoot td div { border-top: 1px solid #8C8C8C;background: #EBEBEB;} .datagrid table tfoot td { padding: 0; font-size: 12px } .datagrid table tfoot td div{ padding: 2px; }
+.datagrid table {
+    border-collapse: collapse;
+    text-align: left;
+    width: 100%;
+}
+
+.datagrid {
+    font: normal 12px/150% Arial, Helvetica, sans-serif;
+    background: #fff;
+    overflow: hidden;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.datagrid table td, .datagrid table th {
+    padding: 16px 24px;
+}
+
+.datagrid table thead th {
+
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EBEBEB', endColorstr='#EBEBEB');
+    background-color: #f7f7f7;
+    color: #616161;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.datagrid table thead th:first-child {
+    border: none;
+}
+
+.datagrid table tbody td {
+    color: #000000;
+    font-size: 14px;
+    border-bottom: 1px solid #AAAAAA;
+    font-weight: normal;
+}
+
+.datagrid table tbody td:first-child {
+    border-left: none;
+}
+
+.datagrid table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.datagrid table tfoot td div {
+    border-top: 1px solid #8C8C8C;
+    background: #EBEBEB;
+}
+
+.datagrid table tfoot td {
+    padding: 0;
+    font-size: 12px
+}
+
+.datagrid table tfoot td div {
+    padding: 2px;
+}

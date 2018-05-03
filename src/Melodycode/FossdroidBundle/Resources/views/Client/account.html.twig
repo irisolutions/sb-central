@@ -4,26 +4,37 @@
 {% block breadcrumb %}
     My Account
 {% endblock %}
+{% block style %}
+    th {
+        background-color: #c3b2b20f;
+        padding-left: 5%;
 
+    }
+{%endblock style %}
 {% block body %}
-    <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-        <div><h4 style="border-bottom: black 1px solid; margin-bottom: 40px;">Account details</h4></div>
+    <div style="width:80%; margin-left:10%;">
+        <div><h4 style="margin-bottom: 22px;font-family: cursive; font-size:35px">Account details</h4></div>
+        <hr>
         <div class="datagrid">
             <table>
                 <tr style="border-bottom: #f4f4f4 1px solid;  ">
-                    <th width="12%" style="border-right:#f4f4f4 4px solid; text-align: right">  Username: </th>
-                    <th style="background-color: #d3d3d3;padding-left: 5%;">{{ clientDetails.ID }}</th>
+                    <th width="12%" style=" ">  Username</th>
+                    <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
+        font-family: monospace;
+        font-style: inherit;">{{ clientDetails.ID }}</th>
 
                 </tr>
                 <tr style="border-bottom: #f4f4f4 1px solid;">
-                    <th width="14%" style="border-right:#f4f4f4 4px solid; text-align: right">  Password: </th>
-                    <th style="background-color: #d3d3d3;padding-left: 5%;"><div id="pss"><span id="old-password">{{ clientDetails.Password }}</span>
+                    <th width="14%" style=" ">  Password</th>
+                    <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
+        font-family: monospace;
+        font-style: inherit;"><div id="pss"><span id="old-password">{{ clientDetails.Password }}</span>
                             <a onclick="document.getElementById('pss').setAttribute('hidden',true);
                             document.getElementById('form').removeAttribute('hidden');
                             var s=document.getElementById('old-password').innerHTML;
                             document.getElementById('new-password').setAttribute('value',s);
                             event.preventDefault();
-                            " href="" style="margin-left: 10px;">
+                            " href="" style="margin-left: 10px;color: rgba(15, 100, 208, 0.59);">
                                 Edit</a>
                         </div>
                         <div id="form" hidden>
@@ -40,23 +51,31 @@
 
                 </tr>
                 <tr style="border-bottom: #f4f4f4 1px solid;">
-                    <th width="14%" style="border-right:#f4f4f4 4px solid; text-align: right">  Address: </th>
-                    <th style="background-color: #d3d3d3;padding-left: 5%;">{{ clientDetails.Address }}</th>
+                    <th width="14%" style=" ">  Address</th>
+                    <th style="background-color:#c3b2b20f;padding-left: 5%; font-size: 15px;
+        font-family: monospace;
+        font-style: inherit;">{{ clientDetails.Address }}</th>
 
                 </tr>
                 <tr style="border-bottom: #f4f4f4 1px solid;">
-                    <th width="14%" style="border-right:#f4f4f4 4px solid; text-align: right">  Email :</th>
-                    <th style="background-color: #d3d3d3;padding-left: 5%;">{{ clientDetails.Email }}</th>
+                    <th width="14%" style=" ">  Email </th>
+                    <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
+        font-family: monospace;
+        font-style: inherit;">{{ clientDetails.Email }}</th>
 
                 </tr>
                 <tr style="border-bottom: #f4f4f4 1px solid;">
-                    <th width="14%" style="border-right:#f4f4f4 4px solid; text-align: right">  Subscription :</th>
-                    <th style="background-color: #d3d3d3;padding-left: 5%;"><a href=" {{ path('client_subs') }}"> View</a></th>
+                    <th width="14%" style=" ">  Subscription </th>
+                    <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
+        font-family: monospace;
+        font-style: inherit;"><a class="blue-anchor"href=" {{ path('client_subs') }}"> View</a></th>
 
                 </tr>
                 <tr style="border-bottom: #f4f4f4 1px solid;">
-                    <th width="14%" style="border-right:#f4f4f4 4px solid; text-align: right">  My Applications :</th>
-                    <th style="background-color: #d3d3d3;padding-left: 5%;"><a href=" {{ path('client_apps') }}"> View</a></th>
+                    <th width="14%" style=" ">  My Applications </th>
+                    <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
+        font-family: monospace;
+        font-style: inherit;"><a class="blue-anchor" href=" {{ path('client_apps') }}"> View</a></th>
 
                 </tr>
                 <tbody>

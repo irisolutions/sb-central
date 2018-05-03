@@ -88,7 +88,7 @@ html, body {
     -ms-flex-align: center;
     align-items: center;
     font-weight: 500;
-    padding: 20px 40px !important;
+    padding:19.5px 40px !important;
 }
 
 .fd-navigation .mdl-navigation__link {
@@ -117,6 +117,13 @@ html, body {
     text-decoration: none;
     color: inherit;
     font-weight: 400;  
+}
+.fd-title{
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 400;
+    text-align: center;
+    font-size: 30px;
+    margin: 15px 0;
 }
 
 .fd-title .mdl-button {
@@ -149,6 +156,9 @@ html, body {
     max-width: 680px;
     position: relative;
     margin-bottom: 25px;
+    border: 1px solid;
+    border-color: gainsboro;
+    border-radius: 20px;
 }
 
 #fd-application_menu {
@@ -191,7 +201,11 @@ html, body {
 .fd-section .mdl-card__supporting-text h4 {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;    
+    text-overflow: ellipsis;
+    color: #616161;
+    font-size: 30px;
+    font-style: inherit;
+    font-family: cursive
 }
 
 /* fd-search */
@@ -215,7 +229,7 @@ html, body {
     padding-top: 0px !important;
 }
 .mdl-color--primary {
-    background-color: cadetblue !important;
+    background-color: #0083BA !important;
 }
 .mdl-layout-title .mdl-color-text--white{
     background-color: #c6c6c6c2 !important;
@@ -224,7 +238,7 @@ html, body {
     background-color: white !important;
 }
 .mdl-layout__header-row{
-    background-color: cadetblue !important;
+    background-color: #0083BA !important;
 }
 .fd-application_box .mdl-card .mdl-shadow--2dp{
 
@@ -237,10 +251,84 @@ html, body {
     margin: 15px !important;
 }
 .mdl-color--accent {
-    background-color: #a0d1d3 !important;
+    background-color: #0083BA !important;
 }
 .mdl-button.mdl-button--colored {
-    color: rgb(9, 9, 9);
+    color: #616161;
     font-size: 17px !important;
-    font-family: inherit !important;
+    font-family: cursive;
+}
+
+.mdl-layout__drawer{
+    height: 666px !important;
+}
+.mdl-layout__content{
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    /* box-sizing: border-box; */
+    border-left: 2px solid #e0e0e0;
+}
+main{
+    background-color: white !important;}
+ .mdl-button--icon {
+
+}
+ .mdl-mini-footer__left-section{
+     margin: auto;
+ }
+ .mdl-logo{
+     font-size: 18px;
+     font-style: italic;
+ }
+.fossdriod{
+     color: #0083BA !important;
+ }
+.datagrid{
+    border: 1px solid gainsboro;
+    border-radius: 15px;
+    box-shadow: 3px 3px 3px gainsboro;
+}
+.blue-anchor{
+    color: rgba(15, 100, 208, 0.59) !important;
+}
+th{
+    font-style: oblique !important;
+}
+.icon{
+    margin-right: 10px;
+}
+.mdl-textfield.is-invalid .mdl-textfield__input {
+    border-color: white !important;
+    box-shadow: none;
+}
+.logo-iris-store{
+    display: inline;
+    width: 30px;
+    height: 30px;
+}
+.mdl-layout__drawer>.mdl-layout__title, .mdl-layout__drawer>.mdl-layout-title {
+    line-height: 64px;
+    padding-left: 30px !important;
+}
+.mdl-mini-footer{
+    padding: 16px 16px !important;
+    background-color: #0083ba !important;
+}
+.fd-section_header{
+    border-top-left-radius: 20px;
+    border-left: 1px solid;
+    border-color: gainsboro;
+    border-bottom-left-radius: 20px;
+
+}
+.mdl-card{
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+.appStaus{
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    border: 1px solid white;
+    background-color: #005e97;
+    border-radius: 5px;
 }

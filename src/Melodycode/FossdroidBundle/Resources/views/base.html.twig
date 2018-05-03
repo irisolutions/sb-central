@@ -60,13 +60,16 @@ window.onclick = function(event) {
                     <div> &nbsp;&nbsp;&nbsp;&nbsp;</div>
     				
     				<div class="dropdown">
-  					<button onclick="myFunction()" class="dropbtn">{{ app.user.name }}&#8964;</button>
+  					<button onclick="myFunction()" class="dropbtn">{{ app.user.name }} <i class="fa fa-caret-down" aria-hidden="true" title="Toggle dropdown menu"></i>&#8964;
+                    </button>
+
+
   					<div id="myDropdown" class="dropdown-content">
-    					<a href="{{ path('client_apps') }}">My Applications</a>
-    					<a href="{{ path('client_subs') }}">My Subscriptions</a>
-    					<a href="{{ path('client_account') }}">My Account</a>
+    					<a  href="{{ path('client_apps') }}"> <i class="fa fa-crosshairs icon" aria-hidden="true"></i> My Applications </a>
+    					<a href="{{ path('client_subs') }}"> <i class="fa fa-share icon" aria-hidden="true"></i> My Subscriptions</a>
+    					<a href="{{ path('client_account') }}"><i class="fa fa-user icon" aria-hidden="true"></i> My Account </a>
     					<hr>
-    					<a href="{{ path('logout') }}">Sign Out</a>
+    					<a href="{{ path('logout') }}"> <i class="fa fa-sign-out icon" aria-hidden="true"></i> Sign Out</a>
   					</div>
 					</div>
     				
@@ -79,24 +82,31 @@ window.onclick = function(event) {
                 {{ render(controller("MelodycodeFossdroidBundle:Widget:categories")) }}
             {% endblock %}
             <main class="mdl-layout__content">
-                {% block body %}{% endblock %}
-                <footer class="mdl-mini-footer">
-                    <div class="mdl-mini-footer__left-section">
-                        <div class="mdl-logo">
-                            Iris Sensory Store is a property of Iris Interactive Solutions. The Store is based on <a href="https://melodycode.com/">Fossdroid Core</a>
-                        </div>
-                    </div>
-                </footer>
-            </main>
+                <div class="row">
 
+                </div>
+                {% block body %}{% endblock %}
+
+            </main>
+            <footer class="mdl-mini-footer">
+                <div class="mdl-mini-footer__left-section">
+                    <div class="mdl-logo">
+
+
+                        Iris Sensory Store is a property of Iris Interactive Solutions.
+                    </div>
+                </div>
+            </footer>
         </div>
 
         <!-- stylesheet -->
         <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
         <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
         <!-- javascript -->
         <script src="//storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js"></script>
+
 
     </body>
 </html>

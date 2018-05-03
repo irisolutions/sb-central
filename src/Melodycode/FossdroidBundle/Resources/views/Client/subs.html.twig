@@ -7,7 +7,8 @@ My Bundles/Subscriptions
 
 {% block body %}
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-<div><h4>Purchased Bundles</h4></div>
+    <div><h4 style="margin-bottom: 22px;font-family: cursive; font-size: 35px">Purchased Bundles</h4></div>
+<hr>
 <div class="datagrid">
  <table>
         <thead>
@@ -21,7 +22,7 @@ My Bundles/Subscriptions
         <tbody>
         {% for bundle in subs %}
           <tr>
-            <td><a href="{{ path('bundle', {'slug': bundle.ID}) }}">{{ bundle.Name }}</a></td>
+            <td><a class="blue-anchor" href="{{ path('bundle', {'slug': bundle.ID}) }}">{{ bundle.Name }}</a></td>
             <td>{{ bundle.Start }}</td>
             <td>{{ bundle.End }}</td>
           </tr>

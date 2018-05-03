@@ -43,10 +43,11 @@
     form {
         width: 380px;
         margin: 2em auto;
-        padding: 3em 2em 2em 2em;
+        padding: 1em 1em 1em 1em;
         background: #fafafa;
         border: 1px solid #ebebeb;
         box-shadow: rgba(0, 0, 0, 0.14902) 0px 1px 1px 0px, rgba(0, 0, 0, 0.09804) 0px 1px 2px 0px;
+        border-radius: 20px;
     }
 
     .group {
@@ -162,7 +163,10 @@
     }
 
     /* Button */
-
+    .logo-image-login{
+        width:120px !important;
+        height:120px !important;
+    }
     .button {
         position: relative;
         display: inline-block;
@@ -190,8 +194,10 @@
     /* Button modifiers */
 
     .buttonBlue {
-        background: #4a89dc;
+        background: #005e97;
         text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);
+        border: 1px solid gainsboro;
+        border-radius: 10px;
     }
 
     .buttonBlue:hover {
@@ -303,7 +309,7 @@
         font-style: italic;
     }
     .header-login-signup .header-limiter h1 span {
-        color: #5383d3;
+        color: #0083ba;
     }
 
     /* The navigation links */
@@ -396,6 +402,7 @@
             display: none;
         }
 
+
     }
 
 
@@ -421,8 +428,9 @@
 
 <form action="{{ path('login') }}" method="post">
     <hgroup>
+        <img class="logo-image-login" src="{{ asset('images/Layer 2.png') }}">
         <h1>Iris Central</h1>
-        <h3>Sign In</h3>
+
     </hgroup>
     <div class="group">
         <input onblur='if($(this).val())  $(this).addClass("used"); else $(this).removeClass("used");' type="text"
@@ -436,7 +444,6 @@
         <label>Password</label>
     </div>
     <button type="submit" class="button buttonBlue"  onclick="androidSignIn()">Sign In
-        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
     </button>
     <script>
         function androidSignIn() {
