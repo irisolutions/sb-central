@@ -52,7 +52,7 @@
 
     .group {
         position: relative;
-        margin-bottom: 45px;
+        margin-bottom: 17px;
     }
 
     input {
@@ -75,6 +75,7 @@
     /* Label */
 
     label {
+        font-family: serif;
         color: #999;
         font-size: 18px;
         font-weight: normal;
@@ -175,6 +176,7 @@
         width: 100%;
         vertical-align: middle;
         color: #fff;
+        font-family: serif;
         font-size: 16px;
         line-height: 20px;
         -webkit-font-smoothing: antialiased;
@@ -201,7 +203,7 @@
     }
 
     .buttonBlue:hover {
-        background: #357bd8;
+        background:  #0083BA;
     }
 
     /* Ripples container */
@@ -362,6 +364,9 @@
     .header-login-signup .header-limiter ul li:hover{
         opacity: 1;
     }
+    .label-style{
+        color:#0083BA;
+    }
 
     /* The sign up button */
 
@@ -411,7 +416,7 @@
 
     <div class="header-limiter">
 
-        <h1 ><a href="#">Iris<span>Store</span></a></h1>
+        <h1 style="font-family: serif;"><a href="#">Iris<span>Store</span></a></h1>
 
         <nav>
 
@@ -429,19 +434,29 @@
 <form action="{{ path('login') }}" method="post">
     <hgroup>
         <img class="logo-image-login" src="{{ asset('images/Layer 2.png') }}">
-        <h1>Iris Central</h1>
+        <h1 style="margin: 10px;">Iris Central</h1>
 
     </hgroup>
     <div class="group">
-        <input onblur='if($(this).val())  $(this).addClass("used"); else $(this).removeClass("used");' type="text"
-               id="username" name="_username" value="{{ last_username }}"><span class=""></span><span
-                class="bar"></span>
-        <label>Username</label>
+
+
+        <label class="label-style">Username</label>
+        <br><br>
+        <div class="input-group mb-3">
+
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"  id="username" name="_username" value="{{ last_username }}">
+        </div>
+
+
     </div>
     <div class="group">
-        <input onblur='if($(this).val())  $(this).addClass("used"); else $(this).removeClass("used");' type="password"
-               id="password" name="_password"><span class=""></span><span class="bar"></span>
-        <label>Password</label>
+        <label class="label-style">Password</label>
+        <br><br>
+        <div class="input-group mb-3">
+
+            <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1"  id="password" name="_password">
+        </div>
+
     </div>
     <button type="submit" class="button buttonBlue"  onclick="androidSignIn()">Sign In
     </button>

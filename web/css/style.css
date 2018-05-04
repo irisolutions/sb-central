@@ -52,12 +52,15 @@ html, body {
 
 .fd-application_more .mdl-card--expand {
     min-height: 260px;
+    margin-left: 20px;
+
 }
 
 .fd-application_more .mdl-card__title a {
     text-decoration: none;
     color: inherit;
     font-weight: 500;
+    font-family: serif;
 }
 
 /* fd-navigation */
@@ -97,13 +100,16 @@ html, body {
 
 .fd-navigation .mdl-navigation__link .material-icons {
     font-size: 24px;
-    margin-right: 32px;
+    margin-right: 17px;
 }
 
 .fd-navigation .mdl-layout-title a {
     text-decoration: none;
     color: inherit;
-    font-weight: 500;   
+    font-weight: 500;
+    font-family: serif;
+    font-size: 20px;
+    font-style: italic;
 }
 
 .fd-navigation .icon {
@@ -118,14 +124,14 @@ html, body {
     color: inherit;
     font-weight: 400;  
 }
-.fd-title{
-    font-family: "Roboto","Helvetica","Arial",sans-serif;
+.fd-title {
+    font-family: serif;
     font-weight: 400;
     text-align: center;
-    font-size: 30px;
+    font-size: 40px;
     margin: 15px 0;
+    font-style: italic;
 }
-
 .fd-title .mdl-button {
     float: right;
 }
@@ -137,6 +143,7 @@ html, body {
     max-width: 70%; 
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: serif;
 }
 
 .fd-breadcrumb a {
@@ -249,6 +256,8 @@ html, body {
     border: 1px solid gainsboro;
     border-radius: 8px !important;
     margin: 15px !important;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 .mdl-color--accent {
     background-color: #0083BA !important;
@@ -256,7 +265,7 @@ html, body {
 .mdl-button.mdl-button--colored {
     color: #616161;
     font-size: 17px !important;
-    font-family: cursive;
+    font-family: serif;
 }
 
 .mdl-layout__drawer{
@@ -320,10 +329,7 @@ th{
     border-bottom-left-radius: 20px;
 
 }
-.mdl-card{
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
+
 .appStaus{
     position: absolute;
     right: 20px;
@@ -331,4 +337,19 @@ th{
     border: 1px solid white;
     background-color: #005e97;
     border-radius: 5px;
+}
+.mdl-layout__drawer-button{
+top:5px !important;
+}
+.mdl-layout__header .mdl-layout__drawer-button {
+    position: absolute;
+    color: rgb(255,255,255);
+    background-color: #0083ba !important;}
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+
+    color: #616161;
+    font-family: serif;
+    font-size: 18px;
+
+
 }
