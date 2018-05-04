@@ -30,6 +30,28 @@
     justify-content: center;
     vertical-align: middle;
 }
+    .font-b{
+        font-family: serif;
+        color: #616161;
+        font-style: italic;
+    }
+    td{
+        font-family: serif;
+        color: #616161;
+        font-style: italic;
+    }
+    small a{
+        padding: 5px!important;
+    }
+    .allApp h4{
+        font-weight: bold;
+        font-style: italic;
+        border-bottom: 2px solid #ddd;
+        margin-bottom: 30px;
+        margin-top: 20px;
+        font-size: 20px;
+        padding-bottom: 3px;
+    }
 </style>
  
  {% endblock  %}
@@ -41,8 +63,8 @@ Developer Dashboard &rsaquo; Manage Applications
 
 {% block body %}
 
-<div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-<div><h4>All Applications</h4></div>
+<div style="width:80%; margin-left:10%; margin-top:2%; margin-bottom:10%;">
+<div class="allApp"><h4 >All Applications</h4></div>
 <div class="datagrid">
  <table>
         <thead>
@@ -58,7 +80,7 @@ Developer Dashboard &rsaquo; Manage Applications
         <tbody>
         {% for app in applications %}
           <tr>
-            <td>&nbsp;&nbsp;<b>{{ app.Name }}</b><br style="line-height:180%;"><small> &nbsp;&nbsp;<a href="{{ path('dashboard_dev_edit_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a onclick="return confirm('Are you sure you want to delete  {{app.Name}} ');" href="{{ path('dashboard_dev_delete_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">delete</i>Delete</a>&nbsp;&nbsp;<a href="{{ path('dashboard_dev_manage_version', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">view_list</i>Versions</a></small></td>
+            <td>&nbsp;&nbsp;<b class="font-b">{{ app.Name }}</b><br style="line-height:180%;"><small> &nbsp;&nbsp;<a href="{{ path('dashboard_dev_edit_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a onclick="return confirm('Are you sure you want to delete  {{app.Name}} ');" href="{{ path('dashboard_dev_delete_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">delete</i>Delete</a>&nbsp;&nbsp;<a href="{{ path('dashboard_dev_manage_version', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">view_list</i>Versions</a></small></td>
             <td> {{ app.Count }}</td>
             <td>{{ app.ID }}</td>
             <td>{{ app.Price }}$ </td>

@@ -28,6 +28,29 @@
     });
     
 </script>
+    <style>
+        .form-control{
+            width: 40%;
+        }
+        .cont{
+            width: 80%;
+            margin: auto;
+        }
+        b{
+            font-family: Serif;
+            font-size: 17px;
+            font-style: italic;
+        }
+        .form-style-2-heading{
+            font-weight: bold;
+            font-style: italic;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 40px;
+            margin-top:40px;
+            font-size: 20px !important;
+            padding-bottom: 3px;
+        }
+    </style>
 {%endblock%}
 {% block breadcrumb %}
 {% if add == false %}
@@ -39,26 +62,27 @@ Sales  &rsaquo; New Client
 {% endblock %}
 
 {%block body%}
+    <div class="row cont">
         <form class="form-horizontal" method="post" >
             <div class="form-style-2-heading" style="margin-left: 4%;">{%if add== false%}Clinet Profile{% else %} New Client {%endif%}</div>
             <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 5%">
-            <p class="col-xs-2 "> <b>ID: </p> {%if add== false%}   <p class="col-xs-2 labels">{{client.ID}}</p> {%endif%}<input required="" type="text" name="ID" class="col-xs-2 txt"{%if add== false%} value="{{client.ID}}" hidden=""{%endif%}> 
+                <p class="col-xs-2 "> <b>ID:</b> </p> {%if add== false%}   <p class="col-xs-2 labels">{{client.ID}}</p> {%endif%}<input required="" type="text" name="ID" class="form-control"{%if add== false%} value="{{client.ID}}" hidden=""{%endif%}>
         </div>
        
    <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 5%">
-            <p class="col-xs-2 "> <b>Name: </p> {%if add== false%}   <p class="col-xs-2 labels">{{client.Name}}</p> {%endif%}<input required="" type="text" name="Name" class="col-xs-2 txt"{%if add== false%} value="{{client.Name}}" hidden=""{%endif%}> 
+       <p class="col-xs-2 "> <b>Name: </b></p> {%if add== false%}   <p class="col-xs-2 labels">{{client.Name}}</p> {%endif%}<input required="" type="text" name="Name" class="form-control"{%if add== false%} value="{{client.Name}}" hidden=""{%endif%}>
         </div>
         
         <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 5%">
-            <p class="col-xs-2 "> <b>Email: </p>  {%if add== false%}<p class="col-xs-2 labels">{{client.Email}}</p> {%endif%}<input   type="email" name="Email" class="col-xs-2 txt"{%if add== false%} value="{{client.Email}}"hidden=""{%endif%}>
+            <p class="col-xs-2 "> <b>Email:</b></p>  {%if add== false%}<p class="col-xs-2 labels">{{client.Email}}</p> {%endif%}<input   type="email" name="Email" class="form-control" {% if add== false%} value="{{client.Email}}"hidden=""{%endif%}>
         </div>
        
         <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 5%">
-               <p class="col-xs-2 "> <b>Password: </p>  {%if add== false%}<p class="col-xs-2 labels"> {{client.Password}}</p>{%endif%}<input required=""  type="text" name="Password" class="col-xs-2 txt"{%if add== false%} value="{{client.Password}}"hidden=""{%endif%}>
+               <p class="col-xs-2 "> <b>Password:</b> </p>  {%if add== false%}<p class="col-xs-2 labels"> {{client.Password}}</p>{%endif%}<input required=""  type="text" name="Password" class="form-control"{%if add== false%} value="{{client.Password}}"hidden=""{%endif%}>
         </div>
     
-       <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 5%;margin-bottom: 7%">
-            <p class="col-xs-2 "> <b>Address: </p>  {%if add== false%}<p class="col-xs-2 labels">{{client.Address}}</p> {%endif%}<input required=""  type="text" name="Address" class="col-xs-2 txt"{%if add== false%} value="{{client.Address}}"hidden=""{%endif%}> 
+       <div class="col-xs-12" style="margin-left: 5%;margin-bottom: 2%">
+           <p class="col-xs-2 "> <b>Address:</b> </p>  {%if add== false%}<p class="col-xs-2 labels">{{client.Address}}</p> {%endif%}<input required=""  type="text" name="Address" class="form-control"{%if add== false%} value="{{client.Address}}"hidden=""{%endif%}>
         </div>
   
         
@@ -66,19 +90,20 @@ Sales  &rsaquo; New Client
         
               {%if add== true%}
                   <div class="col-xs-12" style="margin-bottom: 10%">
-                      <input name="Add" style="border:4px solid #aaa; margin-left: 5%" type="submit" value="Add New Client" class="editform btn btn-primary "> 
+                      <input name="Add" style="border:1px solid gainsboro ;float: right" type="submit" value="Add New Client" class="editform btn btn-primary ">
                     </div>
                       
 
         {%endif%}
     </form>
+    </div>
         {%if add== false%}
                         <div class="form-style-2-heading" style="margin-left: 4%;">Client Applications and Bundles</div>
         <div class="col-xs-12" style="margin-left: 5%">
-            <p class="col-xs-3"> <b>Subscriptions: </p>  <a class="col-xs-1" href="{{ path('dashboard_sales_clients_bundles', {'slug': client.ID}) }}"> {{counts.subcount}}</a>
+            <p class="col-xs-3"> <b>Subscriptions:</b> </p>  <a class="col-xs-1" href="{{ path('dashboard_sales_clients_bundles', {'slug': client.ID}) }}"> {{counts.subcount}}</a>
         </div>
         <div class="col-xs-12" style="margin-bottom: 5%;margin-left: 5%">
-            <p class="col-xs-3"> <b>Applications: </p> <a class="col-xs-1" href="{{ path('dashboard_sales_clients_applications', {'slug': client.ID}) }}"> {{counts.appcount}}</a>
+            <p class="col-xs-3"> <b>Applications: </b></p> <a class="col-xs-1" href="{{ path('dashboard_sales_clients_applications', {'slug': client.ID}) }}"> {{counts.appcount}}</a>
         </div>
         <div class="col-xs-12" style="margin-bottom: 5%">
           <div class=" btn btn-primary EditProfile"> Edit Profile</div> 

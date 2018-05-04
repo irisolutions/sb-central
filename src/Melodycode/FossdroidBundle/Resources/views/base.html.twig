@@ -60,7 +60,7 @@ window.onclick = function(event) {
                     <div> &nbsp;&nbsp;&nbsp;&nbsp;</div>
     				
     				<div class="dropdown">
-  					<button onclick="myFunction()" class="dropbtn">{{ app.user.name }} <i class="fa fa-caret-down" aria-hidden="true" title="Toggle dropdown menu"></i>&#8964;
+  					<button onclick="myFunction()" class="dropbtn">{{ app.user.name }} <i class="fa fa-caret-down" aria-hidden="true" title="Toggle dropdown menu"></i>
                     </button>
 
 
@@ -68,7 +68,15 @@ window.onclick = function(event) {
     					<a  href="{{ path('client_apps') }}"> <i class="fa fa-crosshairs icon" aria-hidden="true"></i> My Applications </a>
     					<a href="{{ path('client_subs') }}"> <i class="fa fa-share icon" aria-hidden="true"></i> My Subscriptions</a>
     					<a href="{{ path('client_account') }}"><i class="fa fa-user icon" aria-hidden="true"></i> My Account </a>
-    					<hr>
+    					<hr style="
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    /* margin: 1em 0; */
+    padding: 0;
+    margin: 0px;
+">
     					<a href="{{ path('logout') }}"> <i class="fa fa-sign-out icon" aria-hidden="true"></i> Sign Out</a>
   					</div>
 					</div>

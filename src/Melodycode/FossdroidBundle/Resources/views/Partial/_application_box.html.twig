@@ -7,7 +7,7 @@
         <a href="{{ path('application', {'slug': application.slug}) }}" title="{{ application.name }}: {{ application.summary }}">{{ application.summary|length > 30 ? application.summary|slice(0, 30) ~ '...' : application.summary  }}</a>
     </div>
 
-    <div class="mdl-card__actions mdl-card--border">
+    <div class="mdl-card__actions mdl-card--border"    style="text-align: center;" >
         <a href="{{ path('application', {'slug': application.slug}) }}" title="{{ application.name }}: {{ application.summary }}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">View app</a>
     </div>
 

@@ -42,6 +42,30 @@ $(document).ready(function(){
     justify-content: center;
     vertical-align: middle;
 }
+    .allClient h4{
+        font-weight: bold;
+        font-style: italic;
+        border-bottom: 2px solid #ddd;
+        margin-bottom: 30px;
+        margin-top: 20px;
+        font-size: 20px;
+        padding-bottom: 3px;
+    }
+    td{
+        font-family: serif;
+        color: #616161 !important;
+        font-style: italic;
+
+    }
+    small a{
+       margin-top: 5px !important;
+    }
+    .font-b{
+        font-family: serif;
+        color: #616161;
+        font-style: italic;
+        margin-left: 15px;
+    }
 </style>
  
  {% endblock  %}
@@ -54,7 +78,7 @@ Sales  &rsaquo; Manage Clients
 {% block body %}
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-    <div class="del"><h4>All Clients</h4></div>
+    <div class="del allClient"><h4>All Clients</h4></div>
 <div class="datagrid">
  <table>
 
@@ -74,8 +98,9 @@ Sales  &rsaquo; Manage Clients
           <tr>
                           
             <td>&nbsp;&nbsp;
-                <b>{{ client.Name }}</b>
+                <b class="font-b">{{ client.Name }}</b>
                 <br style="line-height:180%;">
+
                 <a onclick="return confirm('Are you sure you want to delete  {{client.Name}} ');" href="{{ path('dashboard_sales_delete_client', {'slug': client.ID}) }}" style="margin-left: 4%"> <i class="material-icons" style="font-size:15px">delete</i>Delete</a>
                 <a  href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"style="margin-left: 4%"><i class="material-icons" style="font-size:15px">mode_edit</i>View/Edit</a> 
             </td>

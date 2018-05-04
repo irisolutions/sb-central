@@ -13,7 +13,8 @@
             <div class="fd-section_header mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone"
                  {% if application.icon %}
             style="background: url(/images/Icons/{{ application.icon }}) center center no-repeat {{ application.primaryColor|default('#F5F5F5') }};"{% endif %}></div>
-            <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone" >
+            <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone" style="    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;">
                 <div class="mdl-card__supporting-text mdl-color-text--grey-900">
                     <h4>{{ application.name }}</h4>
                     <div class="mdl-color-text--grey-600">{{ application.summary }}</div>
@@ -70,7 +71,7 @@
         {% endif %}
 
         <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-            <div class="mdl-card mdl-cell mdl-cell--12-col">
+            <div class="mdl-card mdl-cell mdl-cell--12-col" style="border-radius: 20px;">
                 <div class="mdl-card__supporting-text">
                     <h5>Description</h5>
                     {{ application.description|raw }}

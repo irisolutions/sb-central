@@ -58,6 +58,24 @@
     });
     });
     </script>
+    <style>
+        .cont{
+            width: 80%;
+            margin: auto;
+        }
+        .bundle-label{
+           text-align: left !important;
+        }
+        .bundle-style{
+            font-weight: bold;
+            font-style: italic;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 40px;
+            margin-top: 20px;
+            font-size: 20px;
+            padding-bottom: 3px;
+        }
+    </style>
 {%endblock%}
 {% block breadcrumb %}
 {% if update == false %}
@@ -72,30 +90,31 @@ Sales  &rsaquo; Manage Bundles &rsaquo; Edit Bundle
    <div class="bs-example">
     <!-- <h1>New Application</h1> -->
     <form class="form-horizontal" method="post" >
-        <div class="form-style-2-heading">Bundle Name & Description</div>
+        <div class="row cont">
+        <div class="form-style-2-heading bundle-style">Bundle Name & Description</div>
         <div class="form-group">
-            <label class="control-label col-xs-2" for="firstName">Bundle Name:</label>
+            <label class="control-label col-xs-2 bundle-label" for="firstName">Bundle Name:</label>
             <div class="col-xs-9">
                 <input type="text" class="form-control" id="Bundle-Name" name="bundle-name" {% if update == true%}  value ="{{bundle.Name}}" readonly{% endif %} placeholder="e.g: Kindergarden" required>
             </div>
         </div>  
             <div class="form-group">
-            <label class="control-label col-xs-2" for="postalAddress">Bundle Description:</label>
+            <label class="control-label col-xs-2  bundle-label" for="postalAddress">Bundle Description:</label>
             <div class="col-xs-9">
                 <textarea rows="6" class="form-control" name="bundle-description" id="app-description" required>{% if update == true%}  {{bundle.Description}} {% endif %}</textarea>
             </div>
         </div>
-
-              
-            <div class="form-style-2-heading col-xs-12" >Application List</div> 
+        </div>
+             <div class="row cont" >
+            <div class="form-style-2-heading col-xs-12 bundle-style" >Application List</div>
                 <div class="col-xs-12">
-                    <label class="control-label col-xs-2"style="" for="postalAddress">Application List</label>
+                    <label class="control-label col-xs-2" style="" for="postalAddress">Application List</label>
                     <div class="col-xs-1">
                         
                     </div>
                     <label class="control-label col-xs-3"style="margin-left: 15%"  for="postalAddress">Bundle Application List</label>
                   </div>
-              <div class="col-xs-5" style="height: 300px;overflow: auto; margin-left: 4%">
+              <div class="col-xs-5" style="height: 300px;overflow: auto;padding: 0px;border: 1px solid gainsboro ;float: left">
                 
                   <table id="app-list"  class="col-xs-1 row-table table table-bordered table-responsive table-striped" style="" >
                 <tr>
@@ -116,7 +135,7 @@ Sales  &rsaquo; Manage Bundles &rsaquo; Edit Bundle
                   </p>
                   
               </div>
-                  <div class="col-xs-5" style="height: 300px;overflow: auto;">
+                  <div class="col-xs-5" style="height: 400px;overflow: auto; float: right; ">
                      
                   <table id="bundle-app-list"  class="col-xs-1 row-table table table-bordered table-responsive table-striped" style="" >
                 <tr>
@@ -163,7 +182,7 @@ Sales  &rsaquo; Manage Bundles &rsaquo; Edit Bundle
             	<input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Update Bundle">
             {% endif %}
              </div>
-             
+    </div>
         
     </form>
 </div>

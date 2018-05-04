@@ -31,6 +31,23 @@
     justify-content: center;
     vertical-align: middle;
 }
+    .allBundle h4{
+        font-weight: bold;
+        font-style: italic;
+        border-bottom: 2px solid #ddd;
+        margin-bottom: 30px;
+        margin-top: 20px;
+        font-size: 20px;
+        padding-bottom: 3px;
+    }
+    td{
+        font-family: serif;
+        color: #616161;
+        font-style: italic;
+    }
+    small a{
+        padding: 5px!important;
+    }
 </style>
  
  {% endblock  %}
@@ -43,7 +60,7 @@ Sales  &rsaquo; Manage Bundles
 {% block body %}
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-<div><h4>All Bundles</h4></div>
+<div class="allBundle"><h4>All Bundles</h4></div>
 <div class="datagrid">
  <table>
         <thead>
