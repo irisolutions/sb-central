@@ -109,6 +109,9 @@
         /* Footer left */
 
         .footer-distributed .footer-left{
+            width:35%;
+        }
+        .footer-distributed .footer-right{
             width: 40%;
         }
 
@@ -277,12 +280,14 @@
             background-color: red;
             color: white;
             text-align: center;
-            height:100px !important;
+            height: 100px !important;
         }
         main{
             max-height: 630px;
         }
-
+        img{
+            height: 60px;
+        }
     </style>
 
     {% block head %}{% endblock %}
@@ -356,7 +361,6 @@
         {% endblock %}
 
     </main>
-</div>
     <footer class="footer-distributed">
 
         <div class="footer-left">
@@ -387,7 +391,7 @@
     </footer>
 
 
-
+</div>
 
 <!-- stylesheet -->
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">

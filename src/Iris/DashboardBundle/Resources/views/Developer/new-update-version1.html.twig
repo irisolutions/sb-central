@@ -16,13 +16,25 @@
     }
     .form-style-2-heading{
     font-weight: bold;
-    font-style: italic;
-    border-bottom: 2px solid #ddd;
+
+    border-bottom: 1px solid #ddd;
     margin-bottom: 40px;
     margin-top:40px;
     font-size: 15px;
     padding-bottom: 3px;
+        text-align: center;
 }
+    .cont {
+        width: 80%;
+        margin: auto;
+        margin-top: 90px;
+        border: 1px solid gainsboro;
+        border-radius: 5px;
+    }
+    .control-label{
+        font-size: 12px;
+    }
+
 </style>
  
  {% endblock  %}
@@ -39,7 +51,11 @@ Developer Dashboard &rsaquo; Update Version
 {% block body %}
    <div class="bs-example">
     <!-- <h1>New Application</h1> -->
+
+
+
        <form class="form-horizontal" method="post" enctype="multipart/form-data" >
+           <div class="row cont">
         <div class="form-style-2-heading">Name & Identification Information</div>
         <div class="form-group">
             <label class="control-label col-xs-2" for="firstName">Application Identifier:</label>
@@ -62,7 +78,7 @@ Developer Dashboard &rsaquo; Update Version
                 <label class="control-label" for="inputEmail">(Must match manifest version of the two binary apps below)</label>
                        
         </div>
-		 
+           </div>
         <!--
 	<div class="form-style-2-heading">Subscription Bundles</div>  
         <div class="row">
@@ -78,7 +94,7 @@ Developer Dashboard &rsaquo; Update Version
         </div>    
         </div>    
         -->
-
+           <div class="row cont">
         <div class="form-style-2-heading col-xs-12">Application Binary</div>
 
 
@@ -91,13 +107,15 @@ Developer Dashboard &rsaquo; Update Version
 
         <div class="form-group">
         	{% if update == false %}
-                <input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Add New Version">
+                <input type="submit" class="btn btn-primary" style="margin:20px;border:1px solid #aaa;float: right" value="Add New Version">
             {% else %}
-            	<input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Update Version">
+            	<input type="submit" class="btn btn-primary" style="margin:20px;border:1px solid #aaa; float: right" value="Update Version">
             {% endif %}
              </div>
+           </div>
              
         
     </form>
+       </div>
 </div>
 {% endblock %}

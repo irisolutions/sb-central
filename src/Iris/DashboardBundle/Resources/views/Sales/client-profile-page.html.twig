@@ -121,12 +121,13 @@
         </form>
     </div>
     {% if add== false %}
-        <div class="form-style-2-heading" style="margin-left: 4%;">Client Applications and Bundles</div>
-        <div class="col-xs-12" style="margin-left: 5%">
+        <div class="row cont">
+        <div class="form-style-2-heading">Client Applications and Bundles</div>
+        <div class="col-xs-12" style="margin-left: 15%">
             <p class="col-xs-3"><b>Subscriptions:</b></p>  <a class="col-xs-1"
                                                               href="{{ path('dashboard_sales_clients_bundles', {'slug': client.ID}) }}"> {{ counts.subcount }}</a>
         </div>
-        <div class="col-xs-12" style="margin-bottom: 5%;margin-left: 5%">
+        <div class="col-xs-12" style="margin-bottom: 5%;margin-left: 15%">
             <p class="col-xs-3"><b>Applications: </b></p> <a class="col-xs-1"
                                                              href="{{ path('dashboard_sales_clients_applications', {'slug': client.ID}) }}"> {{ counts.appcount }}</a>
         </div>
@@ -137,7 +138,7 @@
             <div class="col-xs-1"></div>
             <div hidden="" class="col-xs-1 btn btn-primary cancel editform"> cancel</div>
         </div>
-
+        </div>
     {% endif %}
 
 {% endblock %}
