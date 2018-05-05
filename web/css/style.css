@@ -106,7 +106,10 @@ html, body {
     font-size: 24px;
     margin-right: 17px;
 }
-
+.mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen)>.mdl-layout__header {
+    margin-left: 0px !important;
+    width: 100%;
+}
 .fd-navigation .mdl-layout-title a {
     text-decoration: none;
     color: inherit;
@@ -279,9 +282,10 @@ html, body {
 
 .mdl-layout__drawer{
 
-   max-height: initial !important;
+
+
     background-color: white;
-    height: auto !important;
+
 }
 .mdl-layout__content{
     /* box-sizing: border-box; */
@@ -328,6 +332,7 @@ th{
 .mdl-layout__drawer>.mdl-layout__title, .mdl-layout__drawer>.mdl-layout-title {
     line-height: 64px;
     padding-left: 30px !important;
+    height: 52px;
 }
 .mdl-mini-footer{
     padding: 16px 16px !important;
@@ -355,7 +360,9 @@ top:5px !important;
 .mdl-layout__header .mdl-layout__drawer-button {
     position: absolute;
     color: rgb(255,255,255);
-    background-color: #0083ba !important;}
+    background-color: #0083ba !important;
+    display: none;
+}
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
 
 
@@ -364,17 +371,39 @@ top:5px !important;
     font-size: 15px;
 }
 .mdl-layout__drawer{
-    overflow: initial !important;
+min-height: 667px !important;
+    position: fixed;
 }
 .fd-navigation {
-    border: 1px solid gainsboro;
+
 }
 .mdl-color--grey-100 {
     background-color: white !important;
 }
 .fd-navigation mdl-layout__drawer{
-    height: auto !important;
+    overflow: scroll;
+    height:100% ;
+    max-height: 100% !important;
 }
 main{
-    overflow: initial !important;
+
+}
+@media all and (max-width: 1025px) {
+    .mdl-layout__header .mdl-layout__drawer-button {
+        display: block;
+    }
+
+
+
+}
+.mdl-color--primary {
+    background-color: #0083BA !important;
+    display: none;
+}
+.mdl-layout__drawer{
+    z-index: 0 !important;
+}
+
+.mdl-layout-title{
+    display: none;
 }

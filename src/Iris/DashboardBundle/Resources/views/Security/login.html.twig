@@ -1,9 +1,8 @@
 {# app/Resources/views/security/login.html.twig #}
 {# ... you will probably extend your base template, like base.html.twig #}
 <!Doctype html>
-{% if error %}
-    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
 {#fdsaf#}
 </script>
@@ -39,6 +38,8 @@
 	h3 {
 		color: #4a89dc;
 	}
+
+
 
 	form {
 		width: 380px;
@@ -189,7 +190,7 @@
 		border-bottom: 2px solid #3160B6;
 		cursor: pointer;
 		transition: all 0.15s ease;
-		margin-top: 40px;
+		margin-top: 20px;
 
 	}
 
@@ -264,7 +265,7 @@
 
 	footer p {
 		color: #888;
-		font-size: 13px;
+		font-size: 11px;
 		letter-spacing: .4px;
 	}
 
@@ -280,7 +281,7 @@
 	}
 
 	footer img {
-		width: 80px;
+		width: 140px;
 		transition: all .2s ease;
 	}
 
@@ -292,7 +293,8 @@
 		outline: none;
 	}
 	.header-login-signup{
-		background-color:#292c2f;
+
+		background-color:#0083ba;
 		box-shadow:0 1px 1px #ccc;
 		padding: 20px 40px;
 		height: 80px;
@@ -306,7 +308,7 @@
 		margin: 0 auto;
 	}
 	form{
-		height: 510px !important;
+		min-height: 450px !important;
 	}
 
 	/* Logo */
@@ -318,7 +320,7 @@
 		font-style: italic;
 	}
 	.header-login-signup .header-limiter h1 span {
-		color: #0083ba;
+		color: white;
 	}
 
 	/* The navigation links */
@@ -416,6 +418,197 @@
 
 
 	}
+	.footer-distributed{
+		background-color: #292c2f;
+		box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+		box-sizing: border-box;
+		width: 100%;
+		text-align: left;
+		font: bold 16px sans-serif;
+
+		padding: 20px 50px;
+		margin-top: 20px;
+	}
+
+	.footer-distributed .footer-left,
+	.footer-distributed .footer-center,
+	.footer-distributed .footer-right{
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	/* Footer left */
+
+	.footer-distributed .footer-left{
+		width: 40%;
+	}
+
+	/* The company logo */
+
+	.footer-distributed h3{
+		color:  #ffffff;
+		font: normal 36px 'Cookie', cursive;
+		margin: 0;
+	}
+
+	.footer-distributed h3 span{
+		color:  #5383d3;
+	}
+
+	/* Footer links */
+
+	.footer-distributed .footer-links{
+		color:  #ffffff;
+		margin: 20px 0 12px;
+		padding: 0;
+	}
+
+	.footer-distributed .footer-links a{
+		display:inline-block;
+		line-height: 1.8;
+		text-decoration: none;
+		color:  inherit;
+	}
+
+	.footer-distributed .footer-company-name{
+		color:  #8f9296;
+		font-size: 14px;
+		font-weight: normal;
+		margin: 0;
+	}
+
+	/* Footer Center */
+
+	.footer-distributed .footer-center{
+		width: 35%;
+	}
+
+	.footer-distributed .footer-center i {
+		background-color: #33383b;
+		color: #ffffff;
+		font-size: 23px;
+		width: 29px;
+		height: 29px;
+		border-radius: 50%;
+		text-align: center;
+		line-height: 38px;
+		margin: 8px 12px;
+		vertical-align: middle;
+	}
+	.footer-distributed .footer-center i.fa-envelope{
+		font-size: 12px;
+		line-height: 38px;
+	}
+	.footer-distributed .footer-center i.fa-map-marker{
+		font-size: 14px;
+		line-height: 38px;
+	}
+	.footer-distributed .footer-center i.fa-phone{
+		font-size: 14px;
+		line-height: 38px;
+	}
+
+	.footer-distributed .footer-center p{
+		display: inline-block;
+		color: #ffffff;
+		vertical-align: middle;
+		margin:0;
+	}
+
+	.footer-distributed .footer-center p span{
+		display:block;
+		font-weight: normal;
+		font-size:14px;
+		line-height:2;
+	}
+
+	.footer-distributed .footer-center p a{
+		color:  #5383d3;
+		text-decoration: none;;
+	}
+
+
+	/* Footer Right */
+
+	.footer-distributed .footer-right{
+		width: 20%;
+	}
+
+	.footer-distributed .footer-company-about{
+		line-height: 20px;
+		color:  #92999f;
+		font-size: 13px;
+		font-weight: normal;
+		margin: 0;
+	}
+
+	.footer-distributed .footer-company-about span{
+		display: block;
+		color:  #ffffff;
+		font-size: 14px;
+		font-weight: bold;
+		margin-bottom: 20px;
+	}
+
+	.footer-distributed .footer-icons{
+		margin-top: 25px;
+	}
+
+	.footer-distributed .footer-icons a{
+		display: inline-block;
+		width: 35px;
+		height: 35px;
+		cursor: pointer;
+		background-color:  #33383b;
+		border-radius: 2px;
+
+		font-size: 20px;
+		color: #ffffff;
+		text-align: center;
+		line-height: 35px;
+
+		margin-right: 3px;
+		margin-bottom: 5px;
+	}
+
+	/* If you don't want the footer to be responsive, remove these media queries */
+
+	@media (max-width: 880px) {
+
+		.footer-distributed {
+			font: bold 14px sans-serif;
+		}
+
+		.footer-distributed .footer-left,
+		.footer-distributed .footer-center,
+		.footer-distributed .footer-right {
+			display: block;
+			width: 100%;
+			margin-bottom: 40px;
+			text-align: center;
+		}
+
+		.footer-distributed .footer-center i {
+			margin-left: 0;
+		}
+
+	}
+.isa_error {
+	margin: 10px 0px;
+	padding:5px;;
+
+	}
+
+	.isa_error {
+		color: #D8000C;
+		background-color: #FFD2D2;
+	}
+	 .isa_error i {
+		 margin:10px 22px;
+		font-size:1em;
+		vertical-align:middle;
+	}
+
 	</style>
 
 
@@ -430,11 +623,11 @@
 
 		</nav>
 
-		<ul>
+		<!--<ul>
 			<li><a href="#">Login</a></li>
 			<li><a href="#">Sign up</a></li>
 		</ul>
-
+-->
 	</div>
 
 </header>
@@ -444,6 +637,16 @@
 		<h1 style="margin: 10px;">Iris DashBoard</h1>
 
 	</hgroup>
+
+
+
+        {% if error %}
+			<div class="isa_error">
+			{{ error.messageKey|trans(error.messageData, 'security') }}
+			</div>
+        {% endif %}
+
+
  <div class="group">
 	<label class="label-style">Username</label>
 	<br><br>
@@ -476,23 +679,56 @@
   </button>
 </form>
 
-<header class="header-login-signup">
+<footer class="footer-distributed">
 
-	<div class="header-limiter">
+	<div class="footer-left">
 
+		<h3> <a href="http://www.iris.ps/"><img src="{{ asset('images/logo-whitetext.png') }}"> </a>  </h3>
+		<div class="footer-icons">
 
+			<a href="https://www.facebook.com/iris.interactive.solutions"><i class="fa fa-facebook"></i></a>
+			<a href="https://twitter.com/iris_inter"><i class="fa fa-twitter"></i></a>
+			<a href="https://www.linkedin.com/company/iris-interactive-solutions"><i class="fa fa-linkedin"></i></a>
+			<a href="#"><i class="fa fa-github"></i></a>
 
-		<nav>
+		</div>
 
-		</nav>
-
-		<ul>
-
-		</ul>
 
 	</div>
 
-</header>
+	<div class="footer-center">
+
+		<div>
+			<i class="fa fa-map-marker"></i>
+			<p><span>Sama Ramallah Bld</span> Ramallah </p>
+		</div>
+
+		<div>
+			<i class="fa fa-phone"></i>
+			<p>+970.2.295123</p>
+		</div>
+
+
+		<div>
+			<i class="fa fa-envelope"></i>
+			<p><a href="mailto:support@company.com">info@iris.ps</a></p>
+		</div>
+
+	</div>
+
+	<div class="footer-right">
+
+		<p class="footer-company-about">
+			<span>About Us</span>
+			Technology tailored to your needs
+			At Iris Solutions we create and develop immersive technology, specializing in interactive and sensory technology fields. We are the leading provider of sensory environments in the region.
+		</p>
+
+
+
+	</div>
+
+</footer>
 
 
 

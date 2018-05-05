@@ -59,21 +59,33 @@
     });
     </script>
     <style>
-        .cont{
+bode{
+    direction: ltr;
+}
+        .cont {
             width: 80%;
             margin: auto;
+            border: 1px solid;
+            border-color: gainsboro;
+            border-radius: 5px;
+            margin-top: 90px;
         }
         .bundle-label{
-           text-align: left !important;
+
+            font-size: 12px;
+            text-align: center;
         }
         .bundle-style{
             font-weight: bold;
-            font-style: italic;
-            border-bottom: 2px solid #ddd;
+color: #0083ba;
+            border-bottom: 1px solid #ddd;
             margin-bottom: 40px;
             margin-top: 20px;
-            font-size: 20px;
+            font-size: 15px;
             padding-bottom: 3px;
+            text-align: center;
+            direction: ltr !important;
+            text-align: center;
         }
     </style>
 {%endblock%}
@@ -88,6 +100,7 @@ Sales  &rsaquo; Manage Bundles &rsaquo; Edit Bundle
 
 {% block body %}
    <div class="bs-example">
+
     <!-- <h1>New Application</h1> -->
     <form class="form-horizontal" method="post" >
         <div class="row cont">
@@ -105,62 +118,71 @@ Sales  &rsaquo; Manage Bundles &rsaquo; Edit Bundle
             </div>
         </div>
         </div>
-             <div class="row cont" >
+           <!--  <div class="row cont" >
             <div class="form-style-2-heading col-xs-12 bundle-style" >Application List</div>
                 <div class="col-xs-12">
-                    <label class="control-label col-xs-2" style="" for="postalAddress">Application List</label>
+                    <div class="col-xs-6">
+                        <label class="control-label col-xs-2" style="" for="postalAddress">Application List</label>
 
                         <div class="add-app btn btn-primary col-xs-1" style="margin-left: 15px; margin-bottom: 15px;" >
                             Add
                         </div>
 
-                    <label class="control-label col-xs-3"style="margin-left: 15%"  for="postalAddress">Bundle Application List</label>
-                    <div class="remove-app btn btn-primary col-xs-1" style="margin-left: 15px;">
-                        Remove
+                        <div class="col-xs-5" style="height: 300px;overflow: auto;padding: 0;border: 1px solid gainsboro ;float: left">
+
+                            <table id="app-list"  class="col-xs-1 row-table table table-bordered table-responsive table-striped" style="" >
+                                <tr>
+                                    <th hidden="">  ID </th>
+                                    <th>  Name </th>
+                                    <th>  Price </th>
+                                </tr>
+                                {% for app in apps %}
+                                    <tr style="background-color: white;" class="select">
+                                        <td hidden=""> {{app.ID}} </td>
+                                        <td> {{app.Name}} </td>
+                                        <td> {{app.Price}}$ </td>
+                                    </tr>
+
+                                {%endfor%}
+                            </table>
+                            <p class="col-xs-4">
+                            </p>
+
+                        </div>
                     </div>
-                  </div>
-              <div class="col-xs-5" style="height: 300px;overflow: auto;padding: 0px;border: 1px solid gainsboro ;float: left">
-                
-                  <table id="app-list"  class="col-xs-1 row-table table table-bordered table-responsive table-striped" style="" >
-                <tr>
-                    <th hidden="">  ID </th>
-                    <th>  Name </th>
-                    <th>  Price </th>
-                </tr>
-                {% for app in apps %}
-                    <tr style="background-color: white;" class="select">
-                        <td hidden=""> {{app.ID}} </td>
-                        <td> {{app.Name}} </td>
-                        <td> {{app.Price}}$ </td>
-                    </tr>
-                    
-                {%endfor%}
-                  </table>
-                  <p class="col-xs-4">
-                  </p>
-                  
-              </div>
-                  <div class="col-xs-5" style="height: 400px;overflow: auto; float: right; ">
-                     
-                  <table id="bundle-app-list"  class="col-xs-1 row-table table table-bordered table-responsive table-striped" style="" >
-                <tr>
-                    <th hidden="">  ID </th>
-                    <th>  Name </th>
-                    <th>  Price </th>
-                </tr>
-                {% if update == true %}
-                 {% for app in appsOfBundle %}
-                    <tr style="background-color: white;" class="select">
-                        <td hidden=""> {{app.ID}} </td>
-                        <td> {{app.Name}} </td>
-                        <td> {{app.Price}}$ </td>
-                    </tr>
-                    
-                {%endfor%}
-                {%endif%}
-                  </table>
-                  
-              </div>
+                    <div class="col-xs-6">
+                        <label class="control-label " style=""  for="postalAddress">Bundle Application List</label>
+                        <div class="remove-app btn btn-primary col-xs-1" style="margin-left: 15px;">
+                            Remove
+                        </div>
+                        <div class="col-xs-5" style="height: 400px;overflow: auto; float: right; ">
+
+                            <table id="bundle-app-list"  class="col-xs-1 row-table table table-bordered table-responsive table-striped" style="" >
+                                <tr>
+                                    <th hidden="">  ID </th>
+                                    <th>  Name </th>
+                                    <th>  Price </th>
+                                </tr>
+                                {% if update == true %}
+                                    {% for app in appsOfBundle %}
+                                        <tr style="background-color: white;" class="select">
+                                            <td hidden=""> {{app.ID}} </td>
+                                            <td> {{app.Name}} </td>
+                                            <td> {{app.Price}}$ </td>
+                                        </tr>
+
+                                    {%endfor%}
+                                {%endif%}
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
                   <div class="col-xs-12"style="margin-left: 4%">
 
                   <p class="col-xs-4">
@@ -184,7 +206,7 @@ Sales  &rsaquo; Manage Bundles &rsaquo; Edit Bundle
             {% endif %}
              </div>
     </div>
-        
+        -->
     </form>
 </div>
 {% endblock %}

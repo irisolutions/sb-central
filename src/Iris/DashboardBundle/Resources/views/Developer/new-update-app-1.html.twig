@@ -10,6 +10,9 @@
             crossorigin="anonymous"></script>
 
     <style type="text/css">
+        .textarea-style{
+            width: 80% !important;
+        }
         h1 {
             margin: 30px 0;
             padding: 0 200px 15px 0;
@@ -21,13 +24,22 @@
         }
 
         .form-style-2-heading {
-            font-weight: bold;
-            font-style: italic;
-            border-bottom: 2px solid #ddd;
-            margin-bottom: 40px;
-            margin-top: 20px;
-            font-size: 20px;
-            padding-bottom: 3px;
+               font-weight: bold;
+color: #0083BA !important;
+               border-bottom: 1px solid #ddd;
+               margin-bottom: 40px;
+               margin-top: 20px;
+               font-size: 15px;
+               padding-bottom: 3px;
+               text-align: center;
+           }
+        .cont {
+            width: 80%;
+            margin: auto;
+            border: 1px solid;
+            border-color: gainsboro;
+            border-radius: 5px;
+            margin-top: 90px;
         }
 
         .appIden, .appName {
@@ -35,27 +47,24 @@
         }
 
         .form-horizontal .control-label {
-            text-align: left !important;
+            text-align: center !important;
             font-family: Serif !important;
-            font-size: 17px;
+            font-size: 14px;
         }
 
-        .cont {
-            width: 80%;
-            margin: auto;
-        }
 
         .label-payment {
 font-family: Serif;
             margin-left: 10px;
             margin-top: 0px;
-            font-size: 17px;
+            font-size: 14px;
             font-style: italic;
         }
         .label-app-type{
+            font-family: Serif;
             margin-left: 10px;
             margin-top: 0px;
-            font-size: 17px;
+            font-size: 14px;
             font-style: italic;
         }
         .col-xs-3,.col-xs-9,.col-xs-1{
@@ -245,7 +254,7 @@ font-family: Serif;
             <div class="form-group">
                 <label class="control-label col-xs-3" for="postalAddress">Application Summary:</label>
                 <div class="col-xs-9">
-                <textarea rows="3" class="form-control" name="app-summary" id="app-summary" required>
+                <textarea rows="3" class="form-control textarea-style" name="app-summary" id="app-summary" required>
                 {% if update == true %}  {{ summary }} {% endif %}
                 </textarea>
                 </div>
@@ -254,7 +263,7 @@ font-family: Serif;
             <div class="form-group">
                 <label class="control-label col-xs-3" for="postalAddress">Application Description:</label>
                 <div class="col-xs-9">
-                <textarea rows="6" class="form-control" name="app-description" id="app-description" required>					
+                <textarea  rows="6" class="form-control textarea-style" name="app-description" id="app-description" required>
                 {% if update == true %}  {{ description }} {% endif %}
                 </textarea>
                 </div>

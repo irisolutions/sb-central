@@ -30,6 +30,21 @@
     justify-content: center;
     vertical-align: middle;
 }
+b{font-family: serif;
+    color: #616161;
+
+}
+    .allaPP{
+        font-weight: bold;
+
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 40px;
+        margin-top: 90px;
+        font-size: 15px !important;
+        padding-bottom: 3px;
+        text-align: center;
+        color: #0083ba;
+    }
 </style>
  
  {% endblock  %}
@@ -42,7 +57,7 @@ Sales  &rsaquo; Applications/Clients
 {% block body %}
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-        <div><h4>All Applications</h4></div>
+        <div class="allaPP"><h4>All Applications</h4></div>
 <div class="datagrid">
  <table>
 
@@ -64,7 +79,8 @@ Sales  &rsaquo; Applications/Clients
                 <b>{{ application.Name }}</b>
                 <br style="line-height:180%;">
             </td>
-            <td><a href="{{ path('dashboard_sales_clients_of_application', {'slug': application.ID}) }}">{{ application.NumberOfClients }}</a> </td>
+            <td>
+                <a href="{{ path('dashboard_sales_clients_of_application', {'slug': application.ID}) }}">{{ application.NumberOfClients }}</a> </td>
           </tr>
           {% endfor %}
         </tbody>

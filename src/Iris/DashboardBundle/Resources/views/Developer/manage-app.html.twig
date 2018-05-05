@@ -16,7 +16,8 @@
     }
     .form-style-2-heading{
     font-weight: bold;
-    font-style: italic;
+
+
     border-bottom: 2px solid #ddd;
     margin-bottom: 40px;
     margin-top:40px;
@@ -33,25 +34,31 @@
     .font-b{
         font-family: serif;
         color: #616161;
-        font-style: italic;
+
+
     }
     td{
         font-family: serif;
         color: #616161;
-        font-style: italic;
+
+
     }
     small a{
         padding: 5px!important;
     }
     .allApp h4{
         font-weight: bold;
-        font-style: italic;
-        border-bottom: 2px solid #ddd;
-        margin-bottom: 30px;
-        margin-top: 20px;
-        font-size: 20px;
+
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 40px;
+
+        font-size: 15px;
         padding-bottom: 3px;
+        text-align: center;
+        color: #0083ba;
+        margin-top: 90px;
     }
+    .cont{}
 </style>
  
  {% endblock  %}
@@ -64,6 +71,7 @@ Developer Dashboard &rsaquo; Manage Applications
 {% block body %}
 
 <div style="width:80%; margin-left:10%; margin-top:2%; margin-bottom:10%;">
+    <div class="row cont">
 <div class="allApp"><h4 >All Applications</h4></div>
 <div class="datagrid">
  <table>
@@ -91,7 +99,7 @@ Developer Dashboard &rsaquo; Manage Applications
       </table>
       </div>
   
-      
+</div>
 </div>
   
 {% endblock %}

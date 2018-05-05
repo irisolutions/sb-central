@@ -14,15 +14,18 @@
 	.bs-example{
     	margin: 20px;
     }
-    .form-style-2-heading{
-    font-weight: bold;
-    font-style: italic;
-    border-bottom: 2px solid #ddd;
-    margin-bottom: 40px;
-    margin-top:40px;
-    font-size: 15px;
-    padding-bottom: 3px;
-}
+    .form-style-2-heading {
+        font-weight: bold;
+
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 40px;
+        margin-top: 90px;
+        font-size: 15px !important;
+        padding-bottom: 3px;
+        text-align: center;
+        color: #0083ba;
+
+    }
 
 .material-icons {
     display: inline-flex;
@@ -30,6 +33,12 @@
     justify-content: center;
     vertical-align: middle;
 }
+    .addVersion{
+        float: right;
+    }
+    .datagrid{
+        margin-top: 100px;
+    }
 </style>
  
  {% endblock  %}
@@ -42,8 +51,8 @@ Developer Dashboard &rsaquo; Manage Applications &rsaquo; Manage Versions
 {% block body %}
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-<div><h4>{{ name}} ({{ versions[0].ApplicationID}})</h4></div>
- <a href="{{ path('dashboard_dev_new_version', {'slug': versions[0].ApplicationID}) }}"><i class="material-icons" style="font-size:24px;">add_circle</i>New Version</a>
+<div class="form-style-2-heading "><h4>{{ name}} ({{ versions[0].ApplicationID}})</h4></div>
+ <div class="addVersion"><a href="{{ path('dashboard_dev_new_version', {'slug': versions[0].ApplicationID}) }}"><i class="material-icons" style="font-size:24px;">add_circle</i>New Version</a></div>
      
 <div class="datagrid">
  <table>
