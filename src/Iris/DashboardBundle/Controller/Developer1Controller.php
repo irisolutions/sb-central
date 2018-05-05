@@ -545,8 +545,9 @@ class Developer1Controller extends Controller
             $repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
             $metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
             $target_dir = $repo_dir;
-            $target_file = $target_dir.'/'. basename($_FILES["app-binary"]["name"]);
-
+            $target_file = $target_dir.'/'.$app_version. basename($_FILES["app-binary"]["name"]);
+            $controller_file = $repo_dir.'/'.$app_version. basename($_FILES["app-binary"]["name"]);
+            $dongle_file	 = $repo_dir.'/'.$app_version. basename($_FILES["app-binary"]["name"]);
             $FileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
             if (file_exists($target_file)) {
                 $request->getSession()->getFlashBag()->add('danger', 'File Already Exist');
@@ -560,17 +561,18 @@ class Developer1Controller extends Controller
                 $request->getSession()->getFlashBag()->add('danger', 'Sorry, there was an error uploading your file.');
                 return $this->redirect($request->headers->get('referer'));
             }
-            $request->getSession()->getFlashBag()->add('success', 'Done.');
-
-            $controller_file = $repo_dir.'/'. basename($_FILES["app-binary"]["name"]);
-            $dongle_file	 = $repo_dir.'/'. basename($_FILES["app-binary"]["name"]);
-
             if ( !file_exists($controller_file) /*|| !file_exists($dongle_file)*/ )
             {
                 $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Controller and/or Dongle binary file(s) do(es) not exist');
                 return $this->redirect($request->headers->get('referer'));
 
             }
+
+            $request->getSession()->getFlashBag()->add('success', 'Done.');
+
+
+
+
 
 
             // if we are here then the binary files are in place so we insert into the DB
@@ -593,16 +595,17 @@ class Developer1Controller extends Controller
                 $app=$stmt->fetch();
                 if($app['Type']=='dongle') {
                     $stmt = $conn->prepare('INSERT INTO Version (Version,ApplicationID,DongleAppName,ControllerAppName) VALUES (?,?,?,?)');
-                    $stmt->execute([$app_version, $app_identifier, $app_dongle_binary, $app_controller_binary]);
+                    $stmt->execute([$app_version, $app_identifier, $app_controller_binary, $app_controller_binary]);
                     $stmt = $conn->prepare('update DongleInstallation set DongleInstallation.Status=(select Status.PK from Status where Status.status="need_update") where DongleInstallation.ApplicationID=?');
                     $stmt->execute([$app_identifier]);
                 }
                 else{
                     $stmt = $conn->prepare('INSERT INTO Version (Version,ApplicationID,DongleAppName,ControllerAppName) VALUES (?,?,?,?)');
-                    $stmt->execute([$app_version, $app_identifier, $app_dongle_binary, $app_controller_binary]);
+                    $stmt->execute([$app_version, $app_identifier, $app_controller_binary, $app_controller_binary]);
                     $stmt = $conn->prepare('update ControllerInstallation set ControllerInstallation.Status=(select Status.PK from Status where Status.status="need_update") where ControllerInstallation.ApplicationID=?');
                     $stmt->execute([$app_identifier]);
                 }
+
             }
             catch (\PDOException $e)
             {
