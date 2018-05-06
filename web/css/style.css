@@ -371,7 +371,7 @@ top:5px !important;
     font-size: 15px;
 }
 .mdl-layout__drawer{
-min-height: 667px !important;
+height: 569px !important;
     position: fixed;
 }
 .fd-navigation {
@@ -388,12 +388,21 @@ min-height: 667px !important;
 main{
 
 }
+.fd-navigation, .mdl-layout__drawer {
+    margin-top: 64px !important;
+}
 @media all and (max-width: 1025px) {
     .mdl-layout__header .mdl-layout__drawer-button {
         display: block;
+        margin: 0px;
     }
-
-
+    .fd-navigation, .mdl-layout__drawer{
+        margin-top: 56px !important;
+    }
+    .mdl-layout__drawer {
+        height: 578px !important;
+        position: fixed;
+    }
 
 }
 .mdl-color--primary {
@@ -401,9 +410,16 @@ main{
     display: none;
 }
 .mdl-layout__drawer{
-    z-index: 0 !important;
+    z-index:5 !important;
 }
 
 .mdl-layout-title{
     display: none;
+}
+.mdl-layout__drawer .mdl-navigation {
+    padding-top: 0px !important;
+    border-bottom: 1px solid !important;
+}
+.mdl-layout__drawer-button{
+    margin: 0;
 }
