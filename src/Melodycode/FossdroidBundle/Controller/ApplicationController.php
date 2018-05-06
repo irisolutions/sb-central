@@ -4,6 +4,8 @@ namespace Melodycode\FossdroidBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Process\Process;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use PDO;
 
 //include 'ChromePhp.php';
@@ -14,6 +16,31 @@ class ApplicationController extends Controller
 
     // this action is triggered when the id sent to the application controll is the id
     // of an application according to the storedb and not according to the maindb
+    public function executeCommand($cmd)
+    {
+
+        $response = new StreamedResponse();
+        $script = $cmd.' 2>&1';
+        $process = new Process($script);
+
+        $response->setCallback(function() use ($process) {
+            $process->run(function ($type, $buffer) {
+                if (Process::ERR === $type) {
+                    echo ''.$buffer; // standard output
+                } else {
+                    echo ''.$buffer; // standard error
+                    //echo '<br>';
+                }
+                ob_flush();
+                flush();
+
+            });
+        });
+
+        $response->setStatusCode(200);
+
+        return $response;
+    }
     public function _indexAction($slug)
     {
 
@@ -110,7 +137,7 @@ class ApplicationController extends Controller
             $installationDetail = $stmt->fetch();
 
             if ($installationDetail) {
-                if ($installationDetail['CurrentStatus'] == "none") {
+                if ($installationDetail['CurrentStatus'] == "none"||$installationDetail['CurrentStatus'] == "uninstall") {
                     $buttonText = "Install";
                 } elseif ($installationDetail['CurrentStatus'] == "website_downloaded") {
                     $uninstallButton = "Cancel";
@@ -173,6 +200,7 @@ class ApplicationController extends Controller
                 $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
+             $this->executeCommand('curl --data "AppID='.$applicationDetail['ID'].'&Type='.$applicationDetail['Type'].'&UserName="'.$clientID.' http://18.236.165.209/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
         }
         return $this->redirect($this->generateUrl('application', array('slug'=>$slug)));
     }
@@ -206,7 +234,7 @@ class ApplicationController extends Controller
             $applicationDetail = $stmt->fetch();
             //application type ready
             //change status
-            $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "none" ');
+            $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "uninstall" ');
             $stmt->execute();
             $status=$stmt->fetch()['PK'];
 
@@ -218,6 +246,9 @@ class ApplicationController extends Controller
                 $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
+
+            $this->executeCommand('curl --data "AppID='.$applicationDetail['ID'].'&Type='.$applicationDetail['Type'].'&UserName="'.$clientID.' http://18.236.165.209/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+
         }
         return $this->redirect($this->generateUrl('application', array('slug'=>$slug)));
     }

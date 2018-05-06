@@ -545,9 +545,9 @@ class Developer1Controller extends Controller
             $repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
             $metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
             $target_dir = $repo_dir;
-            $target_file = $target_dir.'/'.$app_version. basename($_FILES["app-binary"]["name"]);
-            $controller_file = $repo_dir.'/'.$app_version. basename($_FILES["app-binary"]["name"]);
-            $dongle_file	 = $repo_dir.'/'.$app_version. basename($_FILES["app-binary"]["name"]);
+            $target_file = $target_dir.'/'. basename($_FILES["app-binary"]["name"]);
+            $controller_file = $repo_dir.'/'. basename($_FILES["app-binary"]["name"]);
+            $dongle_file	 = $repo_dir.'/'. basename($_FILES["app-binary"]["name"]);
             $FileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
             if (file_exists($target_file)) {
                 $request->getSession()->getFlashBag()->add('danger', 'File Already Exist');
@@ -586,7 +586,7 @@ class Developer1Controller extends Controller
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-
+            $app_controller_binary=basename($_FILES["app-binary"]["name"]);
 
             try
             {
@@ -594,7 +594,9 @@ class Developer1Controller extends Controller
                 $stmt->execute([$app_identifier]);
                 $app=$stmt->fetch();
                 if($app['Type']=='dongle') {
+
                     $stmt = $conn->prepare('INSERT INTO Version (Version,ApplicationID,DongleAppName,ControllerAppName) VALUES (?,?,?,?)');
+                    $request->getSession()->getFlashBag()->add('danger', $app_controller_binary);
                     $stmt->execute([$app_version, $app_identifier, $app_controller_binary, $app_controller_binary]);
                     $stmt = $conn->prepare('update DongleInstallation set DongleInstallation.Status=(select Status.PK from Status where Status.status="need_update") where DongleInstallation.ApplicationID=?');
                     $stmt->execute([$app_identifier]);
