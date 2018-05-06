@@ -37,9 +37,11 @@ class TokensController extends Controller
             //todo : khaled 21/Feb Try to make one access to DB
             //todo : khaled 21/Feb Check tokens and emails before add new one
 
-            $stmt = $conn->prepare('Insert into  Tokens (Token,Device,UID) values (?,?,? )');
+//            INSERT INTO Tokens (Token,Device,UID) VALUES (?,?,?) ON DUPLICATE KEY UPDATE Token=?
+//            $stmt = $conn->prepare('Insert into  Tokens (Token,Device,UID) values (?,?,? )');
+            $stmt = $conn->prepare('INSERT INTO Tokens (Token,Device,UID) VALUES (?,?,?) ON DUPLICATE KEY UPDATE Token = ?');
             try {
-                $stmt->execute([$token, $type, $userName]);
+                $stmt->execute([$token, $type, $userName,$token]);
             } catch (\PDOException $e) {
                 $error = 'Operation Aborted ..' . $e->getMessage();
                 $request->getSession()->getFlashBag()->add('danger', $error);
