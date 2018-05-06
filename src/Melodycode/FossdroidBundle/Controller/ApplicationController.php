@@ -5,6 +5,7 @@ namespace Melodycode\FossdroidBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Process\Process;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use PDO;
 
 //include 'ChromePhp.php';
