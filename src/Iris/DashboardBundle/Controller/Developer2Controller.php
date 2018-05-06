@@ -1017,7 +1017,10 @@ public function newAppAction()
         		$request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Another Add/Update/Delete Application operation is in progress .. Try again in a few seconds');
         		return $this->redirect($request->headers->get('referer'));
         	}
+
             $file_uploaded			= $request->request->get('file-uploaded');
+            print_r($file_uploaded);
+            die();
             if($file_uploaded)
             {
 
