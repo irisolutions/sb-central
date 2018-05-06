@@ -234,7 +234,7 @@ class ApplicationController extends Controller
             $applicationDetail = $stmt->fetch();
             //application type ready
             //change status
-            $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "none" ');
+            $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "uninstall" ');
             $stmt->execute();
             $status=$stmt->fetch()['PK'];
 
