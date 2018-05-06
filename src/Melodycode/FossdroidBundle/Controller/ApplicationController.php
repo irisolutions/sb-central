@@ -137,7 +137,7 @@ class ApplicationController extends Controller
             $installationDetail = $stmt->fetch();
 
             if ($installationDetail) {
-                if ($installationDetail['CurrentStatus'] == "none"||$installationDetail['CurrentStatus'] == "uninstalled") {
+                if ($installationDetail['CurrentStatus'] == "none"||$installationDetail['CurrentStatus'] == "uninstall") {
                     $buttonText = "Install";
                 } elseif ($installationDetail['CurrentStatus'] == "website_downloaded") {
                     $uninstallButton = "Cancel";
