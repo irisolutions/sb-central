@@ -993,7 +993,7 @@ public function uploadAction()
             return $this->redirect($request->headers->get('referer'));
         }
         $request->getSession()->getFlashBag()->add('success', 'Uploaded successfully.');
-        return $this->forward("DashboardBundle:Developer2:newApp",Array("file-uploaded"=>true));
+        return $this->redirect($this->generateUrl('dashboard_dev_new_app_next_step'));
     }
     return $this->render("DashboardBundle:Developer:new-update-app-1.html.twig");
 }
@@ -1018,28 +1018,6 @@ public function newAppAction()
         		return $this->redirect($request->headers->get('referer'));
         	}
 
-            $file_uploaded			= $request->request->get('file-uploaded');
-            print_r($file_uploaded);
-            die();
-            if($file_uploaded)
-            {
-
-                $dbname     = $this->container->getParameter('store_database_name');
-                $username   = $this->container->getParameter('store_database_user');
-                $password   = $this->container->getParameter('store_database_password');
-                $servername = $this->container->getParameter('store_database_host');
-
-                $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-                // set the PDO error mode to exception
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                $stmt = $conn->prepare('SELECT * FROM Category');
-                $stmt->execute();
-
-                $categories = $stmt->fetchAll();
-
-                return $this->render('DashboardBundle:Developer:new-update-app.html.twig',array('update'=>false,'categories'=>$categories));
-            }
         	$app_name 			= $request->request->get('app-name');
         	$app_bundle			= $request->request->get('app-bundle');
 		$app_controller_binary          = $request->request->get('app-controller-binary');

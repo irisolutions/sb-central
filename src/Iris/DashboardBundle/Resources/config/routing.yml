@@ -1,11 +1,13 @@
 #dashboard_dev_new_app:
 #    path: /dev/new-app
 #    defaults: { _controller: DashboardBundle:Developer1:newAppUpload}
+dashboard_dev_new_app_next_step:
+    path: /dev/new-app-next-step
+    defaults: { _controller: DashboardBundle:Developer2:newApp}
 
 dashboard_dev_new_app:
     path: /dev/new-app
     defaults: { _controller: DashboardBundle:Developer2:upload}
-
 dashboard_dev_new_app_result:
     path: /dev/new-app-result
     defaults: { _controller: DashboardBundle:Developer2:newAppResult }
