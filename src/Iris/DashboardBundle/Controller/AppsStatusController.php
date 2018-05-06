@@ -30,7 +30,7 @@ class AppsStatusController extends Controller
         if ($request->getMethod() == 'POST') {
             $userName = $request->request->get('UserName');
 
-            $stmt1 = $conn->prepare('Select * from controllerinstallation where ClientID=?');
+            $stmt1 = $conn->prepare('Select * from ControllerInstallation where ClientID=?');
             try {
                 $stmt1->execute([$userName]);
             } catch (\PDOException $e) {
@@ -63,7 +63,7 @@ class AppsStatusController extends Controller
         if ($request->getMethod() == 'POST') {
             $userName = $request->request->get('UserName');
 
-            $stmt1 = $conn->prepare('Select * from dongleinstallation where ClientID=?');
+            $stmt1 = $conn->prepare('Select * from DongleInstallation where ClientID=?');
             try {
                 $stmt1->execute([$userName]);
             } catch (\PDOException $e) {
@@ -98,7 +98,7 @@ class AppsStatusController extends Controller
             $appID = $request->request->get('appID');
             $status= $request->request->get('status');
 
-            $stmt1 = $conn->prepare('update controllerinstallation set status=? where ClientID=? and ApplicationID=?');
+            $stmt1 = $conn->prepare('update ControllerInstallation set status=? where ClientID=? and ApplicationID=?');
             try {
                 $stmt1->execute([$status,$userName,$appID]);
             } catch (\PDOException $e) {
@@ -133,7 +133,7 @@ class AppsStatusController extends Controller
             $appID = $request->request->get('appID');
             $status= $request->request->get('status');
 
-            $stmt1 = $conn->prepare('update dongleinstallation set status=? where ClientID=? and ApplicationID=?');
+            $stmt1 = $conn->prepare('update DongleInstallation set status=? where ClientID=? and ApplicationID=?');
             try {
                 $stmt1->execute([$status,$userName,$appID]);
             } catch (\PDOException $e) {
