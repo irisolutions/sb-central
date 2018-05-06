@@ -110,7 +110,7 @@ class ApplicationController extends Controller
             $installationDetail = $stmt->fetch();
 
             if ($installationDetail) {
-                if ($installationDetail['CurrentStatus'] == "none") {
+                if ($installationDetail['CurrentStatus'] == "none"||$installationDetail['CurrentStatus'] == "uninstalled") {
                     $buttonText = "Install";
                 } elseif ($installationDetail['CurrentStatus'] == "website_downloaded") {
                     $uninstallButton = "Cancel";
@@ -173,6 +173,7 @@ class ApplicationController extends Controller
                 $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
+             $this->executeCommand('curl --data "AppID='.$applicationDetail['ID'].'&Type='.$applicationDetail['Type'].'&UserName="'.$clientID.' http://18.236.165.209/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
         }
         return $this->redirect($this->generateUrl('application', array('slug'=>$slug)));
     }
@@ -218,6 +219,8 @@ class ApplicationController extends Controller
                 $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
+            $this->executeCommand('curl --data "AppID='.$applicationDetail['ID'].'&Type='.$applicationDetail['Type'].'&UserName="'.$clientID.' http://18.236.165.209/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+
         }
         return $this->redirect($this->generateUrl('application', array('slug'=>$slug)));
     }
