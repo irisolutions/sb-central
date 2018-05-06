@@ -278,9 +278,9 @@
             position:relative;
         }
 
-        footer {
+      footer {
             position: fixed;
-            left: 0;
+          left: 220px;
             bottom: 0;
             width: 100%;
             background-color: red;
@@ -289,11 +289,21 @@
             height: 100px !important;
         }
         main{
-            max-height: 630px;
+            max-height:     calc(100% - 100px);
+            border: 1px solid gainsboro;
         }
         img{
             height: 60px;
         }
+        @media all and (max-width: 1025px) {
+
+
+
+            footer{
+                left: 0px !important;
+            }
+        }
+
     </style>
 
     {% block head %}{% endblock %}
@@ -365,36 +375,36 @@
         {% block body %}
 
         {% endblock %}
+        <footer class="footer-distributed">
 
-    </main>
-    <footer class="footer-distributed">
+            <div class="footer-left">
 
-        <div class="footer-left">
+                <h3> <a href="http://www.iris.ps/"><img src="{{ asset('images/logo-whitetext.png') }}"> </a>  </h3>
+                <div class="footer-icons">
 
-            <h3> <a href="http://www.iris.ps/"><img src="{{ asset('images/logo-whitetext.png') }}"> </a>  </h3>
-            <div class="footer-icons">
+
+                </div>
 
 
             </div>
 
+            <div class="footer-center">
 
-        </div>
+                Iris Sensory Store is a property of Iris Interactive Solutions.
 
-        <div class="footer-center">
+            </div>
 
-            Iris Sensory Store is a property of Iris Interactive Solutions.
-
-        </div>
-
-        <div class="footer-right">
+            <div class="footer-right">
 
 
 
 
 
-        </div>
+            </div>
 
-    </footer>
+        </footer>
+    </main>
+
 
 
 </div>

@@ -78,6 +78,26 @@ font-family: Serif;
         .payment-label, .appType-label{
             margin-left: 10px;
         }
+        .form-group {
+            margin-left: 20px !important;
+        }
+        .nameIdentfLabel{
+            width: 100%;
+        }
+        @media only screen and (max-width: 746px) {
+           .nameIdentfLabel{
+               font-size: 12px !important;
+           }
+            .cont{
+                width: 100%;
+            }
+            .bs-example{
+                margin: 5px;
+            }
+        }
+        .padd{
+            padding: 0px;
+        }
     </style>
 
 {% endblock %}
@@ -98,7 +118,9 @@ font-family: Serif;
             <div class="row cont">
                 <div class="form-style-2-heading">Name & Identification Information</div>
                 <div class="form-group">
-                    <label class="control-label col-xs-3" for="firstName">Application Identifier:</label>
+                    <div class="col-xs-3">
+                    <label class="control-label col-xs-3 nameIdentfLabel" for="firstName">Application Identifier:</label>
+                    </div>
                     <div class="col-xs-9">
                         <input type="text" class="form-control appIden" id="app-identifier"
                                name="app-identifier" {% if update == true %}  value="{{ application.ID }}" readonly{% endif %}
@@ -106,19 +128,26 @@ font-family: Serif;
                     </div>
                 </div>
                 {% if update == false %}
-                    <div class="form-group">
-                        <label class="control-label col-xs-3" for="lastName">Application Version:</label>
-                        <div class="col-xs-1">
+                    <div class="form-group ">
+                        <div class="row">
+                        <div class="col-xs-3">
+                        <label class="control-label col-xs-3 nameIdentfLabel" for="lastName">Application Version:</label>
+                        </div>
+                        <div class="col-xs-3" >
                             <input type="text" class="form-control" name="app-version" id="app-version"
                                    placeholder="e.g. 1.5" required>
                         </div>
-                        <label class="control-label" for="inputEmail"> &nbsp;(Must match application identifier & manifest
+                        <div class="col-xs-7 padd">
+                        <label class="control-label " for="inputEmail" style="font-size: 10px;"> &nbsp;(Must match application identifier & manifest
                             version of the two binary apps below)</label>
+                        </div>
 
+                    </div>
                     </div>
                 {% endif %}
                 <div class="form-group">
-                    <label class="control-label col-xs-3" for="inputEmail">Application Name:</label>
+                    <div class="col-xs-3">
+                        <label class="control-label col-xs-3 nameIdentfLabel" for="inputEmail">Application Name:</label></div>
                     <div class="col-xs-9">
                         <input type="text" class="form-control appName" name="app-name"
                                id="app-name" {% if update == true %}  value="{{ application.Name }}" {% endif %}
@@ -126,7 +155,8 @@ font-family: Serif;
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-xs-3">Application Category:</label>
+                    <div class="col-xs-3">
+                        <label class="control-label col-xs-3 nameIdentfLabel">Application Category:</label></div>
                     <div class="col-xs-3">
                         <select class="form-control" name="app-category">
 

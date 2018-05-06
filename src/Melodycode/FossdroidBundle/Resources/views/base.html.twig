@@ -239,17 +239,18 @@ window.onclick = function(event) {
 
             footer {
                 position: fixed;
-                left: 0;
+                left: 220px;
                 bottom: 0;
                 width: 100%;
                 background-color: red;
                 color: white;
                 text-align: center;
                 height:80px !important;
+                margin-top: 100px;
             }
             main{
-                min-height: 650px;
-                max-height: 630px;
+
+
             }
             img{
                 height: 60px;
@@ -257,12 +258,21 @@ window.onclick = function(event) {
             .mdl-layout__content{
                 z-index: 0 !important;
             }
+            @media all and (max-width: 1025px) {
+
+
+
+                footer{
+                    left: 0px !important;
+                }
+            }
+
         </style>
     </head>
     
     <body class="mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-            <header class="mdl-layout__header">
+            <header class="mdl-layout__header" style="position: fixed;">
                 <div class="mdl-layout__header-row">
                        <span  style="    font-size: 20px;
     font-family: serif;">
@@ -315,36 +325,36 @@ window.onclick = function(event) {
 
                 </div>
                 {% block body %}{% endblock %}
+                <footer class="footer-distributed">
 
-            </main>
-            <footer class="footer-distributed">
+                    <div class="footer-left">
 
-                <div class="footer-left">
+                        <h3> <a href="http://www.iris.ps/"><img src="{{ asset('images/logo-whitetext.png') }}"> </a>  </h3>
+                        <div class="footer-icons">
 
-                    <h3> <a href="http://www.iris.ps/"><img src="{{ asset('images/logo-whitetext.png') }}"> </a>  </h3>
-                    <div class="footer-icons">
+
+                        </div>
 
 
                     </div>
 
+                    <div class="footer-center">
 
-                </div>
+                        Iris Sensory Store is a property of Iris Interactive Solutions.
 
-                <div class="footer-center">
+                    </div>
 
-                    Iris Sensory Store is a property of Iris Interactive Solutions.
-
-                </div>
-
-                <div class="footer-right">
+                    <div class="footer-right">
 
 
 
 
 
-                </div>
+                    </div>
 
-            </footer>
+                </footer>
+            </main>
+
 
         </div>
 
