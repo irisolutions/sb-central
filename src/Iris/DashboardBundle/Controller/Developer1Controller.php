@@ -586,7 +586,7 @@ class Developer1Controller extends Controller
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-
+            $app_controller_binary=basename($_FILES["app-binary"]["name"]);
 
             try
             {
@@ -594,7 +594,9 @@ class Developer1Controller extends Controller
                 $stmt->execute([$app_identifier]);
                 $app=$stmt->fetch();
                 if($app['Type']=='dongle') {
+
                     $stmt = $conn->prepare('INSERT INTO Version (Version,ApplicationID,DongleAppName,ControllerAppName) VALUES (?,?,?,?)');
+                    $request->getSession()->getFlashBag()->add('danger', $app_controller_binary);
                     $stmt->execute([$app_version, $app_identifier, $app_controller_binary, $app_controller_binary]);
                     $stmt = $conn->prepare('update DongleInstallation set DongleInstallation.Status=(select Status.PK from Status where Status.status="need_update") where DongleInstallation.ApplicationID=?');
                     $stmt->execute([$app_identifier]);
