@@ -2,14 +2,11 @@
 
 namespace Iris\DashboardBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-
 use PDO;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Process\Process;
+
 //include 'ChromePhp.php';
 //use ChromePhp;
 
@@ -1035,8 +1032,8 @@ public function newAppAction()
         	
         	// we check if the two binary files are where they should be other wise we fail
         	
-//        	$repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
-//        	$metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
+        	$repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
+        	$metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
         	$controller_file = $repo_dir.'/'.$app_controller_binary;
         	$dongle_file	 = $repo_dir.'/'.$app_dongle_binary;
         	
