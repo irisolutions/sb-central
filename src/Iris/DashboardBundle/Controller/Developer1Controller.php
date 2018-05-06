@@ -342,7 +342,7 @@ class Developer1Controller extends Controller
 
             // we check if the two binary files are where they should be other wise we fail
 
-            //$repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
+            $repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
             $metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
             //$controller_file = $repo_dir.'/'.$app_controller_binary;
             //$dongle_file	 = $repo_dir.'/'.$app_dongle_binary;
@@ -434,7 +434,7 @@ class Developer1Controller extends Controller
         $result = $stmt->fetchAll();
 
         //$app_controller_binary = $result[0]['ControllerAppName'];
-        //$repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
+        $repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
         $metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
 
         // now we create the meta data file for the application
