@@ -1035,8 +1035,8 @@ public function newAppAction()
         	
         	// we check if the two binary files are where they should be other wise we fail
         	
-        	$repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
-        	$metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
+//        	$repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
+//        	$metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
         	$controller_file = $repo_dir.'/'.$app_controller_binary;
         	$dongle_file	 = $repo_dir.'/'.$app_dongle_binary;
         	
