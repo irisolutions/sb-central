@@ -4,6 +4,7 @@ namespace Melodycode\FossdroidBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Process\Process;
 use PDO;
 
 //include 'ChromePhp.php';
@@ -14,6 +15,31 @@ class ApplicationController extends Controller
 
     // this action is triggered when the id sent to the application controll is the id
     // of an application according to the storedb and not according to the maindb
+    public function executeCommand($cmd)
+    {
+
+        $response = new StreamedResponse();
+        $script = $cmd.' 2>&1';
+        $process = new Process($script);
+
+        $response->setCallback(function() use ($process) {
+            $process->run(function ($type, $buffer) {
+                if (Process::ERR === $type) {
+                    echo ''.$buffer; // standard output
+                } else {
+                    echo ''.$buffer; // standard error
+                    //echo '<br>';
+                }
+                ob_flush();
+                flush();
+
+            });
+        });
+
+        $response->setStatusCode(200);
+
+        return $response;
+    }
     public function _indexAction($slug)
     {
 
@@ -219,6 +245,7 @@ class ApplicationController extends Controller
                 $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
+
             $this->executeCommand('curl --data "AppID='.$applicationDetail['ID'].'&Type='.$applicationDetail['Type'].'&UserName="'.$clientID.' http://18.236.165.209/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
 
         }
