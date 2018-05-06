@@ -3,22 +3,22 @@
 #    defaults: { _controller: DashboardBundle:Developer1:newAppUpload}
 dashboard_dev_new_app_next_step:
     path: /dev/new-app-next-step
-    defaults: { _controller: DashboardBundle:Developer2:newApp}
+    defaults: { _controller: DashboardBundle:Developer1:newApp}
 
 dashboard_dev_new_app:
     path: /dev/new-app
-    defaults: { _controller: DashboardBundle:Developer2:upload}
+    defaults: { _controller: DashboardBundle:Developer1:upload}
 dashboard_dev_new_app_result:
     path: /dev/new-app-result
-    defaults: { _controller: DashboardBundle:Developer2:newAppResult }
+    defaults: { _controller: DashboardBundle:Developer1:newAppResult }
 
 dashboard_dev_manage_app:
     path: /dev/manage-app
-    defaults: { _controller: DashboardBundle:Developer2:manageApp}
+    defaults: { _controller: DashboardBundle:Developer1:manageApp}
 
 dashboard_dev_edit_app:
     path: /dev/edit-app/{slug}
-    defaults: { _controller: DashboardBundle:Developer2:editApp}
+    defaults: { _controller: DashboardBundle:Developer1:editApp}
 
 dashboard_dev_get_applist:
     path: /command/appList/{slug}
@@ -26,19 +26,19 @@ dashboard_dev_get_applist:
 
 dashboard_dev_delete_app:
     path: /dev/delete-app/{slug}
-    defaults: { _controller: DashboardBundle:Developer2:deleteApp}
+    defaults: { _controller: DashboardBundle:Developer1:deleteApp}
 
 dashboard_dev_manage_version:
     path: /dev/manage-version/{slug}
-    defaults: { _controller: DashboardBundle:Developer2:manageVersion}
+    defaults: { _controller: DashboardBundle:Developer1:manageVersion}
 
 dashboard_dev_new_version:
     path: /dev/new-version/{slug}
-    defaults: { _controller: DashboardBundle:Developer2:newVersion}
+    defaults: { _controller: DashboardBundle:Developer1:newVersion}
 
 dashboard_dev_delete_version:
     path: /dev/delete-version/{slug}/{version}
-    defaults: { _controller: DashboardBundle:Developer2:deleteVersion}
+    defaults: { _controller: DashboardBundle:Developer1:deleteVersion}
 
 
 dashboard_sales_new_bundle:
