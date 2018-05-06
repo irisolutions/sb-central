@@ -545,9 +545,9 @@ class Developer1Controller extends Controller
             $repo_dir 		= $this->container->getParameter('melodycode_fossdroid.local_path_repo');
             $metadata_dir 	= $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
             $target_dir = $repo_dir;
-            $target_file = $target_dir.'/'.$app_version. basename($_FILES["app-binary"]["name"]);
-            $controller_file = $repo_dir.'/'.$app_version. basename($_FILES["app-binary"]["name"]);
-            $dongle_file	 = $repo_dir.'/'.$app_version. basename($_FILES["app-binary"]["name"]);
+            $target_file = $target_dir.'/'. basename($_FILES["app-binary"]["name"]);
+            $controller_file = $repo_dir.'/'. basename($_FILES["app-binary"]["name"]);
+            $dongle_file	 = $repo_dir.'/'. basename($_FILES["app-binary"]["name"]);
             $FileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
             if (file_exists($target_file)) {
                 $request->getSession()->getFlashBag()->add('danger', 'File Already Exist');
