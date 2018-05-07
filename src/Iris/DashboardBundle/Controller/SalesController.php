@@ -905,14 +905,14 @@ public function showClientApplicationsAction($slug)
                             }
                             catch (\PDOException $e)
                             {
-                                $stmt = $conn->prepare('update DongleInstallation set Subscription false where ApplicationID=? and ClientID=? and Version=?');
+                                $stmt = $conn->prepare('update DongleInstallation set Subscription = false where ApplicationID=? and ClientID=? and Version=?');
                                 $stmt->execute([$newappID,$ClientID,$app['Version']]);
                             }
                         }
                         else
                         {
                             try {
-                                $stmt = $conn->prepare('Insert into ControllerInstallation (ApplicationID,ClientID,Status,Version) values (?,?,(Select PK from Status where Status.status="none"),?,false) ');
+                                $stmt = $conn->prepare('Insert into ControllerInstallation (ApplicationID,ClientID,Status,Version,Subscription) values (?,?,(Select PK from Status where Status.status="none"),?,false) ');
                                 $stmt->execute([$newappID, $ClientID, $app['Version']]);
                             }catch (\PDOException $e)
                             {
@@ -999,8 +999,8 @@ public function showClientApplicationsAction($slug)
             $request->getSession()->getFlashBag()->add('danger', $error);
             return $this->redirect($request->headers->get('referer'));
         }
-        $tabletApplications=$stmt->fetchAll();
-        $dongleApplications=$stmt1->fetchAll();
+    $tabletApplications=$stmt->fetchAll();
+    $dongleApplications=$stmt1->fetchAll();
     //get the application that the client does not have
         $stmt = $conn->prepare('Select *  from Application where Application.ID not in(select  ApplicationID from Purchase where ClientID=?)');
         $stmt2 = $conn->prepare('Select Name from Client where ID=?');   		    	
