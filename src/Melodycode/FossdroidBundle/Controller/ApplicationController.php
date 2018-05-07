@@ -41,6 +41,32 @@ class ApplicationController extends Controller
 
         return $response;
     }
+
+    public function pushNotification()
+    {
+
+        $response = new StreamedResponse();
+        $script = 'curl --data "AppID=comapp&Type=tablet&UserName=najah_child" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification';
+        $process = new Process($script);
+
+        $response->setCallback(function() use ($process) {
+            $process->run(function ($type, $buffer) {
+                if (Process::ERR === $type) {
+                    echo ''.$buffer; // standard output
+                } else {
+                    echo ''.$buffer; // standard error
+                    //echo '<br>';
+                }
+                ob_flush();
+                flush();
+
+            });
+        });
+
+        $response->setStatusCode(200);
+
+        return $response;
+    }
     public function _indexAction($slug)
     {
 
@@ -200,8 +226,9 @@ class ApplicationController extends Controller
                 $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
+            $this->pushNotification();
 //             $this->executeCommand('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
-             $this->executeCommand('curl --data "AppID=comapp&Type=tablet&UserName=najah_child" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+//             $this->executeCommand('curl --data "AppID=comapp&Type=tablet&UserName=najah_child" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
         }
 //
 
