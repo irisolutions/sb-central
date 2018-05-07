@@ -200,9 +200,10 @@ class ApplicationController extends Controller
                 $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
-             $this->executeCommand('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+//             $this->executeCommand('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+             $this->executeCommand('curl --data "AppID=comapp&Type=tablet&UserName=najah_child" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
         }
-//        'curl --data "AppID=comapp&Type=tablet&UserName=najah_child" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification'
+//
 
 
         return $this->redirect($this->generateUrl('application', array('slug'=>$slug)));
