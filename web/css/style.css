@@ -216,7 +216,7 @@ html, body {
     overflow: hidden;
     text-overflow: ellipsis;
     color: #616161;
-    font-size: 30px;
+    font-size: 20px;
     font-style: inherit;
     font-family: cursive
 }
@@ -253,8 +253,7 @@ html, body {
 .mdl-layout__header-row{
     background-color: #0083BA !important;
     border: none;
-    border-bottom: 1px solid gainsboro;
-    /* border-left: 1px solid gainsboro; */
+   /* border-left: 1px solid gainsboro; */
     border-top: 1px solid gainsboro;
 }
 .fd-application_box .mdl-card .mdl-shadow--2dp{
@@ -405,7 +404,16 @@ main{
         height: 100%;
         max-height: 100%;
     }
-
+    .centerStore{
+    display: none;
+    }
+    .fd-navigation, .mdl-layout__drawer {
+        margin-top: 0px !important;
+    }
+    .mdl-color--primary {
+        background-color: #0083BA !important;
+        display: block !important;
+    }
 }
 
 .mdl-layout__drawer {
@@ -422,9 +430,7 @@ main{
     z-index:5 !important;
 }
 
-.mdl-layout-title{
-    display: none;
-}
+
 .mdl-layout__drawer .mdl-navigation {
     padding-top: 0px !important;
     border-bottom: 1px solid !important;
@@ -432,6 +438,46 @@ main{
 .mdl-layout__drawer-button{
     margin: 0;
 }
-.mdl-color-text--grey-700 {
-    color: #714d4d !important;
+.fd-navigation{
+    border-right: 2px solid #616161;
+}
+@media all and (max-width: 576px) {
+    .fd-application_box {
+        width: 148px !important;
+margin: 5px !important;
+
+
+    }
+.fd-title{
+    font-size: 20px !important;
+}
+.dropbtn{
+    font-size: 12px !important;
+    padding: 0px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+    .fd-breadcrumb {
+       margin-left: 1% !important;
+        max-width: 100% !important;
+    }
+    .mdl-layout__header-row{
+        padding: 0 75px 0 45px !important;
+    }
+    .mdl-grid h4{
+        font-size: 17px !important;
+    }
+    .dropdown{
+
+    }
+    .accountLabel h4{
+        font-size: 16px !important;
+    }
+    .sbsuLabel h4{
+        font-size: 16px !important;
+    }
+    .appLabel h4{
+        font-size: 16px !important;
+    }
 }

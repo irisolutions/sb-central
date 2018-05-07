@@ -3,7 +3,7 @@
 <!Doctype html>
 
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
     {#fdsaf#}
 </script>
@@ -593,24 +593,12 @@
 
     /* If you don't want the footer to be responsive, remove these media queries */
 
-    @media (max-width: 880px) {
+    @media (max-width: 725px) {
 
-        .footer-distributed {
-            font: bold 14px sans-serif;
-        }
+footer{
+    position: fixed;
 
-        .footer-distributed .footer-left,
-        .footer-distributed .footer-center,
-        .footer-distributed .footer-right {
-            display: block;
-            width: 100%;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .footer-distributed .footer-center i {
-            margin-left: 0;
-        }
+}
 
     }
     .isa_error {
@@ -627,6 +615,10 @@
         margin:10px 22px;
         font-size:1em;
         vertical-align:middle;
+    }
+    section{
+    height: auto;
+        overflow: auto;
     }
 
 </style>
@@ -646,7 +638,8 @@
     </div>
 
 </header>
-
+<div class="row">
+<section>
 <form action="{{ path('login') }}" method="post">
     <hgroup>
         <img class="logo-image-login" src="{{ asset('images/Layer 2.png') }}">
@@ -684,9 +677,12 @@
         }
     </script>
 </form>
+</section>
+</div>
+<div class="row">
 <footer class="footer-distributed">
-
-    <div class="footer-left">
+    <div class="row">
+    <div class="footer-left col-1">
 
         <h3> <a href="http://www.iris.ps/"><img src="{{ asset('images/logo-whitetext.png') }}"> </a>  </h3>
         <div class="footer-icons">
@@ -701,7 +697,7 @@
 
     </div>
 
-    <div class="footer-center">
+    <div class="footer-center col-1">
 
         <div>
             <i class="fa fa-map-marker"></i>
@@ -709,7 +705,7 @@
         </div>
 
         <div>
-            <i class="fa fa-phone"></i>
+            <i class="fa fa-phone "></i>
             <p>+970.2.295123</p>
         </div>
 
@@ -721,7 +717,7 @@
 
     </div>
 
-    <div class="footer-right">
+    <div class="footer-right col-10">
 
         <p class="footer-company-about">
             <span>About Us</span>
@@ -732,10 +728,10 @@
 
 
     </div>
-
+</div>
 </footer>
 
-
+</div>
 {#
 <form action="{{ path('login') }}" method="post">
     <label for="username">Username:</label>

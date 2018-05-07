@@ -207,6 +207,14 @@ window.onclick = function(event) {
                 margin-right: 3px;
                 margin-bottom: 5px;
             }
+
+            @media (max-width:444px) {
+
+
+                .centerStore{
+                    display: none;
+                }
+            }
             @media (max-width: 880px) {
 
                 .footer-distributed {
@@ -248,12 +256,10 @@ window.onclick = function(event) {
                 height:80px !important;
                 margin-top: 100px;
             }
-            main{
 
-
-            }
             img{
-                height: 60px;
+                height: 10% !important;
+                width: 25% !important;
             }
             .mdl-layout__content{
                 z-index: 0 !important;
@@ -266,15 +272,26 @@ window.onclick = function(event) {
                     left: 0px !important;
                 }
             }
-
+            main {
+                max-height: calc(100% - 147px);
+                border: 1px solid gainsboro;
+            }
+            .fd-breadcrumb{
+                margin-left: 10%;
+            }
+            @media (max-width: 922px) {
+            main{
+                max-height: calc(100% - 137px) !important;
+            }
+            }
         </style>
     </head>
     
     <body class="mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-            <header class="mdl-layout__header" style="position: fixed;">
+            <header class="mdl-layout__header" >
                 <div class="mdl-layout__header-row">
-                       <span  style="    font-size: 20px;
+                       <span class="centerStore" style="margin-left:1%;    font-size: 20px;
     font-family: serif;">
                 Iris Central
             </span>
@@ -288,9 +305,9 @@ window.onclick = function(event) {
                         {{ render(controller("MelodycodeFossdroidBundle:Widget:search")) }}
                     {% endblock %}
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <div> &nbsp;&nbsp;&nbsp;&nbsp;</div>
+
     				
-    				<div class="dropdown">
+    				<div class="dropdown" style="margin-right: 3%;">
   					<button onclick="myFunction()" class="dropbtn">{{ app.user.name }} <i class="fa fa-caret-down" aria-hidden="true" title="Toggle dropdown menu"></i>
                     </button>
 

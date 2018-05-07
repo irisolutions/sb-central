@@ -13,7 +13,7 @@
 #}
 {% block body %}
     <div class="mdl-grid">
-       
+
         <div class="mdl-cell mdl-cell--12-col">
             <h4 style="    text-align: center;
     font-size: 33px;
@@ -21,11 +21,11 @@
     -moz-osx-font-smoothing: grayscale;
     margin: 24px 0 16px;
     font-family: serif;
-    font-style: italic;">
+    font-styale: italic;">
                 {{ bundle.Description }}
             </h4>
         </div>
-    
+
 
         {% for application in applications %}
             {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
