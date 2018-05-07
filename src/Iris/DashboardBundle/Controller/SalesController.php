@@ -905,7 +905,7 @@ public function showClientApplicationsAction($slug)
                             }
                             catch (\PDOException $e)
                             {
-                                $stmt = $conn->prepare('update DongleInstallation set Subscription false where ApplicationID=? and ClientID=? and Version=?');
+                                $stmt = $conn->prepare('update DongleInstallation set Subscription = false where ApplicationID=? and ClientID=? and Version=?');
                                 $stmt->execute([$newappID,$ClientID,$app['Version']]);
                             }
                         }
