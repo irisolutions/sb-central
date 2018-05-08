@@ -216,7 +216,7 @@ font-family: Serif;
             <div class="form-group">
                 <label class="control-label col-xs-2"> Type :</label>
                 <div class="col-xs-1 appType-label">
-                    {% if update == true and application.type == "tablet" %}
+                    {% if update == true and application.Type == "tablet" %}
                         <label class="radio-inline">
 
                             <input type="radio" name="app-type" value="tablet" checked="checked"  class="style-radio">
@@ -232,7 +232,7 @@ font-family: Serif;
                 </div>
                 <div class="col-xs-1 appType-label">
 
-                    {% if update == true and application.type == "dongle" %}
+                    {% if update == true and application.Type == "dongle" %}
                         <label class="radio-inline">
                             <input type="radio" name="app-type" value="dongle" checked="checked"  class="style-radio">
                             <label class="label-app-type">Dongle</label>
