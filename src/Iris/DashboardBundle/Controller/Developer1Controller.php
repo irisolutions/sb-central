@@ -389,7 +389,7 @@ class Developer1Controller extends Controller
             {
 
                 //$stmt->execute([$app_identifier,$app_version,$app_name,$app_dongle_binary,$app_controller_binary,$app_price,$app_identifier,$app_version]);
-                $stmt->execute([$app_identifier,$app_name,$app_price,$app_identifier,$app_type]);
+                $stmt->execute([$app_identifier,$app_name,$app_price,$app_type,$app_identifier]);
 
             }
             catch (\PDOException $e)
