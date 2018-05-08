@@ -1,0 +1,149 @@
+{# empty Twig template #}
+{% extends  "DashboardBundle:Developer:new-update-app.html.twig" %}
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('.EditProfile').click(function () {
+                $('.labels').attr('hidden', 'true');
+                $('.txt').removeAttr('hidden');
+                $('.editform').removeAttr('hidden');
+                $('.EditProfile').attr('hidden', 'true');
+                $("#Address").css({ display: "block" });
+                $("#Name").css({ display: "block" });
+                $("#password").css({ display: "block" });
+                $("#email").css({ display: "block" });
+                $("#ID").css({ display: "block" });
+
+
+
+            });
+
+            $('.cancel').click(function () {
+                $('.labels').removeAttr('hidden');
+                $('.txt').attr('hidden', 'true');
+                $('.editform').attr('hidden', 'true');
+                $('.EditProfile').removeAttr('hidden');
+                $("#Address").css({ display: "none" });
+                $("#Name").css({ display: "none" });
+                $("#password").css({ display: "none" });
+                $("#email").css({ display: "none" });
+                $("#ID").css({ display: "none" });
+            });
+            $('.labels').removeAttr('hidden');
+            $('.txt').attr('hidden', 'true');
+            $('.editform').attr('hidden', 'true');
+            $('.EditProfile').removeAttr('hidden');
+            $("#Address").css({ display: "none" });
+            $("#Name").css({ display: "none" });
+            $("#password").css({ display: "none" });
+            $("#email").css({ display: "none" });
+            $("#ID").css({ display: "none" });
+        });
+        $('#clickme').click()(function () {
+            $('html, body').animate({
+                scrollTop: $("#edit").offset().top
+            }, 2000);
+        });
+    </script>
+    <style>
+        #ID,#email,#password,#Name,#Address{
+
+        }
+        .form-control {
+            width: 40%;
+        }
+
+        .cont {
+            width: 80%;
+            margin: auto;
+            margin-top: 90px;
+            border: 1px solid gainsboro;
+            border-radius: 5px;
+        }
+
+        b {
+            font-family: Serif;
+            font-size: 17px;
+            font-style: italic;
+        }
+
+        .form-style-2-heading {
+            font-weight: bold;
+
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 40px;
+            margin-top: 20px;
+            font-size: 15px !important;
+            padding-bottom: 3px;
+            text-align: center;
+            color: #0083ba;
+
+        }
+    </style>
+{% endblock %}
+{% block breadcrumb %}
+    My Account > {{ user.Name }}
+    {#  <a href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }} #}
+{% endblock %}
+
+{% block body %}
+    <div class="row cont" id="edit">
+        <form class="form-horizontal" method="post">
+            <div class="form-style-2-heading"> {{ user.Name }} Profile </div>
+            <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 15%">
+                <p class="col-xs-2 "><b>ID:</b></p>  <p
+                        class="col-xs-2 labels">{{ user.ID }}</p>
+                <input required="" type="text" name="ID" id="ID"
+                       class="form-control" value="{{ user.ID }}">
+            </div>
+
+            <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 15%">
+                <p class="col-xs-2 "><b>Name: </b></p>  <p
+                        class="col-xs-2 labels">{{ user.Name }}</p>
+                <input required="" type="text" name="Name" id="Name"
+                       class="form-control"value="{{ user.Name }}" >
+            </div>
+
+            <div class="col-xs-12" style="margin-bottom: 2%; margin-left: 15%">
+                <p class="col-xs-2 "><b>Email:</b></p> <p
+                        class="col-xs-2 labels">{{ user.Email }}</p>
+                <input type="email" name="Email" id="email"
+                       class="form-control" value="{{ user.Email }}" >
+            </div>
+
+            <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 15%">
+                <p class="col-xs-2 "><b>Password:</b></p> <p
+                        class="col-xs-2 labels"> {{ user.Password }}</p>
+                <input required="" type="text" id="password"
+                       name="Password"
+                       class="form-control"value="{{ user.Password }}">
+            </div>
+
+
+
+            <div class="col-xs-12" style="margin-bottom: 1%">
+                <div class=" btn btn-primary EditProfile" style="    float: right;" >  Edit Profile</div>
+
+
+                <input style="border:1px solid #aaa;  float: right;" hidden="" type="submit" value="Submit"
+                       class="editform btn btn-primary col-xs-1">
+                <div class="col-xs-1"></div>
+                <div hidden="" class="col-xs-1 btn btn-primary cancel editform" style=" float: right; margin-right: 20px;"> cancel</div>
+            </div>
+            </form>
+
+        </div>
+
+{% endblock %}

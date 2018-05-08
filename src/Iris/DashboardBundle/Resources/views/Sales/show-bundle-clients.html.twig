@@ -74,9 +74,9 @@ Sales  &rsaquo;  Bundles/Clients &rsaquo; {{bundlename[0]}} Clients
           <tr>
                           
             <td>&nbsp;&nbsp;
-                <b>{{ client.Name }}</b>
 
-                <a style="margin-left: 2%" href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"><span style="font-size: 10px" class="glyphicon glyphicon-user"> </span>Profile</a>
+
+                <a style="margin-left: 2%" href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"><span style="font-size: 10px" class="glyphicon glyphicon-user"> </span> {{ client.Name }}</a>
             </td>
             <td>{{ client.Start }} </td>
             <td>{{ client.End }} </td>
