@@ -480,7 +480,7 @@ class Developer1Controller extends Controller
         $categories = $stmt->fetchAll();
 
 
-        return $this->render('DashboardBundle:Developer:new-update-app.html.twig',array(
+        return $this->render('DashboardBundle:Developer:new-update-app-1.html.twig',array(
             'update'=>true,
             'application'=>$result[0],
             'categories'=>$categories,
