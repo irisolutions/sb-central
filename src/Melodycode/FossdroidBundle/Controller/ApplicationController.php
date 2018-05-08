@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Process\Process;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use PDO;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 //include 'ChromePhp.php';
 //use ChromePhp;
@@ -197,14 +198,15 @@ class ApplicationController extends Controller
             $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "website_downloaded" ');
             $stmt->execute();
             $status=$stmt->fetch()['PK'];
+            $date=date("Y-m-d H:i:s");
 
             if ($applicationDetail['Type'] == 'dongle') {
                 //GET THE WEBSITE DOWNLOADED NUMBER
-                $stmt = $conn->prepare('UPDATE storedb.DongleInstallation  SET storedb.DongleInstallation.Status = ?  where storedb.DongleInstallation.ApplicationID=? and storedb.DongleInstallation.ClientID=?');
-                $stmt->execute([$status,$applicationID, $clientID]);
+                $stmt = $conn->prepare('UPDATE storedb.DongleInstallation  SET storedb.DongleInstallation.Status = ? , DongleInstallation.WebDownloadDate=? where storedb.DongleInstallation.ApplicationID=? and storedb.DongleInstallation.ClientID=?');
+                $stmt->execute([$status,$date,$applicationID, $clientID]);
             } elseif ($applicationDetail['Type'] == 'tablet') {
-                $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
-                $stmt->execute([$status,$applicationID, $clientID]);
+                $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  , ControllerInstallation.WebDownloadDate=?where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
+                $stmt->execute([$status,$date,$applicationID, $clientID]);
             }
             $this->pushNotification('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://54.200.114.180/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
 //             $this->executeCommand('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');

@@ -71,7 +71,12 @@ dashboard_sales_manage_clients:
 dashboard_sales_delete_client:
     path: /sales/delete-client/{slug}
     defaults: { _controller: DashboardBundle:Sales:deleteClient}
-
+dashboard_sales_download_applications:
+    path: /sales/download/{client}-{slug}%
+    defaults: { _controller: DashboardBundle:AppsStatus:downloadApp}
+dashboard_sales_uninstall_applications:
+    path: /sales/uninstall/{client}-{slug}%
+    defaults: { _controller: DashboardBundle:AppsStatus:uninstallApplication}
 dashboard_sales_clients_applications:
     path: /sales/clients-applications/{slug}
     defaults: { _controller: DashboardBundle:Sales:showClientApplications}
