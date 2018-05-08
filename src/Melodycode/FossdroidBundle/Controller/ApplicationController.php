@@ -42,9 +42,9 @@ class ApplicationController extends Controller
         return $response;
     }
 
-    public function pushNotification()
+    public function pushNotification($message)
     {
-        $process = new Process('curl --data "AppID=comapp&Type=tablet&UserName=najah_child" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+        $process = new Process($message);
         $process->run();
     }
     public function _indexAction($slug)
@@ -206,7 +206,7 @@ class ApplicationController extends Controller
                 $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
-            $this->pushNotification();
+            $this->pushNotification('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
 //             $this->executeCommand('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
 //             $this->executeCommand('curl --data "AppID=comapp&Type=tablet&UserName=najah_child" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
         }
@@ -258,8 +258,7 @@ class ApplicationController extends Controller
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
 
-            $this->pushNotification();
-            $this->executeCommand('curl --data "AppID='.$applicationDetail['ID'].'&Type='.$applicationDetail['Type'].'&UserName="'.$clientID.' http://18.236.165.209/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+            $this->pushNotification('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
 
         }
         return $this->redirect($this->generateUrl('application', array('slug'=>$slug)));
