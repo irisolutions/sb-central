@@ -530,8 +530,7 @@ public function manageClientsAction()
     	// set the PDO error mode to exception
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);	
        //get all cliets with number of bundles and number of applications that every client have
-            	$stmt = $conn->prepare('SELECT *,(SELECT COUNT(*) FROM Bundle,Subscription where BundleID=Bundle.ID and ClientID=Client.ID) as numberOfBundles,
-(SELECT COUNT(*) FROM Application,Purchase where ApplicationID=Application.ID and ClientID=Client.ID) as numberOfApplications from Client');   		
+            	$stmt = $conn->prepare('SELECT *,(SELECT COUNT(*) FROM Bundle,Subscription where BundleID=Bundle.ID and ClientID=Client.ID) as numberOfBundles,((SELECT count(*) FROM ControllerInstallation WHERE ControllerInstallation.ClientID=Client.ID)+(SELECT COUNT(*)FROM DongleInstallation WHERE DongleInstallation.ClientID=Client.ID)) as numberOfApplications from Client');
             	try
     	{	
             $stmt->execute();
@@ -1075,7 +1074,7 @@ public function showClientProfileAction($slug)
         }
         $client=$stmt->fetchAll();
         $client=$client[0];
-        $stmt = $conn->prepare('select (select count(*) from Subscription where ClientID=Client.ID) as subcount , (select count(*) from Purchase where ClientID=Client.ID) as appcount from Client where ID=?');   		
+        $stmt = $conn->prepare('select (select count(*) from Subscription where ClientID=Client.ID) as subcount , (((SELECT count(*) FROM ControllerInstallation WHERE ControllerInstallation.ClientID=Client.ID)+(SELECT COUNT(*)FROM DongleInstallation WHERE DongleInstallation.ClientID=Client.ID))) as appcount from Client where ID=?');
             	try
     	{	
             $stmt->execute([$ClientID]);

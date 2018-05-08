@@ -41,6 +41,15 @@
                 $("#email").css({ display: "none" });
                 $("#ID").css({ display: "none" });
             });
+            $('.labels').removeAttr('hidden');
+            $('.txt').attr('hidden', 'true');
+            $('.editform').attr('hidden', 'true');
+            $('.EditProfile').removeAttr('hidden');
+            $("#Address").css({ display: "none" });
+            $("#Name").css({ display: "none" });
+            $("#password").css({ display: "none" });
+            $("#email").css({ display: "none" });
+            $("#ID").css({ display: "none" });
         });
 $('#clickme').click()(function () {
     $('html, body').animate({
@@ -144,7 +153,6 @@ $('#clickme').click()(function () {
 
 
             {% endif %}
-        </form>
     </div>
     {% if add== false %}
         <div class="row cont">
@@ -166,6 +174,8 @@ $('#clickme').click()(function () {
             <div class="col-xs-1"></div>
             <div hidden="" class="col-xs-1 btn btn-primary cancel editform" style=" float: right; margin-right: 20px;"> cancel</div>
         </div>
+            </form>
+
         </div>
     {% endif %}
 
