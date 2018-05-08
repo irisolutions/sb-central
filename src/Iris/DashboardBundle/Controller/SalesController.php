@@ -403,11 +403,11 @@ public function showApplicationClientsAction($slug)
     	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         //get application clients
     	$stmt = $conn->prepare('Select *,'
-                . '(select DownloadDate from ControllerInstallation as cont '
-                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and DownloadDate '
-                . 'in(select max(cont.DownloadDate) as m from ControllerInstallation as cont '
+                . '(select WebDownloadDate from ControllerInstallation as cont '
+                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and WebDownloadDate '
+                . 'in(select max(cont.WebDownloadDate) as m from ControllerInstallation as cont '
                 . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )'
-                . ') as DownloadDate,'
+                . ') as WebDownloadDate,'
                 . '(select InstallationDate from ControllerInstallation as cont '
                 . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and InstallationDate '
                 . 'in(select max(cont.InstallationDate) as m from ControllerInstallation as cont '
@@ -419,8 +419,8 @@ public function showApplicationClientsAction($slug)
                 . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )'
                 . ') as InstalledVersion,'
                 . '(select Version from ControllerInstallation as cont '
-                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and DownloadDate '
-                . 'in(select max(cont.DownloadDate) as m from ControllerInstallation as cont '
+                . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID and WebDownloadDate '
+                . 'in(select max(cont.WebDownloadDate) as m from ControllerInstallation as cont '
                 . 'where clientID=Purchase.ClientID  and ApplicationID=Purchase.ApplicationID )) as DownlodedVersion'
                 . ' from Purchase,Client '
                 . 'where ApplicationID=? and Client.ID=ClientID');   		

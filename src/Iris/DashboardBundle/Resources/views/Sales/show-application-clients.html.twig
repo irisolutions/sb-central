@@ -50,8 +50,8 @@ Sales &rsaquo; Applications/Clients  &rsaquo; {{applicationname[0]}} Clients
         <thead>
           <tr>
               <th>Name</th>
-              <th>Downloaded Version</th>
-              <th>Downloaded Date</th> 
+              <th>Version</th>
+              <th>Download Date</th>
               <th>Installed Version</th>
               <th>Installation Date</th> 
 
@@ -69,7 +69,7 @@ Sales &rsaquo; Applications/Clients  &rsaquo; {{applicationname[0]}} Clients
                 <a style="margin-left: 8%" href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"><span style="font-size: 10px" class="glyphicon glyphicon-user"> </span>Profile</a>
             </td>
             <td>{%if client.DownlodedVersion%} {{ client.DownlodedVersion }}{%else%}not avilable{%endif%} </td>
-            <td>{%if client.DownloadDate %}{{ client.DownloadDate }}{%else%}not avilable{%endif%} </td>
+            <td>{%if client.WebDownloadDate %}{{ client.DownloadDate }}{%else%}not avilable{%endif%} </td>
             <td>{%if client.InstalledVersion%}{{ client.InstalledVersion }}{%else%}not avilable{%endif%} </td>
             <td>{%if client.InstalledVersion%}{{ client.InstallationDate }}{%else%}not avilable{%endif%} </td>
            
