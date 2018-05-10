@@ -45,7 +45,7 @@ class ApplicationController extends Controller
 
     public function pushNotification($message)
     {
-        $process = new Process($message);
+        $process = new Process($message.'" http://52.10.114.157/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
         $process->run();
     }
     public function _indexAction($slug)
@@ -208,9 +208,8 @@ class ApplicationController extends Controller
                 $stmt = $conn->prepare('UPDATE storedb.ControllerInstallation  SET storedb.ControllerInstallation.Status = ?  , ControllerInstallation.WebDownloadDate=?where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?');
                 $stmt->execute([$status,$date,$applicationID, $clientID]);
             }
-            $this->pushNotification('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://54.200.114.180/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
-//             $this->executeCommand('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
-//             $this->executeCommand('curl --data "AppID=comapp&Type=tablet&UserName=najah_child" http://34.217.120.206/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+            $this->pushNotification('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID);
+
         }
 //
 
@@ -260,7 +259,7 @@ class ApplicationController extends Controller
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
 
-            $this->pushNotification('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://54.200.114.180/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+            $this->pushNotification('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID);
 
         }
         return $this->redirect($this->generateUrl('application', array('slug'=>$slug)));
