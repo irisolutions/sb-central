@@ -12,3 +12,4 @@
 !web/images/icons/.gitkeep
 /nbproject/
 /.idea
+/.idea/php.xml
