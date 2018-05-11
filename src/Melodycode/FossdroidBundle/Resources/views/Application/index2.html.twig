@@ -8,12 +8,21 @@
 
 {% endblock %}
   {% block body %}
+
+
+
     <div id="fd-section_container">
+<div class="row category-app" style="
+        height:  50px;
+        color:  black;width:  100%; ">
+   <a href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }}
+
+</div>
         <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-            <div class="fd-section_header mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone"
+            <div class="fd-section_header mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone special-app-img"
                  {% if application.icon %}
             style="background: url(/images/Icons/{{ application.icon }}) center center no-repeat {{ application.primaryColor|default('#F5F5F5') }};"{% endif %}></div>
-            <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone" style="    border-top-right-radius: 20px;
+            <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone special-app-desc" style="    border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;">
                 <div class="mdl-card__supporting-text mdl-color-text--grey-900">
                     <h4>{{ application.name }}</h4>
@@ -30,7 +39,7 @@
                     {% if install_button_text %}
                         <div class="appStatus" style="border: 1px solid white;
 
-                                border-radius: 5px;position:absolute;right:20px;bottom: {% if (install_button_text=='Installing' or install_button_text=='Update' ) %} 50px {% else %} 10px {% endif %};background-color: #005e97;{% if install_button_text=='Installing' %}opacity: 0.5 {% endif %}">
+                                position:absolute;right:20px;bottom: {% if (install_button_text=='Installing' or install_button_text=='Update' ) %} 50px {% else %} 10px {% endif %};background-color:#0083ba;{% if install_button_text=='Installing' %}opacity: 0.5 {% endif %}">
                             <a  style="display: inline-block; color: white; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;"
                                rel="nofollow" {% if install_button_text!='Installing' %}href=' {{ path('status',{'slug': application.slug}) }}                   ' {% endif %}>
                                 {{ install_button_text }}
@@ -39,8 +48,8 @@
                     {% endif %}
                     {% if uninstall %}
 
-                        <div style="position:absolute;right:20px;bottom: 10px;background-color: lightblue;">
-                            <a style="display: inline-block; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;"
+                        <div  class="canclebtn"style="position:absolute;right:20px;bottom: 10px;background-color: #0083ba;">
+                            <a class="anchorcancle" style="display: inline-block; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;"
                                rel="nofollow" href='{{ path('uninstall',{'slug': application.slug}) }}'>
                                 {{ uninstall }}
                             </a>

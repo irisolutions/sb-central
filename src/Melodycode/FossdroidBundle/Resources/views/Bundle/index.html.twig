@@ -1,3 +1,5 @@
+
+
 {% extends 'MelodycodeFossdroidBundle::base.html.twig' %}
 
 {% block title %}"{{ bundle.Name }}" - Sensory Apps{% endblock %}
@@ -5,6 +7,91 @@
 {% block breadcrumb %}
     <a href="{{ path('bundle', {'slug': bundle.ID}) }}">{{ bundle.Name }}</a>
 {% endblock %}
+
+
+{% block stylesheets %}
+
+{% endblock %}
+{% block javascripts %}
+
+
+{% endblock %}
+
+
+
+{% block head%}
+    <style>
+        #owl-demo{
+width: 100% !important;
+        }
+        #owl-demo .item{
+            padding: 30px 0px;
+            margin: 10px;
+            color: #FFF;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            text-align: center;
+        }
+        .customNavigation{
+            text-align: center;
+        }
+
+        .customNavigation a{
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+        .cluster-heading {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            cursor: default;
+            font-size: 28px;
+            font-weight: 100;
+            margin: 0 50px 0 248px;
+            min-height: 37px;
+            min-width: 680px;
+            padding: 5px;
+            position: relative;
+            width: 680px;
+        }
+        .cluster .see-more {
+            bottom: 14px;
+            display: none;
+            margin-top: 5px;
+            position: absolute;
+            right: 5px;
+        }
+        .play-button.apps {
+            background-color: #689f38;
+        }
+        .play-button.apps.small{
+            line-height: 30px;
+        }
+        h2{
+            font-family: "Roboto",UILanguageFont,Arial,sans-serif;
+        }
+        .cluster-heading {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            cursor: default;
+            font-size: 28px;
+            font-weight: 100;
+            margin: 0 50px 0 248px;
+            min-height: 37px;
+            min-width: 680px;
+            padding: 5px;
+            position: relative;
+        }
+
+    </style>
+{% endblock %}
+
+
+
 
 {#
 {% block nav_categories %}
@@ -14,21 +101,45 @@
 {% block body %}
     <div class="mdl-grid">
 
-        <div class="mdl-cell mdl-cell--12-col">
-            <h4 style="    text-align: center;
-    font-size: 33px;
-    line-height: 32px;
-    -moz-osx-font-smoothing: grayscale;
-    margin: 24px 0 16px;
-    font-family: serif;
-    font-styale: italic;">
-                {{ bundle.Description }}
-            </h4>
+
+        <h2>Games You Might Like</h2>
+
+
+
+        <div id="owl-demo" class="owl-carousel owl-theme">
+
+            {% for application in applications %}
+                <div class="item">
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
+
         </div>
-
-
-        {% for application in applications %}
-            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-        {% endfor %}
     </div>
+
+        <script>
+
+            $(document).ready(function() {
+
+                var owl = $("#owl-demo");
+
+                owl.owlCarousel({
+                    items : 6, //10 items above 1000px browser width
+                    itemsDesktop : [1000,2], //5 items between 1000px and 901px
+                    itemsDesktopSmall : [900,3], // betweem 900px and 601px
+                    itemsTablet: [600,1], //2 items between 600 and 0
+                    itemsMobile : false // itemsMobile disabled - inherit from itemsTablet option
+                });
+
+                // Custom Navigation Events
+
+
+            });
+        </script>
+    <link rel="stylesheet" href="{{ asset('OwlCarousel2-2.3.4/dist/assets/owl.carousel.css') }}" >
+    <link rel="stylesheet" href="{{ asset('OwlCarousel2-2.3.4/dist/assets/owl.theme.default.css') }}" >
+    <script src="{{asset('OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
+
 {% endblock %}
+
+

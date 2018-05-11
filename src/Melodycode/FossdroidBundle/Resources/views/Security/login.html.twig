@@ -3,10 +3,14 @@
 <!Doctype html>
 
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+
     {#fdsaf#}
 </script>
+<script src="//storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
     body {
         position: absolute;
@@ -28,6 +32,7 @@
         -webkit-font-smoothing: antialiased;
         margin: 0;
         padding: 0;
+        height: 100%;
     }
 
     hgroup {
@@ -452,7 +457,7 @@
     /* Footer left */
 
     .footer-distributed .footer-left{
-        width: 40%;
+        width: 25%;
     }
 
     /* The company logo */
@@ -492,8 +497,9 @@
     /* Footer Center */
 
     .footer-distributed .footer-center{
-        width: 35%;
+        width: 30%;
     }
+
     footer {
         position: absolute;
         right: 0;
@@ -551,7 +557,7 @@
     /* Footer Right */
 
     .footer-distributed .footer-right{
-        width: 20%;
+        width:40%;
     }
 
     .footer-distributed .footer-company-about{
@@ -620,7 +626,61 @@ footer{
     height: auto;
         overflow: auto;
     }
+    footer{
+        position: fixed;
+        bottom: 0;
+    }
 
+    @media (max-height:800px){
+        footer { position: static; }
+        header { padding-top:40px; }
+    }
+
+    @media (max-width:715px){
+
+
+    }
+    @media (max-width:725px) {
+.footer-distributed{
+
+    margin: 0px;
+}
+        .footer-distributed .footer-left{
+            width: 45% !important;
+        }
+        .footer-distributed .footer-center{
+            width: 50% !important;
+        }
+        .footer-distributed .footer-right{
+            margin-top: 40px !important;
+            width:100% !important;
+        }
+        footer{
+            font-size: 12px !important;
+        }
+    }
+    @media (max-width:485px) {
+        .footer-distributed{
+
+            margin: 0px;
+        }
+        .footer-distributed .footer-left{
+            width: 80% !important;
+            margin: auto !important;
+        }
+        .footer-distributed .footer-center{
+
+            width:90% !important;
+            margin: auto !important;
+            margin-top: 40px !important;
+        }
+        .footer-distributed .footer-right{
+
+            width:90% !important;
+            margin: auto !important;
+            margin-top: 40px !important;
+        }
+    }
 </style>
 
 
@@ -701,7 +761,7 @@ footer{
 
         <div>
             <i class="fa fa-map-marker"></i>
-            <p><span>Sama Ramallah Bld</span> Ramallah </p>
+            <p><span>Sama Ramallah Bld</span> </p>
         </div>
 
         <div>
