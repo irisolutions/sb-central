@@ -15,7 +15,7 @@ html, body {
     width: 150px;
 }
 body {
-    background-color: #eeeeee !important;
+
 }
 
 .fd-application_box .mdl-card__title-text a {
@@ -116,18 +116,26 @@ body {
     margin-right: 17px;
 }
 .mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen)>.mdl-layout__header {
-    margin-left: 0px !important;
-    width: 100%;
+    margin-left: 200px !important;
+    width: calc(100% - 217px);
+
+}
+.mdl-layout--fixed-drawer>.mdl-layout__header .mdl-layout__header-row{
+    padding: 0px !important;
 }
 .fd-navigation .mdl-layout-title a {
     text-decoration: none;
-    color: inherit;
+
     font-weight: 500;
     font-family: serif;
     font-size: 20px;
-    font-style: italic;
-}
 
+    color: white !important;
+}
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link{
+    line-height: 20px !important;
+    padding: 16px 12px 8px 23px !important;
+}
 .fd-navigation .icon {
     position: relative;
     bottom: -4px;
@@ -164,7 +172,7 @@ body {
 
 .fd-breadcrumb a {
     text-decoration: none;
-    color: inherit;
+
     font-weight: 400;
 }
 
@@ -261,7 +269,7 @@ body {
 }
 
 .mdl-layout__header-row{
-    background-color:white !important;
+    background-color:#0083ba !important;
     border: none;
    /* border-left: 1px solid gainsboro; */
 
@@ -271,7 +279,7 @@ body {
 
 }
 .mdl-layout__drawer>.mdl-layout-title{
-    background-color: #0083BA !important;
+    background-color:#0083ba !important;
 }
 .fd-application_box .mdl-card .mdl-shadow--2dp{
 
@@ -346,9 +354,9 @@ th{
     height: 30px;
 }
 .mdl-layout__drawer>.mdl-layout__title, .mdl-layout__drawer>.mdl-layout-title {
-    line-height: 64px;
+    line-height: 46px;
     padding-left: 30px !important;
-    height: 52px;
+    height: 49px;
 }
 .mdl-mini-footer{
     padding: 16px 16px !important;
@@ -388,7 +396,7 @@ top:5px !important;
 }
 .mdl-layout__drawer{
 height: 569px !important;
-    position: fixed;
+
 }
 .fd-navigation {
 
@@ -408,18 +416,25 @@ main{
 
 .mdl-layout__drawer {
     height: auto !important;
-    position: fixed;
+
+
     max-height: 100%;
     width: 200px !important;
 }
 body{
+
+
+}
+.mdl-color--grey-100{
     background-color: #eeeeee !important;
 }
 .fd-navigation, .mdl-layout__drawer {
-    margin-top: 64px !important;
+    margin-top:60px !important;
 }
 @media all and (max-width: 1025px) {
-
+body{
+    background-color: #eeeeee !important;
+}
     .mdl-layout__header .mdl-layout__drawer-button {
         display: block;
         margin: 0px;
@@ -444,7 +459,8 @@ body{
     .mdl-layout__drawer {
 
 
-        position: fixed;
+
+
         height: 100% !important;
         max-height: 100%;
     }
@@ -456,8 +472,11 @@ body{
     }
     .mdl-color--primary {
         background-color: #0083BA !important;
-        display: block !important;
     }
+    .mdl-layout__drawer{
+        z-index:5 !important;
+    }
+
     .dropdown{
 
     }
@@ -469,6 +488,7 @@ body{
         margin: auto !important;
     }
     .clus{
+        width: 100%;
         background-color: white;
         border: 1px solid gainsboro;
         margin-bottom: 20px;
@@ -483,20 +503,25 @@ body{
     .card.small.apps.square-cover .cover-image{
 
     }
+    .fd-search{
+       margin-left: 100px !important;
+
+    }
+    .searchTablet{
+        width: 60% !important;
+    }
+
 }
 
 .mdl-color--primary {
     background-color: #0083BA !important;
     display: none;
 }
-.mdl-layout__drawer{
-    z-index:5 !important;
-}
 
 
 .mdl-layout__drawer .mdl-navigation {
     padding-top: 0px !important;
-    border-bottom: 1px solid !important;
+
 }
 .mdl-layout__drawer-button{
     margin: 0;
@@ -523,8 +548,13 @@ margin: 5px !important;
     /*white-space: nowrap;*/
     /*text-overflow: ellipsis;*/
 }
-    .fd-breadcrumb {
+    .freadcrumbd-b {
        margin-left: 6% !important;
+
+
+    }
+    .freadcrumbd-b .mdl-layout-title{
+        color: white;
 
     }
     .mdl-layout__header-row{
@@ -628,9 +658,7 @@ font-size: 13px;
     }
 }
 @media screen and (max-width: 411px) {
-    .fd-breadcrumb  {
-       display: none;
-    }
+
     .mdl-textfield.is-invalid .mdl-textfield__input{
         width: 100% !important;
 
@@ -651,8 +679,12 @@ font-size: 13px;
     .mdl-textfield--expandable .mdl-button--icon {
         top: 19px !important;
     }
-    .dropdown{
-width: 20px !important;
+
+    .user-hide{
+        display: block !important;
+    }
+    .dropbtn{
+
     }
 }
 
@@ -757,5 +789,33 @@ ul.thumbnails {
 
 .mdl-layout--fixed-drawer>.mdl-layout__content {
 
+
+}
+.mdl-layout__header{
+    height: 48px !important;
+    box-shadow: initial !important;
+    background-color: #003b8e !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+}
+.mdl-layout-title{
+    color:white !important;
+}
+@media all and (max-width: 1025px) {
+    .dropdown-content{
+        margin-left: -127px !important;
+    }
+    .empty{
+        display: none;
+    }
+    .fd-search{
+        width: 100%;
+
+    }
+}
+.owl-stage{
+
+}
+th{
 
 }

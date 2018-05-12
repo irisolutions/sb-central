@@ -1,10 +1,47 @@
-<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
-    <form class="fd-search" role="search" method="get" action="{{ path('search') }}">
-        <label class="mdl-button mdl-js-button mdl-button--icon" for="search_term">
-            <i class="material-icons">search</i>
-        </label>
-        <div class="mdl-textfield__expandable-holder">
-            <input class="mdl-textfield__input" type="text" value="{{ q }}" name="q" id="search_term" pattern=".{3,}" required/>
-        </div>
-    </form>
+{#<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">#}
+    {#<form class="fd-search" role="search" method="get" action="{{ path('search') }}">#}
+        {#<label class="mdl-button mdl-js-button mdl-button--icon" for="search_term">#}
+            {#<i class="material-icons">search</i>#}
+        {#</label>#}
+        {#<div class="mdl-textfield__expandable-holder">#}
+            {##}
+            {#<input class="mdl-textfield__input" type="text" value="{{ q }}" name="q" id="search_term" pattern=".{3,}" required/>#}
+        {#</div>#}
+        {##}
+        {##}
+    {#</form>#}
+{#</div>#}
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- javascript -->
+<script src="//storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div class="searchDiv" style=" width: 100%; height: 60px;padding: 0;margin: 0;">
+<div class="row " style="margin-top: 10px; margin-bottom: 15px;" >
+    <div class="col-lg-2 empty " >
+
+        <span class="centerStore" style="margin-left:5%;    font-size: 30px;
+        font-family: sans-serif;">
+     <img src="{{ asset('images/Layer 2.png') }}" width="39px;" height="100%">   <strong> Iris Central</strong>
+        </span>
+    </div>
+    <div class="col-lg-5 col-10 searchTablet" >
+        <form class="fd-search" role="search" method="get" action="{{ path('search') }}">
+            {#<label class="mdl-button mdl-js-button mdl-button--icon" for="search_term">#}
+            {#<i class="material-icons">search</i>#}
+            {#</label>#}
+            <div class="row">
+                <input   type="text" class="searchInput" style="width: 100%; height: 30px !important; margin-top: 5px; border: 1px solid #0083ba; border-radius: 5px;" value="{{ q }}" name="q" id="search_term" pattern=".{3,}" required aria-label="Text input with dropdown button" placeholder=" &ensp;&ensp;Search">
+
+            </div>
+
+
+        </form>
+    </div>
+    <div class="col-lg-5 empty">
+    </div>
+
 </div>
+</div>
+<hr style="margin: 0px">

@@ -1,28 +1,10 @@
 <!DOCTYPE html>
-<script>
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
 
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-</script>
 <html lang="en">
     <head>
+
+
+
 	<!-- stylesheet -->
     <!--
      <link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.3.0/material.blue-indigo.min.css">
@@ -34,10 +16,21 @@ window.onclick = function(event) {
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('css/extra-style.css') }}">
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+        <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- javascript -->
+        <script src="//storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!------ Include the above in your HEAD tag ---------->
         <!-- seo -->
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <title>{% block title %}Iris Sensory Store: SensoryBox Apps{% endblock %}</title>
       
         <!-- viewport -->
@@ -45,7 +38,8 @@ window.onclick = function(event) {
 
         {% block head %}{% endblock %}
         <style>
-
+.mdl-layout{
+   }
             .footer-distributed{
                 background-color: #292c2f;
                 box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -270,7 +264,7 @@ window.onclick = function(event) {
                 }
             }
             main {
-               /* max-height: calc(100% - 147px);*/
+            /* max-height: calc(100% - 147px);*/
 
             }
             /*@media screen and (max-width: 479px) {*/
@@ -327,18 +321,48 @@ window.onclick = function(event) {
 
                 right: 15px;
             }
+
+            @media screen and (max-width: 411px) {
+                .dropbtn{
+
+                }
+            }
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
         </style>
     </head>
     
     <body class="mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-            <header class="mdl-layout__header" >
-                <div class="mdl-layout__header-row row">
 
-                       <span class="centerStore" style="margin-left:1%;    font-size: 20px;
-    font-family: serif;">
-                Iris Central
-            </span>
+
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+
+                {% block search %}
+                    {{ render(controller("MelodycodeFossdroidBundle:Widget:search")) }}
+                {% endblock %}
+
+            <header class="mdl-layout__header" >
+                <div class="mdl-layout__header-row row"  style="height: 48px !important;">
+
+
 
 
                     <span class="fd-breadcrumb mdl-layout-title">
@@ -348,13 +372,12 @@ window.onclick = function(event) {
 
                     <div class="mdl-layout-spacer"></div>
 
-                    {% block search %}
-                        {{ render(controller("MelodycodeFossdroidBundle:Widget:search")) }}
-                    {% endblock %}
+
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-    				<div class="dropdown" >
-                        <button onclick="myFunction()" class="dropbtn"><span class="username">{{ app.user.name }}</span>
+    				<div class="dropdown">
+                        <button  class="dropbtn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  onclick="myFunction()">
+                       <span class="username">{{ app.user.name }}</span>
                             <i class="fa fa-caret-down arrow-hide" aria-hidden="true" title="Toggle dropdown menu" id="dropdownMenuLink"></i>
 
 
@@ -362,7 +385,7 @@ window.onclick = function(event) {
                     </button>
 
 
-  					<div id="myDropdown" class="dropdown-content" aria-labelledby="dropdownMenuLink">
+  					<div id="myDropdown" class="dropdown-content dropdown-menu" aria-labelledby="dropdownMenuButton">
     					<a  href="{{ path('client_apps') }}"> <i class="fa fa-crosshairs icon" aria-hidden="true"></i> My Applications </a>
     					<a href="{{ path('client_subs') }}"> <i class="fa fa-share icon" aria-hidden="true"></i> My Subscriptions</a>
     					<a href="{{ path('client_account') }}"><i class="fa fa-user icon" aria-hidden="true"></i> My Account </a>
@@ -400,7 +423,7 @@ window.onclick = function(event) {
 
                     <div class="footer-left">
 
-                        <h3> <a href="http://www.iris.ps/"><img src="{{ asset('images/logo-whitetext.png') }}"> </a>  </h3>
+                        {#<h3> <a href="http://www.iris.ps/"><img src="{{ asset('images/logo-whitetext.png') }}"> </a>  </h3>#}
                         <div class="footer-icons">
 
 
@@ -429,15 +452,51 @@ window.onclick = function(event) {
 
         </div>
 
-        <!-- stylesheet -->
-        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
-        <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <!-- javascript -->
-        <script src="//storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+        <!-- stylesheet -->
+
+
+<script>
+
+     $(function () {
+         $(".loader").hide(2000,function () {
+ $(".mdl-layout").show();
+ document.getElementById("load").style.display="none";
+
+
+         });
+
+
+
+     });
+</script>
+
+        <script>
+            /* When the user clicks on the button,
+            toggle between hiding and showing the dropdown content */
+
+
+
+            function myFunction() {
+
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+            // Close the dropdown menu if the user clicks outside of it
+            window.onclick = function(event) {
+                if (!event.target.matches('.dropbtn')) {
+
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
+                    }
+                }
+            }
+        </script>
 
     </body>
 </html>

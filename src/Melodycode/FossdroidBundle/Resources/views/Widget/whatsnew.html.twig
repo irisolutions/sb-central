@@ -3,43 +3,49 @@
 
     $(document).ready(function() {
 
-        var owl = $("#owl-demo");
+        var owl4 = $("#owl-demo4");
         var owl1 = $("#owl-demo1");
         var owl2 = $("#owl-demo2");
         owl1.owlCarousel({
 
-            navigation: true, // Show next and prev buttons
-            slideSpeed: 1000,
-            paginationSpeed: 1000,
-            singleItem: true,
+          // Show next and prev buttons
+
+
+
             autoPlay: 5000,
             responsive : {
-                480 : { items : 1  }, // from zero to 480 screen width 4 items
-                768 : { items : 5  }, // from 480 screen widthto 768 6 items
-                1024 : { items : 7   // from 768 screen width to 1024 8 items
+                0:{items:1},
+                362:{items:2},
+               564 : { items : 3  }, // from zero to 480 screen width 4 items
+                768 : { items : 4  }, // from 480 screen widthto 768 6 items
+                1024 : { items :6   // from 768 screen width to 1024 8 items
                 }
             },
         });
-        owl.owlCarousel({
+        owl4.owlCarousel({
 
-            autoPlay: 3000,
+
             items : 6, // THIS IS IMPORTANT
             responsive : {
-                480 : { items : 1  }, // from zero to 480 screen width 4 items
-                768 : { items : 5  }, // from 480 screen widthto 768 6 items
-                1024 : { items : 7   // from 768 screen width to 1024 8 items
+                0:{items:1},
+                362:{items:2},
+                564 : { items : 3  }, // from zero to 480 screen width 4 items
+                768 : { items : 4 }, // from 480 screen widthto 768 6 items
+                1024 : { items : 6   // from 768 screen width to 1024 8 items
                 }
             },
         });
 
         owl2.owlCarousel({
 
-            autoPlay: 3000,
-            items : 1, // THIS IS IMPORTANT
+
+            items : 6, // THIS IS IMPORTANT
             responsive : {
-                480 : { items : 1  }, // from zero to 480 screen width 4 items
-                768 : { items : 5 }, // from 480 screen widthto 768 6 items
-                1024 : { items : 7   // from 768 screen width to 1024 8 items
+                0:{items:1},
+                362:{items:2},
+              564 : { items : 3  }, // from zero to 480 screen width 4 items
+                768 : { items : 4 }, // from 480 screen widthto 768 6 items
+                1024 : { items : 6   // from 768 screen width to 1024 8 items
                 }
             },
         });
@@ -62,20 +68,7 @@
 <html lang="en">
 <head>
     <style>
-        #owl-demo{
-width: 100%;
-            margin: auto;
 
-        }
-        #owl-demo .item{
-            margin: 10px;
-            color: #FFF;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            border-radius: 3px;
-            text-align: center;
-            width: 20% !important;
-        }
         .customNavigation{
             text-align: center;
         }
@@ -88,9 +81,7 @@ width: 100%;
               user-select: none;
               -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
           }
-        .owl-carousel.owl-loaded {
-            display: inherit !important;
-        }
+
       .clus{
           /*background-color: white;*/
           /*border: 1px solid gainsboro;*/
@@ -102,14 +93,16 @@ width: 100%;
         @media all and (max-width: 1025px) {
             .card.small.apps.square-cover .cover-image{
                 max-width: 89% !important;
+
             }
+        }
+        .owl-item{
+            margin-bottom: 10px !important;
         }
     </style>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <body>
-
-
 
 
 
@@ -126,31 +119,10 @@ width: 100%;
     <div class="cluster-heading" style="width: 1088px;">
         <h2 class="single-title-link">
             <a class="title-link id-track-click"
-               data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-                href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo">
-                New + Updated Games</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
-      href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>
-    <div id="owl-demo" class="owl-carousel owl-theme">
-
-        {% for application in applications %}
-            <div class="item">
-
-                {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-            </div>
-        {% endfor %}
-
-    </div>
-
-
-    </div>
-    <div class="clus">
-    <div class="cluster-heading" style="width: 1088px;">
-        <h2 class="single-title-link">
-            <a class="title-link id-track-click"
-               data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-               href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo">
+       data-uitype="291"
+               href="">
                 what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
-                                                href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>
+                                               aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>
 
     <div id="owl-demo2" class="owl-carousel owl-theme owl-loaded ">
 
@@ -163,13 +135,33 @@ width: 100%;
 
     </div>
     </div>
+    <div class="clus">
+        <div class="cluster-heading" style="width: 1088px;">
+            <h2 class="single-title-link">
+                <a class="title-link id-track-click"
+                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+  >
+                    New + Updated Games</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
+                               aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>
+        <div id="owl-demo4" class="owl-carousel owl-theme">
 
+            {% for application in applications %}
+                <div class="item">
+
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
+
+        </div>
+
+
+    </div>
     <div class="clus">
     <div class="cluster-heading" style="width: 1088px;">
         <h2 class="single-title-link">
             <a class="title-link id-track-click"
                data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-               href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo">
+>
                 what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
                                                href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>
     <div id="owl-demo1" class="owl-carousel owl-theme owl-loaded ">
@@ -183,6 +175,7 @@ width: 100%;
 
     </div>
     </div>
+
 
 <!--
 {% if category_slug %}
