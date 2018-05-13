@@ -1,629 +1,155 @@
-
-
-
-
 <!-- Include js plugin -->
 
 
 
 
-{% block head%}
-    <link rel="stylesheet" href="{{ asset('OwlCarousel2-2.3.4/dist/assets/owl.carousel.css') }}">
-    <link rel="stylesheet" href="{{ asset('OwlCarousel2-2.3.4/dist/assets/owl.theme.default.css') }}">
+<div class="cont">
 
+    <div class="card" style="position: relative; !important;">
 
-    <!--  jQuery 1.7+  -->
-    <script src="{{ asset('OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
-
-    <style>
-        .cardsmallsquare-cover {
-            height: 245px;
-            width: 160px;
-            border: 1px solid gainsboro;
-        }
-
-        .card-content {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background: #fff;
-            height: 100%;
-            position: relative;
-            text-decoration: none;
-            vertical-align: top;
-        }
-
-        .cover {
-            height: 160px;
-            width: 160px;
-            margin: -2px !important;
-        }
-
-        .card .cover-image-container {
-            height: 100%;
-            left: -5%;
-            position: relative;
-            top: -5%;
-            width: 90%;
-        }
-
-        .card .cover-outer-align {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .card.tiny.apps.square-cover .cover-image, .card.small.apps.square-cover .cover-image, .card.medium.apps.square-cover .cover-image, .card.medium-long.apps.square-cover .cover-image, .card.medium-minus.apps.square-cover .cover-image, .card.medium-plus.apps.square-cover .cover-image, .card.medium-plus-fixed.apps.square-cover .cover-image, .card.marge.apps.square-cover .cover-image, .card.large.apps.square-cover .cover-image {
-            max-width: 73%;
-        }
-
-        .card .cover-inner-align {
-            display: table-cell;
-            text-align: center !important;
-            vertical-align: middle;
-        }
-
-        .app-image {
-            max-width: 73% !important;
-            margin: auto;
-        }
-
-        img {
-            vertical-align: middle;
-        }
-
-        .preview-overlay-container {
-            -webkit-border-radius: 2px;
-            border-radius: 2px;
-            opacity: 0;
-            filter: alpha(opacity=0);
-            -webkit-transition: all .25s ease;
-            transition: all .25s ease;
-            background: rgba(0, 0, 0, 0.4);
-            cursor: pointer;
-            height: 100%;
-            left: 0;
-            position: absolute;
-            top: 0;
-            width: 100%;
-        }
-
-        .card.small .details {
-            max-height: 50px;
-        }
-
-        .card .details {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            display: block;
-            overflow: hidden;
-            padding: 7px 10px 0;
-            position: relative;
-        }
-
-        .card-click-target {
-            bottom: 0;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-
-        a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        .card .title {
-            color: #212121;
-            display: block;
-            font-size: 16px;
-            line-height: 18px;
-            max-height: 36px;
-            min-height: 18px;
-            overflow: hidden;
-            text-decoration: none;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .card .subtitle-container {
-            min-height: 22px;
-        }
-
-        .card .subtitle-container, .card .stars-container {
-            display: block;
-            position: relative;
-            width: 100%;
-        }
-
-        .card.apps.no-rationale .subtitle {
-            display: inline-block;
-        }
-
-        .app-title {
-            color: black;
-        }
-
-        .app-des {
-            color: darkblue;
-        }
-
-        .card .title {
-            color: #212121;
-            display: block;
-            font-size: 16px;
-            line-height: 18px;
-            /* max-height: 36px; */
-            min-height: 18px;
-            overflow: hidden;
-            text-decoration: none;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .preview-overlay-container {
-            display: none;
-        }
-
-        img:hover + .preview-overlay-container {
-            display: block !important;
-        }
-
-        .preordered-label {
-            color: #fff;
-            font-size: 14px;
-            font-weight: 400;
-            min-width: 51px;
-            padding: 2px 6px;
-            position: relative;
-            text-align: center;
-        }
-
-        .card.tiny.square-cover {
-            height: 168px;
-            width: 126px;
-        }
-
-        .cluster .card {
-            float: left;
-        }
-
-        .card {
-            display: inline-block;
-            margin: 5px;
-            position: relative;
-            text-align: left;
-            vertical-align: top;
-            white-space: normal;
-        }
-
-        .card-content {
-            -webkit-border-radius: 2px;
-            border-radius: 2px;
-            -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background: #fff;
-            height: 100%;
-            position: relative;
-            text-decoration: none;
-            vertical-align: top;
-        }
-
-        .card-click-target {
-            bottom: 0;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-
-        a {
-            text-decoration: none !important;
-            color: #333 !important;
-        }
-
-        .card.tiny.circle-cover .cover, .card.tiny.square-cover .cover {
-            height: 126px;
-            width: 126px;
-        }
-
-        .card.apps .cover, .card.devices .cover, .card.people .cover {
-            background-color: #fff;
-        }
-
-        .card .cover {
-            -webkit-border-radius: 2px 2px 0 0;
-            border-radius: 2px 2px 0 0;
-            background-color: #f5f5f5;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card .cover-image-container {
-            height: 110%;
-            left: -5%;
-            position: relative;
-            top: -5%;
-            width: 110%;
-        }
-
-        .card .cover-outer-align {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .card .cover {
-            -webkit-border-radius: 2px 2px 0 0;
-            border-radius: 2px 2px 0 0;
-            background-color: #f5f5f5;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card .cover-inner-align {
-            display: table-cell;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        .card .cover-image {
-            max-height: 92%;
-            max-width: 92%;
-        }
-
-        .card-click-target {
-            bottom: 0;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-
-        .preordered-label {
-            color: #fff;
-            font-size: 14px;
-            font-weight: 400;
-            min-width: 51px;
-            padding: 2px 6px;
-            position: relative;
-            text-align: center;
-        }
-
-        .card.tiny .details {
-            max-height: 50px;
-            padding-top: 1px;
-        }
-
-        .card .details {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            display: block;
-            overflow: hidden;
-            padding: 7px 10px 0;
-            position: relative;
-        }
-
-        .card-click-target {
-            bottom: 0;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-
-        .card.tiny .title {
-            font-size: 14px;
-            line-height: 17px;
-            margin-bottom: 0;
-            margin-top: 3px;
-            min-height: 17px;
-        }
-
-        .cluster.tight .card-list, .cluster.circle-cover.tight .card-list, .cluster.square-cover.tight .card-list {
-            height: 178px;
-        }
-
-        .card .title {
-            color: #212121;
-            display: block;
-            font-size: 16px;
-            line-height: 18px;
-            max-height: 36px;
-            min-height: 18px;
-            overflow: hidden;
-            text-decoration: none;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .card .title .paragraph-end {
-            height: 19px;
-            width: 45px;
-        }
-
-        .paragraph-end {
-            background-image: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 1)));
-            background-image: -webkit-linear-gradient(left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#00ffffff', EndColorStr='#ffffff');
-            bottom: 0;
-            height: 25px;
-            max-height: 100%;
-            position: absolute;
-            right: 0;
-            width: 60px;
-        }
-
-        .card .subtitle-container {
-            min-height: 22px;
-        }
-
-        .card .subtitle-container, .card .stars-container {
-            display: block;
-            position: relative;
-            width: 100%;
-        }
-
-        .card.apps.no-rationale .subtitle {
-            display: inline-block;
-        }
-
-        .card.tiny .subtitle {
-            font-size: 12px;
-            line-height: 15px;
-        }
-
-        .card.tiny .subtitle {
-            width: 106px;
-        }
-
-        .card .subtitle {
-            color: #616161;
-            display: inline-block;
-            font-size: 13px;
-            line-height: 16px;
-            margin: 1px 0;
-            max-width: 132px;
-            overflow: hidden;
-        }
-
-        .card.tiny .details .subtitle-container .price-container {
-            display: inline-block;
-        }
-
-        img {
-            vertical-align: middle;
-            margin: auto;
-        }
-
-        .card .price-container {
-            bottom: 4px;
-            position: absolute;
-            right: 0;
-            text-align: left;
-        }
-
-        .cluster .card-list {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            margin-left: 248px;
-            margin-right: 50px;
-            max-height: 340px;
-            min-width: 680px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .cluster-heading {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            cursor: default;
-            font-size: 28px;
-            font-weight: 100;
-            margin: 0 15px 0 39px;
-            min-height: 37px;
-            min-width: 680px;
-            padding: 5px;
-            position: relative;
-        }
-
-        h2 {
-            color: #333;
-            font-size: 28px;
-            font-weight: 100;
-            font-family: -webkit-body !important;
-        }
-
-        .appTitleDiv {
-            margin-top: 10%;
-            text-align: center;
-
-            font-family: serif;
-            font-size: 19px;
-            margin-bottom: 10px;
-            color: #616161;
-        }
-
-        .freeAnchor {
-            color: #0083ba !important;
-        }
-
-        .appDescriptionDiv {
-            text-align: center;
-        }
-
-        body {
-            overflow-y: scroll !important;
-        }
-
-        .cont{
-            height: 245px;
-            width: 172px;
-            padding: 0px !important;
-
-        }
-
-        .card {
-            height: 238px;
-            width: 160px;
-            border-radius: 2px;
-            -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin: 5px !important;
-        }
-
-        .image {
-            height: 160px;
-            width: 160px;
-            display: table-cell;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        .card {
-            background-color: white;
-        }
-
-        .card .image {
-            width: 99.5%;
-
-            background-color: white;
-
-        }
-
-        .title {
-            font-size: 12px !important;
-            font-family: cursive;
-            font-style: italic;
-
-        }
-
-        .app-image {
-            height: 100%;
-            max-width: 90% !important;
-            margin-top: 10px;
-        }
-
-        .price {
-            margin-top: 5%;
-            font-style: italic;
-            font-size: 10px;
-        }
-
-        .priceAnchor {
-            color: #003b8e !important;
-            float: right;
-        }
-
-        .single-title-link {
-            margin: 0px !important;
-        }
-        h2 a{
-            margin-top: 5px;
-            margin-bottom: 5px;
-            font-size: 28px !important;
-            color:#645d5d !important;
-            font-style: italic;
-            font-family: serif;
-        }
-.clus{
-
-    margin-top:17px;
-
-}
-        .marg{
-            margin-top: 5px;
-        }
-        @media all and (max-width: 1281px) {
-            body {
-                background-color: #eeeeee !important;
-            }
-        }
-        .bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-
-        }
-        .cont:hover .bg {
-            -webkit-filter: blur(15px);
-        }
-
-
-        .app-image {
-            opacity: 1;
-            display: block;
-            width: 100%;
-            height: auto;
-            transition: .5s ease;
-            backface-visibility: hidden;
-        }
-
-        .middle {
-            transition: .5s ease;
-            opacity: 0;
-            position: absolute;
-            top: 50%;
-
-            transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            text-align: center;
-
-            left: 50%;
-        height: 100%;
-            width: 100%;
-        }
-
-        .cont:hover .app-image {
-            opacity: 0.3;
-        }
-
-        .cont:hover .middle {
-            opacity: 1;
-        }
-        .text {
-            background-color: #0083ba;
-            color: white;
-            font-size: 16px;
-            padding: 16px 32px;
-            position: absolute;
-
-        }
-    </style>
-{% endblock %}
-{% block body %}
-<div class="cont ">
-    <div class="card">
         <div class="image">
-            <img class="app-image" style=" "
-                 src="https://lh3.googleusercontent.com/Bp2M86HtB87zxhPvMKyf1ZSTAZPTe7HoDVzP7NvJhW-C9z0DkmBlsO7BIDLBwqiQPQ8=w340-rw">
+            <a class="card-click-target"
+               data-server-cookie="CAIaMgoZEhcKEWNvbS5mYWNlYm9vay5vcmNhEAEYAzITCMjgsqi4gtsCFcbBpwod2DMBPUIA"
+               data-uitype="500" href="/store/apps/details?id=com.facebook.orca" aria-hidden="true" tabindex="-1"></a>
+            <a href='{{ path('application', {'slug': application.slug}) }}' style="display:block; !important;">
+                <img class="app-image" style=" "
+                     src="https://lh3.googleusercontent.com/Bp2M86HtB87zxhPvMKyf1ZSTAZPTe7HoDVzP7NvJhW-C9z0DkmBlsO7BIDLBwqiQPQ8=w340-rw">
+            </a>
         </div>
 
-        <div class="details"><a class="card-click-target" href="#"
-            > </a> <a class="title"
-                      href=""
+
+        <div class="details">
+
+            <a class="title"
+               href=""
             >{{ application.name }} <span class="paragraph-end"></span></a>
-            <div class="title marg"><a class="title"
-                                  href=""
+            <div class="title marg"><a class="title descAPP"
+                                       href=""
                 >{{ application.summary }} <span class="paragraph-end"></span> </a></div>
-
-
             <div class="price"><a class="priceAnchor"
-                                  href=""
+                                  href="#"
 
-                                 >FREE </a></div>
-
-
-        </div>
-
-
-        <div class="middle">
+                >FREE </a></div>
 
         </div>
     </div>
 
+
+    <div class="middle">
+
+    </div>
+
+
 </div>
 
-{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<img src="http://18.236.165.209/fdroid/repo/icons/{{ application.icon }}">
+    <div class="card-body">
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+-->
+
+
+{#<div class="card cardsmallsquare-cover" style="">#}
+        {#<div class="card-content">#}
+            {#<div class="cover">#}
+                {#<div class="cover-image-container"#}
+                     {#style="background-color: {{ application.primaryColor|default('#F5F5F5') }}">#}
+                    {#<div class="cover-outer-align">#}
+                        {#<div class="cover-inner-align">#}
+                            {#<img class="app-image" style=" max-width: 73% !important;"#}
+                                 {#src="http://18.236.165.209/fdroid/repo/icons/{{ application.icon }}">#}
+
+                        {#</div>#}
+                    {#</div>#}
+
+                {#</div>#}
+                {#<a class="card-click-target" href="/store/apps/details?id=com.meitu.beautyplusme"#}
+                   {#aria-label="     BeautyPlus Me – Perfect Camera    ">#}
+    {#<span class="movies preordered-overlay-container id-preordered-overlay-container" style="display:none;">#}
+    {#<span class="preordered-label"> Pre-ordered </span> </span>#}
+                    {#<span class="preview-overlay-container" data-docid="com.meitu.beautyplusme">  </span> </a>#}
+            {#</div>#}
+            {#<div class="appTitleDiv title">#}
+                {#<span class="app-title"> {{ application.name }} </span>#}
+            {#</div>#}
+            {#<div class="appDescriptionDiv">#}
+                {#<span class="app-des"><a href="#" class="freeAnchor">FREE</a></span>#}
+            {#</div>#}
+
+
+        {#</div>#}
+
+    {#</div>#}
+    {#<div class="browse-page">#}
+        {#<div class="id-cluster-container cluster-container cards-transition-enabled">#}
+            {#<div class="cluster id-track-impression tight square-cover apps">#}
+                {#<div class="id-card-list card-list two-cards">#}
+                    {#<div class="card no-rationale square-cover apps tiny" data-docid="com.tinyco.potter"#}
+                         {#data-original-classes="card no-rationale square-cover apps small"#}
+                         {#data-short-classes="card no-rationale square-cover apps tiny"#}
+                         {#data-thin-classes="card no-rationale square-cover apps small">#}
+                        {#<div class="card-content id-track-click id-track-impression" data-docid="com.tinyco.potter"#}
+                             {#data-server-cookie="CAIaMgoZEhcKEWNvbS50aW55Y28ucG90dGVyEAEYAzITCOD4zuLD+NoCFQ3FpwodWqsGNEIA"#}
+                             {#data-uitype="500"><a class="card-click-target"#}
+                                                  {#data-server-cookie="CAIaMgoZEhcKEWNvbS50aW55Y28ucG90dGVyEAEYAzITCOD4zuLD+NoCFQ3FpwodWqsGNEIA"#}
+                                                  {#data-uitype="500" href="/store/apps/details?id=com.tinyco.potter"#}
+                                                  {#aria-hidden="true"#}
+                                                  {#tabindex="-1"></a>#}
+                            {#<div class="cover">#}
+                                {#<div class="cover-image-container">#}
+                                    {#<div class="cover-outer-align">#}
+                                        {#<div class="cover-inner-align"><img alt="Harry Potter: Hogwarts Mystery"#}
+                                                                            {#class="cover-image"#}
+                                                                            {#data-cover-large="//lh3.googleusercontent.com/AJpf6pUr6oQijox0JMrD-20qiBeKD_e_CL0J-oJ1Naxn6c5iE62RO59zhEl9cSW4LY8=w340-rw"#}
+                                                                            {#data-cover-small="//lh3.googleusercontent.com/AJpf6pUr6oQijox0JMrD-20qiBeKD_e_CL0J-oJ1Naxn6c5iE62RO59zhEl9cSW4LY8=w170-rw"#}
+                                                                            {#src="//lh3.googleusercontent.com/AJpf6pUr6oQijox0JMrD-20qiBeKD_e_CL0J-oJ1Naxn6c5iE62RO59zhEl9cSW4LY8=w170-rw"#}
+                                                                            {#aria-hidden="true"></div>#}
+                                    {#</div>#}
+                                {#</div>#}
+                                {#<a class="card-click-target" href="/store/apps/details?id=com.tinyco.potter"#}
+                                   {#aria-label="     Harry Potter: Hogwarts Mystery    ">#}
+    {#<span class="movies preordered-overlay-container id-preordered-overlay-container" style="display:none">#}
+    {#<span class="preordered-label"> Pre-ordered </span> </span>#}
+                                    {#<span class="preview-overlay-container" data-docid="com.tinyco.potter">  </span>#}
+                                {#</a></div>#}
+
+
+                            {#<div class="reason-set">  <span class="stars-container"> <a#}
+                                            {#href="/store/apps/details?id=com.tinyco.potter"> <div#}
+                                                {#class="reason-set-star-rating">  <div#}
+                                                    {#class="tiny-star star-rating-non-editable-container"#}
+                                                    {#aria-label=" Rated 4.4 stars out of five stars "> <div#}
+                                                        {#class="current-rating" jsname="jIIjq"#}
+                                                        {#style="width: 88.28235626220703%;"></div> </div>  </div> </a> <span#}
+                                            {#class="price-container"> <span class="paragraph-end"></span>#}
+
+    {#</span>  </span>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+
+
+
+

@@ -172,7 +172,7 @@ body {
 
 .fd-breadcrumb a {
     text-decoration: none;
-
+    color: white !important;
     font-weight: 400;
 }
 
@@ -419,7 +419,7 @@ main{
 
 
     max-height: 100%;
-    width: 200px !important;
+    width: 200px ;
 }
 body{
 
@@ -447,7 +447,7 @@ body{
     }
     .user-hide{
         display: block !important;
-
+        margin-right: 25px !important;
 
     }
     .fd-navigation, .mdl-layout__drawer{
@@ -509,6 +509,9 @@ body{
     }
     .searchTablet{
         width: 60% !important;
+    }
+    .mdl-layout__drawer{
+        width: 225px !important;
     }
 
 }
@@ -802,20 +805,24 @@ ul.thumbnails {
     color:white !important;
 }
 @media all and (max-width: 1025px) {
-    .dropdown-content{
-        margin-left: -127px !important;
-    }
-    .empty{
-        display: none;
-    }
-    .fd-search{
-        width: 100%;
+.dropdown-content{
+    margin-left: -127px !important;
+}
+.empty{
+    display: none;
+}
+.fd-search{
+    width: 100%;
 
-    }
+}
+
 }
 .owl-stage{
 
 }
 th{
 
+}
+.fd-breadcrumb{
+    margin-left: 10% !important;
 }

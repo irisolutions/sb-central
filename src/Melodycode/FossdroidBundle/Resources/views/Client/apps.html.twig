@@ -4,59 +4,79 @@
 {% block breadcrumb %}
 My Applications
 {% endblock %}
+{% block head%}
+    <link rel="stylesheet" href="{{ asset('css/account.css') }}">
+<style>
+    .fd-breadcrumb{
+        margin-left: 20% !important;
+    }
+
+</style>
+{%endblock %}
 
 {% block body %}
-<div style="width:60%; margin: auto; margin-top:3%;">
-    <div class="appLabel"><h4 style="margin-bottom: 15px;font-family: Serif; font-size: 30px">Purchased Applications</h4></div>
-    <hr>
+    <div class="row">
+        <div class="col-lg-1">
 
-<div class="datagrid">
- <table>
-        <thead>
-          <tr>
-              <th>Name</th>
-           {#   <th>Version</th> #}
-              <th>Price</th>
-          </tr>
-        </thead>
+        </div>
+        <div class="col-lg-7">
+            <div style="width:90%; margin: auto; margin-top:3%;">
+                <div class="appLabel"><h4 style="margin-bottom: 15px;font-family: Serif; font-size: 20px">Purchased Applications</h4></div>
+                <hr>
 
-        <tbody>
-        {% for app in purchased %}
-          <tr>
-            <td><a class="blue-anchor" href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
-       {#     <td>{{ app.Version }}</td> #}
-            <td>{{ app.Price }}$</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      </div>
-  {# Applications Owned via subscriptions#}
-    <div class="appLabel"><h4 style="margin-bottom: 15px;font-family: Serif; font-size: 30px">Applications Via Subscriptions</h4></div>
-    <hr>
+                <div class="datagrid">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            {#   <th>Version</th> #}
+                            <th>Price</th>
+                        </tr>
+                        </thead>
 
-<div class="datagrid">
- <table>
-        <thead>
-          <tr>
-              <th>Name</th>
-        {#      <th>Version</th> #}
-              <th>Bundle</th>
-          </tr>
-        </thead>
+                        <tbody>
+                        {% for app in purchased %}
+                            <tr>
+                                <td><a class="blue-anchor" href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
+                                {#     <td>{{ app.Version }}</td> #}
+                                <td>{{ app.Price }}$</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {# Applications Owned via subscriptions#}
+                <div class="appLabel"><h4 style="margin-bottom: 15px;font-family: Serif; font-size: 20px">Applications Via Subscriptions</h4></div>
+                <hr>
 
-        <tbody>
-        {% for app in subscribed %}
-          <tr>
-            <td><a class="blue-anchor"  href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
-      {#      <td>{{ app.Version }}</td>  #}
-            <td><a  class="blue-anchor" href="{{ path('bundle', {'slug': app.BundleID}) }}">{{ app.BundleName }}</a></td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      </div>
-      
-      </div>
+                <div class="datagrid">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            {#      <th>Version</th> #}
+                            <th>Bundle</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for app in subscribed %}
+                            <tr>
+                                <td><a class="blue-anchor"  href="{{ path('application_', {'slug': app.ID}) }}">{{ app.Name }}</a></td>
+                                {#      <td>{{ app.Version }}</td>  #}
+                                <td><a  class="blue-anchor" href="{{ path('bundle', {'slug': app.BundleID}) }}">{{ app.BundleName }}</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4">
+
+        </div>
+    </div>
+
 
 {% endblock %}

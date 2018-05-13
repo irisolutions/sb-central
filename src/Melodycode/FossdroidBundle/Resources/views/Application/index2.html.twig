@@ -4,8 +4,12 @@
 
 {% block head %}
     <link rel="stylesheet" href="{{ asset('css/extra-style.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('css/account.css') }}">
+<style>
+   .appCatName{
+        color: white !important;
+    }
+</style>
 {% endblock %}
   {% block body %}
 
@@ -14,8 +18,8 @@
     <div id="fd-section_container">
 <div class="row category-app" style="
         height:  50px;
-        color:  black;width:  100%; ">
-   <a href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }}
+       width:  100%; ">
+   <a class="appCatName" style="color:white !important;" href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }}
 
 </div>
         <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">

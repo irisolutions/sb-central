@@ -6,44 +6,47 @@
 {% endblock %}
 
 {% block head%}
-<style>
-    body{
-        background-color: white !important;
-    }
-</style>
+    <link rel="stylesheet" href="{{ asset('css/account.css') }}">
+
 {%endblock %}
 
 
 {% block body %}
-    <div  class="acountCont"style="width:60%; margin: auto; ">
-        <div class="accountLabel"><h4 style="margin-bottom: 22px;font-family: Serif; font-size:35px">Account details</h4></div>
-        <hr>
-        <div class="datagrid">
-            <table>
-                <tr style="border-bottom: #f4f4f4 1px solid;  ">
-                    <th width="12%" style=" ">  Username</th>
-                    <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
+
+    <div class="row">
+        <div class="col-lg-1">
+
+        </div>
+        <div class="col-lg-7">
+            <div  class="acountCont"style="width:90%; margin: auto; ">
+                <div class="accountLabel"><h4 style="margin-bottom: 22px;font-family: Serif; font-size:20px">Account details</h4></div>
+                <hr>
+                <div class="datagrid">
+                    <table>
+                        <tr style="border-bottom: #f4f4f4 1px solid;  ">
+                            <th width="12%" style=" ">  Username</th>
+                            <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
         font-family: monospace;
         font-style: inherit;">{{ clientDetails.ID }}</th>
 
-                </tr>
-                <tr style="border-bottom: #f4f4f4 1px solid;">
-                    <th width="14%" style=" ">  Password</th>
-                    <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
+                        </tr>
+                        <tr style="border-bottom: #f4f4f4 1px solid;">
+                            <th width="14%" style=" ">  Password</th>
+                            <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
         font-family: monospace;
         font-style: inherit;"><div id="pss"><span id="old-password">{{ clientDetails.Password }}</span>
-                            <a onclick="document.getElementById('pss').setAttribute('hidden',true);
+                                    <a onclick="document.getElementById('pss').setAttribute('hidden',true);
                             document.getElementById('form').removeAttribute('hidden');
                             var s=document.getElementById('old-password').innerHTML;
                             document.getElementById('new-password').setAttribute('value',s);
                             event.preventDefault();
                             " href="" style="margin-left: 10px;color: rgba(15, 100, 208, 0.59);">
-                                Edit</a>
-                        </div>
-                        <div id="form" hidden>
-                            <form  method="post">
-                                <input id="new-password" style="padding: 5px;" type="text" name="new-password">
-                                <input type="submit" style="    background-color: #f34336; /* Green */
+                                        Edit</a>
+                                </div>
+                                <div id="form" hidden>
+                                    <form  method="post">
+                                        <input id="new-password" style="padding: 5px;" type="text" name="new-password">
+                                        <input type="submit" style="    background-color: #f34336; /* Green */
     border: none;
     color: white;
     padding: 5px ;
@@ -52,39 +55,45 @@
     display: inline-block;
 "></form></div></th>
 
-                </tr>
-                <tr style="border-bottom: #f4f4f4 1px solid;">
-                    <th width="14%" style=" ">  Address</th>
-                    <th style="background-color:#c3b2b20f;padding-left: 5%; font-size: 15px;
+                        </tr>
+                        <tr style="border-bottom: #f4f4f4 1px solid;">
+                            <th width="14%" style=" ">  Address</th>
+                            <th style="background-color:#c3b2b20f;padding-left: 5%; font-size: 15px;
         font-family: monospace;
         font-style: inherit;">{{ clientDetails.Address }}</th>
 
-                </tr>
-                <tr style="border-bottom: #f4f4f4 1px solid;">
-                    <th width="14%" style=" ">  Email </th>
-                    <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
+                        </tr>
+                        <tr style="border-bottom: #f4f4f4 1px solid;">
+                            <th width="14%" style=" ">  Email </th>
+                            <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
         font-family: monospace;
         font-style: inherit;">{{ clientDetails.Email }}</th>
 
-                </tr>
-                <tr style="border-bottom: #f4f4f4 1px solid;">
-                    <th width="14%" style=" ">  Subscription </th>
-                    <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
+                        </tr>
+                        <tr style="border-bottom: #f4f4f4 1px solid;">
+                            <th width="14%" style=" ">  Subscription </th>
+                            <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
         font-family: monospace;
         font-style: inherit;"><a class="blue-anchor"href=" {{ path('client_subs') }}"> View</a></th>
 
-                </tr>
-                <tr style="border-bottom: #f4f4f4 1px solid;">
-                    <th width="14%" style=" ">  My Applications </th>
-                    <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
+                        </tr>
+                        <tr style="border-bottom: #f4f4f4 1px solid;">
+                            <th width="14%" style=" ">  My Applications </th>
+                            <th style="background-color: #c3b2b20f;padding-left: 5%; font-size: 15px;
         font-family: monospace;
         font-style: inherit;"><a class="blue-anchor" href=" {{ path('client_apps') }}"> View</a></th>
 
-                </tr>
-                <tbody>
+                        </tr>
+                        <tbody>
 
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-4">
+
         </div>
     </div>
 
