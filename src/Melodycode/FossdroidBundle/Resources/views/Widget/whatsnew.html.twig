@@ -9,7 +9,7 @@
 
     $(document).ready(function() {
 
-        $("#owl-demo1").owlCarousel({
+        $("#owl-demo2").owlCarousel({
 
           // Show next and prev buttons
 
@@ -25,7 +25,20 @@ items:6,
                 }
             },
         });
-        $("#owl-demo4").owlCarousel({
+        $("#owl-demo7").owlCarousel({
+
+
+            items : 6, // THIS IS IMPORTANT
+            responsive : {
+                0:{items:1},
+                362:{items:2},
+                564 : { items : 3  }, // from zero to 480 screen width 4 items
+                768 : { items : 4 }, // from 480 screen widthto 768 6 items
+                1024 : { items : 6   // from 768 screen width to 1024 8 items
+                }
+            },
+        });
+        $("#owl-demo3").owlCarousel({
 
 
             items : 6, // THIS IS IMPORTANT
@@ -39,7 +52,7 @@ items:6,
             },
         });
 
-        $("#owl-demo2").owlCarousel({
+        $("#owl-demo5").owlCarousel({
 
 
             items : 6, // THIS IS IMPORTANT
@@ -52,6 +65,47 @@ items:6,
                 }
             },
         });
+        $("#owl-demo6").owlCarousel({
+
+
+            items : 6, // THIS IS IMPORTANT
+            responsive : {
+                0:{items:1},
+                362:{items:2},
+                564 : { items : 3  }, // from zero to 480 screen width 4 items
+                768 : { items : 4 }, // from 480 screen widthto 768 6 items
+                1024 : { items : 6   // from 768 screen width to 1024 8 items
+                }
+            },
+        });
+
+        $("#owl-demo4").owlCarousel({
+
+
+            items : 6, // THIS IS IMPORTANT
+            responsive : {
+                0:{items:1},
+                362:{items:2},
+                564 : { items : 3  }, // from zero to 480 screen width 4 items
+                768 : { items : 4 }, // from 480 screen widthto 768 6 items
+                1024 : { items : 6   // from 768 screen width to 1024 8 items
+                }
+            },
+        });
+        $("#owl-demoapp").owlCarousel({
+
+
+            items : 6, // THIS IS IMPORTANT
+            responsive : {
+                0:{items:1},
+                362:{items:2},
+                564 : { items : 3  }, // from zero to 480 screen width 4 items
+                768 : { items : 4 }, // from 480 screen widthto 768 6 items
+                1024 : { items : 6   // from 768 screen width to 1024 8 items
+                }
+            },
+        });
+
         // Custom Navigation Events
 
 
@@ -600,7 +654,7 @@ items:6,
         h2 a {
             margin-top: 5px;
             margin-bottom: 5px;
-            font-size: 28px !important;
+            font-size: 15px !important;
             color: #645d5d !important;
             font-style: italic;
             font-family: serif;
@@ -714,46 +768,19 @@ items:6,
 
 
 <div class="mdl-grid">
-    {#<div class="mdl-cell mdl-cell--12-col">#}
-        {#<!--#}
-        {#<h3 class="fd-title">#}
-            {#{% if category_slug %}<a href="{{ path('category_whats_new', {'slug': category_slug}) }}">{% endif %}What's new{% if category_slug %}</a>{% endif %}#}
-            {#{% if category_slug %}<a href="{{ path('category_whats_new', {'slug': category_slug}) }}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">See More</a>{% endif %}#}
-        {#</h3>#}
-        {#-->#}
-    {#</div>#}
     <div class="clus">
-    <div class="cluster-heading" style="width: 1088px;">
-        <h2 class="single-title-link">
-            <a class="title-link id-track-click"
-       data-uitype="291"
-               href="">
-                what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
-                                               aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>
-
-    <div id="owl-demo2" class="owl-carousel owl-theme owl-loaded ">
 
 
-        {% for application in bundle1Applications %}
 
-            <div class="item" >
-
-                {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-            </div>
-
-        {% endfor %}
-
-    </div>
-    </div>
-    <div class="clus">
         <div class="cluster-heading" style="width: 1088px;">
             <h2 class="single-title-link">
                 <a class="title-link id-track-click"
                    data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-  >
+                >
                     New + Updated Games</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
-                               aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>
-        <div id="owl-demo4" class="owl-carousel owl-theme">
+                                                    aria-label="Check out more content fromNew + Updated Games" style="">See more</a></span></h2></div>
+
+        <div id="owl-demoapp" class="owl-carousel ">
 
             {% for application in applications %}
                 <div class="item">
@@ -767,16 +794,82 @@ items:6,
 
     </div>
     <div class="clus">
-    <div class="cluster-heading" style="width: 1088px;">
-        <h2 class="single-title-link">
-            <a class="title-link id-track-click"
-               data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
->
-                what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
-                                               href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>
-    <div id="owl-demo1" class="owl-carousel owl-theme owl-loaded ">
+    {#<div class="mdl-cell mdl-cell--12-col">#}
+        {#<!--#}
+        {#<h3 class="fd-title">#}
+            {#{% if category_slug %}<a href="{{ path('category_whats_new', {'slug': category_slug}) }}">{% endif %}What's new{% if category_slug %}</a>{% endif %}#}
+            {#{% if category_slug %}<a href="{{ path('category_whats_new', {'slug': category_slug}) }}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">See More</a>{% endif %}#}
+        {#</h3>#}
+        {#-->#}
+    {#</div>#}
+
+
+        <div class="cluster-heading" style="width: 1088px;">
+            <h2 class="single-title-link">
+                <a class="title-link id-track-click"
+                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                >
+                    New + Updated Games</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
+                                                    aria-label="Check out more content fromNew + Updated Games" style="">See more</a></span></h2></div>
+            <div id="owl-demo7" class="owl-carousel  ">
+
 
         {% for application in bundle1Applications %}
+
+            <div class="item" >
+
+                {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+            </div>
+
+                {% endfor %}
+
+    </div>
+    </div>
+    <div class="clus">
+
+
+
+        <div class="cluster-heading" style="width: 1088px;">
+            <h2 class="single-title-link">
+                <a class="title-link id-track-click"
+                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                >
+                    New + Updated Games</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
+                                                    aria-label="Check out more content fromNew + Updated Games" style="">See more</a></span></h2></div>
+
+        <div id="owl-demo2" class="owl-carousel ">
+
+            {% for application in bundle1Applications2 %}
+                <div class="item">
+
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
+
+        </div>
+
+
+    </div>
+    <div class="clus">
+
+
+        <div class="cluster-heading" style="width: 1088px;">
+            <h2 class="single-title-link">
+                <a class="title-link id-track-click"
+                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                >
+                    New + Updated Games</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
+                                                    aria-label="Check out more content fromNew + Updated Games" style="">See more</a></span></h2></div>
+    {#<div class="cluster-heading" style="width: 1088px;">#}
+        {#<h2 class="single-title-link">#}
+            {#<a class="title-link id-track-click"#}
+               {#data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"#}
+{#>#}
+                {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
+                                               {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
+    <div id="owl-demo3" class="owl-carousel ">
+
+        {% for application in bundle1Applications3 %}
             <div class="item">
 
                 {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
@@ -786,6 +879,63 @@ items:6,
     </div>
     </div>
 
+    <div class="clus">
+
+
+        <div class="cluster-heading" style="width: 1088px;">
+            <h2 class="single-title-link">
+                <a class="title-link id-track-click"
+                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                >
+                    New + Updated Games</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
+                                                    aria-label="Check out more content fromNew + Updated Games" style="">See more</a></span></h2></div>
+        {#<div class="cluster-heading" style="width: 1088px;">#}
+        {#<h2 class="single-title-link">#}
+        {#<a class="title-link id-track-click"#}
+        {#data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"#}
+        {#>#}
+        {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
+        {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
+        <div id="owl-demo5" class="owl-carousel ">
+
+            {% for application in bundle1Applications5 %}
+                <div class="item">
+
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="clus">
+
+
+        <div class="cluster-heading" style="width: 1088px;">
+            <h2 class="single-title-link">
+                <a class="title-link id-track-click"
+                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                >
+                    New + Updated Games</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
+                                                    aria-label="Check out more content fromNew + Updated Games" style="">See more</a></span></h2></div>
+        {#<div class="cluster-heading" style="width: 1088px;">#}
+        {#<h2 class="single-title-link">#}
+        {#<a class="title-link id-track-click"#}
+        {#data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"#}
+        {#>#}
+        {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
+        {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
+        <div id="owl-demo6" class="owl-carousel ">
+
+            {% for application in bundle1Applications6 %}
+                <div class="item">
+
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
 
 <!--
 {% if category_slug %}

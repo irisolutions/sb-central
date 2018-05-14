@@ -140,7 +140,7 @@ margin-left: 0px !important;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link{
     line-height: 20px !important;
-    padding: 16px 12px 8px 23px !important;
+    padding: 16px 12px 8px 5px !important;
 }
 .fd-navigation .icon {
     position: relative;
@@ -818,6 +818,7 @@ ul.thumbnails {
         width: 100%;
 
     }
+
 
 }
 .owl-stage{

@@ -30,10 +30,14 @@ class CategoryController extends Controller {
         $repository_application = $this->getDoctrine()->getRepository('MelodycodeFossdroidBundle:Application');
         $applications = $repository_application->findByPublished(0, 'created_at', $slug);
 
-        return $this->render('MelodycodeFossdroidBundle:Category:whatsnew.html.twig', array(
-                    'category' => $category,
-                    'applications' => $applications
+        return $this->render('MelodycodeFossdroidBundle:Category:index.html.twig', array(
+            'category' => $category,
+              'applications' => $applications
         ));
+//        return $this->render('MelodycodeFossdroidBundle:Category:whatsnew.html.twig', array(
+//                    'category' => $category,
+//                    'applications' => $applications
+//        ));
     }
 
 }

@@ -134,7 +134,7 @@ body {
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link{
     line-height: 20px !important;
-    padding: 16px 12px 8px 23px !important;
+    padding: 16px 12px 8px 5px !important;
 }
 .fd-navigation .icon {
     position: relative;
@@ -824,5 +824,5 @@ th{
 
 }
 .fd-breadcrumb{
-    margin-left: 10% !important;
+    margin-left: 20% !important;
 }
