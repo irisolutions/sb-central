@@ -180,11 +180,11 @@ body {
 
 #fd-section_container {
     padding: 28px 8px 8px;
-    background-color: white;
+
 }
 
 .fd-section {
-    max-width: 680px;
+
     position: relative;
     margin-bottom: 25px;
     border-color: gainsboro;
@@ -279,7 +279,6 @@ body {
 
 }
 .mdl-layout__drawer>.mdl-layout-title{
-    background-color:#0083ba !important;
 }
 .fd-application_box .mdl-card .mdl-shadow--2dp{
 
@@ -299,7 +298,8 @@ body {
     background-color: white !important;}
 .mdl-button.mdl-button--colored {
     color: #616161;
-    font-size: 17px !important;
+    font-size: 12px !important;
+    padding: 0px;
     font-family: serif;
 }
 .mdl-color-text--white {
@@ -331,7 +331,7 @@ main{
      color: #0083BA !important;
  }
 .datagrid{
-    border: 1px solid gainsboro;
+
     border-radius: 15px;
     box-shadow: 3px 3px 3px gainsboro;
 }
@@ -825,4 +825,21 @@ th{
 }
 .fd-breadcrumb{
     margin-left: 20% !important;
+}
+.mdl-card__actions.mdl-card--border{
+    border: 0px !important;
+    padding: 0px;
+    color: #0083ba;
+}
+.APPS{
+    font-family: Serif, serif;
+    line-height: 46px;
+    padding-left: 30px !important;
+    height: 49px;
+    color:white;
+    font-size: 20px;
+}
+.gray{
+    color: #eeeeee !important;
+
 }

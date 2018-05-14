@@ -186,11 +186,11 @@ margin-left: 0px !important;
 
 #fd-section_container {
     padding: 28px 8px 8px;
-    background-color: white;
+
 }
 
 .fd-section {
-    max-width: 680px;
+
     position: relative;
     margin-bottom: 25px;
     border-color: gainsboro;
@@ -285,7 +285,7 @@ margin-left: 0px !important;
 
 }
 .mdl-layout__drawer>.mdl-layout-title{
-    background-color:#0083ba !important;
+
 }
 .fd-application_box .mdl-card .mdl-shadow--2dp{
 
@@ -337,8 +337,8 @@ main{
     color: #0083BA !important;
 }
 .datagrid{
-    border: 1px solid gainsboro;
-    border-radius: 15px;
+
+    border-radius: 10px;
     box-shadow: 3px 3px 3px gainsboro;
 }
 .blue-anchor{
@@ -432,7 +432,7 @@ body{
 
 }
 .mdl-color--grey-100{
-    background-color:white !important;
+    background-color: #eeeeee!important;
 }
 .fd-navigation, .mdl-layout__drawer {
     margin-top:60px !important;
@@ -836,4 +836,8 @@ th{
 
 .fd-breadcrumb{
     margin-left: 20% !important;
+}
+.thStyle{
+    background-color: #616161 !important;
+    color: white !important;
 }

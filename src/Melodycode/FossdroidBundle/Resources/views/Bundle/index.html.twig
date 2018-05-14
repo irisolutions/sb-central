@@ -16,19 +16,6 @@
 
 
 
-            $("#owl-demo2").owlCarousel({
-
-
-                items : 6, // THIS IS IMPORTANT
-                responsive : {
-                    0:{items:1},
-                    362:{items:2},
-                    564 : { items : 3  }, // from zero to 480 screen width 4 items
-                    768 : { items : 4 }, // from 480 screen widthto 768 6 items
-                    1024 : { items : 6   // from 768 screen width to 1024 8 items
-                    }
-                },
-            });
             // Custom Navigation Events
 
 
@@ -707,17 +694,15 @@
                 <a class="title-link id-track-click"
                    data-uitype="291"
                    href="">
-                    what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
-                                                   aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>
+                    what's new Bundles</a></h2></div>
 
-        <div id="owl-demo2" class="owl-carousel ">
+
 
             {% for application in applications %}
-                <div class="item">
+
                     {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                </div>
             {% endfor %}
-        </div>
+
     </div>
 
 

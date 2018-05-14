@@ -1,36 +1,21 @@
-{#<div class="mdl-grid">#}
-    {#<div class="mdl-cell mdl-cell--12-col">#}
-        {#<h3 class="fd-title">#}
-            {#{% if category_slug %}<a href="{{ path('category_whats_new', {'slug': category_slug}) }}">{% endif %}What's new{% if category_slug %}</a>{% endif %}#}
-            {#{% if category_slug %}<a href="{{ path('category_whats_new', {'slug': category_slug}) }}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">See More</a>{% endif %}#}
-        {#</h3>#}
-    {#</div>#}
-
-    {#{% for application in applications %}#}
-        {#{{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}#}
-    {#{% endfor %}#}
-
-    {#{% if category_slug %}#}
-        {#<div class="fd-application_more mdl-card mdl-shadow--2dp mdl-color--accent">#}
-            {#<div class="mdl-card__title mdl-card--expand">#}
-                {#<h5 class="mdl-color-text--white">#}
-                    {#<a href="{{ path('category_whats_new', {'slug': category_slug}) }}">See More</a>#}
-                {#</h5>#}
-            {#</div>#}
-        {#</div>#}
-    {#{% endif %}#}
-{#</div>#}
+{% extends 'MelodycodeFossdroidBundle::base.html.twig' %}
 
 
-
-{% set count = 0 %}
-<!DOCTYPE html>
+{% block head %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{{ asset('OwlCarousel2-2.3.4/dist/assets/owl.theme.default.css') }}" >
 
 <link rel="stylesheet" href="{{ asset('OwlCarousel2-2.3.4/dist/assets/owl.carousel.css') }}" >
 <!--  jQuery 1.7+  -->
 <script src="{{ asset('OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
+
+<script>
+
+        var element = document.getElementsByClassName("mdl-button__ripple-container");
+        element.classList.add("mdl-ripple is-animating");
+
+</script>
+
 <script>
 
     $(document).ready(function() {
@@ -52,7 +37,8 @@
             },
         });
         $("#owl-demo7").owlCarousel({
-
+            mouseDrag : true,
+            touchDrag : true,
 
             items : 6, // THIS IS IMPORTANT
             responsive : {
@@ -139,11 +125,9 @@
 </script>
 
 
-<!-- Include js plugin -->
 
 
-<html lang="en">
-<head>
+
     <style>
 
         .customNavigation{
@@ -783,63 +767,56 @@
             .price{
                 margin-top: 0px !important;
             }
+            .mdl-ripple .is-animating {
+                width: 148.86px !important;
+                height: 148.86px !important;
+                transform: translate(-50%, -50%) translate(54px, 23px) !important;
+            }
 
         }
 
     </style>
-
-</head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<body>
+    {% endblock %}
+    {% block body %}
 
 
 
-<div class="mdl-grid">
-    <div class="clus">
+        <div class="mdl-grid">
+            <div class="clus">
+                {#<div class="mdl-cell mdl-cell--12-col">#}
+                {#<!--#}
+                {#<h3 class="fd-title">#}
+                {#{% if category_slug %}<a href="{{ path('category_whats_new', {'slug': category_slug}) }}">{% endif %}What's new{% if category_slug %}</a>{% endif %}#}
+                {#{% if category_slug %}<a href="{{ path('category_whats_new', {'slug': category_slug}) }}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">See More</a>{% endif %}#}
+                {#</h3>#}
+                {#-->#}
+                {#</div>#}
 
 
-
-        <div class="cluster-heading" style="width: 1088px;">
-            <h2 class="single-title-link">
-                <a class="title-link id-track-click"
-                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-                >
-                    New + Updated Games</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"
-                                                    aria-label="Check out more content fromNew + Updated Games" style="">See more</a></span></h2></div>
-
-        <div id="owl-demoapp" class="owl-carousel ">
-
-            {% for application in applications %}
-
-                {#{% if count < 6 %}#}
-                    {#{% set count = count+ 1 %}#}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {#{% endif %}#}
-
-            {% endfor %}
-
-        </div>
+                <div class="cluster-heading" style="width: 1088px;">
+                    <h2 class="single-title-link">
+                        <a class="title-link id-track-click"
+                           data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                        >
+                            {{ bundle.Name }}</a></h2></div>
+                <div>
 
 
-    </div>
+                    {% for application in applications %}
 
+                        <div class="item" >
 
+                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                        </div>
 
-</div>
+                    {% endfor %}
 
-<!--
-{% if category_slug %}
-        <div class="fd-application_more mdl-card mdl-shadow--2dp mdl-color--accent">
-            <div class="mdl-card__title mdl-card--expand">
-                <h5 class="mdl-color-text--white">
-                    <a href="{{ path('category_whats_new', {'slug': category_slug}) }}">See More</a>
-                </h5>
+                </div>
             </div>
-        </div>
-    {% endif %}-->
 
-</body>
-</html>
+
+
+
+        </div>
+
+    {% endblock %}

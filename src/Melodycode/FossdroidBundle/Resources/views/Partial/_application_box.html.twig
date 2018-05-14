@@ -3,7 +3,7 @@
 
 
 
-<div class="cont">
+<div class="cont col-lg-2 col-md-3 col-sm-4 col-xs-6 col-1 " style="margin-top: 10px;">
 
 
     <div class="card" style="position: relative; !important;">
@@ -22,13 +22,24 @@
             <a class="title"
                href=""
             >{{ application.name }} <span class="paragraph-end"></span></a>
-            <div class="title marg"><a class="title descAPP"
-                                       href=""
-                >{{ application.summary }} <span class="paragraph-end"></span> </a></div>
-            <div class="price"><a class="priceAnchor"
-                                  href="#"
+            {#<div class="title marg"><a class="title descAPP"#}
+                                       {#href=""#}
+                {#>{{ application.summary }} <span class="paragraph-end"></span> </a></div>#}
+            <div class="row" style=" margin-top: 20px;">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  price" style="margin-top: 12px;">
+                    <a class="priceAnchor"
+                                          href="#"
 
-                >FREE </a></div>
+                        >FREE </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mdl-card__actions mdl-card--border">
+
+                        <a href="{{ path('application', {'slug': application.slug}) }}" title="{{ application.name }}: {{ application.summary }}" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">View app</a>
+
+                </div>
+            </div>
+
+
 
         </div>
     </div>
