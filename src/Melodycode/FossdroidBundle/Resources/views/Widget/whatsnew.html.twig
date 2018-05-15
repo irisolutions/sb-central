@@ -15,7 +15,13 @@
         element.classList.add("mdl-ripple is-animating");
 
 </script>
+    <script>
+        var screenWidth = screen.width;
+        var screenHeight = screen.height;
 
+        console.log(screenWidth);
+        console.log(screenHeight);
+    </script>
 <script>
 
     $(document).ready(function() {
@@ -121,6 +127,31 @@
         // Custom Navigation Events
 
 
+    });
+
+
+    $(function() {
+
+
+        if ( $(window).width() < 854 ) {
+            var owlActive = owl.owlCarousel(owlOptions);
+        } else {
+            owl.addClass('off');
+        }
+
+        $(window).resize(function() {
+            if ( $(window).width() < 854 ) {
+                if ( $('.owl-carousel').hasClass('off') ) {
+                    var owlActive = owl.owlCarousel(owlOptions);
+                    owl.removeClass('off');
+                }
+            } else {
+                if ( !$('.owl-carousel').hasClass('off') ) {
+                    owl.addClass('off').trigger('destroy.owl.carousel');
+                    owl.find('.owl-stage-outer').children(':eq(0)').unwrap();
+                }
+            }
+        });
     });
 </script>
 
@@ -774,7 +805,17 @@
             }
 
         }
-
+        .owl-item.cloned{
+            display: none !important;
+        }
+        .owl-stage{
+            transform:none !important;
+            transition: none !important;
+            width: auto !important;
+        }
+        .owl-item{
+            width: auto !important;
+        }
     </style>
     {% endblock %}
     {% block body %}
@@ -782,6 +823,8 @@
 
 
         <div class="mdl-grid">
+
+
             <div class="clus">
                 {#<div class="mdl-cell mdl-cell--12-col">#}
                 {#<!--#}
@@ -793,13 +836,17 @@
                 {#</div>#}
 
 
-                <div class="cluster-heading" style="width: 1088px;">
-                    <h2 class="single-title-link">
-                        <a class="title-link id-track-click"
-                           data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-                        >
-                            {{ bundle.Name }}</a></h2></div>
-                <div>
+                {#<div class="cluster-heading" style="width: 1088px;">#}
+                    {#<h2 class="single-title-link">#}
+                        {#<a class="title-link id-track-click"#}
+                           {#data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"#}
+                        {#>#}
+                            {#{{ bundle.Name }}</a></h2>#}
+                {#</div>#}
+
+
+
+                <div id="owl-demoapp" class="owl-carousel ">
 
 
                     {% for application in applications %}
@@ -810,13 +857,13 @@
                         </div>
 
                     {% endfor %}
-
                 </div>
+
             </div>
 
 
+</div>
 
 
-        </div>
 
     {% endblock %}

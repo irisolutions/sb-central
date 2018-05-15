@@ -32,7 +32,6 @@ body {
 
 
     max-height: 100%;
-    width: 238px !important;
 }
 .fd-application_box .mdl-card--expand {
     min-height: 130px;
@@ -425,7 +424,6 @@ main{
 
 
     max-height: 100%;
-    width: 200px !important;
 }
 body{
 
@@ -584,7 +582,7 @@ body{
 }
 @media (max-width: 479px) {
     .mdl-grid--no-spacing > .mdl-cell--4-col, .mdl-grid--no-spacing > .mdl-cell--4-col-phone.mdl-cell--4-col-phone {
-        width: 45% !important;
+        width: 50% !important;
     }
     .mdl-card__supporting-text h4{
         margin: 0px !important;
@@ -598,10 +596,14 @@ body{
         border: 1px solid white;
         border-radius: 0px !important;
         position: absolute;
-        right: 70px !important;
+        right:25px !important;
         bottom: 10px !important;
 
         width: 80px !important;
+
+    }
+    .bundleDiv{
+        padding: 0px !important;
 
     }
     .dropdown-content{
@@ -840,4 +842,8 @@ th{
 .thStyle{
     background-color: #616161 !important;
     color: white !important;
+}
+.mdl-layout__drawer-button{
+    margin-top: -10px !important;
+    height: 35px !important;
 }

@@ -19,7 +19,8 @@
         "sensio/distribution-bundle": "~3.0,>=3.0.12",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
-        "ksubileau/color-thief-php": "~1.2"
+        "ksubileau/color-thief-php": "~1.2",
+        "suncat/mobile-detect-bundle": "^1.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

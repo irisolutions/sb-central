@@ -1,6 +1,9 @@
 html, body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
 }
+.seeMoreSmallDevice{
+    display: none;
+}
 .category-app{
     display: none;
 }
@@ -419,7 +422,7 @@ main{
 
 
     max-height: 100%;
-    width: 200px ;
+
 }
 body{
 
@@ -452,6 +455,7 @@ body{
     }
     .fd-navigation, .mdl-layout__drawer{
         margin-top: 56px !important;
+
     }
     .dropdown-content{
         margin-left: -70px;
@@ -506,6 +510,13 @@ body{
     .fd-search{
        margin-left: 100px !important;
 
+    }
+    .seeMoreBtn{
+        display: none !important;
+        color: black !important;
+    }
+    .seeMoreSmallDevice{
+        display: block !important;
     }
     .searchTablet{
         width: 60% !important;
@@ -842,4 +853,29 @@ th{
 .gray{
     color: #eeeeee !important;
 
+}
+@media all and (max-width: 392px) {
+.datagrid table thead th{
+    font-size: 10px !important;
+}
+    .mdl-layout__title, .mdl-layout-title{
+        margin-left: 0px!important;
+        font-size: 12px !important;
+    }
+}
+@media screen and (min-width: 1025px) {
+    .owl-item.cloned{
+        display: none !important;
+    }
+    .owl-stage{
+        transform:none !important;
+        transition: none !important;
+        width: auto !important;
+    }
+    .owl-item{
+        width: auto !important;
+    }
+}
+.mdl-layout__drawer-button{
+    margin-top: -10px !important;
 }

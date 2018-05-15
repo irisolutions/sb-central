@@ -97,6 +97,7 @@ class HomepageController extends Controller {
                 'bundle1Applications5' => $bundle1Applications5,
                 'bundle1Applications6' => $bundle1Applications6,
 
+
             )
         );
 

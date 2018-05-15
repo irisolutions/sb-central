@@ -1,5 +1,11 @@
 {% extends 'MelodycodeFossdroidBundle::base.html.twig' %}
 
+{% set count = 0 %}
+{% set count5 = 0 %}
+{% set count2 = 0 %}
+{% set count3 = 0 %}
+{% set count4 = 0 %}
+{% set count6 = 0 %}
 
 {% block head %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -119,10 +125,11 @@
 
 
 
-<html lang="en">
-<head>
-    <style>
 
+    <style>
+.seeMoreBtn a{
+    color: white !important;
+}
         .customNavigation{
             text-align: center;
         }
@@ -666,7 +673,7 @@
         .clus {
 
             margin-top: 17px;
-
+width: 100% !important;
         }
 
         .marg {
@@ -762,6 +769,9 @@
             }
 
         }
+        .owl-carousel.off {
+            display: block;
+        }
 
     </style>
     {% endblock %}
@@ -781,23 +791,51 @@
         {#</div>#}
 
 
-        <div class="cluster-heading" style="width: 1088px;">
-            <h2 class="single-title-link">
-                <a class="title-link id-track-click"
-                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-                >
-                    {{ bundle.Name }}</a></h2></div>
+        <div class="row" style="width: 100%; margin-top: 10px;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
+                <h2 class="single-title-link">
+                    <a class="title-link id-track-click"
+                       data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                    >
+                        {{ bundle.Name }}</a></h2>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2 ">
+                    <button type="button" onclick="location.href='{{ path('bundle', {'slug': 1}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 1}) }}">See more</a></button>
+                    <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 1}) }}"> More</a>
+                </div>
+            </div>
+
         <div id="owl-demo7" class="owl-carousel  ">
 
 
-            {% for application in bundle1Applications %}
+            {% if is_mobile_view() %}
+                {% for application in bundle1Applications%}
+                    <div class="item">
 
-                <div class="item" >
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_tablet_view() %}
+                {% for application in bundle1Applications %}
+                    <div class="item">
 
-                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                </div>
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_full_view() or is_not_mobile_view() %}
+                {% for application in bundle1Applications %}
 
-            {% endfor %}
+                    {% if count < 6 %}
+                        {% set count = count+ 1 %}
+                        <div class="item">
+
+                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
         </div>
     </div>
@@ -805,21 +843,50 @@
 
 
 
-        <div class="cluster-heading" style="width: 1088px;">
-            <h2 class="single-title-link">
-                <a class="title-link id-track-click"
-                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-                >
-                    New + Updated Games</a></h2></div>
+        <div class="row" style="width: 100%; margin-top: 10px;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
+                <h2 class="single-title-link">
+                    <a class="title-link id-track-click"
+                       data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                    >
+                        {{ bundle.Name }}</a></h2>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
+                    <button type="button" onclick="location.href='{{ path('bundle', {'slug': 2}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 2}) }}">See more</a></button>
+                    <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 2}) }}"> More</a>
+                </div>
+            </div>
 
         <div id="owl-demo2" class="owl-carousel ">
 
-            {% for application in bundle1Applications2 %}
-                <div class="item">
+            {% if is_mobile_view() %}
+                {% for application in bundle1Applications2 %}
+                    <div class="item">
 
-                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                </div>
-            {% endfor %}
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_tablet_view() %}
+                {% for application in bundle1Applications2%}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_full_view() or is_not_mobile_view() %}
+                {% for application in bundle1Applications2 %}
+
+                    {% if count2 < 6 %}
+                        {% set count2 = count2+ 1 %}
+                        <div class="item">
+
+                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
         </div>
 
@@ -828,12 +895,20 @@
     <div class="clus">
 
 
-        <div class="cluster-heading" style="width: 1088px;">
-            <h2 class="single-title-link">
-                <a class="title-link id-track-click"
-                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-                >
-                    New + Updated Games</a></h2></div>
+
+        <div class="row" style="width: 100%; margin-top: 10px;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
+                <h2 class="single-title-link">
+                    <a class="title-link id-track-click"
+                       data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                    >
+                        {{ bundle.Name }}</a></h2>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
+                <button type="button" onclick="location.href='{{ path('bundle', {'slug': 3}) }}'" class="btn btn-primary seeMoreBtn" > <a href="{{ path('bundle', {'slug': 3}) }}">See more</a></button>
+                <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 3}) }}"> More</a>
+            </div>
+        </div>
         {#<div class="cluster-heading" style="width: 1088px;">#}
         {#<h2 class="single-title-link">#}
         {#<a class="title-link id-track-click"#}
@@ -843,25 +918,52 @@
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
         <div id="owl-demo3" class="owl-carousel ">
 
-            {% for application in bundle1Applications3 %}
-                <div class="item">
+            {% if is_mobile_view() %}
+                {% for application in bundle1Applications3 %}
+                    <div class="item">
 
-                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                </div>
-            {% endfor %}
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_tablet_view() %}
+                {% for application in bundle1Applications3 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_full_view() or is_not_mobile_view() %}
+                {% for application in bundle1Applications3 %}
+
+                    {% if count3 < 6 %}
+                        {% set count3 = count3+ 1 %}
+                        <div class="item">
+
+                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
         </div>
     </div>
 
     <div class="clus">
-
-
-        <div class="cluster-heading" style="width: 1088px;">
-            <h2 class="single-title-link">
-                <a class="title-link id-track-click"
-                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-                >
-                    New + Updated Games</a></h2></div>
+        <div class="row" style="width: 100%; margin-top: 10px;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
+                <h2 class="single-title-link">
+                    <a class="title-link id-track-click"
+                       data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                    >
+                        {{ bundle.Name }}</a></h2>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
+                <button type="button" onclick="location.href='{{ path('bundle', {'slug': 5}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug':5}) }}">See more</a></button>
+                <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 5}) }}"> More</a>
+            </div>
+        </div>
         {#<div class="cluster-heading" style="width: 1088px;">#}
         {#<h2 class="single-title-link">#}
         {#<a class="title-link id-track-click"#}
@@ -871,24 +973,53 @@
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
         <div id="owl-demo5" class="owl-carousel ">
 
-            {% for application in bundle1Applications5 %}
-                <div class="item">
+            {% if is_mobile_view() %}
+                {% for application in bundle1Applications5 %}
+                    <div class="item">
 
-                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                </div>
-            {% endfor %}
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_tablet_view() %}
+                {% for application in bundle1Applications5 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_full_view() or is_not_mobile_view() %}
+                {% for application in bundle1Applications5 %}
+
+                    {% if count5 < 6 %}
+                        {% set count5 = count5+ 1 %}
+                        <div class="item">
+
+                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
         </div>
     </div>
     <div class="clus">
 
 
-        <div class="cluster-heading" style="width: 1088px;">
-            <h2 class="single-title-link">
-                <a class="title-link id-track-click"
-                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-                >
-                    New + Updated Games</a></h2></div>
+        <div class="row" style="width: 100%; margin-top: 10px;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
+                <h2 class="single-title-link">
+                    <a class="title-link id-track-click"
+                       data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                    >
+                        {{ bundle.Name }}</a></h2>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
+                <button type="button"  onclick="location.href='{{ path('bundle', {'slug': 6}) }}'"class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 6}) }}">See more</a></button>
+                <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 6}) }}"> More</a>
+            </div>
+        </div>
         {#<div class="cluster-heading" style="width: 1088px;">#}
         {#<h2 class="single-title-link">#}
         {#<a class="title-link id-track-click"#}
@@ -898,24 +1029,55 @@
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
         <div id="owl-demo6" class="owl-carousel ">
 
-            {% for application in bundle1Applications6 %}
-                <div class="item">
+            {% if is_mobile_view() %}
+                {% for application in bundle1Applications6 %}
+                    <div class="item">
 
-                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                </div>
-            {% endfor %}
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_tablet_view() %}
+                {% for application in bundle1Applications6 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_full_view() or is_not_mobile_view() %}
+                {% for application in bundle1Applications6 %}
+
+                    {% if count6 < 6 %}
+                        {% set count6 = count6+ 1 %}
+                        <div class="item">
+
+                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
         </div>
     </div>
+    <hr>
     <div class="clus">
 
 
-        <div class="cluster-heading" style="width: 1088px;">
-            <h2 class="single-title-link">
-                <a class="title-link id-track-click"
-                   data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
-                >
-                    New + Updated Games</a></h2></div>
+
+        <div class="row" style="width: 100%; margin-top: 10px;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
+                <h2 class="single-title-link">
+                    <a class="title-link id-track-click"
+                       data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                    >
+                        {{ bundle.Name }}</a></h2>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
+                <button type="button"  onclick="location.href='{{ path('bundle', {'slug': 4}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 4}) }}">See More</a></button>
+                <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 4}) }}"> More</a>
+            </div>
+        </div>
         {#<div class="cluster-heading" style="width: 1088px;">#}
         {#<h2 class="single-title-link">#}
         {#<a class="title-link id-track-click"#}
@@ -923,16 +1085,83 @@
         {#>#}
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
-        <div id="owl-demo4" class="owl-carousel ">
 
-            {% for application in bundle1Applications4 %}
-                <div class="item">
+        {#{% if is_mobile() %}#}
+
+        <div id="owl-demo4" class="owl-carousel ">
+            {% if is_mobile_view() %}
+                {% for application in bundle1Applications4 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_tablet_view() %}
+                {% for application in bundle1Applications4 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+                {% if is_full_view() or is_not_mobile_view() %}
+                    {% for application in bundle1Applications4 %}
+
+                    {% if count4 < 6 %}
+                    {% set count4 = count4+ 1 %}
+                    <div class="item">
 
                     {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                </div>
-            {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+            {% endif %}
+            {#{% if count < 6 %}#}
+            {#{% set count = count+ 1 %}#}
+                {#{% for application in bundle1Applications4 %}#}
+                    {#<div class="item">#}
+
+                        {#{{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}#}
+                    {#</div>#}
+                {#{% endfor %}#}
+            {#{% if is_mobile_view() %}#}
+                {#{% for application in bundle1Applications4 %}#}
+                    {#<div class="item">#}
+
+                        {#{{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}#}
+                    {#</div>#}
+                {#{% endfor %}#}
+
+            {#{% else if is_tablet_view() %}#}
+                {#{% for application in bundle1Applications4 %}#}
+                    {#<div class="item">#}
+
+                        {#{{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}#}
+                    {#</div>#}
+                {#{% endfor %}#}
+
+                {#{% else if is_full_view() or is_not_mobile_view() %}#}
+                    {#{% for application in bundle1Applications4 %}#}
+                    {#{% if count < 6 %}#}
+                    {#{% set count = count+ 1 %}#}
+
+                        {#<div class="item">#}
+
+                            {#{{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}#}
+                        {#</div>#}
+                    {#{% else  %}#}
+                    {#{% endif %}#}
+                    {#{% endfor %}#}
+
+
+
+            {#{% endif %}#}
+
 
         </div>
+
+
     </div>
 </div>
 

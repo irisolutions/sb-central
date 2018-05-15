@@ -9,8 +9,8 @@
    .appCatName{
         color: white !important;
     }
-    .row{
-        margin: 0px !important;
+
+    .padd{
         padding: 0px !important;
     }
 </style>
@@ -23,12 +23,12 @@
 <div class="row category-app" style="
         height:  50px;
        width:  100%; ">
-   <a class="appCatName" style="color:white !important;" href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }}
+   <a class="appCatName" style="color:black !important;" href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }}
 
 </div>
 <div class="contAppINFO" style="width: 70%; margin: auto">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-md-12 col-sm-12 col-12 padd">
                 <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                     <div class="fd-section_header mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone special-app-img"
                             {% if application.icon %}
@@ -72,7 +72,9 @@
 
                 </section>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4 col-md-12 col-sm-12 col-12 bundleDiv" style="
+                    padding-right: 0px;
+                    ">
                 {% if bundles %}
                     <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" style="min-height: 200px;">
                         <div class="mdl-cell mdl-cell--12-col" style="background-color:white;    border-radius: 20px;">
