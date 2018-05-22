@@ -17,7 +17,9 @@ html, body {
 body {
 
 }
-
+.mdl-layout--fixed-drawer>.mdl-layout__content {
+    margin-left: 300px ;
+}
 .fd-application_box .mdl-card__title-text a {
     text-decoration: none;
 
@@ -225,7 +227,6 @@ margin-left: 0px !important;
 
 .fd-application-info {
     position: absolute;
-    bottom: 20px;
 }
 
 .fd-section .mdl-card__supporting-text img {
@@ -375,14 +376,7 @@ th{
 
 }
 
-.appStaus{
-    position: absolute;
-    right: 20px;
-    bottom: 10px;
-    border: 1px solid white;
-    background-color: #005e97;
-    border-radius: 5px;
-}
+
 .mdl-layout__drawer-button{
     top:5px !important;
 }
@@ -484,8 +478,9 @@ body{
     .dropdown{
 
     }
+
     .mdl-layout--fixed-drawer>.mdl-layout__content {
-        margin-left: 0px !important;
+        margin-left: 10px ;
     }
     #owl-demo{
         width: 70% !important;
@@ -564,9 +559,7 @@ body{
     .mdl-layout__header-row{
         padding: 0 75px 0 45px !important;
     }
-    .mdl-grid h4{
-        font-size: 17px !important;
-    }
+
     .dropdown{
 
     }
@@ -589,19 +582,9 @@ body{
     }
     .fd-application-info {
         position: absolute;
-        bottom: 51px !important;
         font-size: 9px !important;
     }
-    .appStatus{
-        border: 1px solid white;
-        border-radius: 0px !important;
-        position: absolute;
-        right:25px !important;
-        bottom: 10px !important;
 
-        width: 80px !important;
-
-    }
     .bundleDiv{
         padding: 0px !important;
 
@@ -821,7 +804,9 @@ ul.thumbnails {
 
     }
 
-
+    h2 a{
+        margin-left: 10px;
+    }
 }
 .owl-stage{
 
@@ -837,13 +822,30 @@ th{
 
 
 .fd-breadcrumb{
-    margin-left: 20% !important;
+    margin-left: 40% !important;
 }
 .thStyle{
     background-color: #616161 !important;
     color: white !important;
 }
 .mdl-layout__drawer-button{
-    margin-top: -10px !important;
+    margin-top: 2px !important;
     height: 35px !important;
+}
+
+
+@media all and (max-width: 412px) {
+    .datagrid table thead th{
+        font-size: 10px !important;
+    }
+    .mdl-layout__title, .mdl-layout-title{
+        margin-left: 0px!important;
+        font-size: 17px !important;
+    }
+    .fd-breadcrumb{
+        margin-left: 16px !important;
+    }
+}
+.appNameSmallDevice{
+    font-size: 17px;
 }

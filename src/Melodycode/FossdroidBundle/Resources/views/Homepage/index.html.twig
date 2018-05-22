@@ -6,19 +6,43 @@
 {% set count3 = 0 %}
 {% set count4 = 0 %}
 {% set count6 = 0 %}
-
+{% set count9 = 0 %}
+{% set count7 = 0 %}
+{% set count10 = 0 %}
 {% block head %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{{ asset('OwlCarousel2-2.3.4/dist/assets/owl.theme.default.css') }}" >
 
 <link rel="stylesheet" href="{{ asset('OwlCarousel2-2.3.4/dist/assets/owl.carousel.css') }}" >
+    <link rel="stylesheet" href="{{ asset('css/HomeIndex.css') }}">
 <!--  jQuery 1.7+  -->
 <script src="{{ asset('OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
+
+<script>
+
+
+
+    document.onreadystatechange = function () {
+        var state = document.readyState
+        if (state == 'interactive') {
+
+
+            document.getElementById('mdl-grid').style.display="none";
+        } else if (state == 'complete') {
+            setTimeout(function(){
+                document.getElementById('interactive');
+                $("div#mdl-grid").removeClass("hidden");
+                document.getElementById('mdl-grid').style.display="block";
+                document.getElementById('load').style.display="none";
+            },2000);
+    }
+    }
+
+</script>
 <script>
 
     $(document).ready(function() {
-
-        $("#owl-demo2").owlCarousel({
+        $("#bundle7").owlCarousel({
 
             // Show next and prev buttons
 
@@ -30,11 +54,43 @@
                 362:{items:2},
                 564 : { items : 3  }, // from zero to 480 screen width 4 items
                 768 : { items : 4  }, // from 480 screen widthto 768 6 items
-                1024 : { items :6   // from 768 screen width to 1024 8 items
+                1030 : { items :7
                 }
             },
         });
-        $("#owl-demo7").owlCarousel({
+        $("#category2").owlCarousel({
+
+            // Show next and prev buttons
+
+
+            items:6,
+            autoPlay: 5000,
+            responsive : {
+                0:{items:1},
+                362:{items:2},
+                564 : { items : 3  }, // from zero to 480 screen width 4 items
+                768 : { items : 4  }, // from 480 screen widthto 768 6 items
+                1030 : { items :7   // from 768 screen width to 1024 8 items
+                }
+            },
+        });
+        $("#bundle2").owlCarousel({
+
+            // Show next and prev buttons
+
+
+            items:6,
+            autoPlay: 5000,
+            responsive : {
+                0:{items:1},
+                362:{items:2},
+                564 : { items : 3  }, // from zero to 480 screen width 4 items
+                768 : { items : 4  }, // from 480 screen widthto 768 6 items
+                1030 : { items :7   // from 768 screen width to 1024 8 items
+                }
+            },
+        });
+        $("#bundle1").owlCarousel({
 
 
             items : 6, // THIS IS IMPORTANT
@@ -43,11 +99,11 @@
                 362:{items:2},
                 564 : { items : 3  }, // from zero to 480 screen width 4 items
                 768 : { items : 4 }, // from 480 screen widthto 768 6 items
-                1024 : { items : 6   // from 768 screen width to 1024 8 items
+                1030 : { items : 7   // from 768 screen width to 1024 8 items
                 }
             },
         });
-        $("#owl-demo3").owlCarousel({
+        $("#bundle3").owlCarousel({
 
 
             items : 6, // THIS IS IMPORTANT
@@ -56,12 +112,12 @@
                 362:{items:2},
                 564 : { items : 3  }, // from zero to 480 screen width 4 items
                 768 : { items : 4 }, // from 480 screen widthto 768 6 items
-                1024 : { items : 6   // from 768 screen width to 1024 8 items
+                1030 : { items : 7   // from 768 screen width to 1024 8 items
                 }
             },
         });
 
-        $("#owl-demo5").owlCarousel({
+        $("#bundle5").owlCarousel({
 
 
             items : 6, // THIS IS IMPORTANT
@@ -70,11 +126,11 @@
                 362:{items:2},
                 564 : { items : 3  }, // from zero to 480 screen width 4 items
                 768 : { items : 4 }, // from 480 screen widthto 768 6 items
-                1024 : { items : 6   // from 768 screen width to 1024 8 items
+                1030 : { items : 7   // from 768 screen width to 1024 8 items
                 }
             },
         });
-        $("#owl-demo6").owlCarousel({
+        $("#category1").owlCarousel({
 
 
             items : 6, // THIS IS IMPORTANT
@@ -83,12 +139,11 @@
                 362:{items:2},
                 564 : { items : 3  }, // from zero to 480 screen width 4 items
                 768 : { items : 4 }, // from 480 screen widthto 768 6 items
-                1024 : { items : 6   // from 768 screen width to 1024 8 items
+                1030 : { items : 7   // from 768 screen width to 1024 8 items
                 }
             },
         });
-
-        $("#owl-demo4").owlCarousel({
+        $("#bundle6").owlCarousel({
 
 
             items : 6, // THIS IS IMPORTANT
@@ -97,11 +152,12 @@
                 362:{items:2},
                 564 : { items : 3  }, // from zero to 480 screen width 4 items
                 768 : { items : 4 }, // from 480 screen widthto 768 6 items
-                1024 : { items : 6   // from 768 screen width to 1024 8 items
+                1030 : { items : 7   // from 768 screen width to 1024 8 items
                 }
             },
         });
-        $("#owl-demoapp").owlCarousel({
+
+        $("#bundle4").owlCarousel({
 
 
             items : 6, // THIS IS IMPORTANT
@@ -110,10 +166,11 @@
                 362:{items:2},
                 564 : { items : 3  }, // from zero to 480 screen width 4 items
                 768 : { items : 4 }, // from 480 screen widthto 768 6 items
-                1024 : { items : 6   // from 768 screen width to 1024 8 items
+                1030 : { items : 7   // from 768 screen width to 1024 8 items
                 }
             },
         });
+
 
         // Custom Navigation Events
 
@@ -121,696 +178,34 @@
     });
 </script>
 
-
-
-
-
-
     <style>
-.seeMoreBtn a{
-    color: white !important;
-}
-        .customNavigation{
-            text-align: center;
-        }
-
-        .customNavigation a{
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        }
-
-        .clus{
-            /*background-color: white;*/
-            /*border: 1px solid gainsboro;*/
-            /*margin-bottom: 20px;*/
-        }
-        .single-title-link{
-            font-size: 16px !important;
-        }
-        @media all and (max-width: 1025px) {
-            .card.small.apps.square-cover .cover-image{
-                max-width: 89% !important;
-
-            }
-        }
-        .owl-item{
-            margin-bottom: 10px !important;
-        }
-        .item a{
-            cursor: auto !important;
-        }
-
-        .cardsmallsquare-cover {
-            height: 245px;
-            width: 160px;
-            border: 1px solid gainsboro;
-        }
-
-        .card-content {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background: #fff;
-            height: 100%;
-            position: relative;
-            text-decoration: none;
-            vertical-align: top;
-        }
-
-        .cover {
-            height: 160px;
-            width: 160px;
-            margin: -2px !important;
-        }
-
-        .card .cover-image-container {
-            height: 100%;
-            left: -5%;
-            position: relative;
-            top: -5%;
-            width: 90%;
-        }
-
-        .card .cover-outer-align {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .card.tiny.apps.square-cover .cover-image, .card.small.apps.square-cover .cover-image, .card.medium.apps.square-cover .cover-image, .card.medium-long.apps.square-cover .cover-image, .card.medium-minus.apps.square-cover .cover-image, .card.medium-plus.apps.square-cover .cover-image, .card.medium-plus-fixed.apps.square-cover .cover-image, .card.marge.apps.square-cover .cover-image, .card.large.apps.square-cover .cover-image {
-            max-width: 73%;
-        }
-
-        .card .cover-inner-align {
-            display: table-cell;
-            text-align: center !important;
-            vertical-align: middle;
-        }
-
-        .app-image {
-            max-width: 73% !important;
-            margin: auto;
-        }
-
-        img {
-            vertical-align: middle;
-        }
-
-        .preview-overlay-container {
-            -webkit-border-radius: 2px;
-            border-radius: 2px;
-            opacity: 0;
-            filter: alpha(opacity=0);
-            -webkit-transition: all .25s ease;
-            transition: all .25s ease;
-            background: rgba(0, 0, 0, 0.4);
-            cursor: pointer;
-            height: 100%;
-            left: 0;
-            position: absolute;
-            top: 0;
-            width: 100%;
-        }
-
-        .card.small .details {
-            max-height: 50px;
-        }
-
-        .card .details {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            display: block;
-            overflow: hidden;
-            padding: 7px 10px 0;
-            position: relative;
-        }
-
-        .card-click-target {
-            bottom: 0;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-
-        a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        .card .title {
-            color: #212121;
-            display: block;
-            font-size: 16px;
-            line-height: 18px;
-            max-height: 36px;
-            min-height: 18px;
-            overflow: hidden;
-            text-decoration: none;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .card .subtitle-container {
-            min-height: 22px;
-        }
-
-        .card .subtitle-container, .card .stars-container {
-            display: block;
-            position: relative;
-            width: 100%;
-        }
-
-        .card.apps.no-rationale .subtitle {
-            display: inline-block;
-        }
-
-        .app-title {
-            color: black;
-        }
-
-        .app-des {
-            color: darkblue;
-        }
-
-        .card .title {
-            color: #212121;
-            display: block;
-            font-size: 16px;
-            line-height: 18px;
-            /* max-height: 36px; */
-            min-height: 18px;
-            overflow: hidden;
-            text-decoration: none;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .preview-overlay-container {
-            display: none;
-        }
-
-        img:hover + .preview-overlay-container {
-            display: block !important;
-        }
-
-        .preordered-label {
-            color: #fff;
-            font-size: 14px;
-            font-weight: 400;
-            min-width: 51px;
-            padding: 2px 6px;
-            position: relative;
-            text-align: center;
-        }
-
-        .card.tiny.square-cover {
-            height: 168px;
-            width: 126px;
-        }
-
-        .cluster .card {
-            float: left;
-        }
-
-        .card {
-            display: inline-block;
-            margin: 5px;
-            position: relative;
-            text-align: left;
-            vertical-align: top;
-            white-space: normal;
-        }
-
-        .card-content {
-            -webkit-border-radius: 2px;
-            border-radius: 2px;
-            -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background: #fff;
-            height: 100%;
-            position: relative;
-            text-decoration: none;
-            vertical-align: top;
-        }
-
-        .card-click-target {
-
-            position: absolute;
-
-        }
-
-        a {
-            text-decoration: none !important;
-            color: #333 !important;
-        }
-
-        .card.tiny.circle-cover .cover, .card.tiny.square-cover .cover {
-            height: 126px;
-            width: 126px;
-        }
-
-        .card.apps .cover, .card.devices .cover, .card.people .cover {
-            background-color: #fff;
-        }
-
-        .card .cover {
-            -webkit-border-radius: 2px 2px 0 0;
-            border-radius: 2px 2px 0 0;
-            background-color: #f5f5f5;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card .cover-image-container {
-            height: 110%;
-            left: -5%;
-            position: relative;
-            top: -5%;
-            width: 110%;
-        }
-
-        .card .cover-outer-align {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .card .cover {
-            -webkit-border-radius: 2px 2px 0 0;
-            border-radius: 2px 2px 0 0;
-            background-color: #f5f5f5;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card .cover-inner-align {
-            display: table-cell;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        .card .cover-image {
-            max-height: 92%;
-            max-width: 92%;
-        }
-
-        .card-click-target {
-
-            position: absolute;
-
-        }
-
-        .preordered-label {
-            color: #fff;
-            font-size: 14px;
-            font-weight: 400;
-            min-width: 51px;
-            padding: 2px 6px;
-            position: relative;
-            text-align: center;
-        }
-
-        .card.tiny .details {
-            max-height: 50px;
-            padding-top: 1px;
-        }
-
-        .card .details {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            display: block;
-            overflow: hidden;
-            padding: 7px 10px 0;
-            position: relative;
-        }
-
-        .card-click-target {
-
-            position: absolute;
-
-        }
-
-        .card.tiny .title {
-            font-size: 14px;
-            line-height: 17px;
-            margin-bottom: 0;
-            margin-top: 3px;
-            min-height: 17px;
-        }
-
-        .cluster.tight .card-list, .cluster.circle-cover.tight .card-list, .cluster.square-cover.tight .card-list {
-            height: 178px;
-        }
-
-        .card .title {
-            color: #212121;
-            display: block;
-            font-size: 16px;
-            line-height: 18px;
-            max-height: 36px;
-            min-height: 18px;
-            overflow: hidden;
-            text-decoration: none;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .card .title .paragraph-end {
-            height: 19px;
-            width: 45px;
-        }
-
-        .paragraph-end {
-            background-image: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 1)));
-            background-image: -webkit-linear-gradient(left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-            background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
-            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, StartColorStr='#00ffffff', EndColorStr='#ffffff');
-            bottom: 0;
-            height: 25px;
-            max-height: 100%;
-            position: absolute;
-            right: 0;
-            width: 60px;
-        }
-
-        .card .subtitle-container {
-            min-height: 22px;
-        }
-
-        .card .subtitle-container, .card .stars-container {
-            display: block;
-            position: relative;
-            width: 100%;
-        }
-
-        .card.apps.no-rationale .subtitle {
-            display: inline-block;
-        }
-
-        .card.tiny .subtitle {
-            font-size: 12px;
-            line-height: 15px;
-        }
-
-        .card.tiny .subtitle {
-            width: 106px;
-        }
-
-        .card .subtitle {
-            color: #616161;
-            display: inline-block;
-            font-size: 13px;
-            line-height: 16px;
-            margin: 1px 0;
-            max-width: 132px;
-            overflow: hidden;
-        }
-
-        .card.tiny .details .subtitle-container .price-container {
-            display: inline-block;
-        }
-
-        img {
-            vertical-align: middle;
-            margin: auto;
-        }
-
-        .card .price-container {
-            bottom: 4px;
-            position: absolute;
-            right: 0;
-            text-align: left;
-        }
-
-        .cluster .card-list {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            margin-left: 248px;
-            margin-right: 50px;
-            max-height: 340px;
-            min-width: 680px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .cluster-heading {
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-            cursor: default;
-            font-size: 28px;
-            font-weight: 100;
-            margin: 0 15px 0 39px;
-            min-height: 37px;
-            min-width: 680px;
-            padding: 5px;
-            position: relative;
-        }
-
-        h2 {
-            color: #333;
-            font-size: 28px;
-            font-weight: 100;
-            font-family: -webkit-body !important;
-        }
-
-        .appTitleDiv {
-            margin-top: 10%;
-            text-align: center;
-
-            font-family: serif;
-            font-size: 19px;
-            margin-bottom: 10px;
-            color: #616161;
-        }
-
-        .freeAnchor {
-            color: #0083ba !important;
-        }
-
-        .appDescriptionDiv {
-            text-align: center;
-        }
-
-        body {
-            overflow-y: scroll !important;
-        }
-
-        .cont {
-            height: 245px;
-            width: 172px;
-            padding: 0px !important;
-
-        }
-
-        .card {
-            height: 238px;
-            width: 160px;
-            border-radius: 2px;
-            -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin: 5px !important;
-        }
-
-        .image {
-            height: 160px;
-            width: 160px;
-            display: table-cell;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        .card {
-            background-color: white;
-        }
-
-        .card .image {
-            width: 99.5%;
-
-            background-color: white;
-
-        }
-
-        .title {
-            font-size: 12px !important;
-            font-family: cursive;
-            font-style: italic;
-
-        }
-
-        .app-image {
-            height: 100%;
-            max-width: 90% !important;
-            margin-top: 10px;
-        }
-
-        .price {
-            margin-top: 5%;
-            font-style: italic;
-            font-size: 10px;
-        }
-
-        .priceAnchor {
-            color: #003b8e !important;
-            float: right;
-        }
-
-        .single-title-link {
-            margin: 0px !important;
-        }
-
-        h2 a {
-            margin-top: 5px;
-            margin-bottom: 5px;
-            font-size: 15px !important;
-            color: #645d5d !important;
-            font-style: italic;
-            font-family: serif;
-        }
-
-        .clus {
-
-            margin-top: 17px;
-width: 100% !important;
-        }
-
-        .marg {
-            margin-top: 5px;
-        }
-
-        @media all and (max-width: 1281px) {
-            body {
-                background-color: #eeeeee !important;
-            }
-        }
-
-        .bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-
-        }
-
-        .cont:hover .bg {
-            -webkit-filter: blur(15px);
-        }
-
-        .app-image {
-            opacity: 1;
-            display: block;
-            width: 100%;
-            height: auto;
-            transition: .5s ease;
-            backface-visibility: hidden;
-        }
-
-        .middle {
-            transition: .5s ease;
-            opacity: 0;
-            position: absolute;
-            top: 50%;
-
-            transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            text-align: center;
-
-            left: 50%;
-            height: 100%;
-            width: 100%;
-        }
-
-        .cont:hover .app-image {
-            opacity: 0.3;
-        }
-
-        .cont:hover .middle {
-            opacity: 1;
-        }
-
-        .text {
-            background-color: #0083ba;
-            color: white;
-            font-size: 16px;
-            padding: 16px 32px;
-            position: absolute;
-
-        }
-
-        .image a {
-            cursor: pointer;
-            cursor: hand;
-        }
-
-        .card-click-target {
-            bottom: 0;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-        @media (max-width: 800px) {
-
-            .card{
-                box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1) !important;
-
-            }
-            .app-image{
-                border-radius: 10px !important;
-            }
-            .marg{
-                display: none !important;
-            }
-            .price{
-                margin-top: 0px !important;
-            }
-
-        }
-        .owl-carousel.off {
-            display: block;
-        }
 
     </style>
     {% endblock %}
     {% block body %}
-
-
-
-<div class="mdl-grid">
+        <div class="lds-spinner" id="load"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+<div class="mdl-grid hidden" id="mdl-grid" >
     <div class="clus">
-        {#<div class="mdl-cell mdl-cell--12-col">#}
-        {#<!--#}
-        {#<h3 class="fd-title">#}
-        {#{% if category_slug %}<a href="{{ path('category_whats_new', {'slug': category_slug}) }}">{% endif %}What's new{% if category_slug %}</a>{% endif %}#}
-        {#{% if category_slug %}<a href="{{ path('category_whats_new', {'slug': category_slug}) }}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--accent mdl-color-text--accent-contrast">See More</a>{% endif %}#}
-        {#</h3>#}
-        {#-->#}
-        {#</div>#}
-
-
         <div class="row" style="width: 100%; margin-top: 10px;">
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
                 <h2 class="single-title-link">
                     <a class="title-link id-track-click"
                        data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
                     >
-                        {{ bundle.Name }}</a></h2>
+                        {{ bundle1.Name }}</a></h2>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2 ">
-                    <button type="button" onclick="location.href='{{ path('bundle', {'slug': 1}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 1}) }}">See more</a></button>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2 " id="btnsee">
+                    <button type="button" id="SeeMoreBtn" onclick="location.href='{{ path('bundle', {'slug': 1}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 1}) }}" >See More</a></button>
                     <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 1}) }}"> More</a>
                 </div>
             </div>
 
-        <div id="owl-demo7" class="owl-carousel  ">
+        <div id="bundle1" class="owl-carousel  ">
 
 
             {% if is_mobile_view() %}
                 {% for application in bundle1Applications%}
-                    <div class="item">
+                    <div class="item" >
 
                         {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
                     </div>
@@ -827,7 +222,7 @@ width: 100% !important;
             {% if is_full_view() or is_not_mobile_view() %}
                 {% for application in bundle1Applications %}
 
-                    {% if count < 6 %}
+                    {% if count < 7 %}
                         {% set count = count+ 1 %}
                         <div class="item">
 
@@ -840,24 +235,21 @@ width: 100% !important;
         </div>
     </div>
     <div class="clus">
-
-
-
         <div class="row" style="width: 100%; margin-top: 10px;">
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
                 <h2 class="single-title-link">
                     <a class="title-link id-track-click"
                        data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
                     >
-                        {{ bundle.Name }}</a></h2>
+                        {{ bundle2.Name }}  </a></h2>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
-                    <button type="button" onclick="location.href='{{ path('bundle', {'slug': 2}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 2}) }}">See more</a></button>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2" id="btnsee">
+                    <button type="button" id="SeeMoreBtn" onclick="location.href='{{ path('bundle', {'slug': 2}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 2}) }}">See More</a></button>
                     <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 2}) }}"> More</a>
                 </div>
             </div>
 
-        <div id="owl-demo2" class="owl-carousel ">
+        <div id="bundle2" class="owl-carousel ">
 
             {% if is_mobile_view() %}
                 {% for application in bundle1Applications2 %}
@@ -878,7 +270,7 @@ width: 100% !important;
             {% if is_full_view() or is_not_mobile_view() %}
                 {% for application in bundle1Applications2 %}
 
-                    {% if count2 < 6 %}
+                    {% if count2 < 7 %}
                         {% set count2 = count2+ 1 %}
                         <div class="item">
 
@@ -902,10 +294,10 @@ width: 100% !important;
                     <a class="title-link id-track-click"
                        data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
                     >
-                        {{ bundle.Name }}</a></h2>
+                        {{ bundle3.Name }}</a></h2>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
-                <button type="button" onclick="location.href='{{ path('bundle', {'slug': 3}) }}'" class="btn btn-primary seeMoreBtn" > <a href="{{ path('bundle', {'slug': 3}) }}">See more</a></button>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2" id="btnsee">
+                <button type="button"  id="SeeMoreBtn" onclick="location.href='{{ path('bundle', {'slug': 3}) }}'" class="btn btn-primary seeMoreBtn" > <a href="{{ path('bundle', {'slug': 3}) }}">See More</a></button>
                 <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 3}) }}"> More</a>
             </div>
         </div>
@@ -916,7 +308,7 @@ width: 100% !important;
         {#>#}
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
-        <div id="owl-demo3" class="owl-carousel ">
+        <div id="bundle3" class="owl-carousel ">
 
             {% if is_mobile_view() %}
                 {% for application in bundle1Applications3 %}
@@ -937,7 +329,7 @@ width: 100% !important;
             {% if is_full_view() or is_not_mobile_view() %}
                 {% for application in bundle1Applications3 %}
 
-                    {% if count3 < 6 %}
+                    {% if count3 < 7 %}
                         {% set count3 = count3+ 1 %}
                         <div class="item">
 
@@ -949,6 +341,70 @@ width: 100% !important;
 
         </div>
     </div>
+    <div class="clus">
+
+
+
+        <div class="row" style="width: 100%; margin-top: 10px;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
+                <h2 class="single-title-link">
+                    <a class="title-link id-track-click"
+                       data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                    >
+                  {{ bundle4.Name }}  </a></h2>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2" id="btnsee">
+                <button type="button"   id="SeeMoreBtn" onclick="location.href='{{ path('bundle', {'slug': 4}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 4}) }}">See More</a></button>
+                <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 4}) }}"> More</a>
+            </div>
+        </div>
+        {#<div class="cluster-heading" style="width: 1088px;">#}
+        {#<h2 class="single-title-link">#}
+        {#<a class="title-link id-track-click"#}
+        {#data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"#}
+        {#>#}
+        {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
+        {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
+
+        {#{% if is_mobile() %}#}
+
+        <div id="bundle4" class="owl-carousel ">
+            {% if is_mobile_view() %}
+                {% for application in bundle1Applications4 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_tablet_view() %}
+                {% for application in bundle1Applications4 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_full_view() or is_not_mobile_view() %}
+                {% for application in bundle1Applications4 %}
+
+                    {% if count4 < 7 %}
+                        {% set count4 = count4+ 1 %}
+                        <div class="item">
+
+                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+
+
+        </div>
+
+
+    </div>
+
 
     <div class="clus">
         <div class="row" style="width: 100%; margin-top: 10px;">
@@ -957,10 +413,10 @@ width: 100% !important;
                     <a class="title-link id-track-click"
                        data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
                     >
-                        {{ bundle.Name }}</a></h2>
+                        {{ bundle5.Name }}</a></h2>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
-                <button type="button" onclick="location.href='{{ path('bundle', {'slug': 5}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug':5}) }}">See more</a></button>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2" id="btnsee">
+                <button type="button"  id="SeeMoreBtn" onclick="location.href='{{ path('bundle', {'slug': 5}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug':5}) }}">See More</a></button>
                 <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 5}) }}"> More</a>
             </div>
         </div>
@@ -971,7 +427,7 @@ width: 100% !important;
         {#>#}
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
-        <div id="owl-demo5" class="owl-carousel ">
+        <div id="bundle5" class="owl-carousel ">
 
             {% if is_mobile_view() %}
                 {% for application in bundle1Applications5 %}
@@ -992,7 +448,7 @@ width: 100% !important;
             {% if is_full_view() or is_not_mobile_view() %}
                 {% for application in bundle1Applications5 %}
 
-                    {% if count5 < 6 %}
+                    {% if count5 < 7%}
                         {% set count5 = count5+ 1 %}
                         <div class="item">
 
@@ -1013,10 +469,10 @@ width: 100% !important;
                     <a class="title-link id-track-click"
                        data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
                     >
-                        {{ bundle.Name }}</a></h2>
+                       {{ bundle6.Name }} </a></h2>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
-                <button type="button"  onclick="location.href='{{ path('bundle', {'slug': 6}) }}'"class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 6}) }}">See more</a></button>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2" id="btnsee">
+                <button type="button"  id="SeeMoreBtn"  onclick="location.href='{{ path('bundle', {'slug': 6}) }}'"class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 6}) }}">See More</a></button>
                 <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 6}) }}"> More</a>
             </div>
         </div>
@@ -1027,7 +483,7 @@ width: 100% !important;
         {#>#}
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
-        <div id="owl-demo6" class="owl-carousel ">
+        <div id="bundle6" class="owl-carousel ">
 
             {% if is_mobile_view() %}
                 {% for application in bundle1Applications6 %}
@@ -1048,7 +504,7 @@ width: 100% !important;
             {% if is_full_view() or is_not_mobile_view() %}
                 {% for application in bundle1Applications6 %}
 
-                    {% if count6 < 6 %}
+                    {% if count6 < 7 %}
                         {% set count6 = count6+ 1 %}
                         <div class="item">
 
@@ -1060,9 +516,9 @@ width: 100% !important;
 
         </div>
     </div>
-    <hr>
-    <div class="clus">
 
+
+    <div class="clus">
 
 
         <div class="row" style="width: 100%; margin-top: 10px;">
@@ -1071,11 +527,11 @@ width: 100% !important;
                     <a class="title-link id-track-click"
                        data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
                     >
-                        {{ bundle.Name }}</a></h2>
+                 {{ bundle7.Name }}      </a></h2>
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2">
-                <button type="button"  onclick="location.href='{{ path('bundle', {'slug': 4}) }}'" class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 4}) }}">See More</a></button>
-                <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 4}) }}"> More</a>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2" id="btnsee">
+                <button type="button" id="SeeMoreBtn"  onclick="location.href='{{ path('bundle', {'slug': 7}) }}'"class="btn btn-primary seeMoreBtn"> <a href="{{ path('bundle', {'slug': 7}) }}">See More</a></button>
+                <a class="seeMoreSmallDevice" href="{{ path('bundle', {'slug': 7}) }}"> More</a>
             </div>
         </div>
         {#<div class="cluster-heading" style="width: 1088px;">#}
@@ -1085,12 +541,10 @@ width: 100% !important;
         {#>#}
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
+        <div id="bundle7" class="owl-carousel ">
 
-        {#{% if is_mobile() %}#}
-
-        <div id="owl-demo4" class="owl-carousel ">
             {% if is_mobile_view() %}
-                {% for application in bundle1Applications4 %}
+                {% for application in bundle1Applications7 %}
                     <div class="item">
 
                         {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
@@ -1098,70 +552,141 @@ width: 100% !important;
                 {% endfor %}
             {% endif %}
             {% if is_tablet_view() %}
-                {% for application in bundle1Applications4 %}
+                {% for application in bundle1Applications7 %}
                     <div class="item">
 
                         {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
                     </div>
                 {% endfor %}
             {% endif %}
-                {% if is_full_view() or is_not_mobile_view() %}
-                    {% for application in bundle1Applications4 %}
+            {% if is_full_view() or is_not_mobile_view() %}
+                {% for application in bundle1Applications7 %}
 
-                    {% if count4 < 6 %}
-                    {% set count4 = count4+ 1 %}
-                    <div class="item">
+                    {% if count7 < 7 %}
+                        {% set count7 = count7+ 1 %}
+                        <div class="item">
 
-                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
+                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                        </div>
                     {% endif %}
-                    {% endfor %}
+                {% endfor %}
             {% endif %}
-            {#{% if count < 6 %}#}
-            {#{% set count = count+ 1 %}#}
-                {#{% for application in bundle1Applications4 %}#}
-                    {#<div class="item">#}
-
-                        {#{{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}#}
-                    {#</div>#}
-                {#{% endfor %}#}
-            {#{% if is_mobile_view() %}#}
-                {#{% for application in bundle1Applications4 %}#}
-                    {#<div class="item">#}
-
-                        {#{{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}#}
-                    {#</div>#}
-                {#{% endfor %}#}
-
-            {#{% else if is_tablet_view() %}#}
-                {#{% for application in bundle1Applications4 %}#}
-                    {#<div class="item">#}
-
-                        {#{{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}#}
-                    {#</div>#}
-                {#{% endfor %}#}
-
-                {#{% else if is_full_view() or is_not_mobile_view() %}#}
-                    {#{% for application in bundle1Applications4 %}#}
-                    {#{% if count < 6 %}#}
-                    {#{% set count = count+ 1 %}#}
-
-                        {#<div class="item">#}
-
-                            {#{{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}#}
-                        {#</div>#}
-                    {#{% else  %}#}
-                    {#{% endif %}#}
-                    {#{% endfor %}#}
-
-
-
-            {#{% endif %}#}
-
 
         </div>
+    </div>
 
 
+    <div class="clus">
+
+
+        <div class="row" style="width: 100%; margin-top: 10px;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
+                <h2 class="single-title-link">
+                    <a class="title-link id-track-click"
+                       data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                    >
+                        {{ category1Name}}       </a></h2>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2" id="btnsee">
+                <button type="button" id="SeeMoreBtn"  onclick="location.href='{{ path('category', {'slug':"games"}) }}'"class="btn btn-primary seeMoreBtn"> <a href='{{ path('category', {'slug': "games"}) }}'>See More</a></button>
+                <a class="seeMoreSmallDevice" href='{{ path('category', {'slug': "games"}) }}'> More</a>
+            </div>
+        </div>
+        {#<div class="cluster-heading" style="width: 1088px;">#}
+        {#<h2 class="single-title-link">#}
+        {#<a class="title-link id-track-click"#}
+        {#data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"#}
+        {#>#}
+        {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
+        {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
+        <div id="category1" class="owl-carousel ">
+
+            {% if is_mobile_view() %}
+                {% for application in applications3 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_tablet_view() %}
+                {% for application in applications3 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_full_view() or is_not_mobile_view() %}
+                {% for application in applications3 %}
+
+                    {% if count9 < 7 %}
+                        {% set count9= count9+ 1 %}
+                        <div class="item">
+
+                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="clus">
+
+
+        <div class="row" style="width: 100%; margin-top: 10px;">
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  col-10">
+                <h2 class="single-title-link">
+                    <a class="title-link id-track-click"
+                       data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"
+                    >
+                       {{ category2Name }}</a></h2>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-2"  id="btnsee">
+                <button type="button" id="SeeMoreBtn" onclick="location.href='{{ path('category', {'slug':"system"}) }}'"class="btn btn-primary seeMoreBtn"> <a href='{{ path('category', {'slug': "system"}) }}'>See More</a></button>
+                <a class="seeMoreSmallDevice" href='{{ path('category', {'slug': "system"}) }}'> More</a>
+            </div>
+        </div>
+        {#<div class="cluster-heading" style="width: 1088px;">#}
+        {#<h2 class="single-title-link">#}
+        {#<a class="title-link id-track-click"#}
+        {#data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="291"#}
+        {#>#}
+        {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
+        {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
+ <div id="category2" class="owl-carousel ">
+
+            {% if is_mobile_view() %}
+                {% for application in applications2 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_tablet_view() %}
+                {% for application in applications2 %}
+                    <div class="item">
+
+                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if is_full_view() or is_not_mobile_view() %}
+                {% for application in applications2 %}
+
+                    {% if count10 < 7 %}
+                        {% set count10= count10+ 1 %}
+                        <div class="item">
+
+                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+        </div>
     </div>
 </div>
 

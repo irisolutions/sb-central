@@ -1,47 +1,52 @@
-{#<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">#}
-    {#<form class="fd-search" role="search" method="get" action="{{ path('search') }}">#}
-        {#<label class="mdl-button mdl-js-button mdl-button--icon" for="search_term">#}
-            {#<i class="material-icons">search</i>#}
-        {#</label>#}
-        {#<div class="mdl-textfield__expandable-holder">#}
-            {##}
-            {#<input class="mdl-textfield__input" type="text" value="{{ q }}" name="q" id="search_term" pattern=".{3,}" required/>#}
-        {#</div>#}
-        {##}
-        {##}
-    {#</form>#}
-{#</div>#}
-
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- javascript -->
 <script src="//storage.googleapis.com/code.getmdl.io/1.2.1/material.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <div class="searchDiv" style=" width: 100%; height: 60px;padding: 0;margin: 0;">
-<div class="row " style="margin-top: 10px; margin-bottom: 15px;" >
-    <div class="col-lg-3  col-md-3 col-sm-3 col-xs-3 empty " style="margin-top: 10px;" >
+    <div class="row " style="margin-top: 10px; margin-bottom: 15px;">
+        <div class="col-lg-3  col-md-3 col-sm-3 col-xs-3 empty " >
 
         <span class="centerStore" style="margin-left:5%;    font-size: 20px;
         font-family: sans-serif;">
-     <img src="{{ asset('images/Layer 2.png') }}" width="30px;" height="100%">   <strong> Sensory Store</strong>
+         <a href="{{ path('homepage') }}">  <img src="{{ asset('images/Layer 2.png') }}" width="30px;"
+                                                 height="100%">  <strong style="    font-size: 25px;
+    font-style: italic;
+    font-family: serif;
+    color: #545050;"> Sensory Store</strong></a>
         </span>
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-10 searchTablet">
+            <form class="fd-search" role="search" method="get" action="{{ path('search') }}">
+                {#<label class="mdl-button mdl-js-button mdl-button--icon" for="search_term">#}
+                {#<i class="material-icons">search</i>#}
+                {#</label>#}
+                <div class="row">
+
+
+                    <label class="sr-only" for="inlineFormInputGroup">Search</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+
+                        <input type="text" class="form-control searchInput" style=" " value="{{ q }}" name="q"
+                               id="search_term" pattern=".{3,}" required aria-label="Text input with dropdown button"
+                               placeholder=" Search ">
+                        <div class="input-group-addon">
+                            <button style="
+  background: none;
+  padding: 0px;
+  border: none; " type="submit" id="completed-task" class="fabutton">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-lg-5 empty">
+        </div>
+
     </div>
-    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-10 searchTablet" >
-        <form class="fd-search" role="search" method="get" action="{{ path('search') }}">
-            {#<label class="mdl-button mdl-js-button mdl-button--icon" for="search_term">#}
-            {#<i class="material-icons">search</i>#}
-            {#</label>#}
-            <div class="row">
-                <input   type="text" class="searchInput" style="width: 100%; height: 30px !important; margin-top: 5px; border: 1px solid #0083ba; border-radius: 5px;" value="{{ q }}" name="q" id="search_term" pattern=".{3,}" required aria-label="Text input with dropdown button" placeholder=" &ensp;&ensp;Search">
-
-            </div>
-
-
-        </form>
-    </div>
-    <div class="col-lg-5 empty">
-    </div>
-
-</div>
 </div>
 <hr style="margin: 0px">

@@ -9,7 +9,22 @@
         .appCatName{
             color: white !important;
         }
+        @media screen and (max-width: 1025px) {
+        .description-div{
+            width: 90% !important;
+            margin: auto !important;
+        }
+            .contAppINFO{
+                width: 90% !important;
+                margin: auto !important;
 
+            }
+            .bund-status{
+                width: 90% !important;
+                margin: auto !important;
+
+            }
+        }
     </style>
 {% endblock %}
   {% block body %}
@@ -23,7 +38,8 @@
           <a class="appCatName" style="color:white !important;" href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }}
 
       </div>
-     <div class="contAppINFO" style="width: 70%; margin: auto">
+      <div class="contAppINFO" style="width: 70%; margin: auto">
+          <div class="row bund-status" style="width: 80%; margin: auto">
 
                   <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                       <div class="fd-section_header mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone special-app-img"
@@ -88,8 +104,9 @@
                       </section>
                   {% endif %}
 
+          </div>
 
-
+          <div class="row description-div" style="width:80%; margin: auto !important;">
               <section class="fd-section mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                   <div class="mdl-card mdl-cell mdl-cell--12-col" style="border-radius: 20px;">
                       <div class="mdl-card__supporting-text">
@@ -98,7 +115,7 @@
                       </div>
                   </div>
               </section>
-
+          </div>
       </div>
 
       {#

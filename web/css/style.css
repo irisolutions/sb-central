@@ -1,5 +1,6 @@
 html, body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
+    overflow:auto !important;
 }
 .seeMoreSmallDevice{
     display: none;
@@ -20,7 +21,9 @@ html, body {
 body {
 
 }
-
+.mdl-layout--fixed-drawer>.mdl-layout__content {
+    margin-left: 300px ;
+}
 .fd-application_box .mdl-card__title-text a {
     text-decoration: none;
 
@@ -223,7 +226,7 @@ body {
 
 .fd-application-info {
     position: absolute;
-    bottom: 20px;
+
 }
 
 .fd-section .mdl-card__supporting-text img {
@@ -373,14 +376,7 @@ th{
 
 }
 
-.appStaus{
-    position: absolute;
-    right: 20px;
-    bottom: 10px;
-    border: 1px solid white;
-    background-color: #005e97;
-    border-radius: 5px;
-}
+
 .mdl-layout__drawer-button{
 top:5px !important;
 }
@@ -511,12 +507,18 @@ body{
        margin-left: 100px !important;
 
     }
+    h2 a{
+        margin-left: 10px;
+    }
     .seeMoreBtn{
         display: none !important;
         color: black !important;
     }
     .seeMoreSmallDevice{
         display: block !important;
+        font-family: serif;
+        font-style: italic;
+        color: #0083ba !important;
     }
     .searchTablet{
         width: 60% !important;
@@ -524,7 +526,9 @@ body{
     .mdl-layout__drawer{
         width: 225px !important;
     }
-
+    .mdl-layout--fixed-drawer>.mdl-layout__content {
+        margin-left: 10px ;
+    }
 }
 
 .mdl-color--primary {
@@ -575,7 +579,7 @@ margin: 5px !important;
         padding: 0 75px 0 45px !important;
     }
     .mdl-grid h4{
-        font-size: 17px !important;
+
     }
     .dropdown{
 
@@ -599,19 +603,9 @@ margin: 0px !important;
     }
     .fd-application-info {
         position: absolute;
-        bottom: 51px !important;
         font-size: 9px !important;
     }
-    .appStatus{
-        border: 1px solid white;
-         border-radius: 0px !important;
-        position: absolute;
-        right: 70px !important;
-        bottom: 10px !important;
-
-        width: 80px !important;
-
-    }
+   
     .dropdown-content{
         margin-left: -85px !important;    }
 
@@ -854,13 +848,16 @@ th{
     color: #eeeeee !important;
 
 }
-@media all and (max-width: 392px) {
+@media all and (max-width: 576px) {
 .datagrid table thead th{
     font-size: 10px !important;
 }
     .mdl-layout__title, .mdl-layout-title{
         margin-left: 0px!important;
-        font-size: 12px !important;
+        font-size: 16px !important;
+    }
+    .fd-breadcrumb{
+        margin-left: 5px !important;
     }
 }
 @media screen and (min-width: 1025px) {
@@ -877,5 +874,15 @@ th{
     }
 }
 .mdl-layout__drawer-button{
-    margin-top: -10px !important;
+    margin-top: 2px !important;
+}
+main{
+    overflow: auto !important;
+}
+a:active {
+ text-decoration: none !important;
+
+}
+a:hover{
+    text-decoration: none !important;
 }

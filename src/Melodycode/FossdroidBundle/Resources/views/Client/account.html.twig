@@ -7,7 +7,16 @@
 
 {% block head%}
     <link rel="stylesheet" href="{{ asset('css/account.css') }}">
+<style>
+    @media all and (max-width: 417px) {
+        .submitBtn {
+            margin-top: 10px;
+        }
+    }
+        @media all and (max-width: 328px) {
 
+    }
+</style>
 {%endblock %}
 
 
@@ -46,7 +55,7 @@
                                 <div id="form" hidden>
                                     <form  method="post">
                                         <input id="new-password" style="padding: 5px;" type="text" name="new-password">
-                                        <input type="submit" style="    background-color: #f34336; /* Green */
+                                        <input class="submitBtn" type="submit" style="    background-color: #003b8e; /* Green */
     border: none;
     color: white;
     padding: 5px ;
