@@ -122,8 +122,7 @@ body {
     margin-right: 17px;
 }
 .mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen)>.mdl-layout__header {
-    margin-left: 200px !important;
-    width: calc(100% - 217px);
+
 
 }
 .mdl-layout--fixed-drawer>.mdl-layout__header .mdl-layout__header-row{
@@ -152,7 +151,7 @@ body {
 .fd-title a {
     text-decoration: none;
     color: inherit;
-    font-weight: 400;  
+    font-weight: 400;
 }
 .fd-title {
     font-family: serif;
@@ -277,7 +276,7 @@ body {
 .mdl-layout__header-row{
     background-color:#0083ba !important;
     border: none;
-   /* border-left: 1px solid gainsboro; */
+    /* border-left: 1px solid gainsboro; */
 
     color: black;
     /* font-family: unset; */
@@ -323,19 +322,19 @@ body {
 }
 main{
 }
- .mdl-button--icon {
+.mdl-button--icon {
 
 }
- .mdl-mini-footer__left-section{
-     margin: auto;
- }
- .mdl-logo{
-     font-size: 18px;
-     font-style: italic;
- }
+.mdl-mini-footer__left-section{
+    margin: auto;
+}
+.mdl-logo{
+    font-size: 18px;
+    font-style: italic;
+}
 .fossdriod{
-     color: #0083BA !important;
- }
+    color: #0083BA !important;
+}
 .datagrid{
 
     border-radius: 15px;
@@ -378,12 +377,12 @@ th{
 
 
 .mdl-layout__drawer-button{
-top:5px !important;
+    top:5px !important;
 }
 .mdl-layout__header .mdl-layout__drawer-button {
     position: absolute;
-    color: black;
-    background-color: #EEEEEE !important;
+    color: white;
+    background-color:#0083ba !important;
     display: none;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
@@ -394,7 +393,7 @@ top:5px !important;
     font-size: 15px;
 }
 .mdl-layout__drawer{
-height: 569px !important;
+    height: 569px !important;
 
 }
 .fd-navigation {
@@ -425,15 +424,15 @@ body{
 
 }
 .mdl-color--grey-100{
-    background-color: #eeeeee !important;
+    background-color: white !important;
 }
 .fd-navigation, .mdl-layout__drawer {
-    margin-top:60px !important;
+    margin-top:63px !important;
 }
 @media all and (max-width: 1025px) {
-body{
-    background-color: #eeeeee !important;
-}
+    body{
+        background-color: #eeeeee !important;
+    }
     .mdl-layout__header .mdl-layout__drawer-button {
         display: block;
         margin: 0px;
@@ -465,7 +464,7 @@ body{
         max-height: 100%;
     }
     .centerStore{
-    display: none;
+        display: none;
     }
     .fd-navigation, .mdl-layout__drawer {
         margin-top: 0px !important;
@@ -504,7 +503,7 @@ body{
 
     }
     .fd-search{
-       margin-left: 100px !important;
+        margin-left: 100px !important;
 
     }
     h2 a{
@@ -551,23 +550,23 @@ body{
 @media all and (max-width: 576px) {
     .fd-application_box {
         width: 148px !important;
-margin: 5px !important;
+        margin: 5px !important;
 
 
     }
-.fd-title{
-    font-size: 20px !important;
-}
-.dropbtn{
-    /*width: 100px;*/
-    /*font-size: 12px !important;*/
-    /*padding: 0px !important;*/
-    /*overflow: hidden;*/
-    /*white-space: nowrap;*/
-    /*text-overflow: ellipsis;*/
-}
+    .fd-title{
+        font-size: 20px !important;
+    }
+    .dropbtn{
+        /*width: 100px;*/
+        /*font-size: 12px !important;*/
+        /*padding: 0px !important;*/
+        /*overflow: hidden;*/
+        /*white-space: nowrap;*/
+        /*text-overflow: ellipsis;*/
+    }
     .freadcrumbd-b {
-       margin-left: 6% !important;
+        margin-left: 6% !important;
 
 
     }
@@ -599,13 +598,13 @@ margin: 5px !important;
         width: 45% !important;
     }
     .mdl-card__supporting-text h4{
-margin: 0px !important;
+        margin: 0px !important;
     }
     .fd-application-info {
         position: absolute;
         font-size: 9px !important;
     }
-   
+
     .dropdown-content{
         margin-left: -85px !important;    }
 
@@ -640,9 +639,9 @@ margin: 0px !important;
     .special-app-img{
         width: 20% !important;
     }
-.special-app-desc{
-    width: 80% !important;
-}
+    .special-app-desc{
+        width: 80% !important;
+    }
 }
 .anchorcancle{
     color: white !important;
@@ -652,7 +651,7 @@ margin: 0px !important;
 
 }
 .fd-application-info {
-font-size: 13px;
+    font-size: 13px;
 }
 
 @media screen and (max-width: 479px) {
@@ -810,16 +809,16 @@ ul.thumbnails {
     color:white !important;
 }
 @media all and (max-width: 1025px) {
-.dropdown-content{
-    margin-left: -127px !important;
-}
-.empty{
-    display: none;
-}
-.fd-search{
-    width: 100%;
+    .dropdown-content{
+        margin-left: -127px !important;
+    }
+    .empty{
+        display: none;
+    }
+    .fd-search{
+        width: 100%;
 
-}
+    }
 
 }
 .owl-stage{
@@ -849,9 +848,9 @@ th{
 
 }
 @media all and (max-width: 576px) {
-.datagrid table thead th{
-    font-size: 10px !important;
-}
+    .datagrid table thead th{
+        font-size: 10px !important;
+    }
     .mdl-layout__title, .mdl-layout-title{
         margin-left: 0px!important;
         font-size: 16px !important;
@@ -861,7 +860,17 @@ th{
     }
 }
 @media screen and (min-width: 1025px) {
-
+    .owl-item.cloned{
+        display: none !important;
+    }
+    .owl-stage{
+        transform:none !important;
+        transition: none !important;
+        width: auto !important;
+    }
+    .owl-item{
+        width: auto !important;
+    }
 }
 .mdl-layout__drawer-button{
     margin-top: 2px !important;
@@ -870,9 +879,14 @@ main{
     overflow: auto !important;
 }
 a:active {
- text-decoration: none !important;
+    text-decoration: none !important;
 
 }
 a:hover{
     text-decoration: none !important;
+}
+.mdl-layout--fixed-drawer.is-upgraded:not(.is-small-screen)>.mdl-layout__header {
+    margin-left: 0px !important;
+    width: 100%;
+
 }

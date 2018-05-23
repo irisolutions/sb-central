@@ -201,36 +201,14 @@
             </div>
 
         <div id="bundle1" class="owl-carousel  ">
+            {% for application in bundle1Applications%}
+                <div class="item" >
+
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
 
 
-            {% if is_mobile_view() %}
-                {% for application in bundle1Applications%}
-                    <div class="item" >
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_tablet_view() %}
-                {% for application in bundle1Applications %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_full_view() or is_not_mobile_view() %}
-                {% for application in bundle1Applications %}
-
-                    {% if count < 7 %}
-                        {% set count = count+ 1 %}
-                        <div class="item">
-
-                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
 
         </div>
     </div>
@@ -250,35 +228,13 @@
             </div>
 
         <div id="bundle2" class="owl-carousel ">
+            {% for application in bundle1Applications2 %}
+                <div class="item">
 
-            {% if is_mobile_view() %}
-                {% for application in bundle1Applications2 %}
-                    <div class="item">
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
 
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_tablet_view() %}
-                {% for application in bundle1Applications2%}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_full_view() or is_not_mobile_view() %}
-                {% for application in bundle1Applications2 %}
-
-                    {% if count2 < 7 %}
-                        {% set count2 = count2+ 1 %}
-                        <div class="item">
-
-                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
 
         </div>
 
@@ -309,35 +265,13 @@
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
         <div id="bundle3" class="owl-carousel ">
+            {% for application in bundle1Applications3 %}
+                <div class="item">
 
-            {% if is_mobile_view() %}
-                {% for application in bundle1Applications3 %}
-                    <div class="item">
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
 
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_tablet_view() %}
-                {% for application in bundle1Applications3 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_full_view() or is_not_mobile_view() %}
-                {% for application in bundle1Applications3 %}
-
-                    {% if count3 < 7 %}
-                        {% set count3 = count3+ 1 %}
-                        <div class="item">
-
-                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
 
         </div>
     </div>
@@ -369,34 +303,12 @@
         {#{% if is_mobile() %}#}
 
         <div id="bundle4" class="owl-carousel ">
-            {% if is_mobile_view() %}
-                {% for application in bundle1Applications4 %}
-                    <div class="item">
+            {% for application in bundle1Applications4 %}
+                <div class="item">
 
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_tablet_view() %}
-                {% for application in bundle1Applications4 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_full_view() or is_not_mobile_view() %}
-                {% for application in bundle1Applications4 %}
-
-                    {% if count4 < 7 %}
-                        {% set count4 = count4+ 1 %}
-                        <div class="item">
-
-                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
 
 
 
@@ -428,35 +340,12 @@
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
         <div id="bundle5" class="owl-carousel ">
+            {% for application in bundle1Applications5 %}
+                <div class="item">
 
-            {% if is_mobile_view() %}
-                {% for application in bundle1Applications5 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_tablet_view() %}
-                {% for application in bundle1Applications5 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_full_view() or is_not_mobile_view() %}
-                {% for application in bundle1Applications5 %}
-
-                    {% if count5 < 7%}
-                        {% set count5 = count5+ 1 %}
-                        <div class="item">
-
-                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
 
         </div>
     </div>
@@ -484,35 +373,12 @@
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
         <div id="bundle6" class="owl-carousel ">
+            {% for application in bundle1Applications6 %}
+                <div class="item">
 
-            {% if is_mobile_view() %}
-                {% for application in bundle1Applications6 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_tablet_view() %}
-                {% for application in bundle1Applications6 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_full_view() or is_not_mobile_view() %}
-                {% for application in bundle1Applications6 %}
-
-                    {% if count6 < 7 %}
-                        {% set count6 = count6+ 1 %}
-                        <div class="item">
-
-                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
 
         </div>
     </div>
@@ -542,35 +408,12 @@
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
         <div id="bundle7" class="owl-carousel ">
+            {% for application in bundle1Applications7 %}
+                <div class="item">
 
-            {% if is_mobile_view() %}
-                {% for application in bundle1Applications7 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_tablet_view() %}
-                {% for application in bundle1Applications7 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_full_view() or is_not_mobile_view() %}
-                {% for application in bundle1Applications7 %}
-
-                    {% if count7 < 7 %}
-                        {% set count7 = count7+ 1 %}
-                        <div class="item">
-
-                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
 
         </div>
     </div>
@@ -600,35 +443,13 @@
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
         <div id="category1" class="owl-carousel ">
+            {% for application in applications3 %}
+                <div class="item">
 
-            {% if is_mobile_view() %}
-                {% for application in applications3 %}
-                    <div class="item">
+                    {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+                </div>
+            {% endfor %}
 
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_tablet_view() %}
-                {% for application in applications3 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_full_view() or is_not_mobile_view() %}
-                {% for application in applications3 %}
-
-                    {% if count9 < 7 %}
-                        {% set count9= count9+ 1 %}
-                        <div class="item">
-
-                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
 
         </div>
     </div>
@@ -656,35 +477,12 @@
         {#what's new Bundles</a><span><a class="see-more play-button small id-track-click apps id-responsive-see-more" data-always-show="false" data-server-cookie="CAMiSAgBEAMaLBIqCiRwcm9tb3Rpb25fMzAwMDc5MV9uZXdfcmVsZWFzZXNfZ2FtZXMQLRgDogETCOD4zuLD+NoCFQ3FpwodWqsGNA==" data-uitype="290"#}
         {#href="/store/apps/collection/promotion_3000791_new_releases_games?clp=SiwKKgokcHJvbW90aW9uXzMwMDA3OTFfbmV3X3JlbGVhc2VzX2dhbWVzEAcYAw%3D%3D:S:ANO1ljJAzZo" aria-label="Check out more content fromNew + Updated Games" style="display: none;">See more</a></span></h2></div>#}
  <div id="category2" class="owl-carousel ">
+     {% for application in applications2 %}
+         <div class="item">
 
-            {% if is_mobile_view() %}
-                {% for application in applications2 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_tablet_view() %}
-                {% for application in applications2 %}
-                    <div class="item">
-
-                        {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if is_full_view() or is_not_mobile_view() %}
-                {% for application in applications2 %}
-
-                    {% if count10 < 7 %}
-                        {% set count10= count10+ 1 %}
-                        <div class="item">
-
-                            {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+             {{ include("MelodycodeFossdroidBundle:Partial:_application_box.html.twig") }}
+         </div>
+     {% endfor %}
 
         </div>
     </div>

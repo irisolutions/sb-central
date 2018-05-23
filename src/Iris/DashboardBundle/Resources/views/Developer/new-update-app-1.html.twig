@@ -94,6 +94,17 @@ font-family: Serif;
             .bs-example{
                 margin: 5px;
             }
+            .control-label{
+                font-size: 12px !important;
+                margin-top: 8px;
+            }
+            .priceDiv{
+                width: 50%;
+                margin-top: 10px;
+            }
+            input .form-group{
+                width: 100% !important;
+            }
         }
         .padd{
             padding: 0px;
@@ -175,7 +186,7 @@ font-family: Serif;
                 <div class="form-style-2-heading">Payment Model</div>
                 <div class="form-group">
                     <label class="control-label col-xs-2">Payment Model:</label>
-                    <div class="col-xs-1 payment-label" style="padding: 0px;">
+                    <div class="col-xs-3 payment-label" style="padding: 0px;">
                         {% if update == true and application.Price == 0 %}
                             <label class="radio-inline">
                                 <input type="radio" name="app-payment-model" value="free" checked="checked" class="style-radio"> <label class="label-payment">Free</label>
@@ -187,7 +198,7 @@ font-family: Serif;
                             </label>
                         {% endif %}
                     </div>
-                    <div class="col-xs-1 payment-label">
+                    <div class="col-xs-3 payment-label">
 
                         {% if update == true and application.Price != 0 %}
                             <label class="radio-inline ">
@@ -199,7 +210,7 @@ font-family: Serif;
                             </label>
                         {% endif %}
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-3 priceDiv">
                         <div class="input-group">
                             <input type="text" class="form-control" name='app-price'
                                    id="app-price" {% if update == true %}  value="{{ application.Price }}" {% endif %}
@@ -215,7 +226,7 @@ font-family: Serif;
             <div class="form-style-2-heading">Application Type</div>
             <div class="form-group">
                 <label class="control-label col-xs-2"> Type :</label>
-                <div class="col-xs-1 appType-label">
+                <div class="col-xs-4 appType-label">
                     {% if update == true and application.Type == "tablet" %}
                         <label class="radio-inline">
 
@@ -230,7 +241,7 @@ font-family: Serif;
                         </label>
                     {% endif %}
                 </div>
-                <div class="col-xs-1 appType-label">
+                <div class="col-xs-4 appType-label">
 
                     {% if update == true and application.Type == "dongle" %}
                         <label class="radio-inline">

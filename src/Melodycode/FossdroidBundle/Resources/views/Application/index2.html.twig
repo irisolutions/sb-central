@@ -9,6 +9,20 @@
         .appCatName{
             color: white !important;
         }
+        .appStatus{
+            border: 1px solid white;
+            font-size: 12px;
+            position:absolute;
+            right:20px;
+            bottom:50px;
+        }
+        .canclebtn{
+            position:absolute;
+            right:20px;
+            bottom: 10px;
+            background-color: #0083ba;
+            font-size: 12px;
+        }
         @media screen and (max-width: 1025px) {
         .description-div{
             width: 90% !important;
@@ -23,6 +37,26 @@
                 width: 90% !important;
                 margin: auto !important;
 
+            }
+        }
+        @media screen and (max-width: 478px) {
+            .appStatus{
+                border: 1px solid white;
+                position: absolute;
+                right: 79px;
+                bottom: 10px;
+                background-color: #0083ba;
+                opacity: 0.5;
+            }
+        }
+        @media screen and (max-width: 411px){
+            .appStatus {
+                border: 1px solid white;
+                position: absolute;
+                right: 9px;
+                bottom: 41px;
+                background-color: #0083ba;
+                opacity: 0.5;
             }
         }
     </style>
@@ -60,9 +94,7 @@
                           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
                               {% if install_button_text %}
-                                  <div class="appStatus" style="border: 1px solid white;
-
-                                          position:absolute;right:20px;bottom: {% if (install_button_text=='Installing' or install_button_text=='Update' ) %} 50px {% else %} 10px {% endif %};background-color:#0083ba;{% if install_button_text=='Installing' %}opacity: 0.5 {% endif %}">
+                                  <div class="appStatus" style=" {% if (install_button_text=='Installing' or install_button_text=='Update' ) %}  {% else %} {% endif %};background-color:#0083ba;{% if install_button_text=='Installing' %}opacity: 0.5 {% endif %}">
                                       <a  style="display: inline-block; color: white; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;"
                                           rel="nofollow" {% if install_button_text!='Installing' %}href=' {{ path('status',{'slug': application.slug}) }}                   ' {% endif %}>
                                           {{ install_button_text }}
@@ -71,7 +103,7 @@
                               {% endif %}
                               {% if uninstall %}
 
-                                  <div  class="canclebtn"style="position:absolute;right:20px;bottom: 10px;background-color: #0083ba;">
+                                  <div  class="canclebtn" style="">
                                       <a class="anchorcancle" style="display: inline-block; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;"
                                          rel="nofollow" href='{{ path('uninstall',{'slug': application.slug}) }}'>
                                           {{ uninstall }}

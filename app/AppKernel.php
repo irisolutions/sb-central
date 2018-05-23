@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Melodycode\FossdroidBundle\MelodycodeFossdroidBundle(),
             new Iris\DashboardBundle\DashboardBundle(),
-            new SunCat\MobileDetectBundle\MobileDetectBundle()
+
             );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
