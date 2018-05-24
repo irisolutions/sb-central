@@ -6,7 +6,8 @@
 <div class="cont col-lg-2 col-md-3 col-sm-4 col-xs-6 col-1 " style="margin-top: 10px;">
 
 
-    <div class="card" style="position: relative; !important;">
+    <div class="card" style="position: relative; !important; background: url("{{ asset('images/icons/') }}{{ application.icon }}")">
+        {#<img src=" ">#}
 
         <div class="image">
             <a class="card-click-target"></a>
@@ -66,10 +67,9 @@
 
 
 
-<img src=" {{ asset('images/icons/') }}{{ application.icon }}">
-    <div class="card-body">
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    </div>
+    {#<div class="card-body">#}
+        {#<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>#}
+    {#</div>#}
 
 
 
