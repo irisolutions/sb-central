@@ -12,7 +12,7 @@
             <a class="card-click-target"></a>
             <a href='{{ path('application', {'slug': application.slug}) }}' style="display:block; !important;">
                 <img class="app-image" style=" "
-                     src=" {{ asset('images/icons/{{ application.slug}}.png') }}">
+                     src=" {{ asset('images/icons/') }}{{ application.slug }}">
             </a>
         </div>
 
