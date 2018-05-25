@@ -95,6 +95,24 @@
     justify-content: center;
     vertical-align: middle;
 }
+    @media only screen and (max-width:412px) {
+        b{
+           font-size: 9px ;
+        }
+    }
+    @media only screen and (max-width:767px) {
+        .remove{
+           margin-top: 5px;
+        }
+    }
+
+    .selecter{
+        min-height: 32px;
+width: 80%;
+        border: 2px solid gainsboro;
+        border-radius: 5px;
+z-index: 1000;
+    }
 </style>
  
  {% endblock  %}
@@ -108,7 +126,7 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Bundles
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
         <div><h4>{{clientname[0]}} Bundles</h4></div>
-        <div class="datagrid" style="margin-bottom: 5%">
+        <div class="datagrid" style="margin-bottom: 5%;overflow: auto !important;">
  <table>
 
         <thead>
@@ -137,47 +155,64 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Bundles
       </table>
       </div>
         
-        <form class="dataform form-horizontal col-xs-12" method="post" >
-            <div class="add-bundle btn btn-primary col-xs-1">
+        <form class="dataform form-horizontal col-xs-12" method="post"  >
+            <div class="add-bundle btn btn-primary col-sm-2 col-xs-4 " style="margin-left: 2px;">
                       Add
                   </div>
                   
-                  <p class="col-xs-1">
-                  </p>
-                  <div class="edit-bundle btn btn-primary col-xs-1">
+
+                  <div class="edit-bundle btn btn-primary col-sm-2 col-xs-4" style="margin-left: 2px;">
                       Edit
                   </div>
-                  <p class="col-xs-1">
-                  </p>
-                  <input onclick=" return confirm('Are you sure you want to remove the subscription ');" type="submit" name="delete" class="btn btn-primary" value="Remove">
+
+                  <input onclick=" return confirm('Are you sure you want to remove the subscription ');" type="submit" name="delete" class="btn btn-primary col-sm-3 col-xs-4 remove" value="Remove" style="margin-left: 2px;">
         
-                  <div class="col-xs-12 bundle-form" style="margin-top: 3%;visibility: hidden" >
+                  <div class="col-xs-12 bundle-form" style="margin-top: 3%;visibility: hidden;  width: 95%;
+            margin: auto;
+            border: 1px solid;
+            border-color: gainsboro;
+            border-radius: 5px;
+            margin-top: 20px;
+        " >
                       <div class="form-style-2-heading "> Subscription info </div>
-                      <p class="options col-xs-1">
-                          Bundles:
-                      </p>
-                  <select name="newbundle" class="options col-xs-2">
-                      <option value="">
-                          
-                      </option>
-                       {% for bundle in allbundles %}
-                      <option value="{{bundle.ID}}">
-                          {{bundle.Name}}
-                      </option>
-                      {%endfor%}
-                  </select>
-                  <p class="col-xs-2   " style="text-align: right">
-                      Sart Date:
-                  </p>
-                  <input class="col-xs-2 StartDate" type="date"name="StartDate" placeholder="yyyy-mm-dd">
-                   <p class="col-xs-2    "style="text-align: right">
-                      End Date:
-                  </p>
-                  <input class="col-xs-2 EndDate" type="date"name="EndDate"placeholder="yyyy-mm-dd">
-                  <div class="col-xs-12" style="margin-top: 3%">
-                     
-                      <input style="border:4px solid #aaa;margin-bottom: 5% " type="submit" class=" Add btn btn-primary" value="Add Bundle">
+                      <div class="row">
+
+                      <div class="col-lg-4" >
+                          <p class="options ">
+                              Bundles:
+                          </p>
+                          <select name="newbundle " class="options col-lg-2 selecter">
+                              <option value="">
+
+                              </option>
+                              {% for bundle in allbundles %}
+                                  <option value="{{bundle.ID}}">
+                                      {{bundle.Name}}
+                                  </option>
+                              {%endfor%}
+                          </select>
+                      </div>
+                      <div class="col-lg-4" >
+
+                          <p class=" ">
+                              Sart Date:
+                          </p>
+                          <input class="col-lg-2 StartDate selecter" type="date"name="StartDate" placeholder="yyyy-mm-dd">
+                      </div>
+                      <div class="col-lg-4" >
+                          <p class="   " >
+                              End Date:
+                          </p>
+                          <input class="EndDate selecter" type="date"name="EndDate"placeholder="yyyy-mm-dd">
+                      </div>
+
+
+
+                  <div class="col-xs-12 " style="margin-top: 3%">
+
+                      <input style="border:1px solid #aaa;margin-bottom: 5% " type="submit" class=" Add btn btn-primary " value="Add Bundle">
                  </div>
+                  </div>
                   </div>
                   <div class="col-xs-5">
                       <input type="text" name="deletedbundle" vlaue="" id="deletbundle"hidden="" >

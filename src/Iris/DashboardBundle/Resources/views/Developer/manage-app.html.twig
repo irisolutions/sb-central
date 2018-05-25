@@ -56,9 +56,43 @@
         padding-bottom: 3px;
         text-align: center;
         color: #0083ba;
-        margin-top: 90px;
+        margin-top: 40px;
     }
-    .cont{}
+    @media only screen and (max-width: 771px) {
+        .TABLE{
+            width: 100%;
+        }
+        td{
+            width: 25%;
+            padding: 0 !important;
+        }
+    }
+    th{
+        width: 25% !important;
+    }
+    @media only screen and (max-width: 771px) {
+    .del{
+        display: none !important;
+    }
+        .edit{
+            display: none !important;
+        }
+        .version{
+            display: none !important;
+        }
+        .font-b{
+            font-size: 12px !important;
+        }
+    }
+    .alert {
+        margin-top: 25px !important;
+        padding: 5px !important;
+      margin-bottom: 0px !important;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        margin-left: 0px !important;
+        word-wrap: break-word;
+    }
 </style>
  
  {% endblock  %}
@@ -70,17 +104,17 @@ Developer Dashboard &rsaquo; Manage Applications
 
 {% block body %}
 
-<div style="width:80%; margin-left:10%; margin-top:2%; margin-bottom:10%;">
+<div class="TABLE" style="width:90%; margin: auto">
     <div class="row cont">
 <div class="allApp"><h4 >All Applications</h4></div>
-<div class="datagrid">
+<div class="datagrid" style="overflow-x:auto; !important;">
  <table>
         <thead>
           <tr>
-              <th>Name</th>
-              <th>Versions</th>
-               <th>ID</th>
-              <th>Price</th>
+              <th  style="width: 70%;">Name</th>
+              <th  style="width: 5%;">Versions</th>
+               <th  style="width: 20%;">ID</th>
+              <th  style="width: 5%;">Price</th>
               <!-- <th>Operations</th> -->
           </tr>
         </thead>
@@ -88,10 +122,10 @@ Developer Dashboard &rsaquo; Manage Applications
         <tbody>
         {% for app in applications %}
           <tr>
-            <td>&nbsp;&nbsp;<b class="font-b">{{ app.Name }}</b><br style="line-height:180%;"><small> &nbsp;&nbsp;<a href="{{ path('dashboard_dev_edit_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a onclick="return confirm('Are you sure you want to delete  {{app.Name}} ');" href="{{ path('dashboard_dev_delete_app', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">delete</i>Delete</a>&nbsp;&nbsp;<a href="{{ path('dashboard_dev_manage_version', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:15px">view_list</i>Versions</a></small></td>
-            <td> {{ app.Count }}</td>
-            <td>{{ app.ID }}</td>
-            <td>{{ app.Price }}$ </td>
+            <td style="width: 70%;">&nbsp;&nbsp;<b class="font-b">{{ app.Name }}</b><br style="line-height:180%;"><small> &nbsp;&nbsp;<a href="{{ path('dashboard_dev_edit_app', {'slug': app.ID}) }}"><i class="material-icons edit" style="font-size:12px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a onclick="return confirm('Are you sure you want to delete  {{app.Name}} ');" href="{{ path('dashboard_dev_delete_app', {'slug': app.ID}) }}"><i class="material-icons del" style="font-size:12px">delete</i>Delete</a>&nbsp;&nbsp;<a href="{{ path('dashboard_dev_manage_version', {'slug': app.ID}) }}"><i class="material-icons version" style="font-size:12px">view_list</i>Versions</a></small></td>
+            <td style="width: 5%;"> {{ app.Count }}</td>
+            <td style="width: 20%;">{{ app.ID }}</td>
+            <td style="width: 5%;">{{ app.Price }}$ </td>
            <!-- <td><a href="{{ path('application_', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:20px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a href="{{ path('application_', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:20px">delete</i>Delete</a></td> -->
           </tr>
           {% endfor %}

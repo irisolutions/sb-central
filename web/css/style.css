@@ -1,6 +1,10 @@
 html, body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
-    overflow:auto !important;
+    overflow-x: scroll !important;
+    overflow-y: scroll !important;
+}
+.mdl-layout__content{
+    overflow: auto !important;
 }
 .seeMoreSmallDevice{
     display: none;
@@ -453,6 +457,7 @@ body{
         margin-top: 56px !important;
 
     }
+
     .dropdown-content{
         margin-left: -70px;
     }
@@ -528,6 +533,9 @@ body{
     }
     .mdl-layout--fixed-drawer>.mdl-layout__content {
         margin-left: 10px ;
+    }
+    main{
+
     }
 }
 
@@ -674,16 +682,7 @@ font-size: 13px;
     .dropdown{
 
     }
-    .category-app{
-        display: inline-block !important;
-        font-size: 18px;
-        height: 50px;
-        color: black;
-        width: 100%;
-        text-align: center;
-        font-family: serif;
-        font-style: italic;
-    }
+
     .mdl-textfield--expandable .mdl-button--icon {
         top: 19px !important;
     }
@@ -864,10 +863,10 @@ th{
 
 }
 .mdl-layout__drawer-button{
-    margin-top: 2px !important;
+
 }
 main{
-    overflow: auto !important;
+
 }
 a:active {
  text-decoration: none !important;

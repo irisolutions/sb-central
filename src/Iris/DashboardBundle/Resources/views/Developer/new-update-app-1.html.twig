@@ -109,6 +109,15 @@ font-family: Serif;
         .padd{
             padding: 0px;
         }
+        @media only screen and (max-width:412px) {
+            .control-label{
+                font-size: 9px !important;
+                margin-top: 8px;
+            }
+          .bin{
+              margin-top: 10px;
+          }
+        }
     </style>
 
 {% endblock %}
@@ -280,8 +289,8 @@ font-family: Serif;
 
 
                 <div class="form-group">
-                    <label class="control-label col-xs-2" for="firstName">Binary:</label>
-                    <div class="col-xs-9">
+                    <label class="control-label col-xs-3 " for="firstName">Binary:</label>
+                    <div class="col-xs-9" style="">
                         <input type="file" id="app-binary" name="app-binary" required>
                     </div>
                 </div>

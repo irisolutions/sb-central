@@ -20,7 +20,7 @@
             position:absolute;
             right:20px;
             bottom: 10px;
-            background-color: #0083ba;
+            background-color: darkgrey;
             font-size: 12px;
         }
         @media screen and (max-width: 1025px) {
@@ -94,7 +94,7 @@
                           {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
                               {% if install_button_text %}
-                                  <div class="appStatus" style=" {% if (install_button_text=='Installing' or install_button_text=='Update' ) %}  {% else %} {% endif %};background-color:#0083ba;{% if install_button_text=='Installing' %}opacity: 0.5 {% endif %}">
+                                  <div class="appStatus" style=" {% if (install_button_text=='Installing' or install_button_text=='Update' ) %}  {% else %} {% endif %};background-color:#0083ba;{% if install_button_text=='Installing' %}opacity: 1 {% endif %}">
                                       <a  style="display: inline-block; color: white; text-decoration:none; margin:10px;margin-bottom:5px;margin-top:5px;"
                                           rel="nofollow" {% if install_button_text!='Installing' %}href=' {{ path('status',{'slug': application.slug}) }}                   ' {% endif %}>
                                           {{ install_button_text }}
