@@ -789,7 +789,7 @@ ul.thumbnails {
 .mdl-layout-title{
     color:white !important;
 }
-@media all and (max-width: 1025px) {
+    @media all and (max-width: 1025px) {
     .dropdown-content{
         margin-left: -127px !important;
     }
@@ -841,7 +841,7 @@ th{
         font-size: 10px !important;
     }
     .fd-breadcrumb{
-        margin-left: 16px !important;
+        margin-left: 24%!important;
     }
 }
 .appNameSmallDevice{

@@ -537,7 +537,7 @@ body{
 
     }
     .fd-breadcrumb .mdl-layout-title{
-        margin-left: 0px !important;
+        margin-left: 24% !important;
     }
 }
 
@@ -821,7 +821,9 @@ ul.thumbnails {
     width: 100%;
 
 }
-
+    .fd-breadcrumb{
+        margin-left:24% !important;
+    }
 }
 .owl-stage{
 
@@ -830,7 +832,7 @@ th{
 
 }
 .fd-breadcrumb{
-    margin-left: 0% !important;
+    margin-left: 24% !important;
 }
 .mdl-card__actions.mdl-card--border{
     border: 0px !important;
@@ -857,9 +859,7 @@ th{
         margin-left: 0px!important;
         font-size: 16px !important;
     }
-    .fd-breadcrumb{
-        margin-left: 5px !important;
-    }
+
 }
 @media screen and (min-width: 1025px) {
 

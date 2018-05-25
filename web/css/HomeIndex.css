@@ -538,7 +538,7 @@ body {
 h2 a {
     margin-top: 5px;
     margin-bottom: 5px;
-    font-size: 25px !important;
+    font-size: 25px ;
     color: black !important;
     font-style: italic;
     font-family: serif;
@@ -751,4 +751,10 @@ h2 a {
 
 .cont:hover .middle {
     opacity: 1;
+}
+@media all and (max-width: 362px) {
+
+    h2 a{
+        font-size: 15px;
+    }
 }

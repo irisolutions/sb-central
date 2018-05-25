@@ -743,3 +743,11 @@ h2 a {
 .cont:hover .middle {
     opacity: 1;
 }
+@media all and (max-width: 362px) {
+    .cont{
+        margin-left: 50%;
+    }
+    h2 a{
+        font-size: 15px;
+    }
+}
