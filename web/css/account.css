@@ -378,12 +378,11 @@ th{
 
 
 .mdl-layout__drawer-button{
-    top:5px !important;
 }
 .mdl-layout__header .mdl-layout__drawer-button {
     position: absolute;
-    color: black;
-    background-color: #EEEEEE !important;
+    color: white;
+    background-color: #0083ba !important;
     display: none;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
@@ -432,7 +431,7 @@ body{
     background-color: #eeeeee!important;
 }
 .fd-navigation, .mdl-layout__drawer {
-    margin-top:60px !important;
+
 }
 @media all and (max-width: 1025px) {
     body{
@@ -806,7 +805,7 @@ ul.thumbnails {
         margin-left: 10px;
     }
     .fd-breadcrumb{
-        margin-left: 5% !important;
+        margin-left: 15% !important;
     }
 }
 .owl-stage{
@@ -828,8 +827,8 @@ th{
     color: white !important;
 }
 .mdl-layout__drawer-button{
-    margin-top: 2px !important;
-    height: 35px !important;
+
+    height: 30px !important;
 }
 
 

@@ -381,12 +381,12 @@ th{
 
 
 .mdl-layout__drawer-button{
-top:5px !important;
+
 }
 .mdl-layout__header .mdl-layout__drawer-button {
     position: absolute;
-    color: black;
-    background-color: #EEEEEE !important;
+    color: white;
+    background-color: #0083ba !important;
     display: none;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
@@ -431,7 +431,7 @@ body{
     background-color: #eeeeee !important;
 }
 .fd-navigation, .mdl-layout__drawer {
-    margin-top:60px !important;
+
 }
 @media all and (max-width: 1025px) {
 body{

@@ -377,12 +377,12 @@ th{
 
 
 .mdl-layout__drawer-button{
-    top:5px !important;
+
 }
 .mdl-layout__header .mdl-layout__drawer-button {
     position: absolute;
     color: white;
-    background-color:#0083ba !important;
+    background-color: #0083ba !important;
     display: none;
 }
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
