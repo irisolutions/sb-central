@@ -1,7 +1,6 @@
 html, body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
-    overflow-x: scroll !important;
-    overflow-y: scroll !important;
+
 }
 .mdl-layout__content{
     overflow: auto !important;
@@ -537,6 +536,9 @@ body{
     main{
 
     }
+    .fd-breadcrumb .mdl-layout-title{
+        margin-left: 0px !important;
+    }
 }
 
 .mdl-color--primary {
@@ -828,7 +830,7 @@ th{
 
 }
 .fd-breadcrumb{
-    margin-left: 20% !important;
+    margin-left: 0% !important;
 }
 .mdl-card__actions.mdl-card--border{
     border: 0px !important;

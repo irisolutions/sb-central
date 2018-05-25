@@ -737,7 +737,9 @@ ul.thumbnails {
 .caption p {
     color: #999;
 }
-
+.fd-breadcrumb{
+    margin-left: 40% !important;
+}
 
 
 /* Carousel Control */
@@ -803,6 +805,9 @@ ul.thumbnails {
     h2 a{
         margin-left: 10px;
     }
+    .fd-breadcrumb{
+        margin-left: 5% !important;
+    }
 }
 .owl-stage{
 
@@ -817,9 +822,7 @@ th{
 }
 
 
-.fd-breadcrumb{
-    margin-left: 40% !important;
-}
+
 .thStyle{
     background-color: #616161 !important;
     color: white !important;
@@ -836,7 +839,7 @@ th{
     }
     .mdl-layout__title, .mdl-layout-title{
         margin-left: 0px!important;
-        font-size: 17px !important;
+        font-size: 10px !important;
     }
     .fd-breadcrumb{
         margin-left: 16px !important;
