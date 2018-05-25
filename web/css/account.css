@@ -657,16 +657,7 @@ body{
     .dropdown{
 
     }
-    .category-app{
-        display: inline-block !important;
-        font-size: 18px;
-        height: 50px;
-        color: black;
-        width: 100%;
-        text-align: center;
-        font-family: serif;
-        font-style: italic;
-    }
+
     .mdl-textfield--expandable .mdl-button--icon {
         top: 19px !important;
     }
@@ -848,4 +839,12 @@ th{
 }
 .appNameSmallDevice{
     font-size: 17px;
+}
+.fd-section .mdl-card__supporting-text h4{
+    font-size: 12px !important;
+}
+@media screen and (max-width: 478px){
+    .appStatus{
+        opacity: 1 !important;
+    }
 }

@@ -34,7 +34,24 @@
     .control-label{
         font-size: 12px;
     }
+    @media only screen and (max-width: 771px) {
+    .cont{
+        width: 95% !important;
+    }
+        .control-label{
 
+            margin-left: 10px;
+    }
+    }
+
+    @media only screen and (max-width:571px) {
+        .control-label{
+            font-size: 10px !important;
+        margin-left: 10px;}
+    }
+    .lab{
+        margin-left: 10px;
+    }
 </style>
  
  {% endblock  %}
@@ -59,23 +76,25 @@ Developer Dashboard &rsaquo; Update Version
         <div class="form-style-2-heading">Name & Identification Information</div>
         <div class="form-group">
             <label class="control-label col-xs-2" for="firstName">Application Identifier:</label>
-            <div class="col-xs-9">
+            <div class="col-xs-9 lab">
                 <input type="text" class="form-control" id="app-identifier" name="app-identifier" value ="{{application.ID}}" readonly>
             </div>
         </div> 
         <div class="form-group">
             <label class="control-label col-xs-2" for="inputEmail">Application Name:</label>
-            <div class="col-xs-9">
+            <div class="col-xs-9 lab">
                 <input type="text" class="form-control" name="app-name" id="app-name" value ="{{application.Name}}" readonly>
             </div>
         </div>
         
         <div class="form-group">
-            <label class="control-label col-xs-2" for="lastName">Application Version:</label>
-            <div class="col-xs-1">
+            <label class="control-label col-xs-2 lab" for="lastName">Application Version:</label>
+            <div class="col-xs-6">
                 <input type="text" class="form-control" name="app-version" id="app-version" {% if update == true%}  value ="{{application.Version}}" readonly{% endif %} placeholder="e.g. 1.5" required>
-                </div>     
-                <label class="control-label" for="inputEmail">(Must match manifest version of the two binary apps below)</label>
+                </div>
+            <br>
+            <br>
+                <label class="control-label" for="inputEmail" style="margin-left: 20px">(Must match manifest version of the two binary apps below)</label>
                        
         </div>
            </div>

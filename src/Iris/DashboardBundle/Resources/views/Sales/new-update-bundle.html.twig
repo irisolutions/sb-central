@@ -63,12 +63,12 @@ bode{
     direction: ltr;
 }
         .cont {
-            width: 80%;
+            width: 95%;
             margin: auto;
             border: 1px solid;
             border-color: gainsboro;
             border-radius: 5px;
-            margin-top: 90px;
+            margin-top: 30px;
         }
         .bundle-label{
 
@@ -99,6 +99,12 @@ color: #0083ba;
     font-size: 20px !important;
     color: #616161;
 }
+@media screen and (max-width: 411px) {
+    .bundle-label {
+        margin-left: 4px;
+        font-size: 8px;
+    }
+}
     </style>
 {%endblock%}
 {% block breadcrumb %}
@@ -115,6 +121,7 @@ Sales  &rsaquo; Manage Bundles &rsaquo; Edit Bundle
 
     <!-- <h1>New Application</h1> -->
     <form class="form-horizontal" method="post" >
+
         <div class="row cont">
         <div class="form-style-2-heading bundle-style">Bundle Name & Description</div>
         <div class="form-group">
@@ -223,13 +230,13 @@ Sales  &rsaquo; Manage Bundles &rsaquo; Edit Bundle
             <div class="form-style-2-heading col-xs-12 bundle-style" >Application List</div>
                 <div class="col-xs-12">
 
-                        <label class="control-label col-xs-2" style="" for="postalAddress">Application List</label>
+
 
 
 
                         <div class="col-xs-12" style="height: 300px;overflow: auto;padding: 0;border: 1px solid gainsboro ;float: left">
 
-                            <table id="app-list"  class="col-xs-1 row-table table table-bordered table-responsive table-striped" style="height: auto" >
+                            <table id="app-list"  class="col-xs-1 row-table table  table-responsive table-striped" style="height: auto; border: none !important;" >
                                 <tr>
                                     <th hidden="">
                                         ID </th>
@@ -299,9 +306,9 @@ Sales  &rsaquo; Manage Bundles &rsaquo; Edit Bundle
 
              <div class="form-group">
                  {% if update == false %}
-                     <input type="submit" class="btn btn-primary" style="margin:20px;border:1px solid #aaa;" value="Add New Bundle">
+                     <input type="submit" class="btn btn-primary" style="float: right; margin-right:50px; border:1px solid #aaa;" value="Add New Bundle">
                  {% else %}
-                     <input type="submit" class="btn btn-primary" style="margin:20px;border:1px solid #aaa;" value="Update Bundle">
+                     <input type="submit" class="btn btn-primary" style="float:right; margin-right:50px; border:1px solid #aaa;" value="Update Bundle">
                  {% endif %}
              </div>
 

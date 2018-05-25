@@ -47,6 +47,21 @@
     justify-content: center;
     vertical-align: middle;
 }
+    .selecter{
+        min-height: 27px;
+        width: 40%;
+        border: 2px solid gainsboro;
+        border-radius: 5px;
+
+    }
+    .alert{
+        margin-top: 20px;
+    }
+    @media only screen and (max-width:412px) {
+        .labelAPPS{
+            padding: 0px;
+        }
+    }
 </style>
  
  {% endblock  %}
@@ -60,7 +75,7 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
 
 <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
         <div><h4>{{clientname[0]}} Application</h4></div>
-        <div class="datagrid" style="margin-bottom: 3%">
+        <div class="datagrid" style="margin-bottom: 3%; overflow: auto !important;">
  <table>
 
         <thead>
@@ -107,19 +122,25 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
         <form class="dataform form-horizontal" method="post" >
           
            
-            <div class="add-app btn btn-primary col-xs-1">
+            <div class="add-app btn btn-primary col-sm-1 col-xs-5">
                       Add
                   </div>
                   <p class="col-xs-1">
                   </p>
-                  <input onclick=" return confirm('Are you sure you want to delete  this application ');" type="submit" name="delete" class="btn btn-primary" value=" Remove">
-        
-                  <div class="col-xs-12 app-form" style="margin-top: 3%;visibility: hidden" >
+                  <input onclick=" return confirm('Are you sure you want to delete  this application ');" type="submit" name="delete" class="btn btn-primary col-sm-1 col-xs-5" value=" Remove">
+
+                  <div class="col-xs-12 app-form" style="margin-top: 3%;visibility: hidden ;   width: 95%;
+            margin: auto;
+            border: 1px solid;
+            border-color: gainsboro;
+            border-radius: 5px;
+            margin-top: 20px;
+        " >
                       <div class="form-style-2-heading "> Add Application </div>
-                      <p class="col-xs-2">
+                      <p class=" col-sm-3 col-xs-5 labelAPPS">
                           Applications :
                       </p>
-                  <select name="newapp" class="col-xs-3">
+                  <select name="newapp" class=" col-sm-5 col-xs-7 selecter">
                       <option value="">
                           
                       </option>
@@ -131,9 +152,11 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
                   </select>
                   <div class="col-xs-12" style="margin-top: 3%;margin-bottom: 5%">
                      
-                      <input type="submit" style="border:4px solid #aaa;" class="btn btn-primary" value="add application">
+                      <input type="submit" style="border:1px solid #aaa;" class="btn btn-primary" value="add application">
                  </div>
                   </div>
+
+
                   <div class="col-xs-5">
                       <input type="text" name="deletedapp" vlaue="" id="deletapp"hidden="" >
                   

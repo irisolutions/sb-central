@@ -22,7 +22,7 @@ body {
 
 }
 .mdl-layout--fixed-drawer>.mdl-layout__content {
-    margin-left: 300px ;
+    margin-left: 260px ;
 }
 .fd-application_box .mdl-card__title-text a {
     text-decoration: none;
@@ -673,16 +673,7 @@ body{
     .dropdown{
 
     }
-    .category-app{
-        display: inline-block !important;
-        font-size: 18px;
-        height: 50px;
-        color: black;
-        width: 100%;
-        text-align: center;
-        font-family: serif;
-        font-style: italic;
-    }
+
     .mdl-textfield--expandable .mdl-button--icon {
         top: 19px !important;
     }
@@ -889,4 +880,7 @@ a:hover{
     margin-left: 0px !important;
     width: 100%;
 
+}
+.alert{
+    margin-top: 20px;
 }

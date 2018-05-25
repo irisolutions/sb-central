@@ -50,11 +50,11 @@ Developer Dashboard &rsaquo; Manage Applications &rsaquo; Manage Versions
 
 {% block body %}
 
-<div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
+<div style="width:95%;   margin:auto;margin-top:5%;">
 <div class="form-style-2-heading "><h4>{{ name}} ({{ versions[0].ApplicationID}})</h4></div>
  <div class="addVersion"><a href="{{ path('dashboard_dev_new_version', {'slug': versions[0].ApplicationID}) }}"><i class="material-icons" style="font-size:24px;">add_circle</i>New Version</a></div>
      
-<div class="datagrid">
+<div class="datagrid"  style="overflow-x:auto; !important;">
  <table>
         <thead>
           <tr>
