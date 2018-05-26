@@ -45,7 +45,7 @@ class ApplicationController extends Controller
 
     public function pushNotification($message)
     {
-        $process = new Process($message.'" http://34.212.192.209/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+        $process = new Process($message.'" http://34.212.192.209/web/app_dev.php/dashboard/command/pushDownloadNotification');
         $process->run();
     }
     public function _indexAction($slug)
