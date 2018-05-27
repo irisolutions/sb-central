@@ -246,9 +246,28 @@ class ApplicationController extends Controller
             $applicationDetail = $stmt->fetch();
             //application type ready
             //change status
-            $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "uninstall" ');
-            $stmt->execute();
-            $status=$stmt->fetch()['PK'];
+            $stmt = $conn->prepare('select * from Status where PK=(select DongleInstallation.Status from storedb.DongleInstallation  where storedb.DongleInstallation.ApplicationID=? and storedb.DongleInstallation.ClientID=?)');
+            $stmt->execute([$applicationID, $clientID]);
+            if($stmt->fetch()['status']=="device_installed") {
+                $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "uninstall" ');
+                $stmt->execute();
+                $status = $stmt->fetch()['PK'];
+            }else
+            {
+                $stmt = $conn->prepare('select * from Status where PK=(select ControllerInstallation.Status from storedb.ControllerInstallation  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?)');
+                $stmt->execute([$applicationID, $clientID]);
+                if($stmt->fetch()['status']=="device_installed") {
+                    $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "uninstall" ');
+                    $stmt->execute();
+                    $status = $stmt->fetch()['PK'];
+                }else
+                {
+                    $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "none" ');
+                    $stmt->execute();
+                    $status = $stmt->fetch()['PK'];
+                }
+            }
+
 
             if ($applicationDetail['Type'] == 'dongle') {
                 //GET THE WEBSITE DOWNLOADED NUMBER
