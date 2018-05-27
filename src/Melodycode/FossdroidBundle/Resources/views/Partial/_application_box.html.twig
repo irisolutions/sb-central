@@ -20,14 +20,14 @@
         <div class="details">
 
             <a class="title"
-               href=""
+               href='{{ path('application', {'slug': application.slug}) }}'
             >{{ application.name }} <span class="paragraph-end"></span></a>
             {#<div class="title marg"><a class="title descAPP"#}
                                        {#href=""#}
                 {#>{{ application.summary }} <span class="paragraph-end"></span> </a></div>#}
 
             <a class="priceAnchor"
-               href="#"
+               href='{{ path('application', {'slug': application.slug}) }}'
 
             >FREE </a>
 
