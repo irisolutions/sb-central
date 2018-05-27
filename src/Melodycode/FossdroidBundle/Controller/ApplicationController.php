@@ -248,7 +248,7 @@ class ApplicationController extends Controller
             //change status
             $stmt = $conn->prepare('select * from Status where PK=(select DongleInstallation.Status from storedb.DongleInstallation  where storedb.DongleInstallation.ApplicationID=? and storedb.DongleInstallation.ClientID=?)');
             $stmt->execute([$applicationID, $clientID]);
-            if($stmt->fetch()['status']=="device_installed") {
+            if($stmt->fetch()['Status']=="device_installed") {
                 $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "uninstall" ');
                 $stmt->execute();
                 $status = $stmt->fetch()['PK'];
@@ -256,7 +256,7 @@ class ApplicationController extends Controller
             {
                 $stmt = $conn->prepare('select * from Status where PK=(select ControllerInstallation.Status from storedb.ControllerInstallation  where storedb.ControllerInstallation.ApplicationID=? and storedb.ControllerInstallation.ClientID=?)');
                 $stmt->execute([$applicationID, $clientID]);
-                if($stmt->fetch()['status']=="device_installed") {
+                if($stmt->fetch()['Status']=="device_installed") {
                     $stmt = $conn->prepare('SELECT * FROM storedb.Status WHERE storedb.Status.status= "uninstall" ');
                     $stmt->execute();
                     $status = $stmt->fetch()['PK'];
