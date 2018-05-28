@@ -6,6 +6,7 @@
         <a href="#"> Categories </a>
     </span>
     <nav class="mdl-navigation mdl-color--white">
+
         {% for category in categories %}
             <a class="{% if category.slug == slug_selected %}mdl-color--accent mdl-color-text--white{% endif %} mdl-navigation__link" href="{{ path('category', {'slug': category.slug}) }}">
                 <i class="material-icons">{{ category.icon }}</i> {{ category.name }}
