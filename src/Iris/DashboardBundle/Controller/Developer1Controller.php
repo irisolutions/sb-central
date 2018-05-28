@@ -72,6 +72,11 @@ class Developer1Controller extends Controller
 
     }
 
+    public function trackingAction()
+    {
+        return $this->render('DashboardBundle:Sales:Tracking.html.twig');
+    }
+
     public function executeCommand($cmd)
     {
 

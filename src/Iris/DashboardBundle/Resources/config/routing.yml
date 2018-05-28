@@ -5,7 +5,9 @@ dashboard_dev_new_app:
 dashboard_dev_new_app_result:
     path: /dev/new-app-result
     defaults: { _controller: DashboardBundle:Developer1:newAppResult }
-
+dashboard_dev_Tracking:
+    path: /dev/Tracking
+    defaults: { _controller: DashboardBundle:Developer1:tracking }
 dashboard_dev_manage_app:
     path: /dev/manage-app
     defaults: { _controller: DashboardBundle:Developer1:manageApp}

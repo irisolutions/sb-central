@@ -62,7 +62,7 @@
 
         }
         .form-control {
-            width: 40%;
+
         }
 
         .cont {
@@ -102,30 +102,30 @@
     <div class="row cont" id="edit">
         <form class="form-horizontal" method="post">
             <div class="form-style-2-heading"> {{ user.Name }} Profile </div>
-            <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 15%">
-                <p class="col-xs-2 "><b>ID:</b></p>  <p
-                        class="col-xs-2 labels">{{ user.ID }}</p>
+            <div class="col-xs-12" style="margin-bottom: 2%;">
+                <p class="col-sm-2 col-xs-4"><b>ID:</b></p>  <p
+                        class="col-sm-10 col-xs-8 labels">{{ user.ID }}</p>
                 <input required="" type="text" name="ID" id="ID"
                        class="form-control" value="{{ user.ID }}">
             </div>
 
             <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 15%">
                 <p class="col-xs-2 "><b>Name: </b></p>  <p
-                        class="col-xs-2 labels">{{ user.Name }}</p>
+                        class="col-xs-6 labels">{{ user.Name }}</p>
                 <input required="" type="text" name="Name" id="Name"
                        class="form-control"value="{{ user.Name }}" >
             </div>
 
             <div class="col-xs-12" style="margin-bottom: 2%; margin-left: 15%">
                 <p class="col-xs-2 "><b>Email:</b></p> <p
-                        class="col-xs-2 labels">{{ user.Email }}</p>
+                        class="col-xs-6 labels">{{ user.Email }}</p>
                 <input type="email" name="Email" id="email"
                        class="form-control" value="{{ user.Email }}" >
             </div>
 
             <div class="col-xs-12" style="margin-bottom: 2%;margin-left: 15%">
                 <p class="col-xs-2 "><b>Password:</b></p> <p
-                        class="col-xs-2 labels"> {{ user.Password }}</p>
+                        class="col-xs-6 labels"> {{ user.Password }}</p>
                 <input required="" type="text" id="password"
                        name="Password"
                        class="form-control"value="{{ user.Password }}">

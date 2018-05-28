@@ -2,9 +2,7 @@ html, body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
 
 }
-.mdl-layout__content{
-    overflow: auto !important;
-}
+
 .seeMoreSmallDevice{
     display: none;
 }
@@ -876,4 +874,7 @@ a:active {
 }
 a:hover{
     text-decoration: none !important;
+}
+.dropdown-menu{
+     margin: 0 20% 0 !important;
 }

@@ -116,6 +116,8 @@ class HomepageController extends Controller {
 
         $repository_application1 = $this->getDoctrine()->getRepository('MelodycodeFossdroidBundle:Application');
         $applications3 = $repository_application1->findByPublished(0, 'created_at', $slug1);
+
+
         $slug2="system";
         $repository_category1 = $this->getDoctrine()->getRepository('MelodycodeFossdroidBundle:Category');
         $category2 = $repository_category1->findOneBySlug($slug1);

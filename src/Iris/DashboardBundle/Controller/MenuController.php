@@ -64,9 +64,9 @@ public function indexAction()
     	
     		$commands[] =  array('path'=>'','icon'=>'','name'=>'Statistics');
     		
-         	$commands[] =  array('path'=>'dashboard_dev_new_app','icon'=>'add_circle','name'=>'Application Usage');
+         	$commands[] =  array('path'=>'dashboard_dev_Tracking','icon'=>'add_circle','name'=>'Application Usage');
          	
-            $commands[] =  array('path'=>'dashboard_dev_new_app','icon'=>'loop','name'=>'Application Tracking');
+            $commands[] =  array('path'=>'dashboard_dev_Tracking','icon'=>'loop','name'=>'Application Tracking');
         }
 
                  
