@@ -2,11 +2,12 @@
 .dropbtn {
     background-color:#0083ba !important;
     color: white;
-  padding:0px 120px !important;
+  padding:0px 30px !important;
     font-size: 16px;
     border: none;
     cursor: pointer;
     font-family: serif;
+
 }
 
 /* Dropdown button on hover & focus */

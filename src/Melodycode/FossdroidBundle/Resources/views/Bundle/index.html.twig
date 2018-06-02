@@ -22,11 +22,13 @@
             if (state == 'interactive') {
 
 
+                document.getElementById('bundlename').style.display="none";
                 document.getElementById('mdl-grid').style.display="none";
             } else if (state == 'complete') {
                 setTimeout(function(){
                     document.getElementById('interactive');
                     $("div#mdl-grid").removeClass("hidden");
+                    document.getElementById('bundlename').style.display="block";
                     document.getElementById('mdl-grid').style.display="block";
                     document.getElementById('load').style.display="none";
                 },2000);
@@ -43,7 +45,7 @@
                 items : 6, // THIS IS IMPORTANT
                 responsive : {
                     0:{items:1},
-                    362:{items:2},
+                    320:{items:2},
                     564 : { items : 3  }, // from zero to 480 screen width 4 items
                     768 : { items : 4 }, // from 480 screen widthto 768 6 items
                     1024 : { items : 6   // from 768 screen width to 1024 8 items
@@ -59,6 +61,29 @@
     </script>
     <style>
 
+.bundlename{
+color: #0083ba;
+    font-family: serif;
+    font-style: italic;
+    font-size: 20px ;
+    text-transform: capitalize;
+}
+@media screen and (max-width: 362px) {
+
+    .owl-item{
+        width: 160px ;
+    }
+}
+@media screen and (max-width: 332px) {
+    .bundlename{
+        font-size: 12px;
+    }
+    .owl-item{
+        width: 155px ;
+
+
+    }
+}
 
     </style>
 {% endblock %}
@@ -68,7 +93,7 @@
     <div class="lds-spinner" id="load"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
 <div class="mdl-grid" id="mdl-grid">
-
+    <h1 class="bundlename" id="bundlename">{{ bundle.Name }} Bundle</h1>
     <div class="clus">
 
 

@@ -18,10 +18,7 @@ $(document).ready(function(){
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <style type="text/css">
-    .alert {
-        margin-top: 100px;
 
-    }
     h1{
         margin: 30px 0;
         padding: 0 200px 15px 0;
@@ -86,13 +83,18 @@ $(document).ready(function(){
 
         .font-b {
             font-size: 10px !important;
+            white-space: nowrap;
+            padding: 0;
+            margin: 0;
         }
     }
     @media only screen and (max-width: 412px) {
         .datagrid table td, .datagrid table th {
-            padding: 0px 0px !important;
+            padding: 0px 8px !important;
         }
     }
+
+
 
 </style>
  
@@ -129,8 +131,8 @@ Sales  &rsaquo; Manage Clients
                 <b class="font-b">{{ client.Name }}</b>
                 <br style="line-height:180%;">
 
-                <a onclick="return confirm('Are you sure you want to delete  {{client.Name}} ');" href="{{ path('dashboard_sales_delete_client', {'slug': client.ID}) }}" style="margin-left: 4%"> <i class="material-icons delet" style="font-size:15px">delete</i>Delete</a>
-                <a  href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"style="margin-left: 4%"><i class="material-icons edit" style="font-size:15px">mode_edit</i>View/Edit</a>
+                <a onclick="return confirm('Are you sure you want to delete  {{client.Name}} ');" href="{{ path('dashboard_sales_delete_client', {'slug': client.ID}) }}" style="margin-left: 4%;color: #2b6b96d6;"> <i class="material-icons delet" style="font-size:15px">delete</i>Delete</a>
+                <a  href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"style="margin-left: 4%; color: #2b6b96d6;"><i class="material-icons edit" style="font-size:15px">mode_edit</i>View/Edit</a>
             </td>
             <td><a href="{{ path('dashboard_sales_clients_bundles', {'slug': client.ID}) }}">{{ client.numberOfBundles }}</a> </td>
           <td><a href="{{ path('dashboard_sales_clients_applications', {'slug': client.ID}) }}">{{ client.numberOfApplications }}</a> </td>

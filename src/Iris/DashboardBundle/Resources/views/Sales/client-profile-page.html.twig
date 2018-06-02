@@ -35,7 +35,7 @@
         }
 
         .form-control {
-            width: 40%;
+            width: 60%;
         }
 
         .cont {
@@ -68,11 +68,11 @@
 
         @media screen and (max-width: 712px) {
             .form-control {
-                width: 70%;
+                width: 60%;
                 float: right;
             }
             .labels {
-                width: 70%;
+
                 float: right;
             }
             .cont {
@@ -111,23 +111,23 @@
     <div class="row cont" id="edit">
         <div class="form-style-2-heading" style="margin-left: 4%;">{%if add== false%}Clinet Profile{% else %} New Client {%endif%}</div>
         <div class="col-xs-12" style="margin-bottom: 4%;">
-            <p class="col-xs-2 "> <b>ID:</b> </p> {%if add== false%}   <p class="col-xs-10 labels">{{client.ID}}</p> {%endif%}<input required="" type="text" name="ID"  class="form-control col-xs-10 txt"{%if add== false%} value="{{client.ID}}" hidden=""{%endif%}>
+            <p class="col-xs-4"> <b>ID:</b> </p> {%if add== false%}   <p class="col-xs-7 labels">{{client.ID}}</p> {%endif%}<input required="" type="text" name="ID"  class="form-control col-xs-10 txt"{%if add== false%} value="{{client.ID}}" hidden=""{%endif%}>
         </div>
 
         <div class="col-xs-12" style="margin-bottom: 4%;">
-            <p class="col-xs-2 "> <b>Name:</b> </p> {%if add== false%}   <p class="col-xs-10 labels">{{client.Name}}</p> {%endif%}<input required="" type="text" name="Name"  class="form-control col-xs-10 txt"{%if add== false%} value="{{client.Name}}" hidden=""{%endif%}>
+            <p class="col-xs-4 "> <b>Name:</b> </p> {%if add== false%}   <p class="col-xs-7 labels">{{client.Name}}</p> {%endif%}<input required="" type="text" name="Name"  class="form-control col-xs-10 txt"{%if add== false%} value="{{client.Name}}" hidden=""{%endif%}>
         </div>
 
         <div class="col-xs-12" style="margin-bottom: 4%;">
-            <p class="col-xs-2 "> <b>Email: </b></p>  {%if add== false%}<p class="col-xs-10 labels">{{client.Email}}</p> {%endif%}<input   type="email" name="Email" class="form-control col-xs-10 txt"{%if add== false%} value="{{client.Email}}"hidden=""{%endif%}>
+            <p class="col-xs-4 "> <b>Email: </b></p>  {%if add== false%}<p class="col-xs-7 labels">{{client.Email}}</p> {%endif%}<input   type="email" name="Email" class="form-control col-xs-10 txt"{%if add== false%} value="{{client.Email}}"hidden=""{%endif%}>
         </div>
 
         <div class="col-xs-12" style="margin-bottom: 4%;">
-            <p class="col-xs-2 "> <b>Password: </b></p>  {%if add== false%}<p class="col-xs-10 labels"> {{client.Password}}</p>{%endif%}<input required=""  type="text" name="Password"  class="form-control col-xs-10 txt"{%if add== false%} value="{{client.Password}}"hidden=""{%endif%}>
+            <p class="col-xs-4 "> <b>Password: </b></p>  {%if add== false%}<p class="col-xs-7 labels"> {{client.Password}}</p>{%endif%}<input required=""  type="text" name="Password"  class="form-control col-xs-10 txt"{%if add== false%} value="{{client.Password}}"hidden=""{%endif%}>
         </div>
 
         <div class="col-xs-12" style="margin-bottom: 4%;">
-            <p class="col-xs-2 "> <b>Address: </b></p>  {%if add== false%}<p class="col-xs-10 labels">{{client.Address}}</p> {%endif%}<input required=""  type="text" name="Address" class="form-control col-xs-10 txt"{%if add== false%} value="{{client.Address}}"hidden=""{%endif%}>
+            <p class="col-xs-4 "> <b>Address: </b></p>  {%if add== false%}<p class="col-xs-7 labels">{{client.Address}}</p> {%endif%}<input required=""  type="text" name="Address" class="form-control col-xs-10 txt"{%if add== false%} value="{{client.Address}}"hidden=""{%endif%}>
         </div>
 
 

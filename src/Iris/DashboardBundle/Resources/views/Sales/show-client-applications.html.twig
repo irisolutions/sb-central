@@ -1,15 +1,22 @@
 {# empty Twig template #}
 {% extends 'DashboardBundle:Sales:manage-application.html.twig'%}
 {% block head %}
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('dist/jquery.scroltable.min.css') }}" >
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script>
-  
+
+    <script src="{{ asset('dist/jquery.scroltable.min.js') }}"></script>
+    <script>
+
+
         $(document).ready(function()
      {
-
+         $('table').scroltable();
          $('#deletapp').val("");
     $('.select').click(function(){
         $('.select').css('background-color','white');
@@ -18,11 +25,16 @@
     });
     $('.add-app').click(function()
     {
-        $('.app-form').css('visibility','visible');       
+        $('.app-form').css('visibility','visible');
     });
     });
     </script>
+
 <style type="text/css">
+    .alert{
+        width: 95%;
+        margin: auto;
+    }
     h1{
         margin: 30px 0;
         padding: 0 200px 15px 0;
@@ -57,13 +69,24 @@
     .alert{
         margin-top: 20px;
     }
+    .removeButton{
+        margin-left: 20px ;
+    }
+    .add-app{}
     @media only screen and (max-width:412px) {
         .labelAPPS{
             padding: 0px;
         }
     }
+    .datagrid{
+        width: 95%;
+        margin: auto;
+    }
+    .removeButton{
+        margin-left: 9px ;
+    }
 </style>
- 
+
  {% endblock  %}
 {% block breadcrumb %}
 
@@ -73,9 +96,9 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
 
 {% block body %}
 
-<div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-        <div><h4>{{clientname[0]}} Application</h4></div>
-        <div class="datagrid" style="margin-bottom: 3%; overflow: auto !important;">
+<div style="margin-right:5%; margin-top:5%; margin-bottom:10%;">
+        <div style="text-align: center;margin-bottom: 10px;"><h4>{{clientname[0]}} Application</h4></div>
+        <div class="datagrid" style="margin-bottom: 3%;">
  <table>
 
         <thead>
@@ -87,7 +110,7 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
               <th>DeviceInstallation</th>
               <th>Status</th>
               <th>Subscription</th>
-              <th>DownloadLink</th>
+              <th>Action</th>
               <!-- <th>Operations</th> -->
           </tr>
         </thead>
@@ -96,11 +119,11 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
         {% for application in applications %}
             {% if application.Version %}
             <tr class="select">
-                          
+
             <td>&nbsp;&nbsp;
                 <b>{{ application.Name }}</b>
                 <br style="line-height:180%;">
-                
+
             </td>
             <td style="padding-left: 10px">{{ application.Version }}</td>
             <td style="padding-left: 10px">{%if application.WebDownloadDate%}{{ application.WebDownloadDate }}{%else%} not available{%endif%} </td>
@@ -120,21 +143,21 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
       </table>
       </div>
         <form class="dataform form-horizontal" method="post" >
-          
-           
-            <div class="add-app btn btn-primary col-sm-1 col-xs-5">
+
+
+            <div class="add-app btn btn-primary col-sm-2 col-xs-5" style="margin-left: 35px;">
                       Add
                   </div>
-                  <p class="col-xs-1">
-                  </p>
-                  <input onclick=" return confirm('Are you sure you want to delete  this application ');" type="submit" name="delete" class="btn btn-primary col-sm-1 col-xs-5" value=" Remove">
 
-                  <div class="col-xs-12 app-form" style="margin-top: 3%;visibility: hidden ;   width: 95%;
-            margin: auto;
-            border: 1px solid;
-            border-color: gainsboro;
+                  <input onclick=" return confirm('Are you sure you want to delete  this application ');"  type="submit" name="delete" class="btn btn-primary col-sm-2 col-xs-5 removeButton" value=" Remove">
+
+                  <div class="col-xs-12 app-form" style="visibility: hidden ;   width: 80%;
+
+            border: 1px solid gainsboro;
             border-radius: 5px;
-            margin-top: 20px;
+            margin-top: 25px;
+            margin-left:38px;
+            margin-bottom: 20px;
         " >
                       <div class="form-style-2-heading "> Add Application </div>
                       <p class=" col-sm-3 col-xs-5 labelAPPS">
@@ -142,7 +165,7 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
                       </p>
                   <select name="newapp" class=" col-sm-5 col-xs-7 selecter">
                       <option value="">
-                          
+
                       </option>
                        {% for app in apps %}
                       <option value="{{app.ID}}">
@@ -151,20 +174,20 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
                       {%endfor%}
                   </select>
                   <div class="col-xs-12" style="margin-top: 3%;margin-bottom: 5%">
-                     
+
                       <input type="submit" style="border:1px solid #aaa;" class="btn btn-primary" value="add application">
                  </div>
                   </div>
 
 
                   <div class="col-xs-5">
-                      <input type="text" name="deletedapp" vlaue="" id="deletapp"hidden="" >
-                  
+                      <input type="text" name="deletedapp" vlaue="" id="deletapp" hidden="" >
+
                   </div>
-                  
-                  
+
+
         </form>
-      
+
 </div>
-  
+
 {% endblock %}

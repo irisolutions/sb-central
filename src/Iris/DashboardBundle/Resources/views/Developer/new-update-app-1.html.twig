@@ -43,7 +43,7 @@ color: #0083BA !important;
         }
 
         .appIden, .appName {
-            width: 60% !important;
+            width: 60% ;
         }
 
         .form-horizontal .control-label {
@@ -67,9 +67,7 @@ font-family: Serif;
             font-size: 14px;
             font-style: italic;
         }
-        .col-xs-3,.col-xs-9,.col-xs-1{
-            padding: 0px !important;
-        }
+
         .style-radio{
             width: 20px;
             height: 20px;
@@ -106,9 +104,7 @@ font-family: Serif;
                 width: 100% !important;
             }
         }
-        .padd{
-            padding: 0px;
-        }
+
         @media only screen and (max-width:412px) {
             .control-label{
                 font-size: 9px !important;
@@ -117,6 +113,17 @@ font-family: Serif;
           .bin{
               margin-top: 10px;
           }
+        }
+        @media only screen and (max-width: 412px) {
+.appName{
+    width: 90%;
+}
+            .appIden{
+                width: 90%;
+            }
+            .appver{
+                width: 130%;
+            }
         }
     </style>
 
@@ -153,8 +160,8 @@ font-family: Serif;
                         <div class="col-xs-3">
                         <label class="control-label col-xs-3 nameIdentfLabel" for="lastName">Application Version:</label>
                         </div>
-                        <div class="col-xs-3" >
-                            <input type="text" class="form-control" name="app-version" id="app-version"
+                        <div class="col-lg-3 col-xs-3" style="margin-left: 6px;" >
+                            <input type="text" class="form-control appver" name="app-version" id="app-version"
                                    placeholder="e.g. 1.5" required>
                         </div>
                         <div class="col-xs-7 padd">
@@ -175,9 +182,9 @@ font-family: Serif;
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-xs-3">
+                    <div class="col-lg-3 col-xs-3">
                         <label class="control-label col-xs-3 nameIdentfLabel">Application Category:</label></div>
-                    <div class="col-xs-3">
+                    <div class="col-lg-3 col-xs-6">
                         <select class="form-control" name="app-category">
 
                             {% for cat in categories %}
@@ -304,18 +311,14 @@ font-family: Serif;
             <div class="form-group">
                 <label class="control-label col-xs-3" for="postalAddress">Application Summary:</label>
                 <div class="col-xs-9">
-                <textarea rows="3" class="form-control textarea-style" name="app-summary" id="app-summary" required>
-                {% if update == true %}  {{ summary }} {% endif %}
-                </textarea>
+                    <textarea rows="3" class="form-control textarea-style" name="app-summary" id="app-summary" onClick="javascript:removeTextAreaWhiteSpace(this)" required>{% if update == true %}{{ summary }}{% endif %}</textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-xs-3" for="postalAddress">Application Description:</label>
                 <div class="col-xs-9">
-                <textarea  rows="6" class="form-control textarea-style" name="app-description" id="app-description" required>
-                {% if update == true %}  {{ description }} {% endif %}
-                </textarea>
+                <textarea  rows="6" class="form-control textarea-style" name="app-description" id="app-description" onClick="javascript:removeTextAreaWhiteSpace(this)" required>{% if update == true %}  {{ description }} {% endif %}</textarea>
                 </div>
             </div>
 

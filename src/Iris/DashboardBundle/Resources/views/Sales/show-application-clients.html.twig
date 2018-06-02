@@ -31,6 +31,12 @@
     justify-content: center;
     vertical-align: middle;
 }
+    @media only screen and (max-width: 412px) {
+.td412{
+    padding: 0 !important;
+    font-size: 10px !important;
+}
+    }
 </style>
  
  {% endblock  %}
@@ -42,7 +48,8 @@ Sales &rsaquo; Applications/Clients  &rsaquo; {{applicationname[0]}} Clients
 
 {% block body %}
 
-<div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
+<div style="margin: auto; margin-top:5%; margin-bottom:10%;     width: 95%;
+    ">
         <div class="form-style-2-heading"><h4>{{applicationname[0]}} Clients</h4></div>
 <div class="datagrid" style="overflow: auto !important;">
  <table>
@@ -63,7 +70,7 @@ Sales &rsaquo; Applications/Clients  &rsaquo; {{applicationname[0]}} Clients
         {% for client in clients %}
           <tr>
                           
-            <td>&nbsp;&nbsp;
+            <td class="td412">&nbsp;&nbsp;
                 <a style="margin-left: 8%" href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"><span style="font-size: 10px" class="glyphicon glyphicon-user"> </span>                {{ client.Name }}
                 </a>
             </td>

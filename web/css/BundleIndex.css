@@ -645,8 +645,19 @@ h2 a {
     width: auto !important;
 }
 .owl-item{
-    width: auto !important;
+     width: auto !important;
+ }
+
+@media screen and (max-width: 362px) {
+
+    .card{
+        width: 137px;
+    }
+    .cont{
+        width: 140px;
+    }
 }
+
 .priceAnchor {
     color: #003b8e !important;
     margin-top: 10px;
@@ -744,9 +755,7 @@ h2 a {
     opacity: 1;
 }
 @media all and (max-width: 362px) {
-    .cont{
-        margin-left: 50%;
-    }
+
     h2 a{
         font-size: 15px;
     }

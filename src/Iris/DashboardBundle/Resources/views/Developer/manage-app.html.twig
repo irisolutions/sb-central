@@ -2,9 +2,17 @@
 {% block head %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('dist/jquery.scroltable.min.css') }}" >
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+    <script src="{{ asset('dist/jquery.scroltable.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('table').scroltable();
+        });
+    </script>
 <style type="text/css">
     h1{
         margin: 30px 0;
@@ -90,8 +98,12 @@
       margin-bottom: 0px !important;
         border: 1px solid transparent;
         border-radius: 4px;
-        margin-left: 0px !important;
+        width: 90%;
+        margin: auto;
         word-wrap: break-word;
+    }
+    .alert-dismissable .close, .alert-dismissible .close{
+        margin-right: 16px !important;
     }
 </style>
  
@@ -104,10 +116,10 @@ Developer Dashboard &rsaquo; Manage Applications
 
 {% block body %}
 
-<div class="TABLE" style="width:90%; margin: auto">
+<div class="TABLE" style="width:85%; margin: auto">
     <div class="row cont">
 <div class="allApp"><h4 >All Applications</h4></div>
-<div class="datagrid" style="overflow-x:auto; !important;">
+<div class="datagrid" style="">
  <table>
         <thead>
           <tr>

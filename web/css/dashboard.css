@@ -463,9 +463,7 @@ body{
         height: 100% !important;
         max-height: 100%;
     }
-    .centerStore{
-        display: none;
-    }
+
     .fd-navigation, .mdl-layout__drawer {
         margin-top: 0px !important;
     }
@@ -809,6 +807,9 @@ ul.thumbnails {
     .fd-search{
         width: 100%;
 
+    }
+    .centerStore{
+        display: none;
     }
 
 }

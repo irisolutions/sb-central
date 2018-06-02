@@ -36,7 +36,10 @@
     <!-- viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {% block head %}{% endblock %}
+    {% block head %}
+
+
+    {% endblock %}
     <style>
         .mdl-layout {
         }
@@ -379,11 +382,11 @@
 
 
                     <div id="myDropdown" class="dropdown-content dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a href="{{ path('client_apps') }}"> <i class="fa fa-crosshairs icon" aria-hidden="true"></i> My
+                        <a href="{{ path('client_apps') }}" > <i class="fa fa-crosshairs icon unlink" aria-hidden="true" ></i> My
                             Applications </a>
-                        <a href="{{ path('client_subs') }}"> <i class="fa fa-share icon" aria-hidden="true"></i> My
+                        <a href="{{ path('client_subs') }}" > <i class="fa fa-share icon unlink" aria-hidden="true"></i> My
                             Subscriptions</a>
-                        <a href="{{ path('client_account') }}"><i class="fa fa-user icon" aria-hidden="true"></i> My
+                        <a href="{{ path('client_account') }}" ><i class="fa fa-user icon unlink" aria-hidden="true"></i> My
                             Account </a>
                         <hr style="
     display: block;
@@ -450,10 +453,7 @@
 <!-- stylesheet -->
 
 
-<script>
 
-
-</script>
 
 <script>
     /* When the user clicks on the button,

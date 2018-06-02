@@ -47,7 +47,10 @@
             margin-top: 0 !important;
             margin-left: 0 !important;
         }
-.dropbtn{
+        .fd-navigation{
+            min-height: 500px;
+        }
+        .dropbtn{
     padding: 0px;
 
 }
@@ -59,12 +62,11 @@
         }
 
         .dropdown-content {
-            display: none;
-            position: absolute;
 
+            position: absolute;
             background-color: white;
             min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
 
@@ -306,22 +308,33 @@
                 left: 0px !important;
             }
         }
+        @media all and (max-width: 412px) {
 
+
+.dashboardlink{
+    font-size: 15px !important;
+}
+            .sign{
+                font-size: 15px !important;
+            }
+        }
+.dropbtn{
+    position: relative;
+    display: inline-block;
+}
     </style>
-
     {% block head %}{% endblock %}
 </head>
-
 <body class="mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="mdl-layout__header" >
         <div class="mdl-layout__header-row">
           <span class="centerStore" style="margin-left:2%;    font-size: 20px;
         font-family: sans-serif;">
-         <a href="#">  <strong style="    font-size: 25px;
+         <a href="#" style="color: #0083ba; !important;" >  <strong class="dashboardlink"style="    font-size: 25px;
     font-style: italic;
     font-family: serif;
-    color: white;"> Sensory Store</strong></a>
+    color: white;"> Iris Dashboard </strong></a>
         </span>
                     <span class="fd-breadcrumb mdl-layout-title">
                         {% block breadcrumb %}{% endblock %}
@@ -356,9 +369,17 @@
                             Out</a>
                     </div>
                 </div>
+{#<script>#}
+    {#document.getElementsByClassName("fd-navigation").style.display = "block";#}
 
+{#</script>#}
             {% else %}
-                <div><h1><a class="mdl-navigation__link" href="{{ path('admin_login') }}">Sign-in</a></h1></div>
+                <div><h1><a class="mdl-navigation__link" href="{{ path('admin_login') }}"><strong class="sign"  style="font-size: 25px;
+    font-style: italic;
+    font-family: serif;
+    color: white;">Sign-in</strong></a></h1></div>
+
+
             {% endif %}
         </div>
     </header>

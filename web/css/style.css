@@ -2,7 +2,10 @@ html, body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
 
 }
-
+.dropdown-menu{
+    right: 10% !important;
+    left: initial !important;
+}
 .seeMoreSmallDevice{
     display: none;
 }
@@ -537,6 +540,13 @@ body{
     .fd-breadcrumb .mdl-layout-title{
         margin-left: 24% !important;
     }
+    .centerStore{
+        background-color: #0083ba;
+    }
+    .dropdown-menu{
+        right: 33% !important;
+        left: initial !important;
+    }
 }
 
 .mdl-color--primary {
@@ -604,7 +614,7 @@ margin: 5px !important;
 }
 @media (max-width: 479px) {
     .mdl-grid--no-spacing > .mdl-cell--4-col, .mdl-grid--no-spacing > .mdl-cell--4-col-phone.mdl-cell--4-col-phone {
-        width: 45% !important;
+        width:50% !important;
     }
     .mdl-card__supporting-text h4{
 margin: 0px !important;
@@ -794,6 +804,7 @@ ul.thumbnails {
     }
 }
 
+
 .mdl-layout--fixed-drawer>.mdl-layout__content {
 
 
@@ -876,5 +887,5 @@ a:hover{
     text-decoration: none !important;
 }
 .dropdown-menu{
-     margin: 0 20% 0 !important;
+
 }

@@ -4,6 +4,10 @@ html, body {
 .category-app{
     display: none;
 }
+.dropdown-menu{
+    right: 10% !important;
+    left: initial !important;
+}
 /* fd-application */
 .user-hide{
     display: none;
@@ -513,7 +517,13 @@ body{
     .searchTablet{
         width: 60% !important;
     }
-
+    .centerStore{
+        background-color: #0083ba;
+    }
+    .dropdown-menu{
+        right: 33% !important;
+        left: initial !important;
+    }
 }
 
 .mdl-color--primary {
@@ -843,6 +853,7 @@ th{
     .fd-breadcrumb{
         margin-left: 24%!important;
     }
+
 }
 .appNameSmallDevice{
     font-size: 17px;
@@ -855,3 +866,4 @@ th{
         opacity: 1 !important;
     }
 }
+
