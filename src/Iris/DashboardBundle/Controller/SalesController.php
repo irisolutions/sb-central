@@ -64,15 +64,16 @@ class SalesController extends Controller
         if ($request->getMethod() == 'POST') {
             //first get the value of post variables
             $bundle_name = $request->request->get('bundle-name');
+            $bundle_price = $request->request->get('bundle-price');
             $bundle_description = $request->request->get('bundle-description');
             $app_identifiers = $request->request->get('app-identifiers');//string of application id's separated with ','
             $app_identifiers = explode(",", $app_identifiers);
             // connect to database
             $conn = $this->get_Store_DB_Object();
             //insert the new bundle
-            $stmt = $conn->prepare('INSERT INTO Bundle (Name,Description) VALUES (?,?)');
+            $stmt = $conn->prepare('INSERT INTO Bundle (Name,Description,Price) VALUES (?,?,?)');
             try {
-                $stmt->execute([$bundle_name, $bundle_description]);
+                $stmt->execute([$bundle_name, $bundle_description,$bundle_price]);
             } catch (\PDOException $e) {
                 $error = 'Operation Aborted ..' . $e->getMessage();
                 $request->getSession()->getFlashBag()->add('danger', $error);
@@ -116,6 +117,7 @@ class SalesController extends Controller
         if ($request->getMethod() == 'POST') {
             //first get the value of post variables
             $bundle_name = $request->request->get('bundle-name');
+            $bundle_price = $request->request->get('bundle-price');
             $bundle_description = $request->request->get('bundle-description');
             $app_identifiers = $request->request->get('app-identifiers');//string of application id's separated with ','
             $app_identifiers = explode(",", $app_identifiers);
@@ -126,9 +128,9 @@ class SalesController extends Controller
             $stmt->execute([$bundle_name]);
             $bundle_id = $stmt->fetchAll()[0]['ID'];
             //update description
-            $stmt = $conn->prepare('update Bundle set Description=? where ID=?');
+            $stmt = $conn->prepare('update Bundle set Description=?,Price=? where ID=?');
             try {
-                $stmt->execute([$bundle_description, $bundle_id]);
+                $stmt->execute([$bundle_description,$bundle_price, $bundle_id]);
             } catch (\PDOException $e) {
                 $error = 'Operation Aborted ..' . $e->getMessage();
                 $request->getSession()->getFlashBag()->add('danger', $error);

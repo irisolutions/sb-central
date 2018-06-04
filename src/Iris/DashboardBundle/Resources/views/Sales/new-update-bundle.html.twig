@@ -135,7 +135,13 @@ Sales  &rsaquo; Manage Bundles &rsaquo; Edit Bundle
             <div class="col-xs-9">
                 <input type="text" class="form-control" id="Bundle-Name" name="bundle-name" {% if update == true%}  value ="{{bundle.Name}}" readonly{% endif %} placeholder="e.g: Kindergarden" required>
             </div>
-        </div>  
+        </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2 bundle-label" for="firstName">Price:</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" id="Bundle-Name" name="bundle-price" style="width: 4cm;display: inline-block" {% if update == true%}  value ="{{bundle.Price}}" {% endif %} placeholder="0" required><span class="input-group-addon" style="display: inline-block;height: 0.88cm;margin-left: -1cm; width: 1cm;margin-top:-0.82mm;">$</span>
+                </div>
+            </div>
             <div class="form-group">
             <label class="control-label col-xs-2  bundle-label" for="postalAddress">Bundle Description:</label>
             <div class="col-xs-9">
