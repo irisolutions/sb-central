@@ -577,145 +577,145 @@ class SalesController extends Controller
             'bundles' => $bundles, 'allbundles' => $allbundles, 'clientname' => $ClientName));
 
     }
+    public function romoveApplicationOnType($app,$request,$ClientID,$deletedappID)
+    {
+        $conn = $this->get_Store_DB_Object();
+        if ($app['Type'] == "dongle") {
+            //todo check if it is belong to user subscription
 
+            $stmt = $conn->prepare('select * from Subscription as sb,BundleApplication as ba ,DongleInstallation as dn where dn.ClientID = ? and sb.ClientID =dn.ClientID and sb.BundleID=ba.BundleID and dn.ApplicationID=ba.ApplicationID and dn.ApplicationID= ? ');
+            $stmt->execute([$ClientID, $app['ApplicationID']]);
+            $result = $stmt->fetch();
+            if ($result && $result['Subscription']) {
+                $error = 'This is application belong to subscription can not be deleted';
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            } else if ($result && !$result['Subscription']) {
+                $stmt = $conn->prepare('update DongleInstallation set Subscription=true Where ClientID=? and ApplicationID=? ');
+            } else {
+                $stmt = $conn->prepare('delete from DongleInstallation Where ClientID=? and ApplicationID=? ');
+            }
+            $stmt->execute([$ClientID, $deletedappID]);
+        } else {
+            $stmt = $conn->prepare('select * from Subscription as sb,BundleApplication as ba ,ControllerInstallation as dn where dn.ClientID = ? and sb.ClientID =dn.ClientID and sb.BundleID=ba.BundleID and dn.ApplicationID=ba.ApplicationID and dn.ApplicationID= ? ');
+            $stmt->execute([$ClientID, $app['ApplicationID']]);
+            $result = $stmt->fetch();
+            if ($result && $result['Subscription']) {
+                $error = 'This is application belong to subscription can not be deleted';
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            } else if ($result && !$result['Subscription']) {
+                $stmt = $conn->prepare('update ControllerInstallation set Subscription=true Where ClientID=? and ApplicationID=? ');
+            } else {
+                $stmt = $conn->prepare('delete from ControllerInstallation Where ClientID=? and ApplicationID=? ');
+            }
+            $stmt->execute([$ClientID, $deletedappID]);
+        }
+    }
+    public function removeApplication($deletedappname,$request,$ClientID)
+    {
+        $conn = $this->get_Store_DB_Object();
+        if ($deletedappname) {
+            $stmt = $conn->prepare('Select ID from Application where Name=?');
+            try {
+                $stmt->execute([$deletedappname]);
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+            $deletedappID = $stmt->fetchAll();
+            $deletedappID = $deletedappID[0][0];
+            try {
+                $stmt = $conn->prepare('delete from Purchase Where ClientID=? and ApplicationID=? ');
+                $stmt->execute([$ClientID, $deletedappID]);
+                $stmt = $conn->prepare('Select * from Application,Version where Application.id=? and ApplicationID=Application.ID');
+                $stmt->execute([$deletedappID]);
+                $app = $stmt->fetch();
+                $this->romoveApplicationOnType($app,$request,$ClientID,$deletedappID);
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+            $request->getSession()->getFlashBag()->add('success', "Application Removed Successfully");
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+            $error = "Select Application to remove";
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+    }
+    public function addApplicationOnType($app,$request,$newappID,$ClientID)
+    {
+        $conn = $this->get_Store_DB_Object();
+        if ($app['Type'] == "dongle") {
+            try {
+                $stmt = $conn->prepare('Insert into DongleInstallation  (ApplicationID,ClientID,Status,Version,Subscription) values (?,?,(Select PK from Status where Status.status="none"),?,false ) ');
+                $stmt->execute([$newappID, $ClientID, $app['Version']]);
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                $stmt = $conn->prepare('update DongleInstallation set Subscription = false where ApplicationID=? and ClientID=? and Version=?');
+                $stmt->execute([$newappID, $ClientID, $app['Version']]);
+            }
+
+        } else {
+            try {
+                $stmt = $conn->prepare('Insert into ControllerInstallation (ApplicationID,ClientID,Status,Version,Subscription) values (?,?,(Select PK from Status where Status.status="none"),?,false) ');
+                $stmt->execute([$newappID, $ClientID, $app['Version']]);
+            } catch (\PDOException $e) {
+
+                $stmt = $conn->prepare('update ControllerInstallation set Subscription=false where ApplicationID=? and ClientID=? and Version=?');
+                $stmt->execute([$newappID, $ClientID, $app['Version']]);
+            }
+        }
+    }
+    public function addApplication($request,$ClientID)
+    {
+        $conn = $this->get_Store_DB_Object();
+        $newappID = $request->request->get('newapp');
+        if ($newappID) {
+            try {
+                $stmt = $conn->prepare('Insert into Purchase (ApplicationID,ClientID,Date) values (?,?,?) ');
+                $stmt->execute([$newappID, $ClientID, date('y-m-d')]);
+                $stmt = $conn->prepare('Select *,max(Version)as Version from Application,Version where Application.id=? and ApplicationID=Application.ID');
+                $stmt->execute([$newappID]);
+                $app = $stmt->fetch();
+
+                $this->addApplicationOnType($app,$request,$newappID,$ClientID);
+
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+            $request->getSession()->getFlashBag()->add('success', "Application Added Successfully");
+            return $this->redirect($request->headers->get('referer'));
+        }
+            $error = "Select Application to add";
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+    }
     public function showClientApplicationsAction($slug)
     {
         $context = $this->container->get('security.context');
-
         if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
             return $this->render('DashboardBundle:Homepage:index.html.twig');
-
         //auth
         $request = $this->get('request');
         $ClientID = $slug;
         //connect to database
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
         if ($request->getMethod() == 'POST') {
             $delete = $request->request->get('delete');
             $deletedappname = $request->request->get('deletedapp');
             if ($delete) {
-                if ($deletedappname) {
-                    $stmt = $conn->prepare('Select ID from Application where Name=?');
-                    try {
-                        $stmt->execute([$deletedappname]);
-                    } catch (\PDOException $e) {
-                        $error = 'Operation Aborted ..' . $e->getMessage();
-                        $request->getSession()->getFlashBag()->add('danger', $error);
-                        return $this->redirect($request->headers->get('referer'));
-                    }
-                    $deletedappID = $stmt->fetchAll();
-                    $deletedappID = $deletedappID[0][0];
-                    try {
-                        $stmt = $conn->prepare('delete from Purchase Where ClientID=? and ApplicationID=? ');
-                        $stmt->execute([$ClientID, $deletedappID]);
-                        $stmt = $conn->prepare('Select * from Application,Version where Application.id=? and ApplicationID=Application.ID');
-                        $stmt->execute([$deletedappID]);
-                        $app = $stmt->fetch();
-                        if ($app['Type'] == "dongle") {
-                            //todo check if it is belong to user subscription
-                            $stmt = $conn->prepare('select * from Subscription as sb,BundleApplication as ba ,DongleInstallation as dn where dn.ClientID = ? and sb.ClientID =dn.ClientID and sb.BundleID=ba.BundleID and dn.ApplicationID=ba.ApplicationID and dn.ApplicationID= ? ');
-                            $stmt->execute([$ClientID, $app['ApplicationID']]);
-                            $result = $stmt->fetch();
-                            if ($result && $result['Subscription']) {
-                                $error = 'This is application belong to subscription can not be deleted';
-                                $request->getSession()->getFlashBag()->add('danger', $error);
-                                return $this->redirect($request->headers->get('referer'));
-                            } else if ($result && !$result['Subscription']) {
-                                $stmt = $conn->prepare('update DongleInstallation set Subscription=true Where ClientID=? and ApplicationID=? ');
-                            } else {
-                                $stmt = $conn->prepare('delete from DongleInstallation Where ClientID=? and ApplicationID=? ');
-                            }
-                            $stmt->execute([$ClientID, $deletedappID]);
-                        } else {
-                            $stmt = $conn->prepare('select * from Subscription as sb,BundleApplication as ba ,ControllerInstallation as dn where dn.ClientID = ? and sb.ClientID =dn.ClientID and sb.BundleID=ba.BundleID and dn.ApplicationID=ba.ApplicationID and dn.ApplicationID= ? ');
-                            $stmt->execute([$ClientID, $app['ApplicationID']]);
-                            $result = $stmt->fetch();
-                            if ($result && $result['Subscription']) {
-                                $error = 'This is application belong to subscription can not be deleted';
-                                $request->getSession()->getFlashBag()->add('danger', $error);
-                                return $this->redirect($request->headers->get('referer'));
-                            } else if ($result && !$result['Subscription']) {
-                                $stmt = $conn->prepare('update ControllerInstallation set Subscription=true Where ClientID=? and ApplicationID=? ');
-                            } else {
-                                $stmt = $conn->prepare('delete from ControllerInstallation Where ClientID=? and ApplicationID=? ');
-                            }
-                            $stmt->execute([$ClientID, $deletedappID]);
-                        }
-                    } catch (\PDOException $e) {
-                        $error = 'Operation Aborted ..' . $e->getMessage();
-                        $request->getSession()->getFlashBag()->add('danger', $error);
-                        return $this->redirect($request->headers->get('referer'));
-                    }
-                    $request->getSession()->getFlashBag()->add('success', "Application Removed Successfully");
-                    return $this->redirect($request->headers->get('referer'));
-                }
-                try {
-
-                    throw new \Symfony\Component\Intl\Exception\OutOfBoundsException();
-                } catch (\Exception $e) {
-                    $error = "Select Application to remove";
-                    $request->getSession()->getFlashBag()->add('danger', $error);
-                    return $this->redirect($request->headers->get('referer'));
-                }
+                $this->removeApplication($deletedappname,$request,$ClientID);
             } else {
-                $newappID = $request->request->get('newapp');
-                if ($newappID) {
-                    try {
-                        $stmt = $conn->prepare('Insert into Purchase (ApplicationID,ClientID,Date) values (?,?,?) ');
-                        $stmt->execute([$newappID, $ClientID, date('y-m-d')]);
-                        $stmt = $conn->prepare('Select *,max(Version)as Version from Application,Version where Application.id=? and ApplicationID=Application.ID');
-                        $stmt->execute([$newappID]);
-                        $app = $stmt->fetch();
-
-                        if ($app['Type'] == "dongle") {
-
-                            try {
-                                $stmt = $conn->prepare('Insert into DongleInstallation  (ApplicationID,ClientID,Status,Version,Subscription) values (?,?,(Select PK from Status where Status.status="none"),?,false ) ');
-                                $stmt->execute([$newappID, $ClientID, $app['Version']]);
-                            } catch (\PDOException $e) {
-                                $error = 'Operation Aborted ..' . $e->getMessage();
-                                $request->getSession()->getFlashBag()->add('danger', $error);
-                                $stmt = $conn->prepare('update DongleInstallation set Subscription = false where ApplicationID=? and ClientID=? and Version=?');
-                                $stmt->execute([$newappID, $ClientID, $app['Version']]);
-                            }
-
-                        } else {
-                            try {
-                                $stmt = $conn->prepare('Insert into ControllerInstallation (ApplicationID,ClientID,Status,Version,Subscription) values (?,?,(Select PK from Status where Status.status="none"),?,false) ');
-                                $stmt->execute([$newappID, $ClientID, $app['Version']]);
-                            } catch (\PDOException $e) {
-
-                                $stmt = $conn->prepare('update ControllerInstallation set Subscription=false where ApplicationID=? and ClientID=? and Version=?');
-                                $stmt->execute([$newappID, $ClientID, $app['Version']]);
-                            }
-                        }
-                    } catch (\PDOException $e) {
-                        $error = 'Operation Aborted ..' . $e->getMessage();
-                        $request->getSession()->getFlashBag()->add('danger', $error);
-                        return $this->redirect($request->headers->get('referer'));
-                    }
-                    $request->getSession()->getFlashBag()->add('success', "Application Added Successfully");
-                    return $this->redirect($request->headers->get('referer'));
-                }
-                try {
-
-                    throw new \Symfony\Component\Intl\Exception\OutOfBoundsException();
-                } catch (\Exception $e) {
-                    $error = "Select Application to add";
-                    $request->getSession()->getFlashBag()->add('danger', $error);
-                    return $this->redirect($request->headers->get('referer'));
-                }
-                //first get the value of post variables 
-                //$bundle_name		= $request->request->get('bundle-name');
+                $this->addApplication($request,$ClientID);
             }
         }
-
         //get Tablet applications
         $stmt = $conn->prepare('Select *,
                                 (select WebDownloadDate from ControllerInstallation as cont 
@@ -797,13 +797,7 @@ class SalesController extends Controller
         $request = $this->get('request');
         $ClientID = $slug;
         //connect to database
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
 
         if ($request->getMethod() == 'POST') {
             //this for the update operation
@@ -857,13 +851,8 @@ class SalesController extends Controller
 
         //auth
         $request = $this->get('request');
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
+
 
         if ($request->getMethod() == 'POST') {
             $Name = $request->request->get('Name');
@@ -896,13 +885,8 @@ class SalesController extends Controller
         //auth
         $request = $this->get('request');
         $ID = $slug;
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
+
         $deleteFromPurchase = $conn->prepare('delete from Purchase where ClientID=?');
         $deleteFromSubscription = $conn->prepare('delete from Subscription where ClientID=?');
         $deleteFromContins = $conn->prepare('delete from ControllerInstallation where ClientID=?');
