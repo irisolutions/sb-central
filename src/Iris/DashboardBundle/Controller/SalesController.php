@@ -23,28 +23,29 @@ use PDO;
 class SalesController extends Controller
 {
 
+    public function get_Store_DB_Object()
+    {
+        $dbname = $this->container->getParameter('store_database_name');
+        $username = $this->container->getParameter('store_database_user');
+        $password = $this->container->getParameter('store_database_password');
+        $servername = $this->container->getParameter('store_database_host');
+
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $conn;
+    }
 
     public function manageBundleAction()
     {
         $context = $this->container->get('security.context');
-
         if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
             return $this->render('DashboardBundle:Homepage:index.html.twig');
-
         //auth
-        $dbname = $this->container->getParameter('store_database_name');
-        $dbuser = $this->container->getParameter('store_database_user');
-        $dbpass = $this->container->getParameter('store_database_password');
-        $dbhost = $this->container->getParameter('store_database_host');
 
-        $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+        $conn = $this->get_Store_DB_Object();
         $stmt = $conn->prepare('SELECT * FROM Bundle');
-
         $stmt->execute();
-
         $bundle = $stmt->fetchAll();
 
         return $this->render('DashboardBundle:Sales:manage-bundle.html.twig', array(
@@ -55,48 +56,27 @@ class SalesController extends Controller
     public function newBundleAction()
     {
         $context = $this->container->get('security.context');
-
         if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
             return $this->render('DashboardBundle:Homepage:index.html.twig');
-
         //auth
         $request = $this->get('request');
 
         if ($request->getMethod() == 'POST') {
-
             //first get the value of post variables
             $bundle_name = $request->request->get('bundle-name');
             $bundle_description = $request->request->get('bundle-description');
             $app_identifiers = $request->request->get('app-identifiers');//string of application id's separated with ','
             $app_identifiers = explode(",", $app_identifiers);
-
-
             // connect to database
-
-
-            $dbname = $this->container->getParameter('store_database_name');
-            $username = $this->container->getParameter('store_database_user');
-            $password = $this->container->getParameter('store_database_password');
-            $servername = $this->container->getParameter('store_database_host');
-
-            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-            // set the PDO error mode to exception
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-
+            $conn = $this->get_Store_DB_Object();
             //insert the new bundle
             $stmt = $conn->prepare('INSERT INTO Bundle (Name,Description) VALUES (?,?)');
-
             try {
                 $stmt->execute([$bundle_name, $bundle_description]);
             } catch (\PDOException $e) {
-                $error = '';
-
                 $error = 'Operation Aborted ..' . $e->getMessage();
-
                 $request->getSession()->getFlashBag()->add('danger', $error);
                 return $this->redirect($request->headers->get('referer'));
-
             }
             // get  ID for the new bundle
             $stmt = $conn->prepare('select ID from Bundle where Name=?');
@@ -104,40 +84,27 @@ class SalesController extends Controller
             $bundle_id = $stmt->fetchAll()[0]['ID'];
             $stmt = $conn->prepare('INSERT INTO BundleApplication (BundleID,ApplicationID) VALUES (?,?)');
             //save the list of applications inside bundle 
-
             for ($i = 0; $i < count($app_identifiers); $i++) {
                 $stmt->execute([$bundle_id, $app_identifiers[$i]]);
             }
             return $this->render('DashboardBundle:Sales:new-update-delete-bundle-result.html.twig');
-
-
         }
-
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-
+        $conn = $this->get_Store_DB_Object();
         $stmt = $conn->prepare('SELECT * FROM Application');
         try {
             $stmt->execute();
+            $applications = $stmt->fetchAll();
         } catch (\PDOException $e) {
             $error = 'Operation Aborted ..' . $e->getMessage();
             $request->getSession()->getFlashBag()->add('danger', $error);
             return $this->redirect($request->headers->get('referer'));
         }
-        $applications = $stmt->fetchAll();
-
         return $this->render('DashboardBundle:Sales:new-update-bundle.html.twig', array('update' => false, 'apps' => $applications));
     }
 
     public function editBundleAction($slug)
     {
+
         $context = $this->container->get('security.context');
 
         if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
@@ -152,20 +119,8 @@ class SalesController extends Controller
             $bundle_description = $request->request->get('bundle-description');
             $app_identifiers = $request->request->get('app-identifiers');//string of application id's separated with ','
             $app_identifiers = explode(",", $app_identifiers);
-
-
             // connect to database
-
-            $dbname = $this->container->getParameter('store_database_name');
-            $username = $this->container->getParameter('store_database_user');
-            $password = $this->container->getParameter('store_database_password');
-            $servername = $this->container->getParameter('store_database_host');
-
-            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-            // set the PDO error mode to exception
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-
+            $conn = $this->get_Store_DB_Object();
             // get  ID for bundle
             $stmt = $conn->prepare('select ID from Bundle where Name=?');
             $stmt->execute([$bundle_name]);
@@ -188,8 +143,6 @@ class SalesController extends Controller
                 $request->getSession()->getFlashBag()->add('danger', $error);
                 return $this->redirect($request->headers->get('referer'));
             }
-
-
             //insert application list to bundle
             $stmt = $conn->prepare('INSERT INTO BundleApplication (BundleID,ApplicationID) VALUES (?,?)');
             try {
@@ -202,19 +155,10 @@ class SalesController extends Controller
                 return $this->redirect($request->headers->get('referer'));
             }
             return $this->render('DashboardBundle:Sales:new-update-delete-bundle-result.html.twig');
-
         }
         //post method not used default page here
         $bundle_id = $slug;
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //get application list inside bundle
+        $conn = $this->get_Store_DB_Object();
         $stmt = $conn->prepare('SELECT  * FROM Application
                                 WHERE ID  in (SELECT ApplicationID FROM BundleApplication
                                 WHERE BundleID=?);');
@@ -263,13 +207,7 @@ class SalesController extends Controller
         //connect to database
         $bundle_identifier = $slug;
         $request = $this->get('request');
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
         //delete bundle
         $stmt = $conn->prepare('DELETE FROM Bundle WHERE ID = ?');
         try {
@@ -311,13 +249,7 @@ class SalesController extends Controller
         //auth
 
         //connect to database
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
         //get applications with number of clients
         $stmt = $conn->prepare('Select *,(select count(*)  from Client,Purchase where Client.ID=Purchase.ClientID and Purchase.ApplicationID=Application.ID) As NumberOfClients from Application order by Application.ID ');
         try {
@@ -343,13 +275,7 @@ class SalesController extends Controller
         $request = $this->get('request');
         $applicationID = $slug;
         //connect to database
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
         //get application clients
         $stmt = $conn->prepare('Select *,'
             . '(select WebDownloadDate from ControllerInstallation as cont '
@@ -400,13 +326,7 @@ class SalesController extends Controller
         //auth
         $request = $this->get('request');
         //connect to database
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
         //get Bundles with number of clients
         $stmt = $conn->prepare('Select *,(select count(*)  from Client,Subscription where Client.ID=Subscription.ClientID and Subscription.BundleID=Bundle.ID) As NumberOfClients from Bundle order by Bundle.ID');
         try {
@@ -432,13 +352,7 @@ class SalesController extends Controller
         $request = $this->get('request');
         $BundleID = $slug;
         //connect to database
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
         //get Bundle  clients
         $stmt = $conn->prepare('Select * from Subscription,Client where BundleID=? and Client.ID=ClientID');
         $stmt2 = $conn->prepare('Select Name from Bundle where ID=?');
@@ -465,13 +379,7 @@ class SalesController extends Controller
 
         //auth
         $request = $this->get('request');
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
         //get all cliets with number of bundles and number of applications that every client have
         $stmt = $conn->prepare('SELECT *,(SELECT COUNT(*) FROM Bundle,Subscription where BundleID=Bundle.ID and ClientID=Client.ID) as numberOfBundles,((SELECT count(*) FROM ControllerInstallation WHERE ControllerInstallation.ClientID=Client.ID)+(SELECT COUNT(*)FROM DongleInstallation WHERE DongleInstallation.ClientID=Client.ID)) as numberOfApplications from Client');
         try {
@@ -486,6 +394,135 @@ class SalesController extends Controller
             'clients' => $clients));
     }
 
+    public function deleteSubscribtion($deletedbundlename, $request, $ClientID)
+    {
+        $conn = $this->get_Store_DB_Object();
+        //check if the user select row if not throw exception
+        if ($deletedbundlename) {
+            //find id for the bundle
+            $stmt = $conn->prepare('Select ID from Bundle where Name=?');
+            try {
+                $stmt->execute([$deletedbundlename]);
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+            $deletedbundleID = $stmt->fetchAll();
+            $deletedbundleID = $deletedbundleID[0][0];
+            //delete subscription
+            try {
+                $stmt = $conn->prepare('delete from Subscription Where ClientID=? and BundleID=? ');
+                $stmt->execute([$ClientID, $deletedbundleID]);
+                $stmt = $conn->prepare('select * from BundleApplication,Application where BundleID=? and ApplicationID=Application.ID ');
+                $stmt->execute([$deletedbundleID]);
+                While ($app = $stmt->fetch()) {
+                    if ($app['Type'] == 'dongle') {
+                        $stmt1 = $conn->prepare('delete from DongleInstallation where Subscription=true and ApplicationID=? and ClientID=? ');
+                        $stmt1->execute([$app['ApplicationID'], $ClientID]);
+                    } else {
+                        $stmt1 = $conn->prepare('delete from ControllerInstallation where Subscription=true and ApplicationID=? and ClientID=? ');
+                        $stmt1->execute([$app['ApplicationID'], $ClientID]);
+                    }
+                }
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+            $request->getSession()->getFlashBag()->add('success', "Bundle Removed Successfully");
+            return $this->redirect($request->headers->get('referer'));
+        } else {
+            $error = "Select Bundle to remove";
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+    }
+    public function editBundle($request, $ClientID)
+    {
+        $conn = $this->get_Store_DB_Object();
+        $bundlename = $request->request->get('editbundle');
+        $StartDate = $request->request->get('StartDate');
+        $EndDate = $request->request->get('EndDate');
+        //check data is it valid or not if not throw exception.
+        if ($EndDate && $StartDate) {
+            //get ID of the bundle first
+            $stmt = $conn->prepare('Select ID from Bundle where Name=?');
+            try {
+                $stmt->execute([$bundlename]);
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+//update the bundle now
+            $bundleID = $stmt->fetchAll();
+            $bundleID = $bundleID[0][0];
+            $stmt = $conn->prepare('update Subscription Set Start = ? , End = ? Where ClientID=? and BundleID=? ');
+
+            try {
+                $stmt->execute([$StartDate, $EndDate, $ClientID, $bundleID]);
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+
+            $request->getSession()->getFlashBag()->add('success', "Bundle Edited Successfully");
+            return $this->redirect($request->headers->get('referer'));
+        }//
+
+            $error = "Fill All Fields";
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+    }
+    public function addBundle($request,$ClientID)
+    {
+        $conn = $this->get_Store_DB_Object();
+        $newbundleID = $request->request->get('newbundle');
+        $StartDate = $request->request->get('StartDate');
+        $EndDate = $request->request->get('EndDate');
+        //check if data is valid if not throw exception
+        if ($newbundleID && $StartDate && $EndDate) {
+
+            $stmt = $conn->prepare('Insert into Subscription (BundleID,ClientID,Start,End) values (?,?,?,?) ');
+            $stmt->execute([$newbundleID, $ClientID, $StartDate, $EndDate]);
+            $stmt = $conn->prepare('select *, (select max(Version) from Version where ApplicationID=Application.ID ) as Version from BundleApplication,Application where BundleID=? and BundleApplication.ApplicationID=Application.ID');
+            $stmt->execute([$newbundleID]);
+            try {
+                While ($bundleApplication = $stmt->fetch()) {
+                    try {
+                        if ($bundleApplication['Type'] == 'dongle') {
+                            $stmt2 = $conn->prepare('select * from  DongleInstallation where ApplicationID=? and ClientID=?');
+                            $stmt2->execute([$ClientID, $bundleApplication['ApplicationID']]);
+                            if ($stmt2->fetch())
+                                continue;
+                            $stmt2 = $conn->prepare('Insert into DongleInstallation (ClientID,ApplicationID,Version,Status,Subscription) values (?,?,?,(select PK from Status where Status.status="none"),true) ');
+                        } else {
+                            $stmt2 = $conn->prepare('select * from  ControllerInstallation where ApplicationID=? and ClientID=?');
+                            $stmt2->execute([$ClientID, $bundleApplication['ApplicationID']]);
+                            if ($stmt2->fetch())
+                                continue;
+                            $stmt2 = $conn->prepare('Insert into ControllerInstallation (ClientID,ApplicationID,Version,Status,Subscription) values (?,?,?,(select PK from Status where Status.status="none"),true) ');
+                        }
+
+                        $stmt2->execute([$ClientID, $bundleApplication['ApplicationID'], $bundleApplication['Version']]);
+                    } catch (\PDOException $e) {
+                    }
+                }
+
+            } catch (\PDOException $e) {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+            $request->getSession()->getFlashBag()->add('success', "Bundle Added Successfully");
+            return $this->redirect($request->headers->get('referer'));
+        }
+            $error = "Fill All Fields";
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+    }
     public function showClientBundlesAction($slug)
     {
         $context = $this->container->get('security.context');
@@ -497,158 +534,20 @@ class SalesController extends Controller
         $request = $this->get('request');
         $ClientID = $slug;
         //connect to database
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = $this->get_Store_DB_Object();
         //get applications with number of clients
         if ($request->getMethod() == 'POST') {
             $delete = $request->request->get('delete');
             $edit = $request->request->get('edit');
             $deletedbundlename = $request->request->get('deletedbundle');
+
             if ($delete) {
-                //check if the user select row if not throw exception
-                if ($deletedbundlename) {
-                    //find id for the bundle
-                    $stmt = $conn->prepare('Select ID from Bundle where Name=?');
-                    try {
-                        $stmt->execute([$deletedbundlename]);
-                    } catch (\PDOException $e) {
-                        $error = 'Operation Aborted ..' . $e->getMessage();
-                        $request->getSession()->getFlashBag()->add('danger', $error);
-                        return $this->redirect($request->headers->get('referer'));
-                    }
-                    $deletedbundleID = $stmt->fetchAll();
-                    $deletedbundleID = $deletedbundleID[0][0];
-                    //delete subscription
-                    //todo delete all applicatino belogn to bundle
-                    try {
-                        $stmt = $conn->prepare('delete from Subscription Where ClientID=? and BundleID=? ');
-                        $stmt->execute([$ClientID, $deletedbundleID]);
-                        $stmt = $conn->prepare('select * from BundleApplication,Application where BundleID=? and ApplicationID=Application.ID ');
-                        $stmt->execute([$deletedbundleID]);
-                        While ($app = $stmt->fetch()) {
-                            if ($app['Type'] == 'dongle') {
-                                $stmt1 = $conn->prepare('delete from DongleInstallation where Subscription=true and ApplicationID=? and ClientID=? ');
-                                $stmt1->execute([$app['ApplicationID'], $ClientID]);
-                            } else {
-                                $stmt1 = $conn->prepare('delete from ControllerInstallation where Subscription=true and ApplicationID=? and ClientID=? ');
-                                $stmt1->execute([$app['ApplicationID'], $ClientID]);
-                            }
-                        }
-                    } catch (\PDOException $e) {
-                        $error = 'Operation Aborted ..' . $e->getMessage();
-                        $request->getSession()->getFlashBag()->add('danger', $error);
-                        return $this->redirect($request->headers->get('referer'));
-                    }
-                    $request->getSession()->getFlashBag()->add('success', "Bundle Removed Successfully");
-                    return $this->redirect($request->headers->get('referer'));
-                } else {
-                    try {
-
-                        throw new \Symfony\Component\Intl\Exception\OutOfBoundsException();
-                    } catch (\Exception $e) {
-                        $error = "Select Bundle to remove";
-                        $request->getSession()->getFlashBag()->add('danger', $error);
-                        return $this->redirect($request->headers->get('referer'));
-                    }
-                }
-                //
-            }//delete opration done.
-            else if ($edit) {
-                $bundlename = $request->request->get('editbundle');
-                $StartDate = $request->request->get('StartDate');
-                $EndDate = $request->request->get('EndDate');
-                //check data is it valid or not if not throw exception.
-                if ($EndDate && $StartDate) {
-                    //get ID of the bundle first 
-                    $stmt = $conn->prepare('Select ID from Bundle where Name=?');
-                    try {
-                        $stmt->execute([$bundlename]);
-                    } catch (\PDOException $e) {
-                        $error = 'Operation Aborted ..' . $e->getMessage();
-                        $request->getSession()->getFlashBag()->add('danger', $error);
-                        return $this->redirect($request->headers->get('referer'));
-                    }
-//update the bundle now 
-                    $bundleID = $stmt->fetchAll();
-                    $bundleID = $bundleID[0][0];
-                    $stmt = $conn->prepare('update Subscription Set Start = ? , End = ? Where ClientID=? and BundleID=? ');
-
-                    try {
-                        $stmt->execute([$StartDate, $EndDate, $ClientID, $bundleID]);
-                    } catch (\PDOException $e) {
-                        $error = 'Operation Aborted ..' . $e->getMessage();
-                        $request->getSession()->getFlashBag()->add('danger', $error);
-                        return $this->redirect($request->headers->get('referer'));
-                    }
-
-                    $request->getSession()->getFlashBag()->add('success', "Bundle Edited Successfully");
-                    return $this->redirect($request->headers->get('referer'));
-                }//
-                try {
-
-                    throw new \Symfony\Component\Intl\Exception\OutOfBoundsException();
-                } catch (\Exception $e) {
-                    $error = "Fill All Fields";
-                    $request->getSession()->getFlashBag()->add('danger', $error);
-                    return $this->redirect($request->headers->get('referer'));
-                }
+                $this->deleteSubscribtion($deletedbundlename, $request, $ClientID);
+            } else if ($edit) {
+                $this->editBundle($request, $ClientID);
             } else//here it's add operation
             {
-                $newbundleID = $request->request->get('newbundle');
-                $StartDate = $request->request->get('StartDate');
-                $EndDate = $request->request->get('EndDate');
-                //check if data is valid if not throw exception
-                if ($newbundleID && $StartDate && $EndDate) {
-
-                    $stmt = $conn->prepare('Insert into Subscription (BundleID,ClientID,Start,End) values (?,?,?,?) ');
-                    $stmt->execute([$newbundleID, $ClientID, $StartDate, $EndDate]);
-                    $stmt = $conn->prepare('select *, (select max(Version) from Version where ApplicationID=Application.ID ) as Version from BundleApplication,Application where BundleID=? and BundleApplication.ApplicationID=Application.ID');
-                    $stmt->execute([$newbundleID]);
-                    try {
-                        While ($bundleApplication = $stmt->fetch()) {
-                            try {
-                                if ($bundleApplication['Type'] == 'dongle') {
-                                    $stmt2 = $conn->prepare('select * from  DongleInstallation where ApplicationID=? and ClientID=?');
-                                    $stmt2->execute([$ClientID, $bundleApplication['ApplicationID']]);
-                                    if ($stmt2->fetch())
-                                        continue;
-                                    $stmt2 = $conn->prepare('Insert into DongleInstallation (ClientID,ApplicationID,Version,Status,Subscription) values (?,?,?,(select PK from Status where Status.status="none"),true) ');
-                                } else {
-                                    $stmt2 = $conn->prepare('select * from  ControllerInstallation where ApplicationID=? and ClientID=?');
-                                    $stmt2->execute([$ClientID, $bundleApplication['ApplicationID']]);
-                                    if ($stmt2->fetch())
-                                        continue;
-                                    $stmt2 = $conn->prepare('Insert into ControllerInstallation (ClientID,ApplicationID,Version,Status,Subscription) values (?,?,?,(select PK from Status where Status.status="none"),true) ');
-                                }
-
-                                $stmt2->execute([$ClientID, $bundleApplication['ApplicationID'], $bundleApplication['Version']]);
-                            } catch (\PDOException $e) {
-                            }
-                        }
-
-                    } catch (\PDOException $e) {
-                        $error = 'Operation Aborted ..' . $e->getMessage();
-                        $request->getSession()->getFlashBag()->add('danger', $error);
-                        return $this->redirect($request->headers->get('referer'));
-                    }
-                    $request->getSession()->getFlashBag()->add('success', "Bundle Added Successfully");
-                    return $this->redirect($request->headers->get('referer'));
-                }
-                try {
-
-                    throw new \Symfony\Component\Intl\Exception\OutOfBoundsException();
-                } catch (\Exception $e) {
-                    $error = "Fill All Fields";
-                    $request->getSession()->getFlashBag()->add('danger', $error);
-                    return $this->redirect($request->headers->get('referer'));
-                }
-                //first get the value of post variables 
-                //$bundle_name		= $request->request->get('bundle-name');
+                $this->addBundle($request,$ClientID);
             }
         }
         //if it's not post request then show client bunles
@@ -775,18 +674,23 @@ class SalesController extends Controller
                         $app = $stmt->fetch();
 
                         if ($app['Type'] == "dongle") {
+
                             try {
                                 $stmt = $conn->prepare('Insert into DongleInstallation  (ApplicationID,ClientID,Status,Version,Subscription) values (?,?,(Select PK from Status where Status.status="none"),?,false ) ');
                                 $stmt->execute([$newappID, $ClientID, $app['Version']]);
                             } catch (\PDOException $e) {
+                                $error = 'Operation Aborted ..' . $e->getMessage();
+                                $request->getSession()->getFlashBag()->add('danger', $error);
                                 $stmt = $conn->prepare('update DongleInstallation set Subscription = false where ApplicationID=? and ClientID=? and Version=?');
                                 $stmt->execute([$newappID, $ClientID, $app['Version']]);
                             }
+
                         } else {
                             try {
                                 $stmt = $conn->prepare('Insert into ControllerInstallation (ApplicationID,ClientID,Status,Version,Subscription) values (?,?,(Select PK from Status where Status.status="none"),?,false) ');
                                 $stmt->execute([$newappID, $ClientID, $app['Version']]);
                             } catch (\PDOException $e) {
+
                                 $stmt = $conn->prepare('update ControllerInstallation set Subscription=false where ApplicationID=? and ClientID=? and Version=?');
                                 $stmt->execute([$newappID, $ClientID, $app['Version']]);
                             }

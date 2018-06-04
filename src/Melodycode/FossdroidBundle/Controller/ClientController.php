@@ -33,9 +33,9 @@ class ClientController extends Controller {
         if ($request->getMethod() == 'POST')
         {
             $newpass=$request->request->get('new-password');
-            $stmt = $conn->prepare('update Client Set Password=?');
+            $stmt = $conn->prepare('update Client Set Password=? where ID=?');
             try {
-                $stmt->execute([$newpass]);
+                $stmt->execute([$newpass,$clientID]);
                 $request->getSession()->getFlashBag()->add('success', "Password Updated successfully");
             }
             catch (PDOException $e)
