@@ -214,7 +214,7 @@ class Developer1Controller extends Controller
     {
         $conn = $this->get_Store_DB_Object();
         $stmt="";
-        $request->getSession()->getFlashBag()->add('danger', "i am here ");
+        $request->getSession()->getFlashBag()->add('danger', $type);
 
         if($type=="dongle")
         {
@@ -222,6 +222,7 @@ class Developer1Controller extends Controller
             SELECT ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status from ControllerInstallation where ControllerInstallation.ApplicationID=?;
             delete from ControllerInstallation where ControllerInstallation.ApplicationID=?;');
             $stmt->execute([$app_id,$app_id]);
+            $request->getSession()->getFlashBag()->add('danger', "i am here change to dongel  ");
 
         }
         else
@@ -230,6 +231,8 @@ class Developer1Controller extends Controller
             SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID=?;
             delete from DongleInstallation where DongleInstallation.ApplicationID=?;');
             $stmt->execute([$app_id,$app_id]);
+            $request->getSession()->getFlashBag()->add('danger', "i am here change to tablet");
+
         }
     }
     public function UpdateApplication($request)
