@@ -232,7 +232,7 @@ class Developer1Controller extends Controller
         }
         else
         {
-            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ClientID,ApplicationID,Version,Subscription,Status) SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status FROM DongleInstallation WHERE DongleInstallation.ApplicationID = ?');
+            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ClientID,ApplicationID,Version,Subscription,Status) (SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status FROM DongleInstallation WHERE DongleInstallation.ApplicationID = ?)');
             try {
                 $stmt->execute([$app_id]);
 
