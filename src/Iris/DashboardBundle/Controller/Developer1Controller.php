@@ -238,7 +238,8 @@ class Developer1Controller extends Controller
             }catch (\PDOException $e)
             {
                 $request->getSession()->getFlashBag()->add('danger', "fdsaf  ".$e);
-            }            $request->getSession()->getFlashBag()->add('danger', "i am here change to tablet app id =". $app_id);
+            }            $request->getSession()->getFlashBag()->add('danger', "i am here change to tablet app id =".                 $stmt->queryString
+        );
 
         }
     }
