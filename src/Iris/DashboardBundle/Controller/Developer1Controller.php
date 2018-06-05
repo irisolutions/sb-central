@@ -232,9 +232,10 @@ class Developer1Controller extends Controller
         }
         else
         {
-            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status) SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID= ? ');
+            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status) SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID= :id ');
             try {
-                $stmt->execute([$app_id]);
+                $stmt->bindParam(';id',$app_id,PDO::PARAM_STR);
+                $stmt->execute();
             }catch (\PDOException $e)
             {
                 $request->getSession()->getFlashBag()->add('danger', "fdsaf  ".$e);
