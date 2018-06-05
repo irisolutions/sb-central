@@ -210,6 +210,65 @@ class Developer1Controller extends Controller
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $conn;
     }
+    public function typeChangeTo($app_id,$type)
+    {
+        $conn = $this->get_Store_DB_Object();
+        $stmt=0;
+        if($type=="dongle")
+        {
+            $stmt = $conn->prepare('INSERT INTO DongleInstallation (DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status)
+            SELECT ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status from ControllerInstallation where ControllerInstallation.ApplicationID=?;
+            delete from ControllerInstallation where ControllerInstallation.ApplicationID=?;');
+
+        }
+        else
+        {
+            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status)
+            SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID=?;
+            delete from DongleInstallation where DongleInstallation.ApplicationID=?;');
+        }
+        $stmt->execute([$app_id,$app_id]);
+    }
+    public function UpdateApplication($request)
+    {
+        $app_name = $request->request->get('app-name');
+        $app_description = $request->request->get('app-description');
+        $app_identifier = $request->request->get('app-identifier');
+        $app_price = $request->request->get('app-price');
+        $app_summary = $request->request->get('app-summary');
+        $app_category = $request->request->get('app-category');
+        $app_type = $request->request->get('app-type');
+
+        // we check if the two binary files are where they should be other wise we fail
+        $repo_dir = $this->container->getParameter('melodycode_fossdroid.local_path_repo');
+        $metadata_dir = $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
+        $metadata_file = $metadata_dir . '/' . $app_identifier . '.txt';
+        $content = 'License:Unknown' . PHP_EOL . 'Web Site:' . PHP_EOL . 'Source Code:' . PHP_EOL . 'Issue Tracker:' . PHP_EOL . 'Changelog:' . PHP_EOL . 'Summary:%s' . PHP_EOL . 'Description:' . PHP_EOL . '%s' . PHP_EOL . '.' . PHP_EOL . 'Name:%s' . PHP_EOL . 'Categories:%s' . PHP_EOL . '';
+        $content = sprintf($content, $app_summary, $app_description, $app_name, $app_category);
+        $success = file_put_contents($metadata_file, $content, LOCK_EX);
+
+        if (!$success) {
+            $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Unable to write metadata file');
+            return $this->redirect($request->headers->get('referer'));
+        }
+        $conn = $this->get_Store_DB_Object();
+        $stmt = $conn->prepare('UPDATE Application SET ID =?, Name=?,Price=?, Type=? WHERE ID=?');
+        try {
+            $stmt->execute([$app_identifier, $app_name, $app_price, $app_type, $app_identifier]);
+        } catch (\PDOException $e) {
+            if ($e->errorInfo[1] == 1062) // contrains violation i.e. the app_id:app_version already exists
+            {
+                // Take some action if there is a key constraint violation, i.e. duplicate name
+                $error = 'Operation Aborted .. The Application Identifier must be unique [Error]' . $e->getMessage();
+            } else {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+            }
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        $this->typeChangeTo($app_identifier,$app_type);
+        return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'update'));
+    }
     public function editAppAction($slug)
     {
         $context = $this->container->get('security.context');
@@ -226,46 +285,8 @@ class Developer1Controller extends Controller
                 return $this->redirect($request->headers->get('referer'));
             }
 
-            $app_name = $request->request->get('app-name');
-            $app_bundle = $request->request->get('app-bundle');
-            $app_description = $request->request->get('app-description');
-            $app_identifier = $request->request->get('app-identifier');
-            $app_payment_model = $request->request->get('app-payment-model');
-            $app_price = $request->request->get('app-price');
-            $app_summary = $request->request->get('app-summary');
-            $app_category = $request->request->get('app-category');
-            $app_type = $request->request->get('app-type');
-
-            // we check if the two binary files are where they should be other wise we fail
-            $repo_dir = $this->container->getParameter('melodycode_fossdroid.local_path_repo');
-            $metadata_dir = $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
-            $metadata_file = $metadata_dir . '/' . $app_identifier . '.txt';
-            $content = 'License:Unknown' . PHP_EOL . 'Web Site:' . PHP_EOL . 'Source Code:' . PHP_EOL . 'Issue Tracker:' . PHP_EOL . 'Changelog:' . PHP_EOL . 'Summary:%s' . PHP_EOL . 'Description:' . PHP_EOL . '%s' . PHP_EOL . '.' . PHP_EOL . 'Name:%s' . PHP_EOL . 'Categories:%s' . PHP_EOL . '';
-            $content = sprintf($content, $app_summary, $app_description, $app_name, $app_category);
-            $success = file_put_contents($metadata_file, $content, LOCK_EX);
-
-            if (!$success) {
-                $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Unable to write metadata file');
-                return $this->redirect($request->headers->get('referer'));
-            }
-            $conn = $this->get_Store_DB_Object();
-            $stmt = $conn->prepare('UPDATE Application SET ID =?, Name=?,Price=?, Type=? WHERE ID=?');
-            try {
-                $stmt->execute([$app_identifier, $app_name, $app_price, $app_type, $app_identifier]);
-
-            } catch (\PDOException $e) {
-                if ($e->errorInfo[1] == 1062) // contrains violation i.e. the app_id:app_version already exists
-                {
-                    // Take some action if there is a key constraint violation, i.e. duplicate name
-                    $error = 'Operation Aborted .. The Application Identifier must be unique [Error]' . $e->getMessage();
-                } else {
-                    $error = 'Operation Aborted ..' . $e->getMessage();
-                }
-                $request->getSession()->getFlashBag()->add('danger', $error);
-                return $this->redirect($request->headers->get('referer'));
-            }
+            return $this->UpdateApplication($request);
             // if we are here then all is good let us launch the update script
-            return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'update'));
         }
         $conn = $this->get_Store_DB_Object();
         $stmt = $conn->prepare('SELECT * FROM Application WHERE ID = ?');
