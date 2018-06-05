@@ -210,38 +210,24 @@ class Developer1Controller extends Controller
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $conn;
     }
-    public function typeChangeTo($app_id,$type,$request)
+    public function typeChangeTo($app_id,$type)
     {
         $conn = $this->get_Store_DB_Object();
-        $stmt="";
-        $request->getSession()->getFlashBag()->add('danger', $type);
-
+        $stmt=0;
         if($type=="dongle")
         {
             $stmt = $conn->prepare('INSERT INTO DongleInstallation (DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status)
             SELECT ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status from ControllerInstallation where ControllerInstallation.ApplicationID=?;
             delete from ControllerInstallation where ControllerInstallation.ApplicationID=?;');
-            try {
-                $stmt->execute([$app_id, $app_id]);
-            }catch (\PDOException $e)
-            {
-                $request->getSession()->getFlashBag()->add('danger', $e);
-            }
-            $request->getSession()->getFlashBag()->add('danger', "i am here change to dongel  ");
 
         }
         else
         {
-            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ClientID,ApplicationID,Version,Subscription,Status) (SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status FROM DongleInstallation WHERE DongleInstallation.ApplicationID = ?)');
-            try {
-                $stmt->execute([$app_id]);
-
-            }catch (\PDOException $e)
-            {
-                $request->getSession()->getFlashBag()->add('danger', "fdsaf  ".$e);
-            }            $request->getSession()->getFlashBag()->add('danger', "i am here change to tablet app id =".$stmt->rowCount());
-
+            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status)
+            SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID=?;
+            delete from DongleInstallation where DongleInstallation.ApplicationID=?;');
         }
+        $stmt->execute([$app_id,$app_id]);
     }
     public function UpdateApplication($request)
     {
@@ -266,7 +252,6 @@ class Developer1Controller extends Controller
             return $this->redirect($request->headers->get('referer'));
         }
         $conn = $this->get_Store_DB_Object();
-        $this->typeChangeTo($app_identifier,$app_type,$request);
         $stmt = $conn->prepare('UPDATE Application SET ID =?, Name=?,Price=?, Type=? WHERE ID=?');
         try {
             $stmt->execute([$app_identifier, $app_name, $app_price, $app_type, $app_identifier]);
@@ -281,6 +266,7 @@ class Developer1Controller extends Controller
             $request->getSession()->getFlashBag()->add('danger', $error);
             return $this->redirect($request->headers->get('referer'));
         }
+        $this->typeChangeTo($app_identifier,$app_type);
         return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'update'));
     }
     public function editAppAction($slug)
