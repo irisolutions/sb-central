@@ -198,6 +198,7 @@ class Developer1Controller extends Controller
         return $this->render('DashboardBundle:Developer:manage-app.html.twig', array(
             'applications' => $applications));
     }
+
     public function get_Store_DB_Object()
     {
         $dbname = $this->container->getParameter('store_database_name');
@@ -210,6 +211,7 @@ class Developer1Controller extends Controller
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $conn;
     }
+
     public function typeChangeTo($app_id,$type)
     {
         $conn = $this->get_Store_DB_Object();
@@ -229,6 +231,7 @@ class Developer1Controller extends Controller
         }
         $stmt->execute([$app_id,$app_id]);
     }
+
     public function UpdateApplication($request)
     {
         $app_name = $request->request->get('app-name');
@@ -269,6 +272,7 @@ class Developer1Controller extends Controller
         $this->typeChangeTo($app_identifier,$app_type);
         return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'update'));
     }
+
     public function editAppAction($slug)
     {
         $context = $this->container->get('security.context');
