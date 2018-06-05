@@ -232,13 +232,13 @@ class Developer1Controller extends Controller
         }
         else
         {
-            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status) SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID= "com.iris.sensorybox.games.track" ');
+            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status) SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID= ? ');
             try {
                 $stmt->execute([$app_id]);
             }catch (\PDOException $e)
             {
                 $request->getSession()->getFlashBag()->add('danger', "fdsaf  ".$e);
-            }            $request->getSession()->getFlashBag()->add('danger', "i am here change to tablet");
+            }            $request->getSession()->getFlashBag()->add('danger', "i am here change to tablet app id =". $app_id);
 
         }
     }
