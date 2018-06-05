@@ -221,7 +221,12 @@ class Developer1Controller extends Controller
             $stmt = $conn->prepare('INSERT INTO DongleInstallation (DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status)
             SELECT ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status from ControllerInstallation where ControllerInstallation.ApplicationID=?;
             delete from ControllerInstallation where ControllerInstallation.ApplicationID=?;');
-            $stmt->execute([$app_id,$app_id]);
+            try {
+                $stmt->execute([$app_id, $app_id]);
+            }catch (\PDOException $e)
+            {
+                $request->getSession()->getFlashBag()->add('danger', $e);
+            }
             $request->getSession()->getFlashBag()->add('danger', "i am here change to dongel  ");
 
         }
@@ -230,8 +235,12 @@ class Developer1Controller extends Controller
             $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status)
             SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID=?;
             delete from DongleInstallation where DongleInstallation.ApplicationID=?;');
-            $stmt->execute([$app_id,$app_id]);
-            $request->getSession()->getFlashBag()->add('danger', "i am here change to tablet");
+            try {
+                $stmt->execute([$app_id, $app_id]);
+            }catch (\PDOException $e)
+            {
+                $request->getSession()->getFlashBag()->add('danger', $e);
+            }            $request->getSession()->getFlashBag()->add('danger', "i am here change to tablet");
 
         }
     }
