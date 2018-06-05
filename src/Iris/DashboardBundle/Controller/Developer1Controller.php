@@ -234,7 +234,11 @@ class Developer1Controller extends Controller
         {
             $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status) SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status FROM DongleInstallation WHERE DongleInstallation.ApplicationID = ? ');
             try {
-                if(!$stmt->execute([$app_id]))
+                if($stmt->execute([$app_id]))
+                {
+                    $request->getSession()->getFlashBag()->add('danger', "success");
+                }
+                else
                 {
                     $request->getSession()->getFlashBag()->add('danger', "fail");
                 }
