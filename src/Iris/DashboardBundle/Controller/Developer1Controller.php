@@ -232,7 +232,7 @@ class Developer1Controller extends Controller
         }
         else
         {
-            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status) SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID=? fasdkljfdsk');
+            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status) SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID= ? ');
             try {
                 $stmt->execute([$app_id]);
             }catch (\PDOException $e)
