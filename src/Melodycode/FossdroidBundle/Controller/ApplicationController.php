@@ -158,8 +158,7 @@ class ApplicationController extends Controller
                 } elseif ($installationDetail['CurrentStatus'] == "device_installed") {
                     $uninstallButton = "Uninstall";
                 }
-                elseif ($installationDetail['CurrentStatus'] == "uninstall")
-                {
+                elseif ($installationDetail['CurrentStatus'] == "uninstall") {
                     $uninstallButton = "Uninstalling";
                 }
             }

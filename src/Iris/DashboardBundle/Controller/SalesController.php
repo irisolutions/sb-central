@@ -103,6 +103,117 @@ class SalesController extends Controller
         return $this->render('DashboardBundle:Sales:new-update-bundle.html.twig', array('update' => false, 'apps' => $applications));
     }
 
+    public function updateBundle($request)
+    {
+        //first get the value of post variables
+        $bundle_name = $request->request->get('bundle-name');
+        $bundle_price = $request->request->get('bundle-price');
+        $bundle_description = $request->request->get('bundle-description');
+        $app_identifiers = $request->request->get('app-identifiers');//string of application id's separated with ','
+        $app_identifiers = explode(",", $app_identifiers);
+        // connect to database
+        $conn = $this->get_Store_DB_Object();
+        // get  ID for bundle
+        $stmt = $conn->prepare('select ID from Bundle where Name=?');
+        $stmt->execute([$bundle_name]);
+        $bundle_id = $stmt->fetchAll()[0]['ID'];
+        //update description
+        $stmt = $conn->prepare('update Bundle set Description=?,Price=? where ID=?');
+        try {
+            $stmt->execute([$bundle_description,$bundle_price, $bundle_id]);
+        } catch (\PDOException $e) {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        //delete all delete all bundle applications
+        $stmt = $conn->prepare('select distinct UserID from BundlesTracking where BundleID=?');
+        try {
+            $stmt->execute([$bundle_id]);
+        } catch (\PDOException $e) {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        $users=$stmt->fetchAll();
+        $stmt = $conn->prepare('select distinct ApplicationID from BundlesTracking where BundleID=?');
+        try {
+            $stmt->execute([$bundle_id]);
+        } catch (\PDOException $e) {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        $applications_to_remove=$stmt->fetchAll();
+        $stmt = $conn->prepare('delete from BundleApplication  where BundleID=?');
+        $stmt1 = $conn->prepare('delete from BundlesTracking  where BundleID=?');
+        try {
+            $stmt->execute([$bundle_id]);
+            $stmt1->execute([$bundle_id]);
+        } catch (\PDOException $e) {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        //insert application list to bundle
+        $stmt = $conn->prepare('INSERT INTO BundleApplication (BundleID,ApplicationID) VALUES (?,?)');
+        try {
+            for ($i = 0; $i < count($app_identifiers); $i++) {
+                $stmt->execute([$bundle_id, $app_identifiers[$i]]);
+                foreach ($users as $user)
+                {
+                    try {
+
+                        $stmt1 = $conn->prepare('INSERT INTO BundlesTracking (UserID, ApplicationID, BundleID) VALUES (?,?,?)');
+                        $uu=$user['UserID'];
+                        $stmt1->execute([$uu, $app_identifiers[$i] ,$bundle_id]);
+                        $stmt1 = $conn->prepare('Select Type from Application where ID=?');
+                        $stmt1->execute([$app_identifiers[$i]]);
+                        if($stmt1->fetch()['Type']=='dongle')
+                        {
+                            $stmt1 = $conn->prepare('INSERT INTO DongleInstallation (ClientID, ApplicationID, Version, Status,Subscription) VALUES (?,?,(select max(Version) from Version where ApplicationID=?),(select PK from Status where Status.status="none"),true)');
+                            $stmt1->execute([$user['UserID'],$app_identifiers[$i],$app_identifiers[$i]]);
+                        }
+                        else
+                        {
+                            $stmt1 = $conn->prepare('INSERT INTO ControllerInstallation (ClientID, ApplicationID, Version, Status,Subscription) VALUES (?,?,(select max(Version) from Version where ApplicationID=?),(select PK from Status where Status.status="none"),true)');
+                            $stmt1->execute([$user['UserID'],$app_identifiers[$i],$app_identifiers[$i]]);
+                        }
+                    }catch (\PDOException $e){
+
+                    }
+                    try {
+                        foreach ($applications_to_remove as $app) {
+                            $stmt1 = $conn->prepare('Select Type from Application where ID=?');
+                            $stmt1->execute([$app['ApplicationID']]);
+                            if ($stmt1->fetch()['Type'] == 'dongle') {
+                                $stmt1 = $conn->prepare('delete from DongleInstallation where Subscription=true and ApplicationID=? and ClientID=? and (select  count(distinct BundleID)from BundlesTracking where BundlesTracking.ApplicationID=? and UserID=?) < 1 ');
+                                $stmt1->execute([$app['ApplicationID'],$user['UserID'],$app['ApplicationID'],$user['UserID']]);
+                            } else {
+                                $stmt1 = $conn->prepare('delete from ControllerInstallation where Subscription=true and ApplicationID=? and ClientID=? and (select  count(distinct BundleID)from BundlesTracking where BundlesTracking.ApplicationID=? and UserID=?) < 1 ');
+                                $stmt1->execute([$app['ApplicationID'],$user['UserID'],$app['ApplicationID'],$user['UserID']]);
+                            }
+                        }
+                    }
+                    catch (\PDOException $e){
+
+                    }
+
+                }
+            }
+
+//            $stmt1 = $conn->prepare('delete from DongleInstallation where Subscription=true and ApplicationID=? and (select  count(distinct BundleID)from BundlesTracking where BundlesTracking.ApplicationID=?) <= 1 ');
+//            $stmt1->execute([]);
+        } catch (\PDOException $e) {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        return $this->render('DashboardBundle:Sales:new-update-delete-bundle-result.html.twig');
+
+    }
+
+
     public function editBundleAction($slug)
     {
 
@@ -115,49 +226,8 @@ class SalesController extends Controller
         $request = $this->get('request');
 
         if ($request->getMethod() == 'POST') {
-            //first get the value of post variables
-            $bundle_name = $request->request->get('bundle-name');
-            $bundle_price = $request->request->get('bundle-price');
-            $bundle_description = $request->request->get('bundle-description');
-            $app_identifiers = $request->request->get('app-identifiers');//string of application id's separated with ','
-            $app_identifiers = explode(",", $app_identifiers);
-            // connect to database
-            $conn = $this->get_Store_DB_Object();
-            // get  ID for bundle
-            $stmt = $conn->prepare('select ID from Bundle where Name=?');
-            $stmt->execute([$bundle_name]);
-            $bundle_id = $stmt->fetchAll()[0]['ID'];
-            //update description
-            $stmt = $conn->prepare('update Bundle set Description=?,Price=? where ID=?');
-            try {
-                $stmt->execute([$bundle_description,$bundle_price, $bundle_id]);
-            } catch (\PDOException $e) {
-                $error = 'Operation Aborted ..' . $e->getMessage();
-                $request->getSession()->getFlashBag()->add('danger', $error);
-                return $this->redirect($request->headers->get('referer'));
+            return $this->updateBundle($request);
             }
-            //delete all delete all bundle applications
-            $stmt = $conn->prepare('delete from BundleApplication  where BundleID=?');
-            try {
-                $stmt->execute([$bundle_id]);
-            } catch (\PDOException $e) {
-                $error = 'Operation Aborted ..' . $e->getMessage();
-                $request->getSession()->getFlashBag()->add('danger', $error);
-                return $this->redirect($request->headers->get('referer'));
-            }
-            //insert application list to bundle
-            $stmt = $conn->prepare('INSERT INTO BundleApplication (BundleID,ApplicationID) VALUES (?,?)');
-            try {
-                for ($i = 0; $i < count($app_identifiers); $i++) {
-                    $stmt->execute([$bundle_id, $app_identifiers[$i]]);
-                }
-            } catch (\PDOException $e) {
-                $error = 'Operation Aborted ..' . $e->getMessage();
-                $request->getSession()->getFlashBag()->add('danger', $error);
-                return $this->redirect($request->headers->get('referer'));
-            }
-            return $this->render('DashboardBundle:Sales:new-update-delete-bundle-result.html.twig');
-        }
         //post method not used default page here
         $bundle_id = $slug;
         $conn = $this->get_Store_DB_Object();
@@ -197,6 +267,23 @@ class SalesController extends Controller
         return $this->render('DashboardBundle:Sales:new-update-bundle.html.twig', array('update' => true, 'apps' => $applications, 'bundle' => $bundle, 'appsOfBundle' => $apps_of_Bundle));
 
     }
+    public function deleleteApplicationBundle($deletedbundleID)
+    {
+        $conn = $this->get_Store_DB_Object();
+        $stmt = $conn->prepare('select * from BundleApplication,Application where BundleID=? and ApplicationID=Application.ID ');
+        $stmt->execute([$deletedbundleID]);
+        While ($app = $stmt->fetch()) {
+            if ($app['Type'] == 'dongle') {
+                $stmt1 = $conn->prepare('delete from DongleInstallation where Subscription=true and ApplicationID=? and (select  count(*)from BundlesTracking where BundlesTracking.ApplicationID=? ) <= 1 ');
+                $stmt1->execute([$app['ApplicationID'],$app['ApplicationID']]);
+            } else {
+                $stmt1 = $conn->prepare('delete from ControllerInstallation where Subscription=true and ApplicationID=? and (select  count(*)from BundlesTracking where BundlesTracking.ApplicationID=? )<=1 ');
+                $stmt1->execute([$app['ApplicationID'],$app['ApplicationID']]);
+            }
+            $stmt1 = $conn->prepare('delete from BundlesTracking where ApplicationID=? and BundleID=?');
+            $stmt1->execute([$app['ApplicationID'],$deletedbundleID]);
+        }
+    }
 
     public function deleteBundleAction($slug)
     {
@@ -219,7 +306,8 @@ class SalesController extends Controller
             $request->getSession()->getFlashBag()->add('danger', $error);
             return $this->redirect($request->headers->get('referer'));
         }
-        //delete application list of bundle 
+        //delete application list of bundle
+        $this->deleleteApplicationBundle($bundle_identifier);
         $stmt = $conn->prepare('DELETE FROM BundleApplication WHERE BundleID = ?');
         try {
             $stmt->execute([$bundle_identifier]);
@@ -420,12 +508,14 @@ class SalesController extends Controller
                 $stmt->execute([$deletedbundleID]);
                 While ($app = $stmt->fetch()) {
                     if ($app['Type'] == 'dongle') {
-                        $stmt1 = $conn->prepare('delete from DongleInstallation where Subscription=true and ApplicationID=? and ClientID=? ');
-                        $stmt1->execute([$app['ApplicationID'], $ClientID]);
+                        $stmt1 = $conn->prepare('delete from DongleInstallation where Subscription=true and ApplicationID=? and ClientID=? and (select  count(*)from BundlesTracking where BundlesTracking.ApplicationID=? and UserID=?) <= 1 ');
+                        $stmt1->execute([$app['ApplicationID'], $ClientID,$app['ApplicationID'],$ClientID]);
                     } else {
-                        $stmt1 = $conn->prepare('delete from ControllerInstallation where Subscription=true and ApplicationID=? and ClientID=? ');
-                        $stmt1->execute([$app['ApplicationID'], $ClientID]);
+                        $stmt1 = $conn->prepare('delete from ControllerInstallation where Subscription=true and ApplicationID=? and ClientID=? and (select  count(*)from BundlesTracking where BundlesTracking.ApplicationID=? and UserID-?)<=1 ');
+                        $stmt1->execute([$app['ApplicationID'], $ClientID,$app['ApplicationID'],$ClientID]);
                     }
+                    $stmt1 = $conn->prepare('delete from BundlesTracking where ApplicationID=? and UserID =? and BundleID=?');
+                    $stmt1->execute([$app['ApplicationID'], $ClientID,$deletedbundleID]);
                 }
             } catch (\PDOException $e) {
                 $error = 'Operation Aborted ..' . $e->getMessage();
@@ -494,6 +584,8 @@ class SalesController extends Controller
             try {
                 While ($bundleApplication = $stmt->fetch()) {
                     try {
+                        $stmt2 = $conn->prepare('Insert into BundlesTracking (UserID, ApplicationID, BundleID) VALUES (?,?,?)');
+                        $stmt2->execute([$ClientID,$bundleApplication['ApplicationID'],$newbundleID]);
                         if ($bundleApplication['Type'] == 'dongle') {
                             $stmt2 = $conn->prepare('select * from  DongleInstallation where ApplicationID=? and ClientID=?');
                             $stmt2->execute([$ClientID, $bundleApplication['ApplicationID']]);
@@ -509,7 +601,9 @@ class SalesController extends Controller
                         }
 
                         $stmt2->execute([$ClientID, $bundleApplication['ApplicationID'], $bundleApplication['Version']]);
+
                     } catch (\PDOException $e) {
+
                     }
                 }
 
