@@ -44,7 +44,9 @@ dashboard_sales_new_bundle:
 dashboard_sales_manage_bundle:
     path: /sales/manage-bundle
     defaults: { _controller: DashboardBundle:Sales:manageBundle}
-
+dashboard_dev_set_icon:
+    path: /dev/set-icon/{slug}
+    defaults: {_controller: DashboardBundle:Developer1:uploadIcon}
 dashboard_dev_delete_bundle:
     path: /dev/delete-bundle/{slug}
     defaults: { _controller: DashboardBundle:Sales:deleteBundle}

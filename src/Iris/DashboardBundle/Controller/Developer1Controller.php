@@ -19,17 +19,6 @@ use Symfony\Component\Process\Process;
 class Developer1Controller extends Controller
 {
 
-    public function get_string_between($string, $start, $end)
-    {
-        $string = ' ' . $string;
-        $ini = strpos($string, $start);
-        if ($ini == 0) return '';
-        $ini += strlen($start);
-        $len = strpos($string, $end, $ini) - $ini;
-        return substr($string, $ini, $len);
-    }
-
-
     public function liveExecuteCommand($cmd)
     {
 
@@ -59,50 +48,10 @@ class Developer1Controller extends Controller
         );
     }
 
-    public function scriptStillExecuting($script)
-    {
-
-        $command = 'pgrep -fl sh.*.sudo.*apache.*' . $script;
-        //$command = 'pgrep -fl '.$script;
-        $output = shell_exec($command);
-
-        $request = $this->get('request');
-
-//        return (strlen($output) > 0);
-
-    }
-
     public function trackingAction()
     {
         return $this->render('DashboardBundle:Sales:Tracking.html.twig');
     }
-
-    public function executeCommand($cmd)
-    {
-
-        $response = new StreamedResponse();
-        $script = $cmd . ' 2>&1';
-        $process = new Process($script);
-
-        $response->setCallback(function () use ($process) {
-            $process->run(function ($type, $buffer) {
-                if (Process::ERR === $type) {
-                    echo '' . $buffer; // standard output
-                } else {
-                    echo '' . $buffer; // standard error
-                    //echo '<br>';
-                }
-                ob_flush();
-                flush();
-
-            });
-        });
-
-        $response->setStatusCode(200);
-
-        return $response;
-    }
-
 
     public function newAppResultAction()
     {
@@ -132,6 +81,32 @@ class Developer1Controller extends Controller
             });
         });
         $response->setStatusCode(200);
+        return $response;
+    }
+
+    public function executeCommand($cmd)
+    {
+
+        $response = new StreamedResponse();
+        $script = $cmd . ' 2>&1';
+        $process = new Process($script);
+
+        $response->setCallback(function () use ($process) {
+            $process->run(function ($type, $buffer) {
+                if (Process::ERR === $type) {
+                    echo '' . $buffer; // standard output
+                } else {
+                    echo '' . $buffer; // standard error
+                    //echo '<br>';
+                }
+                ob_flush();
+                flush();
+
+            });
+        });
+
+        $response->setStatusCode(200);
+
         return $response;
     }
 
@@ -199,80 +174,6 @@ class Developer1Controller extends Controller
             'applications' => $applications));
     }
 
-    public function get_Store_DB_Object()
-    {
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $conn;
-    }
-
-    public function typeChangeTo($app_id,$type)
-    {
-        $conn = $this->get_Store_DB_Object();
-        $stmt=0;
-        if($type=="dongle")
-        {
-            $stmt = $conn->prepare('INSERT INTO DongleInstallation (DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status)
-            SELECT ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status from ControllerInstallation where ControllerInstallation.ApplicationID=?;
-            delete from ControllerInstallation where ControllerInstallation.ApplicationID=?;');
-
-        }
-        else
-        {
-            $stmt=$conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status)
-            SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID=?;
-            delete from DongleInstallation where DongleInstallation.ApplicationID=?;');
-        }
-        $stmt->execute([$app_id,$app_id]);
-    }
-
-    public function UpdateApplication($request)
-    {
-        $app_name = $request->request->get('app-name');
-        $app_description = $request->request->get('app-description');
-        $app_identifier = $request->request->get('app-identifier');
-        $app_price = $request->request->get('app-price');
-        $app_summary = $request->request->get('app-summary');
-        $app_category = $request->request->get('app-category');
-        $app_type = $request->request->get('app-type');
-
-        // we check if the two binary files are where they should be other wise we fail
-        $repo_dir = $this->container->getParameter('melodycode_fossdroid.local_path_repo');
-        $metadata_dir = $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
-        $metadata_file = $metadata_dir . '/' . $app_identifier . '.txt';
-        $content = 'License:Unknown' . PHP_EOL . 'Web Site:' . PHP_EOL . 'Source Code:' . PHP_EOL . 'Issue Tracker:' . PHP_EOL . 'Changelog:' . PHP_EOL . 'Summary:%s' . PHP_EOL . 'Description:' . PHP_EOL . '%s' . PHP_EOL . '.' . PHP_EOL . 'Name:%s' . PHP_EOL . 'Categories:%s' . PHP_EOL . '';
-        $content = sprintf($content, $app_summary, $app_description, $app_name, $app_category);
-        $success = file_put_contents($metadata_file, $content, LOCK_EX);
-
-        if (!$success) {
-            $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Unable to write metadata file');
-            return $this->redirect($request->headers->get('referer'));
-        }
-        $conn = $this->get_Store_DB_Object();
-        $stmt = $conn->prepare('UPDATE Application SET ID =?, Name=?,Price=?, Type=? WHERE ID=?');
-        try {
-            $stmt->execute([$app_identifier, $app_name, $app_price, $app_type, $app_identifier]);
-        } catch (\PDOException $e) {
-            if ($e->errorInfo[1] == 1062) // contrains violation i.e. the app_id:app_version already exists
-            {
-                // Take some action if there is a key constraint violation, i.e. duplicate name
-                $error = 'Operation Aborted .. The Application Identifier must be unique [Error]' . $e->getMessage();
-            } else {
-                $error = 'Operation Aborted ..' . $e->getMessage();
-            }
-            $request->getSession()->getFlashBag()->add('danger', $error);
-            return $this->redirect($request->headers->get('referer'));
-        }
-        $this->typeChangeTo($app_identifier,$app_type);
-        return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'update'));
-    }
-
     public function editAppAction($slug)
     {
         $context = $this->container->get('security.context');
@@ -327,6 +228,100 @@ class Developer1Controller extends Controller
             'summary' => $summary,
             'description' => $description));
 
+    }
+
+    public function scriptStillExecuting($script)
+    {
+
+        $command = 'pgrep -fl sh.*.sudo.*apache.*' . $script;
+        //$command = 'pgrep -fl '.$script;
+        $output = shell_exec($command);
+
+        $request = $this->get('request');
+
+//        return (strlen($output) > 0);
+
+    }
+
+    public function UpdateApplication($request)
+    {
+        $app_name = $request->request->get('app-name');
+        $app_description = $request->request->get('app-description');
+        $app_identifier = $request->request->get('app-identifier');
+        $app_price = $request->request->get('app-price');
+        $app_summary = $request->request->get('app-summary');
+        $app_category = $request->request->get('app-category');
+        $app_type = $request->request->get('app-type');
+
+        // we check if the two binary files are where they should be other wise we fail
+        $repo_dir = $this->container->getParameter('melodycode_fossdroid.local_path_repo');
+        $metadata_dir = $this->container->getParameter('melodycode_fossdroid.local_path_metadata');
+        $metadata_file = $metadata_dir . '/' . $app_identifier . '.txt';
+        $content = 'License:Unknown' . PHP_EOL . 'Web Site:' . PHP_EOL . 'Source Code:' . PHP_EOL . 'Issue Tracker:' . PHP_EOL . 'Changelog:' . PHP_EOL . 'Summary:%s' . PHP_EOL . 'Description:' . PHP_EOL . '%s' . PHP_EOL . '.' . PHP_EOL . 'Name:%s' . PHP_EOL . 'Categories:%s' . PHP_EOL . '';
+        $content = sprintf($content, $app_summary, $app_description, $app_name, $app_category);
+        $success = file_put_contents($metadata_file, $content, LOCK_EX);
+
+        if (!$success) {
+            $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Unable to write metadata file');
+            return $this->redirect($request->headers->get('referer'));
+        }
+        $conn = $this->get_Store_DB_Object();
+        $stmt = $conn->prepare('UPDATE Application SET ID =?, Name=?,Price=?, Type=? WHERE ID=?');
+        try {
+            $stmt->execute([$app_identifier, $app_name, $app_price, $app_type, $app_identifier]);
+        } catch (\PDOException $e) {
+            if ($e->errorInfo[1] == 1062) // contrains violation i.e. the app_id:app_version already exists
+            {
+                // Take some action if there is a key constraint violation, i.e. duplicate name
+                $error = 'Operation Aborted .. The Application Identifier must be unique [Error]' . $e->getMessage();
+            } else {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+            }
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+        $this->typeChangeTo($app_identifier, $app_type);
+        return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'update'));
+    }
+
+    public function get_Store_DB_Object()
+    {
+        $dbname = $this->container->getParameter('store_database_name');
+        $username = $this->container->getParameter('store_database_user');
+        $password = $this->container->getParameter('store_database_password');
+        $servername = $this->container->getParameter('store_database_host');
+
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $conn;
+    }
+
+    public function typeChangeTo($app_id, $type)
+    {
+        $conn = $this->get_Store_DB_Object();
+        $stmt = 0;
+        if ($type == "dongle") {
+            $stmt = $conn->prepare('INSERT INTO DongleInstallation (DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status)
+            SELECT ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status from ControllerInstallation where ControllerInstallation.ApplicationID=?;
+            delete from ControllerInstallation where ControllerInstallation.ApplicationID=?;');
+
+        } else {
+            $stmt = $conn->prepare('INSERT INTO ControllerInstallation (ControllerInstallation.ClientID,ControllerInstallation.ApplicationID,ControllerInstallation.Version,ControllerInstallation.Subscription,ControllerInstallation.Status)
+            SELECT DongleInstallation.ClientID,DongleInstallation.ApplicationID,DongleInstallation.Version,DongleInstallation.Subscription,DongleInstallation.Status from DongleInstallation where DongleInstallation.ApplicationID=?;
+            delete from DongleInstallation where DongleInstallation.ApplicationID=?;');
+        }
+        $stmt->execute([$app_id, $app_id]);
+    }
+
+    public function get_string_between($string, $start, $end)
+    {
+        $string = ' ' . $string;
+        $ini = strpos($string, $start);
+        if ($ini == 0) return '';
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+        return substr($string, $ini, $len);
     }
 
     public function newVersionAction($slug)
@@ -1043,5 +1038,48 @@ class Developer1Controller extends Controller
 
         return $this->render('DashboardBundle:Developer:new-update-app.html.twig', array('update' => false, 'categories' => $categories));
 
+    }
+
+    public function uploadIconAction($slug)
+    {
+        $context = $this->container->get('security.context');
+
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+        $request = $this->get('request');
+
+        //auth
+        $app_identifier = $slug;
+        $conn = $this->get_Store_DB_Object();
+        $stmt = $conn->prepare('select Name from Application where Application.ID = ?');
+        $appName = '';
+        try {
+            $stmt->execute([$app_identifier]);
+            $appName = $stmt->fetch()[0];
+        } catch (\PDOException $e) {
+            $request->getSession()->getFlashBag()->add('danger', 'Can not open targeted page due to error');
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        if ($request->getMethod() == 'POST') {
+
+            $icon_path = $this->container->getParameter('melodycode_fossdroid.local_path_icons');
+            $target_dir = $icon_path;
+            $target_file = $target_dir . $appName.'.png';
+            if (file_exists($target_file))
+                unlink($target_file);
+            if (!move_uploaded_file($_FILES["app-icon"]["tmp_name"], $target_file)) {
+                $request->getSession()->getFlashBag()->add('danger', 'Sorry, there was an error uploading your file.');
+                return $this->redirect($request->headers->get('referer'));
+            }
+            $request->getSession()->getFlashBag()->add('success', 'Done.');
+            $request->getSession()->getFlashBag()->add('success', 'Uploaded successfully');
+            return $this->redirect($request->headers->get('referer'));
+        }
+        $icon_path = $this->container->getParameter('melodycode_fossdroid.local_path_icons');
+        $target_dir = $icon_path;
+        $target_file = $target_dir . $appName.'.png';
+        return $this->render('@Dashboard/Developer/set-application-icon.html.twig', Array('app1' => $appName, 'img' => $target_file, 'time'=>''));
     }
 }
