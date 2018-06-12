@@ -117,7 +117,7 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
 
         <tbody>
         {% for application in applications %}
-            {% if application.Version %}
+            {% if application.VersionName %}
             <tr class="select">
 
             <td>&nbsp;&nbsp;
@@ -125,7 +125,7 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
                 <br style="line-height:180%;">
 
             </td>
-            <td style="padding-left: 10px">{{ application.Version }}</td>
+            <td style="padding-left: 10px">{{ application.VersionName }}</td>
             <td style="padding-left: 10px">{%if application.WebDownloadDate%}{{ application.WebDownloadDate }}{%else%} not available{%endif%} </td>
             <td style="padding-left: 10px">{%if application.InstallationDate%}{{ application.DeviceDownloadDate}}{%else%} not available{%endif%}</td>
             <td style="padding-left: 10px">{%if application.InstallationDate%}{{ application.InstallationDate}}{%else%} not available{%endif%}</td>
