@@ -674,7 +674,6 @@ class SalesController extends Controller
         $request = $this->get('request');
         $ClientID = $slug;
         //connect to database
-        $conn2 = $this->get_Main_DB_Object();
         $conn = $this->get_Store_DB_Object();
         if ($request->getMethod() == 'POST') {
             $delete = $request->request->get('delete');
@@ -753,12 +752,12 @@ class SalesController extends Controller
         $ClientName = $stmt2->fetchAll()[0];
         $app_VName = Array();
         foreach (array_merge($tabletApplications, $dongleApplications) as $app) {
-            $stmt = $conn2->prepare('select version from application where id = ?');
-            $stmt->execute([$app['ID']]);
+            $stmt = $conn->prepare('select VersionName from Version where Version.ApplicationID=? and Version.Version=?');
+            $stmt->execute([$app['ID'],$app['Version']]);
             $app['VersionName'] = $stmt->fetch()[0];
             array_push($app_VName,$app);
         }
-
+        ;
         return $this->render('DashboardBundle:Sales:show-client-applications.html.twig', array(
             'applications' => $app_VName, 'apps' => $apps, 'clientname' => $ClientName));
     }

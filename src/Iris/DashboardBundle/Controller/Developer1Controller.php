@@ -18,7 +18,6 @@ use Symfony\Component\Process\Process;
 
 class Developer1Controller extends Controller
 {
-
     public function liveExecuteCommand($cmd)
     {
 
@@ -315,6 +314,47 @@ from Client;
             'applications' => $applications));
     }
 
+    public function setVersionName()
+    {
+        $connmain = $this->get_Main_DB_Object();
+        $conn = $this->get_Store_DB_Object();
+        $stmt = $connmain->prepare('select id,version from application');
+        $stmt->execute();
+        $applicationsid = $stmt->fetchAll();
+        foreach ($applicationsid as $app) {
+
+            $stmt = $conn->prepare('Select max(Version) from Version where ApplicationID=?');
+            $stmt->execute([$app['id']]);
+            $max = $stmt->fetch()[0];
+            $ver = 'V'.$app['version'] ;
+//            print($ver);
+//            die();
+            $id = $app['id'];
+            try {
+//                $conn->query("update Version set VersionName = 1.5 and ApplicationID = '$id' and Version = $max");
+                $stmt = $conn->prepare("update Version set VersionName =  ? where ApplicationID = ? and Version = ?");
+                $stmt->execute([$ver, $app['id'], $max]);
+            } catch (\PDOException $e) {
+                print_r($e->getMessage());
+                die();
+            }
+
+        }
+    }
+
+    public function get_Main_DB_Object()
+    {
+        $dbname = $this->container->getParameter('database_name');
+        $username = $this->container->getParameter('database_user');
+        $password = $this->container->getParameter('database_password');
+        $servername = $this->container->getParameter('database_host');
+
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $conn;
+    }
+
     public function editAppAction($slug)
     {
         $context = $this->container->get('security.context');
@@ -526,7 +566,7 @@ from Client;
                     $stmt = $conn->prepare('update ControllerInstallation set ControllerInstallation.Status=(select Status.PK from Status where Status.status="need_update") where ControllerInstallation.ApplicationID=?');
                     $stmt->execute([$app_identifier]);
                 }
-
+                $this->setVersionName();
             } catch (\PDOException $e) {
                 // if something goes wrong we fail
 
