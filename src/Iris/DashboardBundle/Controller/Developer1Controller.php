@@ -50,7 +50,148 @@ class Developer1Controller extends Controller
 
     public function trackingAction()
     {
-        return $this->render('DashboardBundle:Sales:Tracking.html.twig');
+        $conn = $this->get_Store_DB_Object();
+        $stmt = $conn->prepare('select  Bundle.Name,(select count(*) from Subscription where Subscription.BundleID=Bundle.ID) as Users from Bundle;');
+        $stmt->execute();
+        $Bundles = $stmt->fetchAll();
+        $stmt = $conn->prepare('select
+  Application.Name,
+  (select count(*)
+   from Purchase
+   where Purchase.ApplicationID = Application.ID) As PurchasedUsers,
+  ((select count(*)
+    from ControllerInstallation
+    where
+      ControllerInstallation.ApplicationID = Application.ID
+      and ControllerInstallation.Status = (select Status.Status
+                                           from Status
+                                           where Status.PK =
+                                                 \'need_update\')
+   ) +
+   (select count(*)
+    from DongleInstallation
+    where
+      DongleInstallation.ApplicationID = Application.ID
+      and DongleInstallation.Status = (select Status.PK
+                                           from Status
+                                           where Status.Status =
+                                                 \'need_update\')
+   )) as UsersNeedUpdate,
+  ((select count(*)
+    from ControllerInstallation
+    where
+      ControllerInstallation.ApplicationID = Application.ID
+      and ControllerInstallation.Status = (select Status.Status
+                                           from Status
+                                           where Status.PK =
+                                                 \'device_installed\')
+   ) +
+   (select count(*)
+    from DongleInstallation
+    where
+      DongleInstallation.ApplicationID = Application.ID
+      and DongleInstallation.Status = (select Status.PK
+                                       from Status
+                                       where Status.Status =
+                                             \'device_installed\')
+   )) as UsersInstalled,
+  ((select count(*)
+    from ControllerInstallation
+    where
+      ControllerInstallation.ApplicationID = Application.ID
+      
+   ) +
+   (select count(*)
+    from DongleInstallation
+    where
+      DongleInstallation.ApplicationID = Application.ID
+      
+   )) as Users
+from Application;
+');
+        $stmt->execute();
+        $Applications = $stmt->fetchAll();
+        $stmt = $conn->prepare('select
+  Client.ID,
+  Client.Name,
+  (select count(*)
+   from Purchase
+   where Purchase.ClientID = Client.ID)     As PurchasedApplications,
+  (select count(*)
+   from Subscription
+   where Subscription.ClientID = Client.ID) As Subscribtions,
+  ((select count(*)
+    from ControllerInstallation
+    where
+      ControllerInstallation.ClientID = Client.ID
+      and ControllerInstallation.Status = (select Status.Status
+                                           from Status
+                                           where Status.PK =
+                                                 \'need_update\')
+   ) +
+   (select count(*)
+    from DongleInstallation
+    where
+      DongleInstallation.ClientID = Client.ID
+      and DongleInstallation.Status = (select Status.PK
+                                       from Status
+                                       where Status.Status =
+                                             \'need_update\')
+   ))                                       as ApplicationsNeedUpdate,
+  ((select count(*)
+    from ControllerInstallation
+    where
+      ControllerInstallation.ClientID = Client.ID
+      and ControllerInstallation.Status = (select Status.Status
+                                           from Status
+                                           where Status.PK =
+                                                 \'device_installed\')
+   ) +
+   (select count(*)
+    from DongleInstallation
+    where
+      DongleInstallation.ClientID = Client.ID
+      and DongleInstallation.Status = (select Status.PK
+                                       from Status
+                                       where Status.Status =
+                                             \'device_installed\')
+   ))                                       as InstalledApplications,
+  ((select count(*)
+    from ControllerInstallation
+    where
+      ControllerInstallation.ClientID = Client.ID
+      and ControllerInstallation.Status = (select Status.Status
+                                           from Status
+                                           where Status.PK =
+                                                 \'none\')
+   ) +
+   (select count(*)
+    from DongleInstallation
+    where
+      DongleInstallation.ClientID = Client.ID
+      and DongleInstallation.Status = (select Status.PK
+                                       from Status
+                                       where Status.Status =
+                                             \'none\')
+   ))                                       as NonInstalledApplications
+from Client;
+');
+        $stmt->execute();
+        $Clients = $stmt->fetchAll();
+        return $this->render('DashboardBundle:Sales:Tracking.html.twig', array('clients' => $Clients, 'applications' => $Applications, 'bundles' => $Bundles));
+    }
+
+    public function get_Store_DB_Object()
+    {
+        $dbname = $this->container->getParameter('store_database_name');
+        $username = $this->container->getParameter('store_database_user');
+        $password = $this->container->getParameter('store_database_password');
+        $servername = $this->container->getParameter('store_database_host');
+
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $conn;
     }
 
     public function newAppResultAction()
@@ -282,19 +423,6 @@ class Developer1Controller extends Controller
         }
         $this->typeChangeTo($app_identifier, $app_type);
         return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'update'));
-    }
-
-    public function get_Store_DB_Object()
-    {
-        $dbname = $this->container->getParameter('store_database_name');
-        $username = $this->container->getParameter('store_database_user');
-        $password = $this->container->getParameter('store_database_password');
-        $servername = $this->container->getParameter('store_database_host');
-
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $conn;
     }
 
     public function typeChangeTo($app_id, $type)
@@ -1066,7 +1194,7 @@ class Developer1Controller extends Controller
 
             $icon_path = $this->container->getParameter('melodycode_fossdroid.local_path_icons');
             $target_dir = $icon_path;
-            $target_file = $target_dir . $appName.'.png';
+            $target_file = $target_dir . $appName . '.png';
             if (file_exists($target_file))
                 unlink($target_file);
             if (!move_uploaded_file($_FILES["app-icon"]["tmp_name"], $target_file)) {
@@ -1079,7 +1207,7 @@ class Developer1Controller extends Controller
         }
         $icon_path = $this->container->getParameter('melodycode_fossdroid.local_path_icons');
         $target_dir = $icon_path;
-        $target_file = $target_dir . $appName.'.png';
-        return $this->render('@Dashboard/Developer/set-application-icon.html.twig', Array('app1' => $appName, 'img' => $target_file, 'time'=>''));
+        $target_file = $target_dir . $appName . '.png';
+        return $this->render('@Dashboard/Developer/set-application-icon.html.twig', Array('app1' => $appName, 'img' => $target_file, 'time' => ''));
     }
 }
