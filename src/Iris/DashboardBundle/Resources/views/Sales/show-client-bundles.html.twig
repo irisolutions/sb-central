@@ -227,14 +227,19 @@
 {# empty Twig template #}
 {% extends 'DashboardBundle:Sales:manage-application.html.twig'%}
 {% block head %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
+          xmlns="http://www.w3.org/1999/html">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script>
         var edit=false;
         function getSelected()
         {
+           // alert(this.name);
             var elements=$('.select');
             for(var i=0;i<elements.length;i++)
             {
@@ -258,16 +263,24 @@
         }
         $(document).ready(function()
         {
+
+            //
+            // $('.deleteBundleIcon').click(function () {
+            // ///    alert("deleteBundleIcon");
+            // //    alert($('#deletbundle').val($(this).find('td').find('b').html())
+            //     )
+            // })
+            // $('#exampleModalCentermpleModalCenter').modal('show');
             $('#deletbundle').val("");
-            $('.select').click(function(){
-                $('.select').css('background-color','white');
-                $(this).css('background-color','#5f9ea0');
-                $('#deletbundle').val($(this).find('td').find('b').html());
-                $('#editbundle').val($(this).find('td').find('b').html());
-                if(edit)
-                    updateID();
-            });
-            $('.add-bundle').click(function()
+            // $('.select').click(function(){
+            //     $('.select').css('background-color','white');
+            //     $(this).css('background-color','#5f9ea0');
+            //     $('#deletbundle').val($(this).find('td').find('b').html());
+            //     $('#editbundle').val($(this).find('td').find('b').html());
+            //     if(edit)
+            //         updateID();
+            // });
+            $('.AddButton').click(function()
             {
                 $('.StartDate').val("");
                 $('.EndDate').val("");
@@ -284,17 +297,32 @@
             $('.edit-bundle').click(function()
             {
 
-                if(updateID()==-1)
-                    return;
-                $('.bundle-form').css('visibility','visible');
-                $('.bundle-form').removeAttr('hidden');
-                $('.Add').attr('name', 'edit');
-                $('.Add').val('Edit Subscription');
-                edit=true;
-                $('.options').css('visibility','hidden');
-                $('.options').attr('hidden','true');
+
+                // $('.bundle-form').css('visibility','visible');
+                // $('.bundle-form').removeAttr('hidden');
+                // $('.Add').attr('name', 'edit');
+                // $('.Add').val('Edit Subscription');
+                // edit=true;
+                // $('.options').css('visibility','hidden');
+                // $('.options').attr('hidden','true');
             });
         });
+        function dosomething(val){
+          alert(val.name);
+             $('#editbundle').val(val.name);
+        $('.bundle-form').css('visibility','visible');
+        $('.bundle-form').removeAttr('hidden');
+        $('.Add').attr('name', 'edit');
+        $('.Add').val('Edit Subscription');
+        edit=true;
+        $('.options').css('visibility','hidden');
+        $('.options').attr('hidden','true');
+        }
+    </script>
+    <script type="text/javascript">
+        function submitform() {
+            //alert("submit form ");
+            document.myform.submit(); }
     </script>
     <style type="text/css">
     h1{
@@ -351,6 +379,17 @@ width: 50%;
             width: 100%;
         }
     }
+    .modal-body{
+        padding: 0px !important;
+    }
+        .add-bundle{
+
+        margin-top: 3%;
+        }
+    .modal-header .close {
+        margin-top: -22px !important;
+    }
+
 
     </style>
 
@@ -363,13 +402,104 @@ width: 50%;
 
 {% block body %}
 
+
+    <!--Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="    margin-top: 85px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Model To Add Bundles </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form  name= "myform" class="dataform form-horizontal col-xs-12" method="post" style="margin-bottom: 10px" >
+
+                    {#<div class="add-bundle btn btn-primary col-md-2 col-sm-3">#}
+                            {#Add#}
+                        {#</div>#}
+
+
+                        {#<div class="edit-bundle btn btn-primary col-md-2 col-sm-3" style="margin-left: 10px">#}
+                            {#Edit#}
+                        {#</div>#}
+
+                        {#<input onclick=" return confirm('Are you sure you want to remove the subscription ');" type="submit" name="delete" class="btn btn-primary  col-md-2 col-sm-3" value="Remove" style="margin-left: 10px;    margin-top: 3%;">#}
+
+                        <div class="col-xs-12 bundle-form" style=" margin-top: 3% ;visibility: hidden;    width: 95%;
+                margin-bottom: 2%;
+                margin-left: 3%;
+                 border: 1px solid gainsboro;
+                 border-radius: 5px; ">
+                            <div class="form-style-2-heading "> Subscription info </div>
+                            <div class="row" style="width: 100%">
+                                <p class="options col-md-3 col-sm-6">
+                                    Bundles:
+                                </p>
+                                <select name="newbundle" class="options  col-md-3 col-sm-6 selecter">
+                                    <option value="">
+
+                                    </option>
+                                    {% for bundle in allbundles %}
+                                        <option value="{{bundle.ID}}">
+                                            {{bundle.Name}}
+                                        </option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                            <div class="row" style="width: 100%;margin-top: 10px;">
+                                <p class="col-md-3 col-sm-6">
+                                    Start Date:
+                                </p>
+
+                                <input class="col-md-3 col-sm-6 StartDate selecter" type="date" name="StartDate" placeholder="yyyy-mm-dd">
+
+                            </div>
+                            <div class="row" style="width: 100%;margin-top: 10px;">
+                                <p class="col-md-3 col-sm-6 " >
+                                    End Date:
+                                </p>
+
+                                <input class="col-md-3 col-sm-6  EndDate selecter" type="date" name="EndDate" placeholder="yyyy-mm-dd">
+                            </div>
+                            <div class="col-xs-12" style="margin-top: 3%">
+
+                                <input style="border:1px solid #aaa;margin-bottom: 5% " type="submit" class=" Add btn btn-primary" value="Add Bundle">
+                            </div>
+                        </div>
+                        <div class="col-xs-5">
+                            <input type="text" name="deletedbundle" value="" id="deletbundle" hidden="" >
+                            <input type="text" name="editbundle" value=" leena" id="editbundle" hidden="" >
+
+
+                        </div>
+                    </form>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    {#<button type="button" class="btn btn-primary">Save changes</button>#}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div style="width:80%; margin-left:10%; margin-top:5%; margin-bottom:10%;">
-        <div><h4>{{clientname[0]}} Bundles</h4></div>
+        <div><h4>{{clientname[0]}} Bundles</h4>
+        </div>
+
+            <button type="button" class="btn btn-primary AddButton" data-toggle="modal"  data-target="#exampleModalCenter" style="float: right; margin-top: -37px;" > Add Bundle </button>
         <div class="datagrid" style="margin-bottom: 5%">
             <table>
 
                 <thead>
                 <tr>
+                    <th>Delete</th>
                     <th>Name</th>
                     <th>Start Date</th>
                     <th>End Date</th>
@@ -379,7 +509,33 @@ width: 50%;
 
                 <tbody>
                 {% for bundle in bundles %}
-                    <tr class="select" style="background-color: white">
+
+
+                <tr class="select" style="background-color: white">
+
+
+                    <td>
+                        <form  name= "myform" class="dataform form-horizontal col-xs-12" method="post" style="margin-bottom: 10px" >
+                            <input type="text" name="deletedbundle" value="{{ bundle.Name }}" id="deletbundle" hidden="" >
+
+                            <input class="col-md-3 col-sm-6 StartDate selecter" type="date" name="delete" placeholder="yyyy-mm-dd" hidden="" value="{{ bundle.Start }}">
+
+                                <input class="col-md-3 col-sm-6 StartDate selecter" type="date" name="StartDate" placeholder="yyyy-mm-dd" hidden="" value="{{ bundle.Start }}">
+
+                                <input class="col-md-3 col-sm-6  EndDate selecter" type="date" name="EndDate" placeholder="yyyy-mm-dd" hidden="" value="{{ bundle.End }}">
+
+                            <a href="#" onclick="$(this).closest('form').submit()" class="deleteBundleIcon"  type="submit" name="delete"><i class="fa fa-trash " aria-hidden="true" ></i>
+
+                        </a>
+                            <a href="#" data-toggle="modal"   name="{{ bundle.Name }}" onclick="dosomething(this)" data-target="#exampleModalCenter" class="edit-bundle"  ><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+
+                        </form>
+
+
+                    </td>
+
+
 
                         <td>&nbsp;&nbsp;
                             <b>{{ bundle.Name }}</b>
@@ -389,69 +545,13 @@ width: 50%;
                         <td>{{ bundle.Start }} </td>
                         <td>{{ bundle.End }} </td>
                     </tr>
+
                 {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <form class="dataform form-horizontal col-xs-12" method="post" style="margin-bottom: 10px" >
-            <div class="add-bundle btn btn-primary col-md-2 col-sm-3">
-                Add
-            </div>
 
-
-            <div class="edit-bundle btn btn-primary col-md-2 col-sm-3" style="margin-left: 10px">
-                Edit
-            </div>
-
-            <input onclick=" return confirm('Are you sure you want to remove the subscription ');" type="submit" name="delete" class="btn btn-primary  col-md-2 col-sm-3" value="Remove" style="margin-left: 10px">
-
-            <div class="col-xs-12 bundle-form" style="margin-top: 3%;visibility: hidden;    width: 95%;
-                 margin: 20px auto auto;
-                 border: 1px solid gainsboro;
-                 border-radius: 5px; ">
-                <div class="form-style-2-heading "> Subscription info </div>
-              <div class="row" style="width: 100%">
-                <p class="options col-md-3 col-sm-6">
-                    Bundles:
-                </p>
-                <select name="newbundle" class="options  col-md-3 col-sm-6 selecter">
-                    <option value="">
-
-                    </option>
-                    {% for bundle in allbundles %}
-                        <option value="{{bundle.ID}}">
-                            {{bundle.Name}}
-                        </option>
-                    {%endfor%}
-                </select>
-              </div>
-<div class="row" style="width: 100%;margin-top: 10px;">
-                <p class="col-md-3 col-sm-6">
-                    Start Date:
-                </p>
-
-                    <input class="col-md-3 col-sm-6 StartDate selecter" type="date" name="StartDate" placeholder="yyyy-mm-dd">
-
-</div>
-                <div class="row" style="width: 100%;margin-top: 10px;">
-                <p class="col-md-3 col-sm-6 " >
-                    End Date:
-                </p>
-
-                <input class="col-md-3 col-sm-6  EndDate selecter" type="date" name="EndDate" placeholder="yyyy-mm-dd">
-                </div>
-                <div class="col-xs-12" style="margin-top: 3%">
-
-                    <input style="border:1px solid #aaa;margin-bottom: 5% " type="submit" class=" Add btn btn-primary" value="Add Bundle">
-                </div>
-            </div>
-            <div class="col-xs-5">
-                <input type="text" name="deletedbundle" vlaue="" id="deletbundle"hidden="" >
-                <input type="text" name="editbundle" vlaue="" id="editbundle"hidden="" >
-            </div>
-
-        </form>
     </div>
 
 {% endblock %}

@@ -128,7 +128,29 @@
                 width: 100%;
             }
         }
+        .div_contains_tabs{
+            border: 1px solid #0083BA;
+        }
+        table{
+            border: 1px solid black;
+        }
+        .btn:active{
+            box-shadow: inset 0 0px 0px rgba(0,0,0,.125);;
+        }
+        th{
+            font-size: 12px !important;
+        }
+.Container_Elements{
+    width: 80%;
+    margin: auto;
+}
+        .modal-backdrop {
+            z-index: 100000 !important;
+        }
 
+        #MyModal {
+            z-index: 100001 !important;
+        }
     </style>
 
 {% endblock %}
@@ -141,7 +163,74 @@
 {% block body %}
 
     <div class="bs-example">
+    <div class="modal" id="MyModal" data-backdrop="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    {#<div class="col-xs-12 bundle-form" style="margin-top: 3%;visibility: hidden;    width: 95%;#}
+                    {#margin: 20px auto auto;#}
+                    {#border: 1px solid gainsboro;#}
+                    {#border-radius: 5px; ">#}
+                    {#<div class="form-style-2-heading "> Subscription info </div>#}
+                    {#<div class="row" style="width: 100%">#}
+                    {#<p class="options col-md-3 col-sm-6">#}
+                    {#Bundles:#}
+                    {#</p>#}
+                    {#<select name="newbundle" class="options  col-md-3 col-sm-6 selecter">#}
+                    {#<option value="">#}
+
+                    {#</option>#}
+                    {#{% for bundle in allbundles %}#}
+                    {#<option value="{{bundle.ID}}">#}
+                    {#{{bundle.Name}}#}
+                    {#</option>#}
+                    {#{%endfor%}#}
+                    {#</select>#}
+                    {#</div>#}
+                    {#<div class="row" style="width: 100%;margin-top: 10px;">#}
+                    {#<p class="col-md-3 col-sm-6">#}
+                    {#Start Date:#}
+                    {#</p>#}
+
+                    {#<input class="col-md-3 col-sm-6 StartDate selecter" type="date" name="StartDate" placeholder="yyyy-mm-dd">#}
+
+                    {#</div>#}
+                    {#<div class="row" style="width: 100%;margin-top: 10px;">#}
+                    {#<p class="col-md-3 col-sm-6 " >#}
+                    {#End Date:#}
+                    {#</p>#}
+
+                    {#<input class="col-md-3 col-sm-6  EndDate selecter" type="date" name="EndDate" placeholder="yyyy-mm-dd">#}
+                    {#</div>#}
+                    {#<div class="col-xs-12" style="margin-top: 3%">#}
+
+                    {#<input style="border:1px solid #aaa;margin-bottom: 5% " type="submit" class=" Add btn btn-primary" value="Add Bundle">#}
+                    {#</div>#}
+                    {#</div>#}
+                    {#<div class="col-xs-5">#}
+                    {#<input type="text" name="deletedbundle" vlaue="" id="deletbundle"hidden="" >#}
+                    {#<input type="text" name="editbundle" vlaue="" id="editbundle"hidden="" >#}
+                    {#</div>#}
+
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <!-- <h1>New Application</h1> -->
     <form class="form-horizontal" method="post">
 <script>
@@ -155,8 +244,12 @@
 
     }
 </script>
-    <div class="row cont">
-        <div class="form-style-2-heading bundle-style">
+
+
+
+
+    <div class="row cont Container_Elements">
+        <div class="form-style-2-heading bundle-style div_contains_tabs">
             <span class="btn" style="margin-left: 0.5cm;"
             onclick="showtab('fabric');" >Fabric</span>
             <span class="btn"
@@ -177,7 +270,7 @@
         </div>
         <div id="bundles" class="ll" >
 
-            <table class="table">
+            <table class="table Bundles">
 
                 <thead style="background-color: whitesmoke">
                 <tr>
@@ -201,7 +294,7 @@
             </table>
         </div>
         <div id="applications" class="ll" hidden>
-            <table class="table">
+            <table class="table applications">
 
                 <thead style="background-color: whitesmoke">
                 <tr>
@@ -231,7 +324,7 @@
             </table>
         </div>
         <div id="customers" class="ll" hidden>
-            <table class="table">
+            <table class="table customers">
 
                 <thead style="background-color: whitesmoke">
                 <tr>
