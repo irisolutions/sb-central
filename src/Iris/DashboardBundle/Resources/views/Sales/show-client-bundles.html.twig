@@ -308,7 +308,7 @@
             });
         });
         function dosomething(val){
-          alert(val.name);
+       //   alert(val.name);
              $('#editbundle').val(val.name);
         $('.bundle-form').css('visibility','visible');
         $('.bundle-form').removeAttr('hidden');
@@ -499,7 +499,6 @@ width: 50%;
 
                 <thead>
                 <tr>
-                    <th>Delete</th>
                     <th>Name</th>
                     <th>Start Date</th>
                     <th>End Date</th>
@@ -514,33 +513,38 @@ width: 50%;
                 <tr class="select" style="background-color: white">
 
 
-                    <td>
-                        <form  name= "myform" class="dataform form-horizontal col-xs-12" method="post" style="margin-bottom: 10px" >
-                            <input type="text" name="deletedbundle" value="{{ bundle.Name }}" id="deletbundle" hidden="" >
-
-                            <input class="col-md-3 col-sm-6 StartDate selecter" type="date" name="delete" placeholder="yyyy-mm-dd" hidden="" value="{{ bundle.Start }}">
-
-                                <input class="col-md-3 col-sm-6 StartDate selecter" type="date" name="StartDate" placeholder="yyyy-mm-dd" hidden="" value="{{ bundle.Start }}">
-
-                                <input class="col-md-3 col-sm-6  EndDate selecter" type="date" name="EndDate" placeholder="yyyy-mm-dd" hidden="" value="{{ bundle.End }}">
-
-                            <a href="#" onclick="$(this).closest('form').submit()" class="deleteBundleIcon"  type="submit" name="delete"><i class="fa fa-trash " aria-hidden="true" ></i>
-
-                        </a>
-                            <a href="#" data-toggle="modal"   name="{{ bundle.Name }}" onclick="dosomething(this)" data-target="#exampleModalCenter" class="edit-bundle"  ><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </a>
-
-                        </form>
-
-
-                    </td>
 
 
 
                         <td>&nbsp;&nbsp;
                             <b>{{ bundle.Name }}</b>
                             <br style="line-height:180%;">
+                            <form  name= "myform" class="dataform form-horizontal col-xs-12" method="post" style="margin-bottom: 10px" >
+                                <input type="text" name="deletedbundle" value="{{ bundle.Name }}" id="deletbundle" hidden="" >
 
+                                <input class="col-md-3 col-sm-6 StartDate selecter" type="date" name="delete" placeholder="yyyy-mm-dd" hidden="" value="{{ bundle.Start }}">
+
+                                <input class="col-md-3 col-sm-6 StartDate selecter" type="date" name="StartDate" placeholder="yyyy-mm-dd" hidden="" value="{{ bundle.Start }}">
+
+                                <input class="col-md-3 col-sm-6  EndDate selecter" type="date" name="EndDate" placeholder="yyyy-mm-dd" hidden="" value="{{ bundle.End }}">
+
+                                <a href="#" onclick="$(this).closest('form').submit()" class="deleteBundleIcon"  type="submit" name="delete"><i class="fa fa-trash " aria-hidden="true" ></i>
+                                    Delete
+                                </a>
+                                &nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+                                <a href="#" data-toggle="modal"   name="{{ bundle.Name }}" onclick="dosomething(this)" data-target="#exampleModalCenter" class="edit-bundle"  ><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+
+                                    Edit
+                                </a>
+
+
+                            </form>
                         </td>
                         <td>{{ bundle.Start }} </td>
                         <td>{{ bundle.End }} </td>
