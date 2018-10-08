@@ -23,7 +23,7 @@ parameters:
     
     # F-Droid Icons path
     melodycode_fossdroid.remote_path_icons: "https://f-droid.org/repo/icons/"
-    
+
     # F-Droid APK path
     melodycode_fossdroid.remote_path_apks: "https://f-droid.org/repo/"
     
