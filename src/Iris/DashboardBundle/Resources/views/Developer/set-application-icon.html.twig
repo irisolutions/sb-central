@@ -69,6 +69,12 @@
         .lab {
             margin-left: 10px;
         }
+        img{
+            display: block;
+            margin: auto;
+            margin-bottom: 20px;
+            height: 230px !important;
+        }
     </style>
 
 {% endblock %}
@@ -94,7 +100,7 @@
             </div>
             <div class="row cont" style="align-content: center">
                 <div class="form-style-2-heading">Current icon</div>
-                <img style="height: 4cm" src="{{ asset('images/icons/'~ app1 ~'.png') }}" alt="no image">
+                <img class=" image-style"style="" src="{{ asset('images/icons/'~ app1 ~'.png') }}" alt="no image">
 
             </div>
 
