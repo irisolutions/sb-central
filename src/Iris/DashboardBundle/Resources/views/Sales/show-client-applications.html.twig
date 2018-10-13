@@ -131,8 +131,13 @@ Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
             <td style="padding-left: 10px">{%if application.InstallationDate%}{{ application.InstallationDate}}{%else%} not available{%endif%}</td>
             <td style="padding-left: 10px">{%if application.Status%}{{ application.Status}}{%else%} not available{%endif%}</td>
             <td style="padding-left: 10px">{%if application.Subscription%}Yes{%else%}No{%endif%}</td>
-                {% if application.Status=='none'or application.Status=='uninstall'%}
-               <td> <a href="{{ path('dashboard_sales_download_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Download</a></td>
+                {% if application.Status=='none'or application.Status=='uninstall' %}
+                    <td> <a href="{{ path('dashboard_sales_download_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Download</a></td>
+                {% elseif  application.Status=='device_downloaded' %}
+                    <td> <a href="{{ path('dashboard_sales_download_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Download</a> <br>
+                     <a href="{{ path('dashboard_sales_uninstall_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Unistall</a>
+                    </td>
+
                 {% else %}
                     <td> <a href="{{ path('dashboard_sales_uninstall_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Unistall</a></td>
                 {% endif %}
