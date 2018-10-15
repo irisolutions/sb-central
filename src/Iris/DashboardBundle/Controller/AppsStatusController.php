@@ -194,7 +194,7 @@ class AppsStatusController extends Controller
                 $stmt->execute([$status, $date, $applicationID, $clientID]);
 
             }
-            $this->pushNotification('curl --data "AppID=' . $applicationID . '&Type=' . $applicationDetail['Type'] . '&UserName=' . $clientID . '" http://34.219.60.11/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+            $this->pushNotification('curl --data "AppID=' . $applicationID . '&Type=' . $applicationDetail['Type'] . '&UserName=' . $clientID . '"http://iris-store.iris.ps/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
 
         }
         return $this->redirect($request->headers->get('referer'));
@@ -240,7 +240,7 @@ class AppsStatusController extends Controller
                 $stmt->execute([$status,$applicationID, $clientID]);
             }
 
-            $this->pushNotification('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'" http://34.219.60.11/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
+            $this->pushNotification('curl --data "AppID='.$applicationID.'&Type='.$applicationDetail['Type'].'&UserName='.$clientID.'"http://iris-store.iris.ps/IrisCentral/web/app_dev.php/dashboard/command/pushDownloadNotification');
             return $this->redirect($request->headers->get('referer'));
 
         }
