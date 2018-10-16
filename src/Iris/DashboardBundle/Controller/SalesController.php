@@ -678,6 +678,9 @@ class SalesController extends Controller
         if ($request->getMethod() == 'POST') {
             $delete = $request->request->get('delete');
             $deletedappname = $request->request->get('deletedapp');
+//            $error =$delete;
+//            $request->getSession()->getFlashBag()->add('danger', $error);
+
             if ($delete) {
                 $this->removeApplication($deletedappname, $request, $ClientID);
             } else {
