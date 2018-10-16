@@ -1,198 +1,283 @@
 {# empty Twig template #}
-{% extends 'DashboardBundle:Sales:manage-application.html.twig'%}
+{% extends 'DashboardBundle:Sales:manage-application.html.twig' %}
 {% block head %}
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('dist/jquery.scroltable.min.css') }}" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('dist/jquery.scroltable.min.css') }}">
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
 
     <script src="{{ asset('dist/jquery.scroltable.min.js') }}"></script>
     <script>
 
 
-        $(document).ready(function()
-     {
-         $('table').scroltable();
-         $('#deletapp').val("");
-    $('.select').click(function(){
-        $('.select').css('background-color','white');
-        $(this).css('background-color','#5f9ea0');
-        $('#deletapp').val($(this).find('td').find('b').html());
-    });
-    $('.add-app').click(function()
-    {
-        $('.app-form').css('visibility','visible');
-    });
-    });
+        $(document).ready(function () {
+            $('.app-form').css('visibility', 'visible');
+            $('table').scroltable();
+            $('#deletapp').val("");
+
+            //    $('#deletbundle').val("");
+//    $('.select').click(function(){
+//        $('.select').css('background-color','white');
+//        $(this).css('background-color','#5f9ea0');
+//        $('#deletapp').val($(this).find('td').find('b').html());
+//    });
+            $('.add-app').click(function () {
+            });
+        });
     </script>
-
-<style type="text/css">
-    .alert{
-        width: 95%;
-        margin: auto;
-    }
-    h1{
-        margin: 30px 0;
-        padding: 0 200px 15px 0;
-        border-bottom: 1px solid #E5E5E5;
-    }
-	.bs-example{
-    	margin: 20px;
-    }
-    .form-style-2-heading{
-    font-weight: bold;
-    font-style: italic;
-    border-bottom: 2px solid #ddd;
-    margin-bottom: 20px;
-    margin-top:40px;
-    font-size: 15px;
-    padding-bottom: 3px;
-}
-
-.material-icons {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-}
-    .selecter{
-        min-height: 27px;
-        width: 40%;
-        border: 2px solid gainsboro;
-        border-radius: 5px;
-
-    }
-    .alert{
-        margin-top: 20px;
-    }
-    .removeButton{
-        margin-left: 20px ;
-    }
-    .add-app{}
-    @media only screen and (max-width:412px) {
-        .labelAPPS{
-            padding: 0px;
+    <script type="text/javascript">
+        function submitform() {
+            //alert("submit form ");
+            document.myform.submit();
         }
-    }
-    .datagrid{
-        width: 95%;
-        margin: auto;
-    }
-    .removeButton{
-        margin-left: 9px ;
-    }
-</style>
+    </script>
+    <style type="text/css">
+        .alert {
+            width: 95%;
+            margin: auto;
+        }
 
- {% endblock  %}
+        h1 {
+            margin: 30px 0;
+            padding: 0 200px 15px 0;
+            border-bottom: 1px solid #E5E5E5;
+        }
+
+        .bs-example {
+            margin: 20px;
+        }
+
+        .form-style-2-heading {
+            font-weight: bold;
+            font-style: italic;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+            margin-top: 40px;
+            font-size: 15px;
+            padding-bottom: 3px;
+        }
+
+        .material-icons {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+        }
+
+        .selecter {
+            min-height: 27px;
+            width: 66%;
+            border: 2px solid gainsboro;
+            border-radius: 5px;
+
+        }
+
+        .alert {
+            margin-top: 20px;
+        }
+
+        .removeButton {
+            margin-left: 20px;
+        }
+
+        .add-app {
+        }
+
+        @media only screen and (max-width: 412px) {
+            .labelAPPS {
+                padding: 0px;
+            }
+        }
+
+        .datagrid {
+            width: 95%;
+            margin: auto;
+        }
+
+        .removeButton {
+            margin-left: 9px;
+        }
+
+        .modal-body {
+            padding: 0px !important;
+        }
+
+        .add-bundle {
+
+            margin-top: 3%;
+        }
+
+        .modal-header .close {
+            margin-top: -22px !important;
+        }
+    </style>
+
+{% endblock %}
 {% block breadcrumb %}
 
-Sales  &rsaquo; Manage Clients &rsaquo; {{clientname[0]}} Applications
+    Sales  &rsaquo; Manage Clients &rsaquo; {{ clientname[0] }} Applications
 
 {% endblock %}
 
 {% block body %}
-
-<div style="margin-right:5%; margin-top:5%; margin-bottom:10%;">
-        <div style="text-align: center;margin-bottom: 10px;"><h4>{{clientname[0]}} Application</h4></div>
-        <div class="datagrid" style="margin-bottom: 3%;">
- <table>
-
-        <thead>
-          <tr>
-              <th>Name</th>
-              <th>Version</th>
-              <th>WebDownload</th>
-              <th>DeviceDownload</th>
-              <th>DeviceInstallation</th>
-              <th>Status</th>
-              <th>Subscription</th>
-              <th>Action</th>
-              <!-- <th>Operations</th> -->
-          </tr>
-        </thead>
-
-        <tbody>
-        {% for application in applications %}
-            {% if application.VersionName %}
-            <tr class="select">
-
-            <td>&nbsp;&nbsp;
-                <b>{{ application.Name }}</b>
-                <br style="line-height:180%;">
-
-            </td>
-            <td style="padding-left: 10px">{{ application.VersionName }}</td>
-            <td style="padding-left: 10px">{%if application.WebDownloadDate%}{{ application.WebDownloadDate }}{%else%} not available{%endif%} </td>
-            <td style="padding-left: 10px">{%if application.InstallationDate%}{{ application.DeviceDownloadDate}}{%else%} not available{%endif%}</td>
-            <td style="padding-left: 10px">{%if application.InstallationDate%}{{ application.InstallationDate}}{%else%} not available{%endif%}</td>
-            <td style="padding-left: 10px">{%if application.Status%}{{ application.Status}}{%else%} not available{%endif%}</td>
-            <td style="padding-left: 10px">{%if application.Subscription%}Yes{%else%}No{%endif%}</td>
-                {% if application.Status=='none'or application.Status=='uninstall' %}
-                    <td> <a href="{{ path('dashboard_sales_download_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Download</a></td>
-                {% elseif  application.Status=='device_downloaded' %}
-                    <td> <a href="{{ path('dashboard_sales_download_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Install</a> <br>
-                     <a href="{{ path('dashboard_sales_uninstall_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Unistall</a>
-                    </td>
-
-                {% else %}
-                    <td> <a href="{{ path('dashboard_sales_uninstall_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Unistall</a></td>
-                {% endif %}
-            </tr>
-            {% endif %}
-          {% endfor %}
-        </tbody>
-      </table>
-      </div>
-        <form class="dataform form-horizontal" method="post" >
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="    margin-top: 85px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Model To Add Application </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="dataform form-horizontal" method="post">
 
 
-            <div class="add-app btn btn-primary col-sm-2 col-xs-5" style="margin-left: 35px;">
-                      Add
-                  </div>
+                        {#<div class="add-app btn btn-primary col-sm-2 col-xs-5" style="margin-left: 35px;">#}
+                        {#Add#}
+                        {#</div>#}
 
-                  <input onclick=" return confirm('Are you sure you want to delete  this application ');"  type="submit" name="delete" class="btn btn-primary col-sm-2 col-xs-5 removeButton" value=" Remove">
+                        {#<input onclick=" return confirm('Are you sure you want to delete  this application ');"  type="submit" name="delete" class="btn btn-primary col-sm-2 col-xs-5 removeButton" value=" Remove">#}
 
-                  <div class="col-xs-12 app-form" style="visibility: hidden ;   width: 80%;
+                        <div class="col-xs-12 app-form" style="visibility: hidden ;   width: 80%;
 
             border: 1px solid gainsboro;
             border-radius: 5px;
             margin-top: 25px;
             margin-left:38px;
             margin-bottom: 20px;
-        " >
-                      <div class="form-style-2-heading "> Add Application </div>
-                      <p class=" col-sm-3 col-xs-5 labelAPPS">
-                          Applications :
-                      </p>
-                  <select name="newapp" class=" col-sm-5 col-xs-7 selecter">
-                      <option value="">
+        ">
+                            <div class="form-style-2-heading "> Add Application</div>
+                            <p class=" col-sm-3 col-xs-5 labelAPPS">
+                                Applications
+                            </p>
+                            <select name="newapp" class=" col-sm-5 col-xs-7 selecter">
+                                <option value="">
 
-                      </option>
-                       {% for app in apps %}
-                      <option value="{{app.ID}}">
-                          {{app.Name}}
-                      </option>
-                      {%endfor%}
-                  </select>
-                  <div class="col-xs-12" style="margin-top: 3%;margin-bottom: 5%">
+                                </option>
+                                {% for app in apps %}
+                                    <option value="{{ app.ID }}">
 
-                      <input type="submit" style="border:1px solid #aaa;" class="btn btn-primary" value="add application">
-                 </div>
-                  </div>
+                                        {{ app.Name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <div class="col-xs-12" style="margin-top: 3%;margin-bottom: 5%">
 
-
-                  <div class="col-xs-5">
-                      <input type="text" name="deletedapp" vlaue="" id="deletapp" hidden="" >
-
-                  </div>
+                                <input type="submit" style="border:1px solid #aaa;" class="btn btn-primary"
+                                       value="add application">
+                            </div>
+                        </div>
 
 
-        </form>
+                        <div class="col-xs-5">
+                            <input type="text" name="" value="" id="deletedapp" hidden="">
 
-</div>
+                        </div>
+
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    {#<button type="button" class="btn btn-primary">Save changes</button>#}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div style="margin-right:5%; margin-top:5%; margin-bottom:10%;">
+        <div style="text-align: center;margin-bottom: 10px;"><h4>{{ clientname[0] }} Application</h4></div>
+        <button type="button" class="btn btn-primary AddButton" data-toggle="modal" data-target="#exampleModalCenter"
+                style="float: right; margin-top: -37px;"> Add Application
+        </button>
+
+        <div class="datagrid" style="margin-bottom: 3%;">
+
+            <table>
+
+                <thead>
+                <tr>
+                    <th>setting</th>
+                    <th>Name</th>
+                    <th>Version</th>
+                    <th>WebDownload</th>
+                    <th>DeviceDownload</th>
+                    <th>DeviceInstallation</th>
+                    <th>Status</th>
+                    <th>Subscription</th>
+                    <th>Action</th>
+                    <!-- <th>Operations</th> -->
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for application in applications %}
+                    {% if application.VersionName %}
+                        <tr class="select">
+                            <td>
+                                <form name="myform" class="dataform form-horizontal col-xs-12" method="post"
+                                      style="margin-bottom: 10px;    padding: 0px;">
+
+                                    <input type="text" name="deletedapp" value="{{ application.Name }}" id=""
+                                           hidden="">
+                                    <input type="text" name="delete" value="{{ application.Name }}" id="" hidden="" >
+
+                                    <a href="#" onclick="$(this).closest('form').submit()" class="deleteBundleIcon"
+                                       type="submit" name="delete"><i class="fa fa-trash " aria-hidden="true"></i>
+                                        Delete
+                                    </a>
+
+
+                                </form>
+                            </td>
+                            <td>&nbsp;&nbsp;
+                                <b>{{ application.Name }}</b>
+                                <br style="line-height:180%;">
+
+                            </td>
+                            <td style="padding-left: 10px">{{ application.VersionName }}</td>
+                            <td style="padding-left: 10px">{% if application.WebDownloadDate %}{{ application.WebDownloadDate }}{% else %} not available{% endif %} </td>
+                            <td style="padding-left: 10px">{% if application.InstallationDate %}{{ application.DeviceDownloadDate }}{% else %} not available{% endif %}</td>
+                            <td style="padding-left: 10px">{% if application.InstallationDate %}{{ application.InstallationDate }}{% else %} not available{% endif %}</td>
+                            <td style="padding-left: 10px">{% if application.Status %}{{ application.Status }}{% else %} not available{% endif %}</td>
+                            <td style="padding-left: 10px">{% if application.Subscription %}Yes{% else %}No{% endif %}</td>
+                            {% if application.Status=='none'or application.Status=='uninstall' %}
+                                <td>
+                                    <a href="{{ path('dashboard_sales_download_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Download</a>
+                                </td>
+                            {% elseif  application.Status=='device_downloaded' %}
+                                <td>
+                                    <a href="{{ path('dashboard_sales_download_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Install</a>
+                                    <br>
+                                    <a href="{{ path('dashboard_sales_uninstall_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Unistall</a>
+                                </td>
+
+                            {% else %}
+                                <td>
+                                    <a href="{{ path('dashboard_sales_uninstall_applications', {'client': clientname[0], 'slug': application.ApplicationID}) }}">Unistall</a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </div>
 
 {% endblock %}
