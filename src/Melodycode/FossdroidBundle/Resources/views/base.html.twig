@@ -378,6 +378,7 @@
 
 
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="#"  onclick="location.reload()"><i class="fa fa-refresh"></i></a>
 
                 <div class="dropdown">
                     <button class="dropbtn  dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -413,7 +414,9 @@
                 </div>
 
             {% else %}
-<a href="#"  onclick="location.reload()"><i class="fa fa-refresh"></i></a>
+                <a href="#"  onclick="location.reload()"><i class="fa fa-refresh"></i></a>
+
+                {#<a href="#"  onclick="location.reload()"><i class="fa fa-refresh"></i></a>#}
 
                 <div><h1><a class="mdl-navigation__link" style="color:#616161;color:  white !important;" href="{{ path('login') }}">Sign-in</a>
                     </h1></div>
