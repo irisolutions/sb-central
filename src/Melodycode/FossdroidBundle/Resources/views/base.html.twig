@@ -44,6 +44,14 @@
         .mdl-layout {
         }
 
+        .fa-refresh{
+            display: none;
+            margin-top: 7px;
+            /* margin-right: -11px; */
+            color: white;
+            font-size: 20px;
+        }
+
         .footer-distributed {
             background-color: #292c2f;
             box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -337,7 +345,13 @@
 
             }
         }
+        @media  (max-width: 1280px) {
 
+        .fa-refresh{
+            display: block;
+        }
+
+        }
 
         /* Safari */
     </style>
@@ -399,6 +413,8 @@
                 </div>
 
             {% else %}
+<a href="#"  onclick="location.reload()"><i class="fa fa-refresh"></i></a>
+
                 <div><h1><a class="mdl-navigation__link" style="color:#616161;color:  white !important;" href="{{ path('login') }}">Sign-in</a>
                     </h1></div>
             {% endif %}
