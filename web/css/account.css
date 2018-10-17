@@ -511,7 +511,7 @@ body{
 
     }
     .fd-search{
-        margin-left: 100px !important;
+      /*margin-left: 100px !important;*/
 
     }
     .searchTablet{

@@ -509,7 +509,7 @@ body{
 
     }
     .fd-search{
-       margin-left: 100px !important;
+       /*margin-left: 100px !important;*/
 
     }
     h2 a{
@@ -526,7 +526,7 @@ body{
         color: #0083ba !important;
     }
     .searchTablet{
-        width: 60% !important;
+        width: 70% !important;
     }
     .mdl-layout__drawer{
         width: 225px !important;
