@@ -2,6 +2,10 @@ dashboard_dev_new_app:
     path: /dev/new-app
     defaults: { _controller: DashboardBundle:Developer1:newAppUpload}
 
+dashboard_dev_new_media:
+    path: /dev/new-media
+    defaults: { _controller: DashboardBundle:Developer1:newMedia}    
+
 dashboard_dev_new_app_result:
     path: /dev/new-app-result
     defaults: { _controller: DashboardBundle:Developer1:newAppResult }
@@ -16,6 +20,14 @@ dashboard_dev_edit_app:
     path: /dev/edit-app/{slug}
     defaults: { _controller: DashboardBundle:Developer1:editApp}
 
+dashboard_dev_edit_media:
+    path: /dev/edit-media/{slug}
+    defaults: { _controller: DashboardBundle:Developer1:editMedia}
+
+dashboard_dev_manage_media:
+    path: /dev/manage-media
+    defaults: { _controller: DashboardBundle:Developer1:manageMedia}
+
 dashboard_dev_get_applist:
     path: /command/appList/{slug}
     defaults: { _controller: DashboardBundle:Command:appList}
@@ -23,6 +35,10 @@ dashboard_dev_get_applist:
 dashboard_dev_delete_app:
     path: /dev/delete-app/{slug}
     defaults: { _controller: DashboardBundle:Developer1:deleteApp}
+
+dashboard_dev_delete_media:
+    path: /dev/delete-media/{slug}/{count}
+    defaults: { _controller: DashboardBundle:Developer1:deleteMedia}
 
 dashboard_dev_manage_version:
     path: /dev/manage-version/{slug}
@@ -36,6 +52,9 @@ dashboard_dev_delete_version:
     path: /dev/delete-version/{slug}/{version}
     defaults: { _controller: DashboardBundle:Developer1:deleteVersion}
 
+dashboard_sales_get_clientconfig:
+    path: /command/client-config/{slug}/{file}
+    defaults: { _controller: DashboardBundle:Command:clientConfig}
 
 dashboard_sales_new_bundle:
     path: /sales/new-bundle
@@ -80,6 +99,9 @@ dashboard_sales_uninstall_applications:
 dashboard_sales_clients_applications:
     path: /sales/clients-applications/{slug}
     defaults: { _controller: DashboardBundle:Sales:showClientApplications}
+dashboard_sales_clients_media:
+    path: /sales/clients-media/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showClientMedia}
 dashboard_sales_clients_bundles:
     path: /sales/clients-bundles/{slug}
     defaults: { _controller: DashboardBundle:Sales:showClientBundles}
@@ -144,4 +166,3 @@ dashboard_dev_get_dongle_apps:
 dashboard_dev_get_apps_sync:
     path: /command/getAppsSync
     defaults: { _controller: DashboardBundle:Sync:getAppsSync}
-

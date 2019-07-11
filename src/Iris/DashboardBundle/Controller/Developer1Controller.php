@@ -98,13 +98,13 @@ class Developer1Controller extends Controller
     from ControllerInstallation
     where
       ControllerInstallation.ApplicationID = Application.ID
-      
+
    ) +
    (select count(*)
     from DongleInstallation
     where
       DongleInstallation.ApplicationID = Application.ID
-      
+
    )) as Users
 from Application;
 ');
@@ -314,6 +314,32 @@ from Client;
             'applications' => $applications));
     }
 
+    public function manageMediaAction()
+    {
+        $context = $this->container->get('security.context');
+
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+        //auth
+        $dbname = $this->container->getParameter('store_database_name');
+        $dbuser = $this->container->getParameter('store_database_user');
+        $dbpass = $this->container->getParameter('store_database_password');
+        $dbhost = $this->container->getParameter('store_database_host');
+
+        $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $conn->prepare('SELECT *, (select count(*) from ClientMedia where ClientMedia.MediaID=Media.ID) as Count FROM Media;');
+        $stmt->execute();
+
+        $media = $stmt->fetchAll();
+
+        return $this->render('DashboardBundle:Developer:manage-media.html.twig', array(
+            'media' => $media));
+    }
+
     public function setVersionName()
     {
         $connmain = $this->get_Main_DB_Object();
@@ -353,6 +379,77 @@ from Client;
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $conn;
+    }
+
+    public function editMediaAction($slug)
+    {
+        $context = $this->container->get('security.context');
+
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+        //if we are here user authenticated
+        // if we are here then the binary files are in place and the meta data file was created so we insert into the DB
+        $request = $this->get('request');
+
+        if ($request->getMethod() == 'POST') 
+        {
+
+          $media_name       = $request->request->get('media-name');
+          $media_identifier = $slug;
+          $media_category   = $request->request->get('media-category');
+          $media_bucket     = $request->request->get('media-bucket');
+
+        
+          $conn = $this->get_Store_DB_Object();
+          
+          $stmt = $conn->prepare('UPDATE Media SET Name=?,Category=?, Bucket_Name=? WHERE ID=?');
+        
+          try 
+          {
+            $stmt->execute([$media_name, $media_category, $media_bucket, $media_identifier]);
+          } 
+          catch (\PDOException $e) 
+          {
+              
+              $error = 'Operation Aborted ..' . $e->getMessage();
+              
+              $request->getSession()->getFlashBag()->add('danger', $error);
+              
+              return $this->redirect($request->headers->get('referer'));
+          }
+
+        
+          $msg = 'Media updated successfully';
+
+          $request->getSession()->getFlashBag()->add('success', $msg);
+            
+          return $this->redirect($request->headers->get('referer'));
+
+        }
+
+        $conn = $this->get_Store_DB_Object();
+
+        $stmt = $conn->prepare('SELECT * FROM Media WHERE ID = ?');
+
+        $stmt->execute([$slug]);
+        $result = $stmt->fetchAll();
+        
+        $stmt = $conn->prepare('SELECT * FROM MediaCategory');
+        $stmt->execute();
+        $categories = $stmt->fetchAll();
+
+        if ( count($result) < 1)
+        {
+            $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Cannot find media item with this ID');
+                return $this->redirect($request->headers->get('referer'));
+        }
+
+        return $this->render('DashboardBundle:Developer:new-update-media.html.twig', array(
+            'update' => true,
+            'media' => $result[0],
+            'categories' => $categories));
+
     }
 
     public function editAppAction($slug)
@@ -733,6 +830,71 @@ from Client;
         // if we are here then all is good let us launch the update script
         return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'delete'));
     }
+
+    public function deleteMediaAction($slug,$count)
+    {
+        $context = $this->container->get('security.context');
+
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+        //auth
+        $media_identifier = $slug;
+
+        $request = $this->get('request');
+
+        $dbname = $this->container->getParameter('store_database_name');
+        $username = $this->container->getParameter('store_database_user');
+        $password = $this->container->getParameter('store_database_password');
+        $servername = $this->container->getParameter('store_database_host');
+
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $conn->prepare('DELETE FROM Media WHERE ID = ? ');
+
+        try
+        {
+            $stmt->execute([$media_identifier]);
+        }
+        catch (\PDOException $e)
+        {
+            // if something goes wrong we fail
+            //throw $e;
+
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        // this media items is owned by client(s)
+        if ($count > 0)
+        {
+
+          $stmt = $conn->prepare('DELETE FROM ClientMedia WHERE MediaID = ? ');
+
+          try
+          {
+            $stmt->execute([$media_identifier]);
+          }
+          catch (\PDOException $e)
+          {
+            // if something goes wrong we fail
+            //throw $e;
+
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+          }
+        }
+
+        //return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'delete'));
+        $msg = 'Media deleted successfully .. it is your resposiliby to remove it from the cloud storage';
+
+        $request->getSession()->getFlashBag()->add('success', $msg);
+        return $this->redirect($request->headers->get('referer'));
+      }
 
     public function deleteAppAction($slug)
     {
@@ -1205,6 +1367,78 @@ from Client;
         $categories = $stmt->fetchAll();
 
         return $this->render('DashboardBundle:Developer:new-update-app.html.twig', array('update' => false, 'categories' => $categories));
+
+    }
+
+    public function newMediaAction()
+    {
+        $context = $this->container->get('security.context');
+
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render("DashboardBundle:Homepage:index.html.twig");
+
+        //auth
+        $request = $this->get('request');
+
+        if ($request->getMethod() == 'POST')
+        {
+
+
+            $media_name = $request->request->get('media-name');
+            $media_bucket = $request->request->get('media-bucket');
+            $media_category = $request->request->get('media-category');
+
+
+            // if we are here then the binary files are in place and the meta data file was created so we insert into the DB
+
+            $dbname = $this->container->getParameter('store_database_name');
+            $username = $this->container->getParameter('store_database_user');
+            $password = $this->container->getParameter('store_database_password');
+            $servername = $this->container->getParameter('store_database_host');
+
+            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+            // set the PDO error mode to exception
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $stmt = $conn->prepare('INSERT INTO Media (Name,Category,Bucket_Name) VALUES (?,?,?)');
+
+            try {
+
+                $stmt->execute([$media_name,$media_category,$media_bucket]);
+            } catch (\PDOException $e) {
+                // if something goes wrong we fail
+
+                $error = 'Operation Aborted ..' . $e->getMessage();
+
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+
+            }
+
+            // if we are here then all is good let us launch the update script
+
+            $msg = 'Media added successfully .. it is your resposiliby to make sure Bucket File matches the cloud bucket file name';
+
+            $request->getSession()->getFlashBag()->add('success', $msg);
+            return $this->redirect($request->headers->get('referer'));
+
+        }
+
+        $dbname = $this->container->getParameter('store_database_name');
+        $username = $this->container->getParameter('store_database_user');
+        $password = $this->container->getParameter('store_database_password');
+        $servername = $this->container->getParameter('store_database_host');
+
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $conn->prepare('SELECT * FROM MediaCategory ORDER BY Type');
+        $stmt->execute();
+
+        $categories = $stmt->fetchAll();
+
+        return $this->render('DashboardBundle:Developer:new-update-media.html.twig', array('update' => false, 'categories' => $categories));
 
     }
 

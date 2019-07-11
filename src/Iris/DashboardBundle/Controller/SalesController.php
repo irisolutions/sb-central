@@ -4,6 +4,9 @@ namespace Iris\DashboardBundle\Controller;
 
 use PDO;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 //include 'ChromePhp.php';
 //use ChromePhp;
@@ -459,7 +462,7 @@ class SalesController extends Controller
         $request = $this->get('request');
         $conn = $this->get_Store_DB_Object();
         //get all cliets with number of bundles and number of applications that every client have
-        $stmt = $conn->prepare('SELECT *,(SELECT COUNT(*) FROM Bundle,Subscription where BundleID=Bundle.ID and ClientID=Client.ID) as numberOfBundles,((SELECT count(*) FROM ControllerInstallation WHERE ControllerInstallation.ClientID=Client.ID)+(SELECT COUNT(*)FROM DongleInstallation WHERE DongleInstallation.ClientID=Client.ID)) as numberOfApplications from Client');
+        $stmt = $conn->prepare('SELECT *,(SELECT COUNT(*) FROM Bundle,Subscription where BundleID=Bundle.ID and ClientID=Client.ID) as numberOfBundles,(SELECT COUNT(*) FROM ClientMedia where ClientID=Client.ID) as numberOfMedia,((SELECT count(*) FROM ControllerInstallation WHERE ControllerInstallation.ClientID=Client.ID)+(SELECT COUNT(*)FROM DongleInstallation WHERE DongleInstallation.ClientID=Client.ID)) as numberOfApplications from Client');
         try {
             $stmt->execute();
         } catch (\PDOException $e) {
@@ -670,6 +673,7 @@ class SalesController extends Controller
         $context = $this->container->get('security.context');
         if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
             return $this->render('DashboardBundle:Homepage:index.html.twig');
+
         //auth
         $request = $this->get('request');
         $ClientID = $slug;
@@ -686,44 +690,44 @@ class SalesController extends Controller
         }
         //get Tablet applications
         $stmt = $conn->prepare('Select *,
-                                (select WebDownloadDate from ControllerInstallation as cont 
-                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                (select WebDownloadDate from ControllerInstallation as cont
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID
                                 ) as WebDownloadDate,
-                                 (select DeviceDownloadDate from ControllerInstallation as cont 
-                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                 (select DeviceDownloadDate from ControllerInstallation as cont
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID
                                 ) as DeviceDownloadDate,
-                                (select Subscription from ControllerInstallation as cont 
-                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                (select Subscription from ControllerInstallation as cont
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID
                                 ) as Subscription,
-                                (select Version from ControllerInstallation as cont 
-                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                (select Version from ControllerInstallation as cont
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID
                                 ) as Version ,
-                                (select InstallationDate from ControllerInstallation as cont 
-                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                (select InstallationDate from ControllerInstallation as cont
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID
                                 ) as InstallationDate,(select ss.status from ControllerInstallation as cont,Status as ss
-                                    where clientID=outc.ClientID  and ApplicationID=Application.ID 
+                                    where clientID=outc.ClientID  and ApplicationID=Application.ID
                                     and ss.PK=cont.Status
                                 ) as Status
                                 from ControllerInstallation as outc ,Application where outc.ApplicationID=Application.ID and ClientID=?');
         // get Dongle application
         $stmt1 = $conn->prepare('Select *,
-                                (select WebDownloadDate from DongleInstallation as don 
-                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                (select WebDownloadDate from DongleInstallation as don
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID
                                 ) as WebDownloadDate,
-                                (select DeviceDownloadDate from DongleInstallation as don 
-                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                (select DeviceDownloadDate from DongleInstallation as don
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID
                                 ) as DeviceDownloadDate,
-                                (select Subscription from DongleInstallation as don 
-                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                (select Subscription from DongleInstallation as don
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID
                                 ) as Subscription,
-                                (select Version from DongleInstallation as don 
-                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                (select Version from DongleInstallation as don
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID
                                 ) as Version ,
-                                (select InstallationDate from DongleInstallation as don 
-                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                (select InstallationDate from DongleInstallation as don
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID
                                 ) as InstallationDate,
                                 (select ss.status from DongleInstallation as don,Status as ss
-                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID 
+                                    where clientID=outc.ClientID  and ApplicationID=outc.ApplicationID
                                     and ss.PK=don.Status
                                 ) as Status
                                 from DongleInstallation as outc ,Application where ApplicationID=Application.ID and ClientID=?');
@@ -758,8 +762,563 @@ class SalesController extends Controller
             array_push($app_VName,$app);
         }
         ;
-        return $this->render('DashboardBundle:Sales:show-client-applications.html.twig', array(
-            'applications' => $app_VName, 'apps' => $apps, 'clientname' => $ClientName));
+
+        return $this->render('DashboardBundle:Sales:show-client-applications.html.twig', array('applications' => $app_VName, 'apps' => $apps, 'clientname' => $ClientName));
+    }
+
+    public function getClientMediaByType($conn,$ClientID,$media_type)
+    {
+
+         //get Tablet applications
+        $stmt = $conn->prepare('SELECT *, IF(ClientMedia.ClientID IS NULL, FALSE, TRUE) as Available FROM Media LEFT JOIN ClientMedia ON (Media.ID = ClientMedia.MediaID AND ClientMedia.ClientID =? ) WHERE `Media`.Category IN (select ID from `MediaCategory` where `MediaCategory`.Type =?)');
+
+        try
+        {
+            $stmt->execute([$ClientID,$media_type]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return null;
+        }
+
+        $items = $stmt->fetchAll();
+
+        return $items;
+
+
+    }
+
+    public function showClientMediaAction($slug)
+    {
+        $context = $this->container->get('security.context');
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+        //auth
+        $request = $this->get('request');
+        $ClientID = $slug;
+        //connect to database
+        $conn = $this->get_Store_DB_Object();
+
+        if ($request->getMethod() == 'POST')
+        {
+
+            // ToDo: optimize this using batch update/delete
+
+            // The parameters we get here are either a checkbox (ids for media items) or Settings
+            // checkbox ids are numerical so this is how we distinguish between them and the Settings
+
+            foreach ($_POST as $key => $value)
+            {
+
+            //  echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
+
+              if ( is_numeric($key) ) // this is a checkbox of a media item
+              {
+                if ( $value == 'on')
+                $stmt = $conn->prepare('INSERT IGNORE INTO ClientMedia(ClientID,MediaID) VALUES(?,?)');
+                else
+                $stmt = $conn->prepare('DELETE FROM ClientMedia WHERE ClientID=? AND MediaID=?');
+
+                try
+                {
+                  $stmt->execute([$ClientID,$key]);
+                }
+                catch (\PDOException $e)
+                {
+                  $error = 'Operation Aborted ..' . $e->getMessage();
+                  $request->getSession()->getFlashBag()->add('danger', $error);
+                  return $this->redirect($request->headers->get('referer'));
+                }
+              }
+              else // this is a setting (a property/value pair)
+              {
+                  // note that we used replace instead of update so that the first time we enter a property
+                  // and its value it is inserted into the table
+                  $stmt = $conn->prepare('REPLACE INTO Settings VALUES(?,?,?)');
+
+                  try
+                  {
+                    $stmt->execute([$ClientID,$key,$value]);
+                  }
+                  catch (\PDOException $e)
+                  {
+                    $error = 'Operation Aborted ..' . $e->getMessage();
+                    $request->getSession()->getFlashBag()->add('danger', $error);
+                    return $this->redirect($request->headers->get('referer'));
+                  }
+              }
+
+            }
+        }
+
+        // get the client's name
+        $stmt2 = $conn->prepare('Select Name from Client where ID=?');
+
+        try
+        {
+            $stmt2->execute([$ClientID]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $ClientName = $stmt2->fetchAll()[0];
+
+        // get the client's Settings
+
+        // get the client's name
+        $stmt2 = $conn->prepare('Select Property,Value from Settings where ClientID=?');
+
+        try
+        {
+            $stmt2->execute([$ClientID]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $settings = $stmt2->fetchAll();
+
+        $stmt2 = $conn->prepare('Select Name from Languages');
+
+        try
+        {
+            $stmt2->execute();
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $languages = $stmt2->fetchAll(PDO::FETCH_COLUMN);
+
+        // get the client's media
+
+        $music_items = $this->getClientMediaByType($conn,$ClientID,"MusicCategory");
+        $video_items = $this->getClientMediaByType($conn,$ClientID,"VideoCategory");
+        $sfx_items   = $this->getClientMediaByType($conn,$ClientID,"SFXCategory");
+
+        if ( is_null($music_items) || is_null($video_items) || is_null($sfx_items))
+            return $this->redirect($request->headers->get('referer'));
+
+        $setting_arr = array();
+
+        foreach ($settings as $setting)
+        {
+            $setting_arr[$setting[0]]=$setting[1];
+            //echo "".$setting[0]."=>".$setting[1]."<br>";
+        }
+
+
+
+
+
+        return $this->render('DashboardBundle:Sales:show-client-media.html.twig', array('music' => $music_items,'video' => $video_items,'sfx' => $sfx_items,'clientname' => $ClientName,'settings' => $setting_arr,'languages' => $languages));
+    }
+
+    private function getClientMediaByCategory($conn,$ClientID,$Category)
+    {
+
+         $stmt3 = $conn->prepare('SELECT Media.Bucket_Name FROM Media LEFT JOIN ClientMedia ON (Media.ID = ClientMedia.MediaID) where ClientMedia.ClientID=? AND Media.Category=?');
+
+            try
+            {
+                $stmt3->execute([$ClientID,$Category]);
+            }
+            catch (\PDOException $e)
+            {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+
+            $media_files = $stmt3->fetchAll(PDO::FETCH_COLUMN);
+
+            return $media_files;
+    }
+
+    // this function is called by the command controller
+    public function getClientConfigFileAction($clientID,$fileName)
+    {
+        // ToDo: enable authentication
+        /*
+
+        $context = $this->container->get('security.context');
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+        */
+
+        //auth
+
+            if ( $fileName == "MediaCategories.json")
+                return $this->getClientMusicVidFile($clientID,$fileName);
+            else if ($fileName == "SFXCategories.json")
+                return $this->getClientSFXFile($clientID,$fileName);
+            else if ($fileName == "Languages.json")
+                return $this->getClientLanguagesFile($clientID,$fileName);
+            else if ($fileName == "SBSetting.json")
+            {
+              $list = ["router","noNetwork","isChristian"];
+              return $this->getClientSettingFile($clientID,$fileName,$list,"");
+            }
+            else if  ($fileName == "sensorybox_ssid.json")
+            {
+              $list = ["sensorybox_defaultIp","sensorybox_ssid","sensorybox_password"];
+              return $this->getClientSettingFile($clientID,$fileName,$list,"sensorybox_");
+            }
+            else if ($fileName == "factory_reset_.json")
+            {
+              $list = ["factory_defaultIp","factory_ssid","factory_password"];
+              return $this->getClientSettingFile($clientID,$fileName,$list,"factory_");
+            }
+            else
+            {
+                return new Response('<html><body>Operation Aborted .. invalid settings file name</body></html>');
+            }
+
+
+    }
+
+    private function getClientSettingFile($clientID,$fileName,$list,$prefix)
+    {
+
+        $ClientID = $clientID;
+        $FileName = $fileName;
+
+        $tmp = tmpfile();
+
+        fprintf($tmp,"{\n");
+
+        //connect to database
+        $conn = $this->get_Store_DB_Object();
+        $in  = str_repeat('?,', count($list) - 1) . '?';
+
+        array_push($list,$ClientID);
+
+        $stmt2 = $conn->prepare('Select Property,Value from Settings where Property IN ('.$in.') AND ClientID=?');
+
+        try
+        {
+            $stmt2->execute($list);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            echo $error;
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $settings = $stmt2->fetchAll();
+
+        foreach ($settings as $pair)
+        {
+            if ($pair['Value'] == "on")
+              $pair['Value'] = "true";
+            else if  ($pair['Value'] == "off")
+            $pair['Value'] = "false";
+
+            if (strlen($prefix))
+              $pair['Property'] = str_replace($prefix, "", $pair['Property']);
+
+            fprintf($tmp,"%s: %s\n",$pair['Property'],$pair['Value']);
+        }
+
+        fprintf($tmp,"}\n");
+
+        fseek($tmp, 0);
+        $stat = fstat($tmp);
+        $size = $stat['size'];
+        $txt = fread($tmp, $size);
+
+        //echo $txt;
+
+        fclose($tmp); // this removes the file
+
+        $response = new Response($txt);
+
+        // Create the disposition of the file
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $fileName
+        );
+
+        // Set the content disposition
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
+
+    }
+
+    private function getClientLanguagesFile($clientID,$fileName)
+    {
+
+        $ClientID = $clientID;
+        $FileName = $fileName;
+
+        $tmp = tmpfile();
+
+        fprintf($tmp,"{\n");
+        fprintf($tmp,"languages: [\n");
+
+        //connect to database
+        $conn = $this->get_Store_DB_Object();
+
+        $stmt2 = $conn->prepare('Select Property from Settings where Property IN (select Name from Languages ) AND Settings.ClientID=? AND Value="on"');
+
+        try
+        {
+            $stmt2->execute([$ClientID]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            echo $error;
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $client_languages = $stmt2->fetchAll(PDO::FETCH_COLUMN);
+        $str_langs = implode("\n",$client_languages);
+        fprintf($tmp,"%s\n]\n",$str_langs);
+
+        fprintf($tmp,"}\n");
+
+        fseek($tmp, 0);
+        $stat = fstat($tmp);
+        $size = $stat['size'];
+        $txt = fread($tmp, $size);
+
+        //echo $txt;
+
+        fclose($tmp); // this removes the file
+
+        //$jres = new JsonResponse($txt);
+
+        //return $jres;
+
+          // Return a response with a specific content
+        $response = new Response($txt);
+
+        // Create the disposition of the file
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $fileName
+        );
+
+        // Set the content disposition
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
+
+    }
+
+    private function getClientMusicVidFile($clientID,$fileName)
+    {
+
+        $ClientID = $clientID;
+        $FileName = $fileName;
+
+
+        $tmp = tmpfile();
+
+        fprintf($tmp,"{\n");
+
+        //connect to database
+        $conn = $this->get_Store_DB_Object();
+
+
+
+        // Get Music Media Files
+
+        $stmt2 = $conn->prepare('Select ID from MediaCategory where Type=?');
+
+        try
+        {
+            $stmt2->execute(['MusicCategory']);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $music_cats = $stmt2->fetchAll();
+
+        fprintf($tmp,"musicCategories: {\n");
+
+
+        foreach ($music_cats as $media_cat)
+        {
+           if ( count($music_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'])) )
+            {
+                fprintf($tmp,"%s: [\n",$media_cat['ID']);
+
+                $str_files = implode("\n",$music_files);
+                fprintf($tmp,"%s\n]\n",$str_files);
+            }
+        }
+
+        fprintf($tmp,"}\n");
+
+
+        // Get Video Media Files
+
+        $stmt2 = $conn->prepare('Select ID from MediaCategory where Type=?');
+
+        try
+        {
+            $stmt2->execute(['VideoCategory']);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $vid_cats = $stmt2->fetchAll();
+
+        fprintf($tmp,"videoCategories: {\n");
+
+
+        foreach ($vid_cats as $media_cat)
+        {
+           if ( count($vid_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'])) )
+            {
+                fprintf($tmp,"%s: [\n",$media_cat['ID']);
+
+                $str_files = implode("\n",$vid_files);
+                fprintf($tmp,"%s\n]\n",$str_files);
+            }
+        }
+
+        fprintf($tmp,"}\n");
+
+        fprintf($tmp,"}\n");
+
+        //
+
+        fseek($tmp, 0);
+        $stat = fstat($tmp);
+        $size = $stat['size'];
+        $txt = fread($tmp, $size);
+
+        //echo $txt;
+
+        fclose($tmp); // this removes the file
+
+        //$jres = new JsonResponse($txt);
+
+        //return $jres;
+
+          // Return a response with a specific content
+        $response = new Response($txt);
+
+        // Create the disposition of the file
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $fileName
+        );
+
+        // Set the content disposition
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
+
+    }
+
+    private function getClientSFXFile($clientID,$fileName)
+    {
+
+        $ClientID = $clientID;
+        $FileName = $fileName;
+
+
+        $tmp = tmpfile();
+
+        fprintf($tmp,"{\n");
+
+        //connect to database
+        $conn = $this->get_Store_DB_Object();
+
+
+        // Get Video Media Files
+
+        $stmt2 = $conn->prepare('Select ID from MediaCategory where Type=?');
+
+        try
+        {
+            $stmt2->execute(['SFXCategory']);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $sfx_cats = $stmt2->fetchAll();
+
+        fprintf($tmp,"sfxCategories: {\n");
+
+
+        foreach ($sfx_cats as $media_cat)
+        {
+           if ( count($sfx_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'])) )
+            {
+                fprintf($tmp,"%s: [\n",$media_cat['ID']);
+
+                $str_files = implode("\n",$sfx_files);
+                fprintf($tmp,"%s\n]\n",$str_files);
+            }
+        }
+
+        fprintf($tmp,"}\n");
+
+        fprintf($tmp,"}\n");
+
+        //
+
+        fseek($tmp, 0);
+        $stat = fstat($tmp);
+        $size = $stat['size'];
+        $txt = fread($tmp, $size);
+
+        //echo $txt;
+
+        fclose($tmp); // this removes the file
+
+        //$jres = new JsonResponse($txt);
+
+        //return $jres;
+
+          // Return a response with a specific content
+        $response = new Response($txt);
+
+        // Create the disposition of the file
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $fileName
+        );
+
+        // Set the content disposition
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
+
     }
 
     public function get_Main_DB_Object()
@@ -941,7 +1500,7 @@ class SalesController extends Controller
         }
         $client = $stmt->fetchAll();
         $client = $client[0];
-        $stmt = $conn->prepare('select (select count(*) from Subscription where ClientID=Client.ID) as subcount , (((SELECT count(*) FROM ControllerInstallation WHERE ControllerInstallation.ClientID=Client.ID)+(SELECT COUNT(*)FROM DongleInstallation WHERE DongleInstallation.ClientID=Client.ID))) as appcount from Client where ID=?');
+        $stmt = $conn->prepare('select (select count(*) from Subscription where ClientID=Client.ID) as subcount, (select count(*) from ClientMedia where ClientID=Client.ID) as mediacount , (((SELECT count(*) FROM ControllerInstallation WHERE ControllerInstallation.ClientID=Client.ID)+(SELECT COUNT(*)FROM DongleInstallation WHERE DongleInstallation.ClientID=Client.ID))) as appcount from Client where ID=?');
         try {
             $stmt->execute([$ClientID]);
         } catch (\PDOException $e) {

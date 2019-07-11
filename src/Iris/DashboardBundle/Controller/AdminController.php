@@ -10,20 +10,28 @@ use PDO;
 //include 'ChromePhp.php';
 //use ChromePhp;
 
+
 class AdminController extends Controller {
 	public function accountAction() 
     {
+
+    	
     	$context = $this->container->get('security.context');
     	
+
     	if( !$context->isGranted('IS_AUTHENTICATED_FULLY') )
     	//	return $this->forward('MelodycodeFossdroidBundle:Homepage:index');
     	return $this->redirect($this->generateUrl('homepage'));
+        
         $request=$this->get('request');
         $ID=$this->getUser()->getUsername();
         $dbname     = $this->container->getParameter('store_database_name');
         $username   = $this->container->getParameter('store_database_user');
         $password   = $this->container->getParameter('store_database_password');
         $servername = $this->container->getParameter('store_database_host');
+
+        //print("contacting db for admin user/pass");
+        //return;
 
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         // set the PDO error mode to exception

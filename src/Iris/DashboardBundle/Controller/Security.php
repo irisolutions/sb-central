@@ -32,6 +32,10 @@ class SecurityController extends Controller
        return;
        */
     	
+        return new Response(
+            '<html><body>Hello</body></html>'
+        );
+
         $session = $request->getSession();
         
         // get the login error if there is one

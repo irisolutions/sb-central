@@ -14,112 +14,6 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-    <script src="{{ asset('dist/jquery.scroltable.min.js') }}"></script>
-    <script>
-
-
-        $(document).ready(function () {
-            $('.app-form').css('visibility', 'visible');
-            $('table').scroltable();
-            $('#deletapp').val("");
-
-            //    $('#deletbundle').val("");
-//    $('.select').click(function(){
-//        $('.select').css('background-color','white');
-//        $(this).css('background-color','#5f9ea0');
-//        $('#deletapp').val($(this).find('td').find('b').html());
-//    });
-            $('.add-app').click(function () {
-            });
-        });
-    </script>
-    <script type="text/javascript">
-        function submitform() {
-            //alert("submit form ");
-            document.myform.submit();
-        }
-    </script>
-    <style type="text/css">
-        .alert {
-            width: 95%;
-            margin: auto;
-        }
-
-        h1 {
-            margin: 30px 0;
-            padding: 0 200px 15px 0;
-            border-bottom: 1px solid #E5E5E5;
-        }
-
-        .bs-example {
-            margin: 20px;
-        }
-
-        .form-style-2-heading {
-            font-weight: bold;
-            font-style: italic;
-            border-bottom: 2px solid #ddd;
-            margin-bottom: 20px;
-            margin-top: 40px;
-            font-size: 15px;
-            padding-bottom: 3px;
-        }
-
-        .material-icons {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            vertical-align: middle;
-        }
-
-        .selecter {
-            min-height: 27px;
-            width: 66%;
-            border: 2px solid gainsboro;
-            border-radius: 5px;
-
-        }
-
-        .alert {
-            margin-top: 20px;
-        }
-
-        .removeButton {
-            margin-left: 20px;
-        }
-
-        .add-app {
-        }
-
-        @media only screen and (max-width: 412px) {
-            .labelAPPS {
-                padding: 0px;
-            }
-        }
-
-        .datagrid {
-            width: 95%;
-            margin: auto;
-        }
-
-        .removeButton {
-            margin-left: 9px;
-        }
-
-        .modal-body {
-            padding: 0px !important;
-        }
-
-        .add-bundle {
-
-            margin-top: 3%;
-        }
-
-        .modal-header .close {
-            margin-top: -22px !important;
-        }
-    </style>
-
 {% endblock %}
 {% block breadcrumb %}
 
@@ -146,7 +40,7 @@
                         {#Add#}
                         {#</div>#}
 
-                        {#<input onclick=" return confirm('Are you sure you want to delete  this application ');"  type="submit" name="delete" class="btn btn-primary col-sm-2 col-xs-5 removeButton" value=" Remove">#}
+                        {#<input onclick=" return confirm('Are you sure you want to delete this application ');"  type="submit" name="delete" class="btn btn-primary col-sm-2 col-xs-5 removeButton" value=" Remove">#}
 
                         <div class="col-xs-12 app-form" style="visibility: hidden ;   width: 80%;
 
@@ -158,7 +52,7 @@
         ">
                             <div class="form-style-2-heading "> Add Application</div>
                             <p class=" col-sm-3 col-xs-5 labelAPPS">
-                                Applications
+                                Application
                             </p>
                             <select name="newapp" class=" col-sm-5 col-xs-7 selecter">
                                 <option value="">
@@ -209,7 +103,7 @@
 
                 <thead>
                 <tr>
-                    <th>setting</th>
+                    <th>Setting</th>
                     <th>Name</th>
                     <th>Version</th>
                     <th>WebDownload</th>

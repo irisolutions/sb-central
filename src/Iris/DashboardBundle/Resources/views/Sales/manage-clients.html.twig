@@ -118,6 +118,7 @@ Sales  &rsaquo; Manage Clients
               <th>Name</th>
               <th>Bundles</th>
               <th>Applications</th>
+              <th>Media</th>
               <!-- <th>Operations</th> -->
               
           </tr>
@@ -136,6 +137,7 @@ Sales  &rsaquo; Manage Clients
             </td>
             <td><a href="{{ path('dashboard_sales_clients_bundles', {'slug': client.ID}) }}">{{ client.numberOfBundles }}</a> </td>
           <td><a href="{{ path('dashboard_sales_clients_applications', {'slug': client.ID}) }}">{{ client.numberOfApplications }}</a> </td>
+          <td><a href="{{ path('dashboard_sales_clients_media', {'slug': client.ID}) }}">{{ client.numberOfMedia }}</a> </td>
       
           </tr>
           {% endfor %}

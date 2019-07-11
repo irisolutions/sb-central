@@ -151,6 +151,9 @@
         <div class="col-xs-12" style="margin-bottom: 5%;margin-left: 5%">
             <p class="col-xs-5"> <b>Applications:</b> </p> <a class="col-xs-3" href="{{ path('dashboard_sales_clients_applications', {'slug': client.ID}) }}"> {{counts.appcount}}</a>
         </div>
+        <div class="col-xs-12" style="margin-left: 5%;margin-top: -5%;">
+            <p class="col-xs-5"> <b>Media:</b> </p> <a class="col-xs-3" href="{{ path('dashboard_sales_clients_media', {'slug': client.ID}) }}"> {{counts.mediacount}}</a>
+        </div>
         <div class="col-xs-12" style="margin-bottom: 5%">
             <div class=" btn btn-primary EditProfile"> Edit Profile</div>
             <input style="border:1px solid #aaa; margin-left: 5%" hidden="" type="submit" value="Submit" class="editform btn btn-primary col-sm-3 col-xs-5 ">

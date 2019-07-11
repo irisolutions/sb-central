@@ -27,19 +27,23 @@ public function indexAction()
     	
     		$commands[] = array('path'=>'','icon'=>'','name'=>'Applications');
     		
-         	$commands[] = array('path'=>'dashboard_dev_new_app','icon'=>'add_circle','name'=>'New Application');
+         	//$commands[] = array('path'=>'dashboard_dev_new_app','icon'=>'add_circle','name'=>'New Application');
          	
-            $commands[] = array('path'=>'dashboard_dev_manage_app','icon'=>'view_list','name'=>'Manage Applications');
+            //$commands[] = array('path'=>'dashboard_dev_manage_app','icon'=>'view_list','name'=>'Manage Applications');
+
+            $commands[] = array('path'=>'dashboard_dev_new_media','icon'=>'add_circle','name'=>'New Media');
+            
+            $commands[] = array('path'=>'dashboard_dev_manage_media','icon'=>'view_list','name'=>'Manage Media');
         }
         
         if ( $context->isGranted('ROLE_MARKETING') ) 
     	{
     	
-    		$commands[] =  array('path'=>'','icon'=>'','name'=>'Bundles');
+    		//$commands[] =  array('path'=>'','icon'=>'','name'=>'Bundles');
     		
-         	$commands[] =  array('path'=>'dashboard_sales_new_bundle','icon'=>'add_to_photos','name'=>'New Bundle');
+         	//$commands[] =  array('path'=>'dashboard_sales_new_bundle','icon'=>'add_to_photos','name'=>'New Bundle');
          	
-            $commands[] =  array('path'=>'dashboard_sales_manage_bundle','icon'=>'view_list','name'=>'Manage Bundles');
+            //$commands[] =  array('path'=>'dashboard_sales_manage_bundle','icon'=>'view_list','name'=>'Manage Bundles');
             
             //
             
@@ -49,9 +53,9 @@ public function indexAction()
             
             $commands[] =  array('path'=>'dashboard_sales_manage_clients','icon'=>'view_list','name'=>'Manage Clients');
     		
-         	$commands[] =  array('path'=>'dashboard_sales_manage_application','icon'=>'account_box','name'=>'Applications/Clients');
+         	//$commands[] =  array('path'=>'dashboard_sales_manage_application','icon'=>'account_box','name'=>'Applications/Clients');
          	
-            $commands[] =  array('path'=>'dashboard_sales_manage_bundles','icon'=>'contacts','name'=>'Bundles/Clients');
+            //$commands[] =  array('path'=>'dashboard_sales_manage_bundles','icon'=>'contacts','name'=>'Bundles/Clients');
             
             
            
@@ -62,11 +66,11 @@ public function indexAction()
         if ( $context->isGranted('ROLE_RANDD') ) 
     	{
     	
-    		$commands[] =  array('path'=>'','icon'=>'','name'=>'Statistics');
+    		//$commands[] =  array('path'=>'','icon'=>'','name'=>'Statistics');
     		
-         	$commands[] =  array('path'=>'dashboard_dev_Tracking','icon'=>'add_circle','name'=>'Application Usage');
+         	//$commands[] =  array('path'=>'dashboard_dev_Tracking','icon'=>'add_circle','name'=>'Application Usage');
          	
-            $commands[] =  array('path'=>'dashboard_dev_Tracking','icon'=>'loop','name'=>'Application Tracking');
+            //$commands[] =  array('path'=>'dashboard_dev_Tracking','icon'=>'loop','name'=>'Application Tracking');
         }
 
                  

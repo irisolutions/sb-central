@@ -1,0 +1,356 @@
+{# empty Twig template #}
+{% extends 'DashboardBundle:Sales:manage-application.html.twig' %}
+{% block head %}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('dist/jquery.scroltable.min.css') }}">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script>
+
+    // this code insures that only checkboxes that has been changed are sent to the $servername
+    // we do this by first attaching a custom class .changed to each checkbox that has been changed
+    // and then when a form is submitted we disable all checkboxes that doesn't have the .changed class
+    // this way these checkboxes are not posted to the server
+
+    $(function() {
+   $("#media_form").submit(function() {
+      //$(this).find(":input").filter(function(){ return !this.value; }).attr("disabled", "disabled");
+      $('input').not('.changed').attr('disabled','disabled');
+      return true; // ensure form still submits
+    });
+    });
+    </script>
+
+    <style>
+  body{
+    direction: ltr;
+  }
+        .cont {
+            width: 95%;
+            margin: auto;
+            border: 1px solid;
+            border-color: gainsboro;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .bundle-label{
+
+            font-size: 12px;
+            text-align: center;
+        }
+        .bundle-style{
+            font-weight: bold;
+  color: #0083ba;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 40px;
+            margin-top: 20px;
+            font-size: 15px;
+            padding-bottom: 3px;
+            text-align: center;
+            direction: ltr !important;
+            text-align: center;
+        }
+        .fa-square-style{
+
+            margin-top: 20px;
+            font-size: 20px !important;
+            color: #616161;
+        }
+  .fa-minus-style{
+
+    margin-top: 20px;
+    font-size: 20px !important;
+    color: #616161;
+  }
+
+  @media screen and (max-width: 415px) {
+    .bundle-label {
+        margin-left: 4px;
+
+    }
+  }
+  @media screen and (max-width: 430px) {
+    .bundle-label {
+
+        font-size: 8px;
+    }
+  }
+    </style>
+
+{% endblock %}
+{% block breadcrumb %}
+
+    Sales  &rsaquo; Manage Clients &rsaquo; {{ clientname[0] }} Media
+
+{% endblock %}
+
+{% block body %}
+ <form name="media_form" id="media_form"  method="post">
+
+<div style="text-align: center;margin-top: 30px;"><h4>{{ clientname[0] }} Media</h4></div>
+<div class="col-xs-12 app-form" style="width: 90%;
+
+border: 1px solid gainsboro;
+border-radius: 5px;
+margin-top: 25px;
+margin-left:38px;
+margin-bottom: 20px;
+">
+
+  <input style="border:1px solid #aaa; margin-top: 1%; " name="action" type="submit" value="Save Changes" class="editform btn btn-primary col-sm-2 col-xs-4 ">
+  <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+  <div class="mdl-tabs__tab-bar">
+      <a href="#music-panel" class="mdl-tabs__tab is-active">Music</a>
+      <a href="#video-panel" class="mdl-tabs__tab">Videos</a>
+      <a href="#sfx-panel" class="mdl-tabs__tab">SFX</a>
+      <a href="#settings-panel" class="mdl-tabs__tab">Settings</a>
+  </div>
+  <div class="mdl-tabs__panel is-active" id="music-panel">
+
+    <div class="datagrid" style="margin-bottom: 3%;">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Available</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Bucket Name</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for track in music %}
+                    <tr class="select">
+                        <td>
+                          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ track.ID }}">
+                            <input type="hidden" name="{{ track.ID }}" value="off" />
+                            <input type="checkbox" id="{{ track.ID }}" name="{{ track.ID }}" class="mdl-switch__input"{% if track.Available %}checked{% endif %}  onchange="$(this).addClass('changed');$('input[name={{ track.ID }}]').addClass('changed');$(this).parent().find('.mdl-switch__thumb').first().css('background','#1e5686'); ">
+                            <span class="mdl-switch__label"></span>
+                            </label>
+
+                        </td>
+                        <td>
+                            <b>{{ track.Name }}</b>
+                            <br style="line-height:180%;">
+
+                        </td>
+                        <td style="padding-left: 0px">{{ track.Category }}</td>
+                        <td style="padding-left: 0px">{{ track.Bucket_Name }}</td>
+
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
+  </div>
+
+  <div class="mdl-tabs__panel" id="video-panel">
+
+      <div class="datagrid" style="margin-bottom: 3%;">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Available</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Bucket Name</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for track in video %}
+                    <tr class="select">
+                        <td>
+                          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ track.ID }}">
+                            <input type="hidden" name="{{ track.ID }}" value="off" />
+                            <input type="checkbox" id="{{ track.ID }}" name="{{ track.ID }}" class="mdl-switch__input"{% if track.Available %}checked{% endif %}  onchange="$(this).addClass('changed');$('input[name={{ track.ID }}]').addClass('changed');$(this).parent().find('.mdl-switch__thumb').first().css('background','#1e5686');">
+                            <span class="mdl-switch__label"></span>
+                            </label>
+
+                        </td>
+                        <td>
+                            <b>{{ track.Name }}</b>
+                            <br style="line-height:180%;">
+
+                        </td>
+                        <td style="padding-left: 0px">{{ track.Category }}</td>
+                        <td style="padding-left: 0px">{{ track.Bucket_Name }}</td>
+
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+  </div>
+  <div class="mdl-tabs__panel" id="sfx-panel">
+
+      <div class="datagrid" style="margin-bottom: 3%;">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Available</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Bucket Name</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for track in sfx %}
+                    <tr class="select">
+                        <td>
+                          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ track.ID }}">
+                            <input type="hidden" name="{{ track.ID }}" value="off" />
+                            <input type="checkbox" id="{{ track.ID }}" name="{{ track.ID }}" class="mdl-switch__input"{% if track.Available %}checked{% endif %}  onchange="$(this).addClass('changed');$('input[name={{ track.ID }}]').addClass('changed');$(this).parent().find('.mdl-switch__thumb').first().css('background','#1e5686);">
+                            <span class="mdl-switch__label"></span>
+                            </label>
+
+                        </td>
+                        <td>
+                            <b>{{ track.Name }}</b>
+                            <br style="line-height:180%;">
+
+                        </td>
+                        <td style="padding-left: 0px">{{ track.Category }}</td>
+                        <td style="padding-left: 0px">{{ track.Bucket_Name }}</td>
+
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </div>
+    <div class="mdl-tabs__panel" id="settings-panel">
+
+      <div class="bs-example">
+
+        <div class="row cont">
+        <div class="form-style-2-heading bundle-style">General Settings</div>
+        <div class="form-group">
+            <label class="control-label col-xs-2 bundle-label" for="firstName">Router:</label>
+            <div class="col-xs-9">
+                <input style="width: 30% ;display: inline-block"  type="text" class="form-control changed" id="router" name="router" value ="{% if settings.router is defined %}{{settings.router}}{% else %}POCKET_BLUE{% endif%}" >
+            </div>
+        </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2 bundle-label" for="firstName">No Network:</label>
+                <div class="col-xs-9">
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="noNetwork">
+                    <input type="hidden" name="noNetwork" class="changed" value="off" />
+                    <input type="checkbox" class="mdl-switch__input changed" id="noNetwork" name="noNetwork" {% if settings.noNetwork is defined and settings.noNetwork =='on' %}checked{% endif%} >
+                    <span class="mdl-switch__label"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-2 bundle-label" for="firstName">Is Christian:</label>
+                <div class="col-xs-9">
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="isChristian">
+                    <input type="hidden" name="isChristian" class="changed" value="off"/>
+                    <input type="checkbox" class="mdl-switch__input changed" id="isChristian" name="isChristian" {% if settings.isChristian is defined and settings.isChristian =='on' %}checked{% endif%} >
+                    <span class="mdl-switch__label"></span>
+                    </label>
+                </div>
+            </div>
+
+            {% for lang in languages %}
+
+            <div class="form-group">
+                <label class="control-label col-xs-2 bundle-label" for="firstName">{{lang}}:</label>
+                <div class="col-xs-9">
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{lang}}">
+                    <input type="hidden" name="{{lang}}" class="changed" value="off" />
+                    <input type="checkbox" class="mdl-switch__input changed" id="{{lang}}" name="{{lang}}" {% if settings[lang] is defined and settings[lang] =='on' %}checked{% endif%}>
+                    <span class="mdl-switch__label"></span>
+                    </label>
+                </div>
+            </div>
+
+            {% endfor%}
+
+        <div class="col-xs-9">
+            <h1><h1>
+        </div>
+        </div>
+
+           <div class="row cont">
+           <div class="form-style-2-heading bundle-style">SensoryBox Settings</div>
+           <div class="form-group">
+               <label class="control-label col-xs-2 bundle-label" for="firstName">SSID:</label>
+               <div class="col-xs-9">
+                   <input style="width: 30% ;display: inline-block"  type="text" class="form-control changed" id="sensorybox_ssid" name="sensorybox_ssid" value ="{% if settings.sensorybox_ssid is defined %}{{settings.sensorybox_ssid}}{% else %}SSID{% endif%}" >
+               </div>
+           </div>
+               <div class="form-group">
+                   <label class="control-label col-xs-2 bundle-label" for="firstName">Default IP:</label>
+                   <div class="col-xs-9">
+                       <input type="text" class="form-control changed" id="sensorybox_defaultIp" name="sensorybox_defaultIp" style="width: 30%;display: inline-block" value ="{% if settings.sensorybox_defaultIp is defined %}{{settings.sensorybox_defaultIp}}{% else %}192.168.0.254{% endif%}">
+                   </div>
+               </div>
+               <div class="form-group">
+               <label class="control-label col-xs-2  bundle-label" for="postalAddress">Password:</label>
+               <div class="col-xs-9">
+                   <input style="width: 30%;display: inline-block" type="text" rows="6" class="form-control changed" name="sensorybox_password" id="sensorybox_password" value ="{% if settings.sensorybox_password is defined %}{{settings.sensorybox_password}}{% else %}MYPASSWORD{% endif%}">
+               </div>
+           </div>
+           <div class="col-xs-9">
+               <h1><h1>
+           </div>
+           </div>
+
+           <div class="row cont" >
+           <div class="form-style-2-heading bundle-style">Factory Settings</div>
+           <div class="form-group">
+               <label class="control-label col-xs-2 bundle-label" for="firstName">SSID:</label>
+               <div class="col-xs-9">
+                   <input style="width: 30% ;display: inline-block"  type="text" class="form-control changed" id="factory_ssid" name="factory_ssid" value ="{% if settings.factory_ssid is defined %}{{settings.factory_ssid}}{% else %}SSID{% endif%}" >
+               </div>
+           </div>
+               <div class="form-group">
+                   <label class="control-label col-xs-2 bundle-label" for="firstName">Default IP:</label>
+                   <div class="col-xs-9">
+                       <input type="text" class="form-control changed" id="factory_defaultIp" name="factory_defaultIp" style="width: 30%;display: inline-block"  placeholder="0"  value ="{% if settings.factory_defaultIp is defined %}{{settings.factory_defaultIp}}{% else %}192.168.0.254{% endif%}">
+                   </div>
+               </div>
+               <div class="form-group">
+               <label class="control-label col-xs-2  bundle-label" for="postalAddress">Password:</label>
+               <div class="col-xs-9">
+                   <input style="width: 30%;display: inline-block" type="text" rows="6" class="form-control changed" name="factory_password" id="factory_password" value ="{% if settings.factory_password is defined %}{{settings.factory_password}}{% else %}MYPASSWORD{% endif%}" >
+               </div>
+           </div>
+           <div class="col-xs-9">
+               <h1><h1>
+           </div>
+           </div>
+
+
+    </div>
+  </div>
+ </div>
+</form>
+{% endblock %}

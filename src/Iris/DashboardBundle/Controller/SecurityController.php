@@ -32,7 +32,7 @@ class SecurityController extends Controller
     
        return;
        */
-    	
+   
         $session = $request->getSession();
         
         // get the login error if there is one
