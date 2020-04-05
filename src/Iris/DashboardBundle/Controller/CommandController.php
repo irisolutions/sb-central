@@ -23,10 +23,26 @@ use PDO;
 class CommandController extends Controller
 {
 
+public function defaultConfigAction($file)
+{
+
+    $response = $this->forward('DashboardBundle:Sales:getDefaultConfigFile', ['fileName' => $file]);
+
+    return $response;
+
+}
 public function clientConfigAction($slug,$file)
 {
 
     $response = $this->forward('DashboardBundle:Sales:getClientConfigFile', ['clientID'  => $slug,'fileName' => $file]);
+
+    return $response;
+
+}
+public function clientConfigStatusAction($slug)
+{
+
+    $response = $this->forward('DashboardBundle:Sales:getClientConfigFileStatus', ['clientID'  => $slug]);
 
     return $response;
 

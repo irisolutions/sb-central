@@ -1,6 +1,9 @@
+#dashboard_dev_new_app:
+#    path: /dev/new-app
+#    defaults: { _controller: DashboardBundle:Developer1:newAppUpload}
 dashboard_dev_new_app:
     path: /dev/new-app
-    defaults: { _controller: DashboardBundle:Developer1:newAppUpload}
+    defaults: { _controller: DashboardBundle:Developer1:newApp}
 
 dashboard_dev_new_media:
     path: /dev/new-media
@@ -15,6 +18,10 @@ dashboard_dev_Tracking:
 dashboard_dev_manage_app:
     path: /dev/manage-app
     defaults: { _controller: DashboardBundle:Developer1:manageApp}
+
+dashboard_dev_manage_languages:
+    path: /dev/manage-languages
+    defaults: { _controller: DashboardBundle:Developer1:manageLanguages}    
 
 dashboard_dev_edit_app:
     path: /dev/edit-app/{slug}
@@ -52,9 +59,17 @@ dashboard_dev_delete_version:
     path: /dev/delete-version/{slug}/{version}
     defaults: { _controller: DashboardBundle:Developer1:deleteVersion}
 
+dashboard_sales_get_clientconfig_status:
+    path: /command/client-config/{slug}/status
+    defaults: { _controller: DashboardBundle:Command:clientConfigStatus}
+
 dashboard_sales_get_clientconfig:
     path: /command/client-config/{slug}/{file}
     defaults: { _controller: DashboardBundle:Command:clientConfig}
+
+dashboard_sales_get_defaultconfig:
+    path: /command/default-config/{file}
+    defaults: { _controller: DashboardBundle:Command:defaultConfig}
 
 dashboard_sales_new_bundle:
     path: /sales/new-bundle
@@ -99,6 +114,9 @@ dashboard_sales_uninstall_applications:
 dashboard_sales_clients_applications:
     path: /sales/clients-applications/{slug}
     defaults: { _controller: DashboardBundle:Sales:showClientApplications}
+dashboard_sales_clients_apps:
+    path: /sales/clients-apps/{slug}
+    defaults: { _controller: DashboardBundle:Sales:showClientApps}
 dashboard_sales_clients_media:
     path: /sales/clients-media/{slug}
     defaults: { _controller: DashboardBundle:Sales:showClientMedia}

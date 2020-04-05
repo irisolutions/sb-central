@@ -139,11 +139,10 @@
                 <table>
                     <thead>
                     <tr>
-                        <th style="width: 70%;">Key String</th>
-                        <th style="width: 5%;">ID</th>
-                        <th style="width: 20%;">Category</th>
-                        <th style="width: 5%;">Apk Name</th>
-                        <th style="width: 5%;">Apk ID</th>
+                        <th style="width: 70%;">Name</th>
+                        <th style="width: 5%;">Versions</th>
+                        <th style="width: 20%;">ID</th>
+                        <th style="width: 5%;">Price</th>
                         <!-- <th>Operations</th> -->
                     </tr>
                     </thead>
@@ -151,22 +150,23 @@
                     <tbody>
                     {% for app in applications %}
                         <tr>
-                            <td style="width: 70%;">&nbsp;&nbsp;<b class="font-b">{{ app.KeyString }}</b><br
+                            <td style="width: 70%;">&nbsp;&nbsp;<b class="font-b">{{ app.Name }}</b><br
                                         style="line-height:180%;">
                                 <small> &nbsp;&nbsp;<a href="{{ path('dashboard_dev_edit_app', {'slug': app.ID}) }}"><i
                                                 class="material-icons edit"
                                                 style="font-size:12px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a
-                                            onclick="return confirm('Are you sure you want to delete  {{ app.KeyString }} ');"
+                                            onclick="return confirm('Are you sure you want to delete  {{ app.Name }} ');"
                                             href="{{ path('dashboard_dev_delete_app', {'slug': app.ID}) }}"><i
-                                                class="material-icons del" style="font-size:12px">delete</i>Delete</a>&nbsp;&nbsp;  
-                                    <!-- <a href="{{ path('dashboard_dev_set_icon', {'slug': app.ID}) }}">
-                                        <i class="material-icons version" style="font-size:12px">wallpaper</i> Icon</a> -->
+                                                class="material-icons del" style="font-size:12px">delete</i>Delete</a>&nbsp;&nbsp;
+                                    <a href="{{ path('dashboard_dev_manage_version', {'slug': app.ID}) }}">
+                                        <i class="material-icons version" style="font-size:12px">view_list</i>Versions</a>
+                                    <a href="{{ path('dashboard_dev_set_icon', {'slug': app.ID}) }}">
+                                        <i class="material-icons version" style="font-size:12px">wallpaper</i> Icon</a>
                                 </small>
                             </td>
-                            <td style="width: 5%;"> {{ app.ID }}</td>
-                            <td style="width: 20%;">{{ app.Category }}</td>
-                            <td style="width: 5%;">{{ app.ApkName }}</td>
-                            <td style="width: 5%;">{{ app.ApkID }}</td>
+                            <td style="width: 5%;"> {{ app.Count }}</td>
+                            <td style="width: 20%;">{{ app.ID }}</td>
+                            <td style="width: 5%;">{{ app.Price }}$</td>
                             <!-- <td><a href="{{ path('application_', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:20px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a href="{{ path('application_', {'slug': app.ID}) }}"><i class="material-icons" style="font-size:20px">delete</i>Delete</a></td> -->
                         </tr>
                     {% endfor %}

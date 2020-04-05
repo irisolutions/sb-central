@@ -146,10 +146,11 @@
         <div class="row cont">
         <div class="form-style-2-heading" style="margin-left: 4%;">Client Applications and Bundles</div>
         <div class="col-xs-12" style="margin-left: 5%">
-            <p class="col-xs-5"> <b>Subscriptions:</b> </p>  <a class="col-xs-3" href="{{ path('dashboard_sales_clients_bundles', {'slug': client.ID}) }}"> {{counts.subcount}}</a>
+          {#  <p class="col-xs-5"> <b>Subscriptions:</b> </p>  <a class="col-xs-3" href="{{ path('dashboard_sales_clients_bundles', {'slug': client.ID}) }}"> {{counts.subcount}}</a> #}
+          <p class="col-xs-5"> <b>Subscriptions:</b> </p> &nbsp; &nbsp; {{counts.subcount}}
         </div>
         <div class="col-xs-12" style="margin-bottom: 5%;margin-left: 5%">
-            <p class="col-xs-5"> <b>Applications:</b> </p> <a class="col-xs-3" href="{{ path('dashboard_sales_clients_applications', {'slug': client.ID}) }}"> {{counts.appcount}}</a>
+            <p class="col-xs-5"> <b>Applications:</b> </p> <a class="col-xs-3" href="{{ path('dashboard_sales_clients_apps', {'slug': client.ID}) }}"> {{counts.appcount}}</a>
         </div>
         <div class="col-xs-12" style="margin-left: 5%;margin-top: -5%;">
             <p class="col-xs-5"> <b>Media:</b> </p> <a class="col-xs-3" href="{{ path('dashboard_sales_clients_media', {'slug': client.ID}) }}"> {{counts.mediacount}}</a>

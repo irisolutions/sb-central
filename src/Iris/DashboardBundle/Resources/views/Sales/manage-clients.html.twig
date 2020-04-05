@@ -135,8 +135,9 @@ Sales  &rsaquo; Manage Clients
                 <a onclick="return confirm('Are you sure you want to delete  {{client.Name}} ');" href="{{ path('dashboard_sales_delete_client', {'slug': client.ID}) }}" style="margin-left: 4%;color: #2b6b96d6;"> <i class="material-icons delet" style="font-size:15px">delete</i>Delete</a>
                 <a  href="{{ path('dashboard_sales_client_profile', {'slug': client.ID}) }}"style="margin-left: 4%; color: #2b6b96d6;"><i class="material-icons edit" style="font-size:15px">mode_edit</i>View/Edit</a>
             </td>
-            <td><a href="{{ path('dashboard_sales_clients_bundles', {'slug': client.ID}) }}">{{ client.numberOfBundles }}</a> </td>
-          <td><a href="{{ path('dashboard_sales_clients_applications', {'slug': client.ID}) }}">{{ client.numberOfApplications }}</a> </td>
+            {#<td><a href="{{ path('dashboard_sales_clients_bundles', {'slug': client.ID}) }}">{{ client.numberOfBundles }}</a> </td>#}
+          <td>{{ client.numberOfBundles }}</td>
+          <td><a href="{{ path('dashboard_sales_clients_apps', {'slug': client.ID}) }}">{{ client.numberOfApplications }}</a> </td>
           <td><a href="{{ path('dashboard_sales_clients_media', {'slug': client.ID}) }}">{{ client.numberOfMedia }}</a> </td>
       
           </tr>

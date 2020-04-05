@@ -109,7 +109,9 @@ margin-bottom: 20px;
   <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
   <div class="mdl-tabs__tab-bar">
       <a href="#music-panel" class="mdl-tabs__tab is-active">Music</a>
+      <a href="#christ-music-panel" class="mdl-tabs__tab">Christ. Music</a>
       <a href="#video-panel" class="mdl-tabs__tab">Videos</a>
+      <a href="#christ-video-panel" class="mdl-tabs__tab">Christ. Videos</a>
       <a href="#sfx-panel" class="mdl-tabs__tab">SFX</a>
       <a href="#settings-panel" class="mdl-tabs__tab">Settings</a>
   </div>
@@ -132,6 +134,52 @@ margin-bottom: 20px;
             <tbody>
 
             {% for track in music %}
+                    <tr class="select">
+                        <td>
+                          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ track.ID }}">
+                            <input type="hidden" name="{{ track.ID }}" value="off" />
+                            <input type="checkbox" id="{{ track.ID }}" name="{{ track.ID }}" class="mdl-switch__input"{% if track.Available %}checked{% endif %}  onchange="$(this).addClass('changed');$('input[name={{ track.ID }}]').addClass('changed');$(this).parent().find('.mdl-switch__thumb').first().css('background','#1e5686'); ">
+                            <span class="mdl-switch__label"></span>
+                            </label>
+
+                        </td>
+                        <td>
+                            <b>{{ track.Name }}</b>
+                            <br style="line-height:180%;">
+
+                        </td>
+                        <td style="padding-left: 0px">{{ track.Category }}</td>
+                        <td style="padding-left: 0px">{{ track.Bucket_Name }}</td>
+
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+
+  </div>
+
+    <div class="mdl-tabs__panel" id="christ-music-panel">
+
+    <div class="datagrid" style="margin-bottom: 3%;">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Available</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Bucket Name</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for track in christ_music %}
                     <tr class="select">
                         <td>
                           <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ track.ID }}">
@@ -203,6 +251,52 @@ margin-bottom: 20px;
     </div>
 
   </div>
+
+  <div class="mdl-tabs__panel" id="christ-video-panel">
+
+      <div class="datagrid" style="margin-bottom: 3%;">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Available</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Bucket Name</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for track in christ_video %}
+                    <tr class="select">
+                        <td>
+                          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ track.ID }}">
+                            <input type="hidden" name="{{ track.ID }}" value="off" />
+                            <input type="checkbox" id="{{ track.ID }}" name="{{ track.ID }}" class="mdl-switch__input"{% if track.Available %}checked{% endif %}  onchange="$(this).addClass('changed');$('input[name={{ track.ID }}]').addClass('changed');$(this).parent().find('.mdl-switch__thumb').first().css('background','#1e5686');">
+                            <span class="mdl-switch__label"></span>
+                            </label>
+
+                        </td>
+                        <td>
+                            <b>{{ track.Name }}</b>
+                            <br style="line-height:180%;">
+
+                        </td>
+                        <td style="padding-left: 0px">{{ track.Category }}</td>
+                        <td style="padding-left: 0px">{{ track.Bucket_Name }}</td>
+
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+  </div>
+
   <div class="mdl-tabs__panel" id="sfx-panel">
 
       <div class="datagrid" style="margin-bottom: 3%;">
@@ -226,7 +320,7 @@ margin-bottom: 20px;
                         <td>
                           <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="{{ track.ID }}">
                             <input type="hidden" name="{{ track.ID }}" value="off" />
-                            <input type="checkbox" id="{{ track.ID }}" name="{{ track.ID }}" class="mdl-switch__input"{% if track.Available %}checked{% endif %}  onchange="$(this).addClass('changed');$('input[name={{ track.ID }}]').addClass('changed');$(this).parent().find('.mdl-switch__thumb').first().css('background','#1e5686);">
+                            <input type="checkbox" id="{{ track.ID }}" name="{{ track.ID }}" class="mdl-switch__input"{% if track.Available %}checked{% endif %}  onchange="$(this).addClass('changed');$('input[name={{ track.ID }}]').addClass('changed');$(this).parent().find('.mdl-switch__thumb').first().css('background','#1e5686');">
                             <span class="mdl-switch__label"></span>
                             </label>
 

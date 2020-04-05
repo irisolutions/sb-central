@@ -287,7 +287,7 @@ from Client;
             'versions' => $versions,
             'count' => $count[0]['Count']));
     }
-
+/* This is the old ManageApp that works with the fdroid store
     public function manageAppAction()
     {
         $context = $this->container->get('security.context');
@@ -312,6 +312,34 @@ from Client;
 
         return $this->render('DashboardBundle:Developer:manage-app.html.twig', array(
             'applications' => $applications));
+
+    }
+*/
+    public function manageAppAction()
+    {
+        $context = $this->container->get('security.context');
+
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+        //auth
+        $dbname = $this->container->getParameter('store_database_name');
+        $dbuser = $this->container->getParameter('store_database_user');
+        $dbpass = $this->container->getParameter('store_database_password');
+        $dbhost = $this->container->getParameter('store_database_host');
+
+        $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $conn->prepare('select * from App;');
+        $stmt->execute();
+
+        $applications = $stmt->fetchAll();
+
+        return $this->render('DashboardBundle:Developer:manage-app.html.twig', array(
+            'applications' => $applications));
+
     }
 
     public function manageMediaAction()
@@ -338,6 +366,75 @@ from Client;
 
         return $this->render('DashboardBundle:Developer:manage-media.html.twig', array(
             'media' => $media));
+    }
+
+    public function manageLanguagesAction()
+    {
+        $context = $this->container->get('security.context');
+
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+        $request = $this->get('request');    
+
+        if ($request->getMethod() == 'POST') 
+        {
+
+        
+          $languages = $_POST;
+
+          $langs = array_keys($languages);
+
+           $conn = $this->get_Store_DB_Object();
+
+           // ToDo: optimize this into one batch update command
+          
+          foreach($langs as $lang) 
+          {
+              //echo ''.$lang .' '.nl2br($_POST[$lang]);
+            
+            $stmt = $conn->prepare('UPDATE Languages SET Bucket_File=? WHERE Name=?');
+          
+              try 
+              {
+                $stmt->execute([$_POST[$lang],$lang]);
+              } 
+              catch (\PDOException $e) 
+              {
+                
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                
+                return $this->redirect($request->headers->get('referer'));
+              }
+          }
+      
+          $msg = 'Languages updated successfully';
+
+          $request->getSession()->getFlashBag()->add('success', $msg);
+            
+          return $this->redirect($request->headers->get('referer'));
+
+        }  
+       
+        //auth
+        $dbname = $this->container->getParameter('store_database_name');
+        $dbuser = $this->container->getParameter('store_database_user');
+        $dbpass = $this->container->getParameter('store_database_password');
+        $dbhost = $this->container->getParameter('store_database_host');
+
+        $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $conn->prepare('SELECT * from Languages');
+        $stmt->execute();
+
+        $media = $stmt->fetchAll();
+
+        return $this->render('DashboardBundle:Developer:manage-languages.html.twig', array(
+            'languages' => $media));
     }
 
     public function setVersionName()
@@ -398,16 +495,24 @@ from Client;
           $media_name       = $request->request->get('media-name');
           $media_identifier = $slug;
           $media_category   = $request->request->get('media-category');
+          $media_trackid    = $request->request->get('media-trackid');
           $media_bucket     = $request->request->get('media-bucket');
+          $icon_bucket      = $request->request->get('icon-bucket');
+          $texture_bucket   = $request->request->get('texture-bucket');
+
+           $r = explode('|', $media_category);
+
+           $category      = $r[0];
+           $category_type = $r[1];
 
         
           $conn = $this->get_Store_DB_Object();
           
-          $stmt = $conn->prepare('UPDATE Media SET Name=?,Category=?, Bucket_Name=? WHERE ID=?');
+          $stmt = $conn->prepare('UPDATE Media SET Name=?,Category=?, CategoryType=?, Bucket_Name=?, Bucket_Icon=?, Bucket_Texture=?, TrackID=? WHERE ID=?');
         
           try 
           {
-            $stmt->execute([$media_name, $media_category, $media_bucket, $media_identifier]);
+            $stmt->execute([$media_name, $category,$category_type,$media_bucket,$icon_bucket,$texture_bucket,$media_trackid,$media_identifier]);
           } 
           catch (\PDOException $e) 
           {
@@ -451,7 +556,93 @@ from Client;
             'categories' => $categories));
 
     }
+    public function editAppAction($slug)
+    {
+       $context = $this->container->get('security.context');
 
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+        //if we are here user authenticated
+        // if we are here then the binary files are in place and the meta data file was created so we insert into the DB
+        $request = $this->get('request');
+
+        if ($request->getMethod() == 'POST') 
+        {
+
+            // if we are here then the binary files are in place and the meta data file was created so we insert into the DB
+
+            $dbname = $this->container->getParameter('store_database_name');
+            $username = $this->container->getParameter('store_database_user');
+            $password = $this->container->getParameter('store_database_password');
+            $servername = $this->container->getParameter('store_database_host');
+
+           $app_id         = $slug; 
+           $app_stringkey  = $request->request->get('app-stringkey');
+           $app_apkid      = $request->request->get('app-apkid');
+           $app_apkname    = $request->request->get('app-apkname');
+           $app_category   = $request->request->get('app-category');
+           $app_type       = $request->request->get('app-type');
+           $app_icon       = $request->request->get('app-icon');
+           $app_resources  = $request->request->get('app-resources');  
+ 
+        
+          $conn = $this->get_Store_DB_Object();
+          
+          $stmt = $conn->prepare('UPDATE App SET KeyString=?, ApkID=?, ApkName=?, Category=?, Type=?, Icon=?, Resources=? WHERE ID=?');
+        
+          try 
+          {
+            $stmt->execute([$app_stringkey, $app_apkid,$app_apkname,$app_category,$app_type,$app_icon,$app_resources,$app_id]);
+          } 
+          catch (\PDOException $e) 
+          {
+              
+              $error = 'Operation Aborted ..' . $e->getMessage();
+              
+              $request->getSession()->getFlashBag()->add('danger', $error);
+              
+              return $this->redirect($request->headers->get('referer'));
+          }
+
+        
+          $msg = 'Media updated successfully';
+
+          $request->getSession()->getFlashBag()->add('success', $msg);
+            
+          return $this->redirect($request->headers->get('referer'));
+
+        }
+
+        $conn = $this->get_Store_DB_Object();
+
+        $stmt = $conn->prepare('SELECT * FROM App WHERE ID = ?');
+
+        $stmt->execute([$slug]);
+        $result = $stmt->fetchAll();
+        
+        $stmt = $conn->prepare('SELECT * FROM Category');
+        $stmt->execute();
+        $categories = $stmt->fetchAll();
+
+        $stmt = $conn->prepare('SELECT * FROM GameType');
+        $stmt->execute();
+        $types = $stmt->fetchAll();
+
+        if ( count($result) < 1)
+        {
+            $request->getSession()->getFlashBag()->add('danger', 'Operation Aborted .. Cannot find App item with this ID');
+                return $this->redirect($request->headers->get('referer'));
+        }
+
+        return $this->render('DashboardBundle:Developer:new-update-app.html.twig', array(
+            'update' => true,
+            'application' =>$result[0],
+            'categories' => $categories,
+            'types' => $types));
+
+    }
+    /*
     public function editAppAction($slug)
     {
         $context = $this->container->get('security.context');
@@ -507,6 +698,7 @@ from Client;
             'description' => $description));
 
     }
+    */
 
     public function scriptStillExecuting($script)
     {
@@ -898,6 +1090,70 @@ from Client;
 
     public function deleteAppAction($slug)
     {
+
+        $context = $this->container->get('security.context');
+
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+        //auth
+        $app_identifier = $slug;
+
+        $request = $this->get('request');
+
+        $dbname = $this->container->getParameter('store_database_name');
+        $username = $this->container->getParameter('store_database_user');
+        $password = $this->container->getParameter('store_database_password');
+        $servername = $this->container->getParameter('store_database_host');
+
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $conn->prepare('DELETE FROM App WHERE ID = ? ');
+
+        try
+        {
+            $stmt->execute([$app_identifier]);
+        }
+        catch (\PDOException $e)
+        {
+            // if something goes wrong we fail
+            //throw $e;
+
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        // this media items is owned by client(s)
+
+          $stmt = $conn->prepare('DELETE FROM ClientApp WHERE AppID = ? ');
+
+          try
+          {
+            $stmt->execute([$app_identifier]);
+          }
+          catch (\PDOException $e)
+          {
+            // if something goes wrong we fail
+            //throw $e;
+
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+          }
+
+        //return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'delete'));
+        $msg = 'App deleted successfully';
+
+        $request->getSession()->getFlashBag()->add('success', $msg);
+        return $this->redirect($request->headers->get('referer'));
+
+    }
+/*
+    public function deleteAppAction($slug)
+    {
         $context = $this->container->get('security.context');
 
         if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
@@ -1072,7 +1328,7 @@ from Client;
 
         return $this->render('DashboardBundle:Developer:new-update-delete-app-result.html.twig', array('operation' => 'delete'));
     }
-
+*/
     public function newAppUploadAction()
     {
         $context = $this->container->get('security.context');
@@ -1223,6 +1479,87 @@ from Client;
     }
 
     public function newAppAction()
+    {
+
+        $context = $this->container->get('security.context');
+
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render("DashboardBundle:Homepage:index.html.twig");
+
+        //auth
+        $request = $this->get('request');
+
+        if ($request->getMethod() == 'POST')
+        {
+            $app_stringkey  = $request->request->get('app-stringkey');
+            $app_apkid      = $request->request->get('app-apkid');
+            $app_apkname    = $request->request->get('app-apkname');
+            $app_category   = $request->request->get('app-category');
+            $app_type       = $request->request->get('app-type');
+            $app_icon       = $request->request->get('app-icon');
+            $app_resources  = $request->request->get('app-resources');
+
+
+            // if we are here then the binary files are in place and the meta data file was created so we insert into the DB
+
+            $dbname = $this->container->getParameter('store_database_name');
+            $username = $this->container->getParameter('store_database_user');
+            $password = $this->container->getParameter('store_database_password');
+            $servername = $this->container->getParameter('store_database_host');
+
+            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+            // set the PDO error mode to exception
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $stmt = $conn->prepare('INSERT INTO App (KeyString,ApkID,ApkName,Category,Type,Icon,Resources) VALUES (?,?,?,?,?,?,?)');
+
+            try {
+
+                $stmt->execute([$app_stringkey,$app_apkid,$app_apkname,$app_category,$app_type,$app_icon,$app_resources]);
+            } catch (\PDOException $e) {
+                // if something goes wrong we fail
+
+                $error = 'Operation Aborted ..' . $e->getMessage();
+
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+
+            }
+
+            // if we are here then all is good let us launch the update script
+
+            $msg = 'App added successfully';
+
+            $request->getSession()->getFlashBag()->add('success', $msg);
+            return $this->redirect($request->headers->get('referer'));
+
+        }
+
+        $dbname = $this->container->getParameter('store_database_name');
+        $username = $this->container->getParameter('store_database_user');
+        $password = $this->container->getParameter('store_database_password');
+        $servername = $this->container->getParameter('store_database_host');
+
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $stmt = $conn->prepare('SELECT * FROM Category ORDER BY Name');
+        $stmt->execute();
+
+        $categories = $stmt->fetchAll();
+
+        $stmt = $conn->prepare('SELECT * FROM GameType');
+        $stmt->execute();
+
+        $types = $stmt->fetchAll();
+
+        return $this->render('DashboardBundle:Developer:new-update-app.html.twig', array('update' => false, 'categories' => $categories,'types' => $types));
+
+
+    }
+
+    public function newAppAction_old()
     {
         $context = $this->container->get('security.context');
 
@@ -1385,8 +1722,16 @@ from Client;
 
 
             $media_name = $request->request->get('media-name');
+            $media_trackid = $request->request->get('media-trackid');
             $media_bucket = $request->request->get('media-bucket');
             $media_category = $request->request->get('media-category');
+            $media_icon = $request->request->get('icon-bucket');
+            $media_texture = $request->request->get('texture-bucket');
+
+            $r = explode('|', $media_category);
+
+            $category      = $r[0];
+            $category_type = $r[1];
 
 
             // if we are here then the binary files are in place and the meta data file was created so we insert into the DB
@@ -1400,11 +1745,11 @@ from Client;
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            $stmt = $conn->prepare('INSERT INTO Media (Name,Category,Bucket_Name) VALUES (?,?,?)');
+            $stmt = $conn->prepare('INSERT INTO Media (Name,Category,CategoryType,Bucket_Name,Bucket_Icon,TrackID,Bucket_Texture) VALUES (?,?,?,?,?,?,?)');
 
             try {
 
-                $stmt->execute([$media_name,$media_category,$media_bucket]);
+                $stmt->execute([$media_name,$category,$category_type,$media_bucket,$media_icon,$media_trackid,$media_texture]);
             } catch (\PDOException $e) {
                 // if something goes wrong we fail
 
@@ -1417,7 +1762,7 @@ from Client;
 
             // if we are here then all is good let us launch the update script
 
-            $msg = 'Media added successfully .. it is your resposiliby to make sure Bucket File matches the cloud bucket file name';
+            $msg = 'Media added successfully .. it is your resposiliby to make sure Bucket File, Icon & Texture matches the cloud bucket file names';
 
             $request->getSession()->getFlashBag()->add('success', $msg);
             return $this->redirect($request->headers->get('referer'));

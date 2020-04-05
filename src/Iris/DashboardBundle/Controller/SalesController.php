@@ -462,7 +462,7 @@ class SalesController extends Controller
         $request = $this->get('request');
         $conn = $this->get_Store_DB_Object();
         //get all cliets with number of bundles and number of applications that every client have
-        $stmt = $conn->prepare('SELECT *,(SELECT COUNT(*) FROM Bundle,Subscription where BundleID=Bundle.ID and ClientID=Client.ID) as numberOfBundles,(SELECT COUNT(*) FROM ClientMedia where ClientID=Client.ID) as numberOfMedia,((SELECT count(*) FROM ControllerInstallation WHERE ControllerInstallation.ClientID=Client.ID)+(SELECT COUNT(*)FROM DongleInstallation WHERE DongleInstallation.ClientID=Client.ID)) as numberOfApplications from Client');
+        $stmt = $conn->prepare('SELECT *,(SELECT COUNT(*) FROM Bundle,Subscription where BundleID=Bundle.ID and ClientID=Client.ID) as numberOfBundles,(SELECT COUNT(*) FROM ClientMedia where ClientID=Client.ID) as numberOfMedia,((SELECT count(*) FROM ClientApp WHERE ClientApp.ClientID=Client.ID)) as numberOfApplications from Client');
         try {
             $stmt->execute();
         } catch (\PDOException $e) {
@@ -770,11 +770,11 @@ class SalesController extends Controller
     {
 
          //get Tablet applications
-        $stmt = $conn->prepare('SELECT *, IF(ClientMedia.ClientID IS NULL, FALSE, TRUE) as Available FROM Media LEFT JOIN ClientMedia ON (Media.ID = ClientMedia.MediaID AND ClientMedia.ClientID =? ) WHERE `Media`.Category IN (select ID from `MediaCategory` where `MediaCategory`.Type =?)');
+        $stmt = $conn->prepare('SELECT *, IF(ClientMedia.ClientID IS NULL, FALSE, TRUE) as Available FROM Media LEFT JOIN ClientMedia ON (Media.ID = ClientMedia.MediaID AND ClientMedia.ClientID =? ) WHERE `Media`.Category IN (select ID from `MediaCategory` where `MediaCategory`.Type =?) AND `Media`.CategoryType=?');
 
         try
         {
-            $stmt->execute([$ClientID,$media_type]);
+            $stmt->execute([$ClientID,$media_type,$media_type]);
         }
         catch (\PDOException $e)
         {
@@ -788,6 +788,105 @@ class SalesController extends Controller
         return $items;
 
 
+    }
+
+    public function showClientAppsAction($slug)
+    {
+        $context = $this->container->get('security.context');
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+
+        //auth
+        $request = $this->get('request');
+        $ClientID = $slug;
+        //connect to database
+        $conn = $this->get_Store_DB_Object();
+
+        if ($request->getMethod() == 'POST')
+        {
+
+            // ToDo: optimize this using batch update/delete
+
+            // The parameters we get here are either a checkbox (ids for apps ) 
+
+            $count_media    = 0 ;
+         
+            foreach ($_POST as $key => $value)
+            {
+
+              //echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
+                if ( $value == 'on')
+                $stmt = $conn->prepare('INSERT IGNORE INTO ClientApp(ClientID,AppID) VALUES(?,?)');
+                else
+                $stmt = $conn->prepare('DELETE FROM ClientApp WHERE ClientID=? AND AppID=?');
+
+                try
+                {
+                  $stmt->execute([$ClientID,$key]);
+                }
+                catch (\PDOException $e)
+                {
+                  $error = 'Operation Aborted ..' . $e->getMessage();
+                  $request->getSession()->getFlashBag()->add('danger', $error);
+                  return $this->redirect($request->headers->get('referer'));
+                }
+
+                $count_media++;
+            }
+
+            //echo($count_media);
+            //echo(" ");
+            //echo($count_settings);
+
+            // if the ownership of at least one of the media items belonging to this client has changed 
+            // change the LastUpdate timestamp of the corresponding JSON files (Media and SFX files).
+            // ToDo: just update the Media files if media files changed and/or the SFX files if the SFX files changed 
+
+            date_default_timezone_set("Asia/Jerusalem");
+            $now = date("d-m-Y H:i:s");
+
+            if ( $count_media > 0 ) 
+            {
+                 // Set LastUpdate time stamp for the MediaCategories.json file
+                $stmt = $conn->prepare('INSERT INTO ConfigStatus(ClientID,ConfigFile,LastUpdate,LastDownload) VALUES(?,"GAMES",?,"") ON DUPLICATE KEY UPDATE LastUpdate =?');
+                
+               try
+                {
+                  $stmt->execute([$ClientID,$now,$now]);
+                }
+                catch (\PDOException $e)
+                {
+                  $error = 'Operation Aborted ..' . $e->getMessage();
+                  $request->getSession()->getFlashBag()->add('danger', $error);
+                  return $this->redirect($request->headers->get('referer'));
+                }
+            }
+        }
+
+         // get the client's name
+        $stmt2 = $conn->prepare('Select Name from Client where ID=?');
+
+        try
+        {
+            $stmt2->execute([$ClientID]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $ClientName = $stmt2->fetchAll()[0];
+
+
+        $app_items        = $this->getClientGames($conn,$ClientID);
+
+        if ( is_null($app_items) )
+            return $this->redirect($request->headers->get('referer'));
+
+
+        return $this->render('DashboardBundle:Sales:show-client-apps.html.twig', array('apps' => $app_items,'clientname' => $ClientName));
     }
 
     public function showClientMediaAction($slug)
@@ -810,10 +909,14 @@ class SalesController extends Controller
             // The parameters we get here are either a checkbox (ids for media items) or Settings
             // checkbox ids are numerical so this is how we distinguish between them and the Settings
 
+            $count_media    = 0 ;
+            $count_settings = 0 ;
+
             foreach ($_POST as $key => $value)
             {
 
-            //  echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
+              //echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
+  
 
               if ( is_numeric($key) ) // this is a checkbox of a media item
               {
@@ -832,6 +935,8 @@ class SalesController extends Controller
                   $request->getSession()->getFlashBag()->add('danger', $error);
                   return $this->redirect($request->headers->get('referer'));
                 }
+
+                $count_media++;
               }
               else // this is a setting (a property/value pair)
               {
@@ -849,8 +954,69 @@ class SalesController extends Controller
                     $request->getSession()->getFlashBag()->add('danger', $error);
                     return $this->redirect($request->headers->get('referer'));
                   }
-              }
 
+                  $count_settings++;
+              }
+            }
+
+            //echo($count_media);
+            //echo(" ");
+            //echo($count_settings);
+
+            // if the ownership of at least one of the media items belonging to this client has changed 
+            // change the LastUpdate timestamp of the corresponding JSON files (Media and SFX files).
+            // ToDo: just update the Media files if media files changed and/or the SFX files if the SFX files changed 
+
+            date_default_timezone_set("Asia/Jerusalem");
+            $now = date("d-m-Y H:i:s");
+
+            if ( $count_media > 0 ) 
+            {
+                 // Set LastUpdate time stamp for the MediaCategories.json file
+                $stmt = $conn->prepare('INSERT INTO ConfigStatus(ClientID,ConfigFile,LastUpdate,LastDownload) VALUES(?,"MEDIA",?,"") ON DUPLICATE KEY UPDATE LastUpdate =?');
+                
+               try
+                {
+                  $stmt->execute([$ClientID,$now,$now]);
+                }
+                catch (\PDOException $e)
+                {
+                  $error = 'Operation Aborted ..' . $e->getMessage();
+                  $request->getSession()->getFlashBag()->add('danger', $error);
+                  return $this->redirect($request->headers->get('referer'));
+                } 
+
+                // Set LastUpdate time stamp for the SFXCategories.json file
+                $stmt = $conn->prepare('INSERT INTO ConfigStatus(ClientID,ConfigFile,LastUpdate,LastDownload) VALUES(?,"SFX",?,"") ON DUPLICATE KEY UPDATE LastUpdate =?');
+                
+                try
+                {
+                  $stmt->execute([$ClientID,$now,$now]);
+                }
+                catch (\PDOException $e)
+                {
+                  $error = 'Operation Aborted ..' . $e->getMessage();
+                  $request->getSession()->getFlashBag()->add('danger', $error);
+                  return $this->redirect($request->headers->get('referer'));
+                }  
+
+            }
+
+            if ($count_settings > 0)
+            {
+                 // Set LastUpdate time stamp for the MediaCategories.json file
+                $stmt = $conn->prepare('INSERT INTO ConfigStatus(ClientID,ConfigFile,LastUpdate,LastDownload) VALUES(?,"SETTINGS",?,"") ON DUPLICATE KEY UPDATE LastUpdate =?');
+                
+               try
+                {
+                  $stmt->execute([$ClientID,$now,$now]);
+                }
+                catch (\PDOException $e)
+                {
+                  $error = 'Operation Aborted ..' . $e->getMessage();
+                  $request->getSession()->getFlashBag()->add('danger', $error);
+                  return $this->redirect($request->headers->get('referer'));
+                } 
             }
         }
 
@@ -905,11 +1071,13 @@ class SalesController extends Controller
 
         // get the client's media
 
-        $music_items = $this->getClientMediaByType($conn,$ClientID,"MusicCategory");
-        $video_items = $this->getClientMediaByType($conn,$ClientID,"VideoCategory");
-        $sfx_items   = $this->getClientMediaByType($conn,$ClientID,"SFXCategory");
+        $music_items        = $this->getClientMediaByType($conn,$ClientID,"MusicCategory");
+        $video_items        = $this->getClientMediaByType($conn,$ClientID,"VideoCategory");
+        $christ_music_items = $this->getClientMediaByType($conn,$ClientID,"ChristianMusicCategory");
+        $christ_video_items = $this->getClientMediaByType($conn,$ClientID,"ChristianVideoCategory");
+        $sfx_items          = $this->getClientMediaByType($conn,$ClientID,"SFXCategory");
 
-        if ( is_null($music_items) || is_null($video_items) || is_null($sfx_items))
+        if ( is_null($music_items) || is_null($video_items) || is_null($sfx_items) || is_null($christ_music_items) || is_null($christ_video_items) )
             return $this->redirect($request->headers->get('referer'));
 
         $setting_arr = array();
@@ -924,13 +1092,55 @@ class SalesController extends Controller
 
 
 
-        return $this->render('DashboardBundle:Sales:show-client-media.html.twig', array('music' => $music_items,'video' => $video_items,'sfx' => $sfx_items,'clientname' => $ClientName,'settings' => $setting_arr,'languages' => $languages));
+        return $this->render('DashboardBundle:Sales:show-client-media.html.twig', array('music' => $music_items,'video' => $video_items,'sfx' => $sfx_items,'clientname' => $ClientName,'settings' => $setting_arr,'languages' => $languages,'christ_video' => $christ_video_items,'christ_music' => $christ_music_items));
     }
 
-    private function getClientMediaByCategory($conn,$ClientID,$Category)
+    private function getAllMediaByCategory($conn,$Category,$CategoryType)
     {
 
-         $stmt3 = $conn->prepare('SELECT Media.Bucket_Name FROM Media LEFT JOIN ClientMedia ON (Media.ID = ClientMedia.MediaID) where ClientMedia.ClientID=? AND Media.Category=?');
+         $stmt3 = $conn->prepare('SELECT * FROM Media WHERE CategoryType=? AND Category=?');
+
+            try
+            {
+                $stmt3->execute([$CategoryType,$Category]);
+            }
+            catch (\PDOException $e)
+            {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+
+            $media_files = $stmt3->fetchAll();
+
+            return $media_files;
+    }
+
+    private function getClientMediaByCategory($conn,$ClientID,$Category,$CategoryType)
+    {
+
+         $stmt3 = $conn->prepare('SELECT * FROM Media LEFT JOIN ClientMedia ON (Media.ID = ClientMedia.MediaID AND Media.CategoryType=?) where ClientMedia.ClientID=? AND Media.Category=?');
+
+            try
+            {
+                $stmt3->execute([$CategoryType,$ClientID,$Category]);
+            }
+            catch (\PDOException $e)
+            {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+
+            $media_files = $stmt3->fetchAll();
+
+            return $media_files;
+    }
+
+    private function getClientGamesByCategory($conn,$ClientID,$Category)
+    {
+
+         $stmt3 = $conn->prepare('SELECT * FROM App LEFT JOIN ClientApp ON (App.ID = ClientApp.AppID) where ClientApp.ClientID=? AND App.Category=?');
 
             try
             {
@@ -943,9 +1153,291 @@ class SalesController extends Controller
                 return $this->redirect($request->headers->get('referer'));
             }
 
-            $media_files = $stmt3->fetchAll(PDO::FETCH_COLUMN);
+            $media_files = $stmt3->fetchAll();
 
             return $media_files;
+    }
+
+        private function getClientGames($conn,$ClientID)
+    {
+
+                //get Tablet applications
+        $stmt = $conn->prepare('SELECT *, IF(ClientApp.ClientID IS NULL, FALSE, TRUE) as Available FROM App LEFT JOIN ClientApp ON (App.ID = ClientApp.AppID AND ClientApp.ClientID =?)');
+
+        try
+        {
+            $stmt->execute([$ClientID]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return null;
+        }
+
+        $items = $stmt->fetchAll();
+
+        return $items;
+
+    }
+
+    private function getAllGamesByCategory($conn,$Category)
+    {
+
+         $stmt3 = $conn->prepare('SELECT * FROM App WHERE Category=?');
+
+            try
+            {
+                $stmt3->execute([$Category]);
+            }
+            catch (\PDOException $e)
+            {
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                $request->getSession()->getFlashBag()->add('danger', $error);
+                return $this->redirect($request->headers->get('referer'));
+            }
+
+            $media_files = $stmt3->fetchAll();
+
+            return $media_files;
+    }
+
+    private function returnShortJsonFile($txt,$fileName)
+    {
+
+        $response = new Response($txt);
+
+        // Create the disposition of the file
+        $disposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,$fileName);
+
+        // Set the content disposition
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
+    }
+
+    // this function is called by the command controller
+    public function getClientConfigFileStatusAction($clientID)
+    {
+        $fileName = 'Status.json';
+
+         if (!($this->getRequest()->isSecure() ) )  // make sure this request has been done through the https interface
+        {
+
+            $txt = 'Error .. Insecure Connection!';
+                
+            return $this->returnShortJsonFile($txt,$fileName);
+        }
+
+
+       $tmp = tmpfile();
+
+       $conn = $this->get_Store_DB_Object();
+
+       $stmt = $conn->prepare('Select ID from Client where ID=?');
+
+            try
+            {
+                $stmt->execute([$clientID]);
+            }
+            catch (\PDOException $e)
+            {
+            
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                
+                $txt = 'Error .. '. $error;
+
+                return $this->returnShortJsonFile($txt,$fileName);
+
+            }
+
+            $Clients = $stmt->fetchAll();
+
+            if ( count($Clients) < 1 )
+            {
+                $txt = 'Error .. User:'.$clientID.' does not exist';
+                return $this->returnShortJsonFile($txt,$fileName);
+            }
+
+
+       $stmt = $conn->prepare('SELECT LastUpdate,LastDownload from ConfigStatus WHERE ClientID=? AND ConfigFile="MEDIA"');
+
+        try
+        {
+            $stmt->execute([$clientID]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            //return $this->redirect($request->headers->get('referer'));
+            return $this->returnShortJsonFile($error,$fileName);
+        } 
+
+        $media_file = $stmt->fetchAll();
+
+        $media_date ="";
+        $media_download ="";
+
+        if ( count($media_file) == 1 )
+        {
+            $media_date = $media_file[0]['LastUpdate'];
+            $media_download = $media_file[0]['LastDownload'];
+        }
+
+        ///////////////
+
+        $stmt = $conn->prepare('SELECT LastUpdate,LastDownload from ConfigStatus WHERE ClientID=? AND ConfigFile="SFX"');
+
+        try
+        {
+            $stmt->execute([$clientID]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            //return $this->redirect($request->headers->get('referer'));
+            return $this->returnShortJsonFile($error,$fileName);
+        } 
+
+        $sfx_file = $stmt->fetchAll();
+
+        $sfx_date ="";
+        $sfx_download ="";
+
+        if ( count($sfx_file) == 1 )
+        {
+            $sfx_date = $sfx_file[0]['LastUpdate'];
+            $sfx_download = $sfx_file[0]['LastDownload'];
+        }
+
+        //////////
+
+        $stmt = $conn->prepare('SELECT LastUpdate,LastDownload from ConfigStatus WHERE ClientID=? AND ConfigFile="SETTINGS"');
+
+        try
+        {
+            $stmt->execute([$clientID]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            //return $this->redirect($request->headers->get('referer'));
+            return $this->returnShortJsonFile($error,$fileName);
+        } 
+
+        $settings_file = $stmt->fetchAll();
+
+        $settings_date ="";
+        $settings_download="";
+
+        if ( count($settings_file) == 1 )
+        {
+            $settings_date = $settings_file[0]['LastUpdate'];
+            $settings_download = $settings_file[0]['LastDownload'];
+        }
+
+        ///
+
+        $stmt = $conn->prepare('SELECT LastUpdate,LastDownload from ConfigStatus WHERE ClientID=? AND ConfigFile="GAMES"');
+
+        try
+        {
+            $stmt->execute([$clientID]);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            //return $this->redirect($request->headers->get('referer'));
+            return $this->returnShortJsonFile($error,$fileName);
+        } 
+
+        $game_file = $stmt->fetchAll();
+
+        $game_date ="";
+        $game_download ="";
+
+        if ( count($game_file) == 1 )
+        {
+            $game_date = $game_file[0]['LastUpdate'];
+            $game_download = $game_file[0]['LastDownload'];
+        }
+
+        //////////
+
+
+        fprintf($tmp,"{\n");
+
+        fprintf($tmp,"MediaCategories:{\n");
+        fprintf($tmp,"last_update: \"$media_date\",\n");
+        fprintf($tmp,"last_download: \"$media_download\"\n");
+        fprintf($tmp,"}\n");
+
+        fprintf($tmp,"SFXCategories:{\n");
+        fprintf($tmp,"last_update: \"$sfx_date\",\n");
+        fprintf($tmp,"last_download: \"$sfx_download\"\n");
+        fprintf($tmp,"}\n");
+
+         fprintf($tmp,"CategorizedGames:{\n");
+        fprintf($tmp,"last_update: \"$game_date\",\n");
+        fprintf($tmp,"last_download: \"$game_download\"\n");
+        fprintf($tmp,"}\n");
+
+        fprintf($tmp,"Settings:{\n");
+        fprintf($tmp,"last_update: \"$settings_date\",\n");
+         fprintf($tmp,"last_download: \"$settings_download\"\n");
+        fprintf($tmp,"}\n");
+
+        fprintf($tmp,"}\n");
+        fseek($tmp, 0);
+        $stat = fstat($tmp);
+        $size = $stat['size'];
+        $txt = fread($tmp, $size);
+
+        //echo $txt;
+
+        fclose($tmp); // this removes the file
+
+        return $this->returnShortJsonFile($txt,$fileName);
+    }
+
+     public function getDefaultConfigFileAction($fileName)
+    {
+        // ToDo: enable authentication
+        /*
+
+        $context = $this->container->get('security.context');
+        if (!$context->isGranted('IS_AUTHENTICATED_FULLY'))
+            return $this->render('DashboardBundle:Homepage:index.html.twig');
+        */
+
+        //auth
+
+            if (!($this->getRequest()->isSecure() ) )  // make sure this request has been done through the https interface
+            {
+
+                $txt = 'Error .. Insecure Connection!';
+                
+                return $this->returnShortJsonFile($txt,$fileName);
+            }
+
+            // make sure this is a valid clientID (i.e. this client exists in our DB)
+
+            $conn = $this->get_Store_DB_Object();
+           
+            if ( $fileName == "CategorizedGames.json")
+                $result =  $this->getClientGameFile('CLIENT_ZERO',$fileName);
+           
+            else if ( $fileName == "MediaCategories.json")
+                $result =  $this->getClientMusicVidFile('CLIENT_ZERO',$fileName);
+            else if ($fileName == "SFXCategories.json")
+                $result =  $this->getClientSFXFile('CLIENT_ZERO',$fileName);
+            
+            return $result;
+
     }
 
     // this function is called by the command controller
@@ -961,32 +1453,168 @@ class SalesController extends Controller
 
         //auth
 
-            if ( $fileName == "MediaCategories.json")
-                return $this->getClientMusicVidFile($clientID,$fileName);
+            if (!($this->getRequest()->isSecure() ) )  // make sure this request has been done through the https interface
+            {
+
+                $txt = 'Error .. Insecure Connection!';
+                
+                return $this->returnShortJsonFile($txt,$fileName);
+            }
+
+            // make sure this is a valid clientID (i.e. this client exists in our DB)
+
+            $conn = $this->get_Store_DB_Object();
+            $stmt = $conn->prepare('Select ID from Client where ID=?');
+
+            try
+            {
+                $stmt->execute([$clientID]);
+            }
+            catch (\PDOException $e)
+            {
+            
+                $error = 'Operation Aborted ..' . $e->getMessage();
+                
+                $txt = 'Error .. '. $error;
+
+                return $this->returnShortJsonFile($txt,$fileName);
+
+            }
+
+            $Clients = $stmt->fetchAll();
+
+            if ( count($Clients) < 1 )
+            {
+                $txt = 'Error .. User:'.$clientID.' does not exist';
+                return $this->returnShortJsonFile($txt,$fileName);
+            }
+
+            $media      = 0 ;
+            $sfx        = 0 ;
+            $settings   = 0 ;
+            $games      = 0 ;
+
+            $result = null;
+
+            if ( $fileName == "CategorizedGames.json")
+            {
+                $result =  $this->getClientGameFile($clientID,$fileName);
+                $games  = 1;
+            }
+
+            else if ( $fileName == "MediaCategories.json")
+            {
+                $result =  $this->getClientMusicVidFile($clientID,$fileName);
+                $media  = 1;
+            }
             else if ($fileName == "SFXCategories.json")
-                return $this->getClientSFXFile($clientID,$fileName);
+            {
+                $result =  $this->getClientSFXFile($clientID,$fileName);
+                $sfx    = 1;
+            }
             else if ($fileName == "Languages.json")
-                return $this->getClientLanguagesFile($clientID,$fileName);
+            {
+                $result =  $this->getClientLanguagesFile($clientID,$fileName);
+                $settings  = 1;
+            }
             else if ($fileName == "SBSetting.json")
             {
               $list = ["router","noNetwork","isChristian"];
-              return $this->getClientSettingFile($clientID,$fileName,$list,"");
+              $result =  $this->getClientSettingFile($clientID,$fileName,$list,"");
+              $settings  = 1;
             }
             else if  ($fileName == "sensorybox_ssid.json")
             {
               $list = ["sensorybox_defaultIp","sensorybox_ssid","sensorybox_password"];
-              return $this->getClientSettingFile($clientID,$fileName,$list,"sensorybox_");
+              $result =  $this->getClientSettingFile($clientID,$fileName,$list,"sensorybox_");
+              $settings  = 1;
             }
             else if ($fileName == "factory_reset_.json")
             {
               $list = ["factory_defaultIp","factory_ssid","factory_password"];
-              return $this->getClientSettingFile($clientID,$fileName,$list,"factory_");
+              $result =  $this->getClientSettingFile($clientID,$fileName,$list,"factory_");
+              $settings  = 1;
             }
             else
             {
-                return new Response('<html><body>Operation Aborted .. invalid settings file name</body></html>');
+                //return new Response('<html><body>Operation Aborted .. invalid settings file name</body></html>');
+                $txt = 'Error .. Invalid JSON file name';
+                
+                return $this->returnShortJsonFile($txt,$fileName);
             }
 
+            date_default_timezone_set("Asia/Jerusalem");
+            $now = date("d-m-Y H:i:s");
+
+            if ( $media > 0 )  // update the LastDownload entry 
+            {
+                $stmt = $conn->prepare('Update ConfigStatus SET LastDownload=? WHERE ClientID=? AND ConfigFile="MEDIA"');
+                //echo "Updating the LastDownload for Media"; 
+
+                try
+                {
+                    $stmt->execute([$now,$clientID]);
+                }
+                catch (\PDOException $e)
+                {
+                    $error = 'Operation Aborted ..' . $e->getMessage();
+                    $request->getSession()->getFlashBag()->add('danger', $error);
+                    return $this->redirect($request->headers->get('referer'));
+                }
+            }
+
+            if ( $sfx > 0 )
+            {
+                $stmt = $conn->prepare('Update ConfigStatus SET LastDownload=? WHERE ClientID=? AND ConfigFile="SFX"');
+
+                try
+                {
+                    $stmt->execute([$now,$clientID]);
+                }
+                catch (\PDOException $e)
+                {
+                    $error = 'Operation Aborted ..' . $e->getMessage();
+                    $request->getSession()->getFlashBag()->add('danger', $error);
+                    return $this->redirect($request->headers->get('referer'));
+                }
+
+            }
+
+            if ( $settings > 0 )
+            {
+                $stmt = $conn->prepare('Update ConfigStatus SET LastDownload=? WHERE ClientID=? AND ConfigFile="SETTINGS"');
+
+                try
+                {
+                    $stmt->execute([$now,$clientID]);
+                }
+                catch (\PDOException $e)
+                {
+                    $error = 'Operation Aborted ..' . $e->getMessage();
+                    $request->getSession()->getFlashBag()->add('danger', $error);
+                    return $this->redirect($request->headers->get('referer'));
+                }
+
+            }
+
+            if ( $games > 0 )
+            {
+                $stmt = $conn->prepare('Update ConfigStatus SET LastDownload=? WHERE ClientID=? AND ConfigFile="GAMES"');
+
+                try
+                {
+                    $stmt->execute([$now,$clientID]);
+                }
+                catch (\PDOException $e)
+                {
+                    $error = 'Operation Aborted ..' . $e->getMessage();
+                    $request->getSession()->getFlashBag()->add('danger', $error);
+                    return $this->redirect($request->headers->get('referer'));
+                }
+
+            }
+
+            return $result;
 
     }
 
@@ -1142,7 +1770,7 @@ class SalesController extends Controller
 
         // Get Music Media Files
 
-        $stmt2 = $conn->prepare('Select ID from MediaCategory where Type=?');
+        $stmt2 = $conn->prepare('Select ID,Name,Bucket_Icon from MediaCategory where Type=?');
 
         try
         {
@@ -1159,24 +1787,118 @@ class SalesController extends Controller
 
         fprintf($tmp,"musicCategories: {\n");
 
-
+        $v = 0 ;
         foreach ($music_cats as $media_cat)
         {
-           if ( count($music_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'])) )
-            {
-                fprintf($tmp,"%s: [\n",$media_cat['ID']);
+            if ( $ClientID == 'CLIENT_ZERO')
+                $vid_files = $this->getAllMediaByCategory($conn,$media_cat['ID'],'MusicCategory');
+            else
+                $vid_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'],'MusicCategory');
 
-                $str_files = implode("\n",$music_files);
-                fprintf($tmp,"%s\n]\n",$str_files);
+           if ( count($vid_files) )
+            {
+                if ( $v !=0 )
+                   fprintf($tmp,",\n");
+                    
+                fprintf($tmp,"  %s: {\n",$media_cat['ID']);
+                fprintf($tmp,"      titleName:\"%s\",\n",$media_cat['Name']);
+                fprintf($tmp,"      iconUrl:\"%s\",\n",$media_cat['Bucket_Icon']);
+                fprintf($tmp,"      subCategory:{\n");
+
+                //$str_files = implode("\n",$vid_files);
+                $i = 0 ;
+                foreach ($vid_files as $vid_file)
+                {
+                    fprintf($tmp,"          %s:{\n",$vid_file['TrackID']);
+                    fprintf($tmp,"              iconUrl:\"%s\",\n",$vid_file['Bucket_Icon']);
+                    fprintf($tmp,"              trackID: %s,\n",$vid_file['TrackID']);
+                    fprintf($tmp,"              titleName:\"%s\",\n",$vid_file['Name']);
+                    fprintf($tmp,"              fileKey: \"music|%s|%s\",\n",$media_cat['ID'],$vid_file['Bucket_Name']);
+                    fprintf($tmp,"          }");
+                    $i++;
+
+                    if ($i != count($vid_files))
+                        fprintf($tmp,",\n");
+                }
+
+                //fprintf($tmp,"%s\n}\n",$str_files);
+                fprintf($tmp,"\n        }");
+                fprintf($tmp,"\n  }");
+
+                $v++;
+                    
             }
         }
+        fprintf($tmp,"\n},\n");
 
-        fprintf($tmp,"}\n");
+
+        ///
+
+         $stmt2 = $conn->prepare('Select ID,Name,Bucket_Icon from MediaCategory where Type=?');
+
+        try
+        {
+            $stmt2->execute(['ChristianMusicCategory']);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $music_cats = $stmt2->fetchAll();
+
+        fprintf($tmp,"christianMusicCategories: {\n");
+
+        $v = 0 ;
+        foreach ($music_cats as $media_cat)
+        {
+            if ( $ClientID == 'CLIENT_ZERO')    
+                $vid_files = $this->getAllMediaByCategory($conn,$media_cat['ID'],'ChristianMusicCategory');
+            else
+                $vid_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'],'ChristianMusicCategory');
+
+           if ( count($vid_files) )
+            {
+                if ( $v !=0 )
+                   fprintf($tmp,",\n");
+                    
+                fprintf($tmp,"  %s: {\n",$media_cat['ID']);
+                fprintf($tmp,"      titleName:\"%s\",\n",$media_cat['Name']);
+                fprintf($tmp,"      iconUrl:\"%s\",\n",$media_cat['Bucket_Icon']);
+                fprintf($tmp,"      subCategory:{\n");
+
+                //$str_files = implode("\n",$vid_files);
+                $i = 0 ;
+                foreach ($vid_files as $vid_file)
+                {
+                    fprintf($tmp,"          %s:{\n",$vid_file['TrackID']);
+                    fprintf($tmp,"              iconUrl:\"%s\",\n",$vid_file['Bucket_Icon']);
+                    fprintf($tmp,"              trackID: %s,\n",$vid_file['TrackID']);
+                    fprintf($tmp,"              titleName:\"%s\",\n",$vid_file['Name']);
+                    fprintf($tmp,"              fileKey: \"music|%s|%s\",\n",$media_cat['ID'],$vid_file['Bucket_Name']);
+                    fprintf($tmp,"          }");
+                    $i++;
+
+                    if ($i != count($vid_files))
+                        fprintf($tmp,",\n");
+                }
+
+                //fprintf($tmp,"%s\n}\n",$str_files);
+                fprintf($tmp,"\n        }");
+                fprintf($tmp,"\n  }");
+
+                $v++;
+                    
+            }
+        }
+        fprintf($tmp,"\n},\n");
 
 
         // Get Video Media Files
 
-        $stmt2 = $conn->prepare('Select ID from MediaCategory where Type=?');
+        $stmt2 = $conn->prepare('Select ID,Name,Bucket_Icon from MediaCategory where Type=?');
 
         try
         {
@@ -1194,18 +1916,118 @@ class SalesController extends Controller
         fprintf($tmp,"videoCategories: {\n");
 
 
+        $v = 0 ;
         foreach ($vid_cats as $media_cat)
         {
-           if ( count($vid_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'])) )
-            {
-                fprintf($tmp,"%s: [\n",$media_cat['ID']);
+            if ( $ClientID == 'CLIENT_ZERO')
+                $vid_files = $this->getAllMediaByCategory($conn,$media_cat['ID'],'VideoCategory');
+            else
+                $vid_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'],'VideoCategory');
 
-                $str_files = implode("\n",$vid_files);
-                fprintf($tmp,"%s\n]\n",$str_files);
+           if ( count($vid_files) )
+            {
+                if ( $v !=0 )
+                   fprintf($tmp,",\n");
+                    
+                fprintf($tmp,"  %s: {\n",$media_cat['ID']);
+                fprintf($tmp,"      titleName:\"%s\",\n",$media_cat['Name']);
+                fprintf($tmp,"      iconUrl:\"%s\",\n",$media_cat['Bucket_Icon']);
+                fprintf($tmp,"      subCategory:{\n");
+
+                //$str_files = implode("\n",$vid_files);
+                $i = 0 ;
+                foreach ($vid_files as $vid_file)
+                {
+                    fprintf($tmp,"          %s:{\n",$vid_file['TrackID']);
+                    fprintf($tmp,"              iconUrl:\"%s\",\n",$vid_file['Bucket_Icon']);
+                    fprintf($tmp,"              trackID: %s,\n",$vid_file['TrackID']);
+                    fprintf($tmp,"              titleName:\"%s\",\n",$vid_file['Name']);
+                    fprintf($tmp,"              fileKey: \"video|%s|%s\",\n",$media_cat['ID'],$vid_file['Bucket_Name']);
+                    fprintf($tmp,"          }");
+                    $i++;
+
+                    if ($i != count($vid_files))
+                        fprintf($tmp,",\n");
+                }
+
+                //fprintf($tmp,"%s\n}\n",$str_files);
+                fprintf($tmp,"\n        }");
+                fprintf($tmp,"\n  }");
+
+                $v++;
+                    
             }
         }
+        fprintf($tmp,"\n},\n");
 
-        fprintf($tmp,"}\n");
+        ///
+
+        $stmt2 = $conn->prepare('Select ID,Name,Bucket_Icon from MediaCategory where Type=?');
+
+        try
+        {
+            $stmt2->execute(['ChristianVideoCategory']);
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $vid_cats = $stmt2->fetchAll();
+        //print_r($vid_cats);
+
+        fprintf($tmp,"christianVideoCategories: {\n");
+
+
+        $v = 0 ;
+        foreach ($vid_cats as $media_cat)
+        {
+            if ( $ClientID == 'CLIENT_ZERO')
+                $vid_files = $this->getAllMediaByCategory($conn,$media_cat['ID'],'ChristianVideoCategory');
+            else
+                $vid_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'],'ChristianVideoCategory');
+
+           if ( count($vid_files) )
+            {
+                if ( $v !=0 )
+                   fprintf($tmp,",\n");
+                    
+                fprintf($tmp,"  %s: {\n",$media_cat['ID']);
+                fprintf($tmp,"      titleName:\"%s\",\n",$media_cat['Name']);
+                fprintf($tmp,"      iconUrl:\"%s\",\n",$media_cat['Bucket_Icon']);
+                fprintf($tmp,"      subCategory:{\n");
+
+                //$str_files = implode("\n",$vid_files);
+                $i = 0 ;
+                foreach ($vid_files as $vid_file)
+                {
+                    fprintf($tmp,"          %s:{\n",$vid_file['TrackID']);
+                    fprintf($tmp,"              iconUrl:\"%s\",\n",$vid_file['Bucket_Icon']);
+                    fprintf($tmp,"              trackID: %s,\n",$vid_file['TrackID']);
+                    fprintf($tmp,"              titleName:\"%s\",\n",$vid_file['Name']);
+                    fprintf($tmp,"              fileKey: \"video|%s|%s\",\n",$media_cat['ID'],$vid_file['Bucket_Name']);
+                    fprintf($tmp,"          }");
+                    $i++;
+
+                    if ($i != count($vid_files))
+                        fprintf($tmp,",\n");
+                }
+
+                //fprintf($tmp,"%s\n}\n",$str_files);
+                fprintf($tmp,"\n        }");
+                fprintf($tmp,"\n  }");
+
+                $v++;
+                    
+            }
+        }
+        fprintf($tmp,"\n}\n");
+
+
+
+        ///
 
         fprintf($tmp,"}\n");
 
@@ -1257,7 +2079,7 @@ class SalesController extends Controller
 
         // Get Video Media Files
 
-        $stmt2 = $conn->prepare('Select ID from MediaCategory where Type=?');
+        $stmt2 = $conn->prepare('Select ID,Name,Bucket_Icon from MediaCategory where Type=?');
 
         try
         {
@@ -1275,20 +2097,158 @@ class SalesController extends Controller
         fprintf($tmp,"sfxCategories: {\n");
 
 
+        
+        $v = 0 ;
         foreach ($sfx_cats as $media_cat)
         {
-           if ( count($sfx_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'])) )
-            {
-                fprintf($tmp,"%s: [\n",$media_cat['ID']);
+            if ($ClientID == 'CLIENT_ZERO')
+                $vid_files = $this->getAllMediaByCategory($conn,$media_cat['ID'],'SFXCategory');
+            else
+                $vid_files = $this->getClientMediaByCategory($conn,$ClientID,$media_cat['ID'],'SFXCategory');
 
-                $str_files = implode("\n",$sfx_files);
-                fprintf($tmp,"%s\n]\n",$str_files);
+           if ( count($vid_files) )
+            {
+                if ( $v !=0 )
+                   fprintf($tmp,",\n");
+                    
+                fprintf($tmp,"  %s: [\n",$media_cat['ID']);
+
+                $i = 0 ;
+                foreach ($vid_files as $vid_file)
+                {
+                    fprintf($tmp,"      {\n");
+                    fprintf($tmp,"          name: %s\n",$vid_file['Name']);
+                    fprintf($tmp,"          iconUrl: \"%s\",\n",$vid_file['Bucket_Icon']);
+                    fprintf($tmp,"          atlasTextureUrl : \"%s\",\n",$vid_file['Bucket_Texture']);
+                    fprintf($tmp,"          fileKey: \"sfx|sfx_%s\",\n",$vid_file['Bucket_Name']);
+                    fprintf($tmp,"          soundName: \"%s\",\n",$vid_file['TrackID']);
+                    fprintf($tmp,"      }");
+                    $i++;
+
+                    if ($i != count($vid_files))
+                        fprintf($tmp,",");
+                }
+
+                fprintf($tmp,"\n  ]");
+
+                $v++;
+                    
             }
         }
+        fprintf($tmp,"\n}\n");
+
 
         fprintf($tmp,"}\n");
 
-        fprintf($tmp,"}\n");
+        //
+
+        fseek($tmp, 0);
+        $stat = fstat($tmp);
+        $size = $stat['size'];
+        $txt = fread($tmp, $size);
+
+        //echo $txt;
+
+        fclose($tmp); // this removes the file
+
+        //$jres = new JsonResponse($txt);
+
+        //return $jres;
+
+          // Return a response with a specific content
+        $response = new Response($txt);
+
+        // Create the disposition of the file
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $fileName
+        );
+
+        // Set the content disposition
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
+
+    }
+
+    private function getClientGameFile($clientID,$fileName)
+    {
+
+        $ClientID = $clientID;
+        $FileName = $fileName;
+
+
+        $tmp = tmpfile();
+
+        fprintf($tmp,"{\r\n");
+
+        //connect to database
+        $conn = $this->get_Store_DB_Object();
+
+
+        // Get Video Media Files
+
+        $stmt2 = $conn->prepare('Select ID,Name,Color from Category');
+
+        try
+        {
+            $stmt2->execute();
+        }
+        catch (\PDOException $e)
+        {
+            $error = 'Operation Aborted ..' . $e->getMessage();
+            $request->getSession()->getFlashBag()->add('danger', $error);
+            return $this->redirect($request->headers->get('referer'));
+        }
+
+        $games_cats = $stmt2->fetchAll();
+
+        fprintf($tmp,"gameCategoryWithSubCategories: {\r\n");
+
+
+        
+        $v = 0 ;
+        foreach ($games_cats as $game_cat)
+        {
+            if ($ClientID == 'CLIENT_ZERO')
+                $vid_files = $this->getAllGamesByCategory($conn,$game_cat['ID']);
+            else
+                $vid_files = $this->getClientGamesByCategory($conn,$ClientID,$game_cat['ID']);
+
+           if ( count($vid_files) )
+            {
+                //if ( $v !=0 )
+                //   fprintf($tmp,",\n");
+                    
+                fprintf($tmp,"  %s: [\r\n",$game_cat['ID']);
+
+                $i = 0 ;
+                foreach ($vid_files as $vid_file)
+                {
+                    //fprintf($tmp,"      {\n");
+                    //fprintf($tmp,"          name: %s\n",$vid_file['Name']);
+                    //fprintf($tmp,"          iconUrl: \"%s\",\n",$vid_file['Bucket_Icon']);
+                    //fprintf($tmp,"          atlasTextureUrl : \"%s\",\n",$vid_file['Bucket_Texture']);
+                    //fprintf($tmp,"          fileKey: \"sfx|sfx_%s\",\n",$vid_file['Bucket_Name']);
+                    //fprintf($tmp,"          soundName: \"%s\",\n",$vid_file['TrackID']);
+                    //fprintf($tmp,"      }");
+                    fprintf($tmp,"          %s\r\n",$vid_file['KeyString']);
+                    $i++;
+
+                    //if ($i != count($vid_files))
+                    //    fprintf($tmp,",");
+                }
+
+                fprintf($tmp,"]\r\n");
+
+                $v++;
+                    
+            }
+        }
+        fprintf($tmp,"}\r\n");
+
+
+        fprintf($tmp,"}");
 
         //
 

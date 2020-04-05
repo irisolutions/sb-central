@@ -50,15 +50,21 @@ Developer Dashboard &rsaquo; Update Media
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label col-xs-2" for="inputEmail">Media TrackID:</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" name="media-trackid" id="media-trackid" {% if update == true%}  value ="{{media.TrackID}}" {% endif %} >
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-xs-2">Media Category:</label>
             <div class="col-xs-3">
                 <select class="form-control" name="media-category">
 
                     {% for cat in categories %}
-                    {% if media.Category is defined and cat.ID == media.Category  %}
-                     <option value='{{cat.ID}}' selected="true">{{cat.ID}} ({{cat.Type}})</option>
+                    {% if media.Category is defined and cat.ID == media.Category and cat.Type == media.CategoryType %}
+                     <option value='{{cat.ID}}|{{cat.Type}}' selected="true">{{cat.ID}} ({{cat.Type}})</option>
                      {% else %}
-                     <option value='{{cat.ID}}'>{{cat.ID}} ({{cat.Type}})</option>
+                     <option value='{{cat.ID}}|{{cat.Type}}'>{{cat.ID}} ({{cat.Type}})</option>
                      {% endif%}
                     {% endfor %}
                 </select>
@@ -72,6 +78,21 @@ Developer Dashboard &rsaquo; Update Media
             <div class="col-xs-4">
                 <input type="text" class="form-control" id="media-bucket" name="media-bucket" {% if update == true%}  value ="{{media.Bucket_Name}}" {% endif %}>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="firstName">Bucket Icon:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" id="icon-bucket" name="icon-bucket" {% if update == true%}  value ="{{media.Bucket_Icon}}" {% endif %}>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="firstName">Bucket Texture:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" id="texture-bucket" name="texture-bucket" {% if update == true%}  value ="{{media.Bucket_Texture}}" {% endif %}>
+            </div>
+            <label class="control-label" >(Only for SFX Media)</label>
         </div>
 
         <div class="form-group">

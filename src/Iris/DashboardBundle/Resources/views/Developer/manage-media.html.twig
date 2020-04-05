@@ -139,10 +139,13 @@
                 <table>
                     <thead>
                     <tr>
-                        <th style="width: 70%;">Name</th>
+                        <th style="width: 60%;">Name</th>
                         <th style="width: 5%;">ID</th>
+                        <th style="width: 5%;">TrackID</th>
                         <th style="width: 20%;">Category</th>
                         <th style="width: 5%;">Bucket Name</th>
+                        <th style="width: 5%;">Bucket Icon</th>
+                        <th style="width: 5%;">Bucket Texture</th>
                         <!-- <th>Operations</th> -->
                     </tr>
                     </thead>
@@ -150,22 +153,25 @@
                     <tbody>
                     {% for item in media %}
                         <tr>
-                            <td style="width: 70%;">&nbsp;&nbsp;<b class="font-b">{{ item.Name }}</b><br
+                            <td style="width: 80%;">&nbsp;&nbsp;<b class="font-b">{{ item.Name }}</b><br
                                         style="line-height:180%;">
                                 <small> &nbsp;&nbsp;<a href="{{ path('dashboard_dev_edit_media', {'slug': item.ID}) }}"><i
                                                 class="material-icons edit"
-                                                style="font-size:12px;">mode_edit</i>Edit</a>&nbsp;&nbsp;<a
+                                                style="font-size:12px;">mode_edit</i>Edit</a><br><a
                                             onclick="return confirm('Are you sure you want to delete  {{ item.Name }}. This media is owned by {{item.Count}} clients ');"
                                             href="{{ path('dashboard_dev_delete_media', {'slug': item.ID, 'count':item.Count}) }}"><i
-                                                class="material-icons del" style="font-size:12px">delete</i>Delete</a>&nbsp;&nbsp;
+                                                class="material-icons del" style="font-size:12px">delete</i>Delete</a>
                                     {#<a href="{{ path('dashboard_dev_set_icon', {'slug': item.ID}) }}">
                                         <i class="material-icons version" style="font-size:12px">wallpaper</i> Icon</a>
                                         #}
                                 </small>
                             </td>
                             <td style="width: 5%;"> {{ item.ID }}</td>
+                            <td style="width: 5%;"> {{ item.TrackID }}</td>
                             <td style="width: 20%;">{{ item.Category }}</td>
                             <td style="width: 5%;">{{ item.Bucket_Name }}</td>
+                            <td style="width: 5%;">{{ item.Bucket_Icon }}</td>
+                            <td style="width: 5%;">{{ item.Bucket_Texture }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

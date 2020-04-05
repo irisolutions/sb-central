@@ -24,14 +24,14 @@
     padding-bottom: 3px;
 }
 </style>
- 
+
  {% endblock  %}
 
 {% block breadcrumb %}
 {% if update == false %}
-Developer Dashboard &rsaquo; New Application
+Developer Dashboard &rsaquo; New App
 {% else %}
-Developer Dashboard &rsaquo; Update Application
+Developer Dashboard &rsaquo; Update App
 {% endif %}
    {#  <a href="{{ path('category', {'slug': application.category.slug}) }}">{{ application.category.name }}</a> &rsaquo; {{ application.name }} #}
 {% endblock %}
@@ -42,145 +42,82 @@ Developer Dashboard &rsaquo; Update Application
 
     <!-- <h1>New Application</h1> -->
     <form class="form-horizontal" method="post" >
-        <div class="form-style-2-heading">Name & Identification Information</div>
-        <div class="form-group">
-            <label class="control-label col-xs-2" for="firstName">Application Identifier:</label>
-            <div class="col-xs-9">
-                <input type="text" class="form-control" id="app-identifier" name="app-identifier" {% if update == true%}  value ="{{application.ID}}" readonly{% endif %} placeholder="e.g. com.iris.babysleep" required>
-            </div>
-        </div>  
-        {% if update == false%}   
-        <div class="form-group">
-            <label class="control-label col-xs-2" for="lastName">Application Version:</label>
-            <div class="col-xs-1">
-                <input type="text" class="form-control" name="app-version" id="app-version" placeholder="e.g. 1.5" required>
-                </div>     
-                <label class="control-label" for="inputEmail">(Must match application identifier & manifest version of the two binary apps below)</label>
-                       
-        </div>
-        {% endif %}
+        <div class="form-style-2-heading">Name & Type Information</div>
 		<div class="form-group">
-            <label class="control-label col-xs-2" for="inputEmail">Application Name:</label>
+            <label class="control-label col-xs-2" for="inputEmail">App String Key:</label>
             <div class="col-xs-9">
-                <input type="text" class="form-control" name="app-name" id="app-name" {% if update == true%}  value ="{{application.Name}}" {% endif %} placeholder="e.g. Game" required>
+                <input type="text" class="form-control" name="app-stringkey" id="app-stringkey" {% if update == true%}  value ="{{application.KeyString}}" {% endif %} >
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-xs-2">Application Category:</label>
+            <label class="control-label col-xs-2" for="inputEmail">Apk Name:</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" name="app-apkname" id="app-apkname" {% if update == true%}  value ="{{application.ApkName}}" {% endif %} >
+            </div>
+        </div>
+         <div class="form-group">
+            <label class="control-label col-xs-2" for="inputEmail">Apk ID:</label>
+            <div class="col-xs-9">
+                <input type="text" class="form-control" name="app-apkid" id="app-apkid" {% if update == true%}  value ="{{application.ApkID}}" {% endif %} >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-2">App Category:</label>
             <div class="col-xs-3">
                 <select class="form-control" name="app-category">
-                    
+
                     {% for cat in categories %}
-                    {% if appCategory is defined and cat.Name == appCategory  %}
-                     <option value='{{cat.Name}}' selected="true">{{cat.Name}}</option>
+                    {% if application.Category is defined and cat.ID == application.Category  %}
+                     <option value='{{cat.ID}}' selected="true">{{cat.Name}}</option>
                      {% else %}
-                     <option value='{{cat.Name}}'>{{cat.Name}}</option>
+                     <option value='{{cat.ID}}'>{{cat.Name}}</option>
                      {% endif%}
                     {% endfor %}
                 </select>
             </div>
         </div>
-<div class="form-style-2-heading">Payment Model</div>  
-          <div class="form-group">
-            <label class="control-label col-xs-2">Payment Model:</label>
-            <div class="col-xs-1">
-            {%if update == true and application.Price == 0 %}
-            <label class="radio-inline">
-                    <input type="radio" name="app-payment-model" value="free"  checked="checked"> Free
-            </label>
-            
-            {% else %}
-                <label class="radio-inline">
-                    <input type="radio" name="app-payment-model" value="free" checked="checked"> Free
-                </label>
-            {% endif %}    
-            </div>
-            <div class="col-xs-1">
-            
-             {%if update == true and application.Price != 0 %}
-                <label class="radio-inline">
-                    <input type="radio" name="app-payment-model" value="paid" checked="checked"> Paid
-                </label>
-              {% else %}
-              	<label class="radio-inline">
-                    <input type="radio" name="app-payment-model" value="paid" > Paid
-                </label>
-               {% endif %}     
-            </div>  
-            <div class="col-xs-2">
-                <div class="input-group">
-                <input type="text" class="form-control" name='app-price' id="app-price" {% if update == true%}  value ="{{application.Price}}" {% endif %} placeholder="0">  
-                <span class="input-group-addon">$</span>
-                </div>
-              </div> 
-             
-        </div>
-        <!--
-	<div class="form-style-2-heading">Subscription Bundles</div>  
-        <div class="row">
-         <div class="col-xs-6"> 
-        <div class="form-group">
-  		<label class="control-label col-xs-offset-1" for="selectmultiple">Application Bundles (you can select multiple bundles)</label>             
-  		
-   		 	<select id="selectmultiple" name="app-bundle" class="form-control col-xs-offset-1" multiple="multiple">
-     		 	<option value="1">Basic</option>
-      			<option value="2">Kindergarden</option>
-   		 	</select>
-  		</div>
-        </div>    
-        </div>    
-        -->
 
-  {% if update == false%} 				
-  <div class="form-style-2-heading col-xs-12">Application Binaires</div>    
-        
-        <div class="form-group">
-            <label class="control-label col-xs-2" for="firstName">Dongle Binary:</label>
-            <div class="col-xs-9">
-                <input type="text" class="form-control" id="app-dongle-binary" name="app-dongle-binary" {% if update == true%}  value ="{{application.DongleAppName}}" {% endif %} placeholder="e.g. babysleep.apk" required>
-            </div>
-        </div>  
-        
-       <div class="form-group">
-            <label class="control-label col-xs-2" for="firstName">Controller Binary:</label>
-            <div class="col-xs-9">
-                <input type="text" class="form-control" id="app-controller-binary" name="app-controller-binary" {% if update == true%}  value ="{{application.ControllerAppName}}" {% endif %} placeholder="e.g. babysleep-dongle.apk" required>
-            </div>
-        </div>  
-        
-{% endif %}  
+         <div class="form-group">
+            <label class="control-label col-xs-2">Game Type:</label>
+            <div class="col-xs-3">
+                <select class="form-control" name="app-type">
 
-<div class="form-style-2-heading col-xs-12">Application Description</div> 
-
-        
-           
-        <div class="form-group">
-            <label class="control-label col-xs-2" for="postalAddress">Application Summary:</label>
-            <div class="col-xs-9">
-                <textarea rows="3" class="form-control" name="app-summary" id="app-summary" required>
-                {% if update == true%}  {{summary}} {% endif %}
-                </textarea>
+                    {% for type in types %}
+                    {% if application.Type is defined and type.Name == application.Type  %}
+                     <option value='{{type.Name}}' selected="true">{{type.Name}}</option>
+                     {% else %}
+                     <option value='{{type.Name}}'>{{type.Name}} </option>
+                     {% endif%}
+                    {% endfor %}
+                </select>
             </div>
         </div>
-        
+
+  <div class="form-style-2-heading col-xs-12">Visual Resources</div>
+
         <div class="form-group">
-            <label class="control-label col-xs-2" for="postalAddress">Application Description:</label>
-            <div class="col-xs-9">
-                <textarea rows="6" class="form-control" name="app-description" id="app-description" required>					
-                {% if update == true%}  {{description}} {% endif %}
-                </textarea>
+            <label class="control-label col-xs-2" for="firstName">Resources Directory:</label>
+            <div class="col-xs-4">
+                <input type="text" class="form-control" id="app-resources" name="app-resources" {% if update == true%}  value ="{{application.Resources}}" {% endif %}>
             </div>
         </div>
-    
+
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="firstName">App Icon:</label>
+            <div class="col-xs-8">
+                <input type="text" class="form-control" id="app-icon" name="app-icon" {% if update == true%}  value ="{{application.Icon}}" {% endif %}>
+            </div>
+        </div>
+
         <div class="form-group">
         	{% if update == false %}
-                <input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Add New Application">
+                <input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Add New App">
             {% else %}
-            	<input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Update Application">
+            	<input type="submit" class="btn btn-primary" style="margin:20px;border:4px solid #aaa;" value="Update App">
             {% endif %}
              </div>
-             
-        
+
+
     </form>
 </div>
 {% endblock %}

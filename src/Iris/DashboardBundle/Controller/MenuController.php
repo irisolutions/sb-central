@@ -25,15 +25,17 @@ public function indexAction()
     	if ( $context->isGranted('ROLE_DEVELOPMENT') ) 
     	{
     	
-    		$commands[] = array('path'=>'','icon'=>'','name'=>'Applications');
+    		$commands[] = array('path'=>'','icon'=>'view_list','name'=>'Applications');
     		
-         	//$commands[] = array('path'=>'dashboard_dev_new_app','icon'=>'add_circle','name'=>'New Application');
+         	$commands[] = array('path'=>'dashboard_dev_new_app','icon'=>'add_circle','name'=>'New Application');
          	
-            //$commands[] = array('path'=>'dashboard_dev_manage_app','icon'=>'view_list','name'=>'Manage Applications');
+            $commands[] = array('path'=>'dashboard_dev_manage_app','icon'=>'view_list','name'=>'Manage Applications');
 
             $commands[] = array('path'=>'dashboard_dev_new_media','icon'=>'add_circle','name'=>'New Media');
             
             $commands[] = array('path'=>'dashboard_dev_manage_media','icon'=>'view_list','name'=>'Manage Media');
+
+            $commands[] = array('path'=>'dashboard_dev_manage_languages','icon'=>'g_translate','name'=>'Manage Languages');
         }
         
         if ( $context->isGranted('ROLE_MARKETING') ) 
